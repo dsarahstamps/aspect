@@ -1183,6 +1183,22 @@ namespace aspect
    }
 }
 
+// explicit instantiations
+namespace aspect
+{
+  namespace InitialConditions
+  {
+    ASPECT_REGISTER_INITIAL_CONDITIONS(LithosphereIsotherm,
+                                       "lithosphere isotherm",
+                                       "The extent of the conductive heat "
+                                       "equation is assumed to be 1400 C (1673.15 K) "
+                                       "as previously used by Bird et al., 2008 "
+                                       "and Stamps et al. (in prep). This assumption "
+                                       "is consistent with the Schubert et al., 2004 "
+                                       "definition of the mechanical lithosphere.")
+  }
+}
+
 namespace aspect
 {
   namespace MaterialModel
