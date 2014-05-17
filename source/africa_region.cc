@@ -1228,7 +1228,7 @@ namespace aspect
          * Return the depth at which the temperature is 1673.15 K as a function of position.
          */
         double
-        get_lithosphere_isotherm(const double latitude,
+        get_crustal_depth(const double latitude,
             const double longitude) const;
 
         /**
@@ -1241,7 +1241,7 @@ namespace aspect
 
     template <>
       double
-      CrustalRegion<3>::get_lithosphere_isotherm(const double latitude,
+      CrustalRegion<3>::get_crustal_depth(const double latitude,
                                                        const double longitude) const
       {
         // loop over the entire array and see if we find a point
@@ -1293,7 +1293,7 @@ namespace aspect
       // (0.0005 degrees per meter)
       const double isotherm_temp = 1673.15;
 
-      const double isotherm_depth = get_lithosphere_isotherm(lat_long.first, lat_long.second);
+      const double isotherm_depth = get_crustal_depth(lat_long.first, lat_long.second);
       if (depth < isotherm_depth)
         return isotherm_temp - (depth-isotherm_depth) * 0.0005;
       else
