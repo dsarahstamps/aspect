@@ -1265,6 +1265,19 @@ namespace aspect
 				  }
 				}
 
+		if ( crust_flag == 1 )
+				{
+				  r = latitudes_crust[0];
+				  s = latitudes_crust[1];
+				  count5 = 2;
+
+				  while (r-s < 1e-9)
+				  {
+					  r = s;
+					  s = latitudes_crust[count5];
+					  count5++;
+				  }
+				}
 
 		if ( litho_flag == 0 )
 				{
@@ -1279,9 +1292,28 @@ namespace aspect
 					  count3++;
 				  }
 				}
+
+		if ( crust_flag == 0 )
+				{
+				  r = longitudes_crust[0];
+				  s = longitudes_crust[1];
+				  count5 = 2;
+
+				  while (r-s < 1e-9)
+				  {
+					  r = s;
+					  s = longitudes_crust[count5];
+					  count5++;
+				  }
+				}
+	  std::cout << ""<< std::endl;
 	  std::cout<<"number of unique latitudes or longitudes in lithosphere thickness file= "<< count3 - 1 << std::endl;
 	  number_coords_litho = count3-1;
-      }
+	  std::cout << ""<< std::endl;
+	  std::cout<<"number of unique latitudes or longitudes in crustal thickness file= "<< count5 - 1 << std::endl;
+	  number_coords_crust = count3-1;
+	  std::cout << ""<< std::endl;
+              }
    }
 }
   }
