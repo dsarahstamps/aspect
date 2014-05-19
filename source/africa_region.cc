@@ -936,6 +936,13 @@ public:
 	initial_temperature(const Point<dim> &position) const;
 
 	/**
+	 * Return the true if within crust and false everywhere else.
+	 */
+	virtual
+	bool
+	crustal_region(const Point<dim> &position) const;
+
+	/**
 	 * Declare the parameters this class takes through input files.
 	 * The default implementation of this function does not describe
 	 * any parameters. Consequently, derived classes do not have to
@@ -965,10 +972,10 @@ private:
 			const double longitude) const;
 
 	/**
-	 * Return the region of crust as true or false as a function of position.
+	 * Find depth of crust.
 	 */
-	bool
-	get_crustal_region(const double latitude,
+	double
+	get_crustal_depth(const double latitude,
 			const double longitude) const;
 
 	/**
@@ -1013,6 +1020,32 @@ ModelRegions<3>::get_lithosphere_isotherm(const double latitude,
 	return 0;
 		}
 
+template <>
+double
+ModelRegions<3>::get_crustal_depth(const double latitude,
+		const double longitude) const
+		{
+	// loop over the entire array and see if we find a point
+	// that's within delta of what we're looking for. the data
+	// is arranged in a way that keeps the latitude constant
+	// while running over all longitudes, and when we're done
+	// with that changes the latitude by one step. so if the
+	// latitude is wrong, we can definitely skip ahead a whole
+	// set of longitudes. The number of values to skip is calculated.
+	for (unsigned int i = 0; i <= latitudes_crust.size();)
+		if (std::fabs(latitude - latitudes_crust[i]) <= delta_crust)
+		{
+			if (std::fabs(longitude - longitudes_crust[i]) <= delta_crust)
+				return -depths_crust[i]*1000;
+			else
+				++i;
+		}
+		else
+			i += number_coords_litho;
+
+	Assert(false, ExcInternalError());
+	return 0;
+		}
 
 template <int dim>
 double
@@ -1044,6 +1077,36 @@ ModelRegions<3>::initial_temperature (const Point<3> &position) const
 		return isotherm_temp - (depth-isotherm_depth) * 0.0005;
 	else
 		return 273.15+depth/isotherm_depth*1400;
+}
+
+template <int dim>
+bool
+ModelRegions<dim>::crustal_region (const Point<dim> &position) const
+{
+	Assert (false, ExcNotImplemented());
+	return 0;
+}
+
+template <>
+bool
+ModelRegions<3>::crustal_region (const Point<3> &position) const
+{
+	// get the depth of the Mohovorhic discontinuity for the current lat/long
+	// position
+	const std::pair<double, double> lat_long = lat_long_from_xyz_wgs84(position);
+
+	//TODO: this is the depth with respect to the sphere; need WGS84 here
+	const double radius = 6378137;
+	const double depth = position.norm() - radius;
+
+	// if above or equal to the Moho, assign region as true, else false.
+	bool crust;
+
+	const double crustal_depth = get_crustal_depth(lat_long.first, lat_long.second);
+	if (depth <= crustal_depth)
+		return crust = true;
+	else
+		return crust = false;
 }
 
 template <int dim>
@@ -1158,14 +1221,8 @@ ModelRegions<dim>::parse_parameters(ParameterHandler &prm)
 			std::cout << ""<< std::endl;
 			count++;
 		}
-	}
-	// End of loop for calculating delta for the lithosphere thickness file
+	} // End of loop for calculating delta for the lithosphere thickness file
 
-	// Start reading in crustal data.
-//	std::ifstream input2(crustal_file.c_str());
-//	AssertThrow (input2.is_open(),
-//			ExcMessage (std::string("Can't read from file <") + crustal_file + ">"));
-//	std::string line;
 
 	// Start loop with int countc to calculate delta_crust_crust below
 	int countc = 0;
@@ -1190,13 +1247,6 @@ ModelRegions<dim>::parse_parameters(ParameterHandler &prm)
 		}
 		if (countc == 2)
 		{
-			//std::cout << "latitudes_crust[0]: "<< latitudes_crust[0] << std::endl;
-			//std::cout << "latitudes_crust[1]: "<< latitudes_crust[1] << std::endl;
-			//std::cout << "longitudes_crust[0]: "<< longitudes_crust[0] << std::endl;
-			//std::cout << "longitudes_crust[1]: "<< longitudes_crust[1] << std::endl;
-			//std::cout << "latitude_crust: "<< latitude_crust << std::endl;
-			//std::cout << "longitude_crust: "<< longitude_crust << std::endl;
-
 
 			if ((std::fabs(latitudes_crust[0] - latitudes_crust[1]) > 1e-9) && (std::fabs(longitudes_crust[0] - longitudes_crust[1]) > 1e-9))
 			{
@@ -1234,7 +1284,7 @@ ModelRegions<dim>::parse_parameters(ParameterHandler &prm)
 
 			countc++;
 		}
-	}
+	} //End loop for calculate delta for crustal thickness.
 
 	//Calculate the number of unique longitudes or latitudes from the lithosphere isotherm file and crustal thickness file.
 	double c,d,r,s;
@@ -1516,10 +1566,10 @@ viscosity (const double temperature,
 		const Point<dim> &position) const
 		{
 	// Material parameters are from Karato and Wu (1993) for dry olivine)
-	const double B_diff = 810000000000.0; // see p.248-240 Shubert et al., 2004; grain size = 3 mm
-	const double R = 8.3144;                        // gas constant J/K.mol
-	const double V_diff = 0.000006;         // Activation volume m^3/mol
-	const double E_diff = 300000;           // J/mol
+	const double B_diff_m = 810000000000.0; 	// see p.248-240 Schubert et al., 2004; grain size = 3 mm
+	const double R = 8.3144;                // gas constant J/K.mol
+	const double V_diff_m = 0.000006;         // Activation volume m^3/mol
+	const double E_diff_m = 300000;           // J/mol
 
 	if (temperature < 1673.15)
 
@@ -1527,7 +1577,7 @@ viscosity (const double temperature,
 
 	else
 		// Use diffusion creep flow law below the lithosphere
-		return (0.5 * B_diff * std::exp((E_diff+pressure*V_diff)/(R*temperature)));
+		return (0.5 * B_diff_m * std::exp((E_diff_m+pressure*V_diff_m)/(R*temperature)));
 
 		}
 
