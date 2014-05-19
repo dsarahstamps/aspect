@@ -1234,9 +1234,9 @@ namespace aspect
         /**
          * Read and access depth to isotherm file thickness.txt
          */
-        std::vector<double> latitudes_iso;
-        std::vector<double> longitudes_iso;
-        std::vector<double> depths_iso;
+        std::vector<double> latitudes_moho;
+        std::vector<double> longitudes_moho;
+        std::vector<double> depths_moho;
       };
 
     template <>
@@ -1250,13 +1250,12 @@ namespace aspect
         // while running over all longitudes, and when we're done
         // with that changes the latitude by one step. so if the
         // latitude is wrong, we can definitely skip ahead a whole
-        // set of longitudes -- 660 to be exact, consulting the
-        // format of the input file
-        for (unsigned int i = 0; i <= latitudes_iso.size();)
-        	if (std::fabs(latitude - latitudes_iso[i]) <= delta)
+        // set of longitudes. We calculate this value below.
+        for (unsigned int i = 0; i <= latitudes_moho.size();)
+        	if (std::fabs(latitude - latitudes_moho[i]) <= delta)
         	  {
-        		if (std::fabs(longitude - longitudes_iso[i]) <= delta)
-        			return -depths_iso[i]*1000;
+        		if (std::fabs(longitude - longitudes_moho[i]) <= delta)
+        			return -depths_moho[i]*1000;
         		else
         			++i;
         	  }
@@ -1343,14 +1342,14 @@ namespace aspect
             int count = 0;
             while (true)
               {
-                double latitude_iso, longitude_iso, depth_iso;
-                input1 >> latitude_iso >> longitude_iso >> depth_iso;
+                double latitude_moho, longitude_moho, depth_moho;
+                input1 >> latitude_moho >> longitude_moho >> depth_moho;
                 if (input1.eof())
                   break;
 
-                latitudes_iso.push_back(latitude_iso);
-                longitudes_iso.push_back(longitude_iso);
-                depths_iso.push_back(depth_iso);
+                latitudes_moho.push_back(latitude_moho);
+                longitudes_moho.push_back(longitude_moho);
+                depths_moho.push_back(depth_moho);
 
 				  /** Find first 2 numbers that are different to use in
 				   * calculating half the difference between each position as delta.
@@ -1361,37 +1360,37 @@ namespace aspect
 				  }
 					if (count == 2)
 					{
-					//	std::cout << "latitudes_iso[0]: "<< latitudes_iso[0] << std::endl;
-					//	std::cout << "latitudes_iso[1]: "<< latitudes_iso[1] << std::endl;
-					//	std::cout << "longitudes_iso[0]: "<< longitudes_iso[0] << std::endl;
-					//	std::cout << "longitudes_iso[1]: "<< longitudes_iso[1] << std::endl;
-					//	std::cout << "latitude_iso: "<< latitude_iso << std::endl;
-					//	std::cout << "longitude_iso: "<< longitude_iso << std::endl;
+					//	std::cout << "latitudes_moho[0]: "<< latitudes_moho[0] << std::endl;
+					//	std::cout << "latitudes_moho[1]: "<< latitudes_moho[1] << std::endl;
+					//	std::cout << "longitudes_moho[0]: "<< longitudes_moho[0] << std::endl;
+					//	std::cout << "longitudes_moho[1]: "<< longitudes_moho[1] << std::endl;
+					//	std::cout << "latitude_moho: "<< latitude_moho << std::endl;
+					//	std::cout << "longitude_moho: "<< longitude_moho << std::endl;
 
-						if ((std::fabs(latitudes_iso[0] - latitudes_iso[1]) > 1e-9) && (std::fabs(longitudes_iso[0] - longitudes_iso[1]) > 1e-9))
+						if ((std::fabs(latitudes_moho[0] - latitudes_moho[1]) > 1e-9) && (std::fabs(longitudes_moho[0] - longitudes_moho[1]) > 1e-9))
 								{
 								// Stop program if file formatted incorrectly.
 								std::cout << ""<< std::endl;
 								throw std::ios_base::failure("Lithospheric thickness file not formatted correctly. " + isotherm_file + "Make sure you have lat, lon, value with lat. or lon. varying.");
 								}
-						if ((std::fabs(latitudes_iso[0] - latitudes_iso[1]) < 1e-9) && (std::fabs(longitudes_iso[0] - longitudes_iso[1]) < 1e-9))
+						if ((std::fabs(latitudes_moho[0] - latitudes_moho[1]) < 1e-9) && (std::fabs(longitudes_moho[0] - longitudes_moho[1]) < 1e-9))
 								{
 								// Stop program if file formatted incorrectly.
 								std::cout << ""<< std::endl;
 								throw std::ios_base::failure("Lithospheric thickness file not formatted correctly. " + isotherm_file + "Make sure you have lat, lon, value with lat. or lon. varying.");
 								}
 
-						if (std::fabs(latitudes_iso[0] - latitudes_iso[1]) > 1e-9)
+						if (std::fabs(latitudes_moho[0] - latitudes_moho[1]) > 1e-9)
 								{
 								// Calculate delta as half the distance between points.
-								delta = std::fabs((0.5)*(latitudes_iso[0] - latitudes_iso[1]));
+								delta = std::fabs((0.5)*(latitudes_moho[0] - latitudes_moho[1]));
                 				// If flag is 0 then longitudes grouped and we calculate delta from latitudes
 								crust_flag = 0;
 								}
 						else
 								{
 								// Calculate delta as half the distance between points.
-								delta = std::fabs((0.5)*(longitudes_iso[0] - longitudes_iso[1]));
+								delta = std::fabs((0.5)*(longitudes_moho[0] - longitudes_moho[1]));
                 				// If flag is 1 then latitudes are grouped and we calculate delta from longitudes
 								crust_flag = 1;
 								}
@@ -1423,14 +1422,14 @@ namespace aspect
 
 		if ( crust_flag == 1 )
 				{
-				  c = latitudes_iso[0];
-				  d = latitudes_iso[1];
+				  c = latitudes_moho[0];
+				  d = latitudes_moho[1];
 				  count3 = 2;
 
 				  while (c-d < 1e-9)
 				  {
 					  c = d;
-					  d = latitudes_iso[count3];
+					  d = latitudes_moho[count3];
 					  count3++;
 				  }
 				}
@@ -1438,14 +1437,14 @@ namespace aspect
 
 		if ( crust_flag == 0 )
 				{
-				  c = longitudes_iso[0];
-				  d = longitudes_iso[1];
+				  c = longitudes_moho[0];
+				  d = longitudes_moho[1];
 				  count3 = 2;
 
 				  while (c-d < 1e-9)
 				  {
 					  c = d;
-					  d = longitudes_iso[count3];
+					  d = longitudes_moho[count3];
 					  count3++;
 				  }
 				}
