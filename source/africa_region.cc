@@ -1200,7 +1200,7 @@ namespace aspect
          */
         virtual
         double
-        initial_temperature(const Point<dim> &position) const;
+        set_crustal_region(const Point<dim> &position) const;
 
         /**
          * Declare the parameters this class takes through input files.
@@ -1269,7 +1269,7 @@ namespace aspect
 
     template <int dim>
     double
-    CrustalRegion<dim>::initial_temperature (const Point<dim> &position) const
+    CrustalRegion<dim>::set_crustal_region (const Point<dim> &position) const
     {
       Assert (false, ExcNotImplemented());
       return 0;
@@ -1277,7 +1277,7 @@ namespace aspect
 
     template <>
     double
-    CrustalRegion<3>::initial_temperature (const Point<3> &position) const
+    CrustalRegion<3>::set_crustal_region (const Point<3> &position) const
     {
       // get the depth of the lithosphere isotherm for the current lat/long
       // position
