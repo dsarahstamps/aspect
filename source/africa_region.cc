@@ -920,8 +920,11 @@ namespace aspect
       {
       public:
     	double delta;
+    	double delta_moho;
     	int litho_flag;
+    	int crust_flag;
     	int number_coords_litho;
+    	int number_coords_crust;
     	
         /**
          * Return the initial temperature as a function of position.
@@ -960,11 +963,25 @@ namespace aspect
             const double longitude) const;
 
         /**
+         * Return the region of crust as true or false as a function of position.
+         */
+        bool
+        get_crustal_region(const double latitude,
+            const double longitude) const;
+
+        /**
          * Read and access depth to isotherm file thickness.txt
          */
         std::vector<double> latitudes_iso;
         std::vector<double> longitudes_iso;
         std::vector<double> depths_iso;
+
+        /**
+         * Read and access depth to crustal file crust_thickness.txt
+         */
+        std::vector<double> latitudes_crust;
+        std::vector<double> longitudes_crust;
+        std::vector<double> depths_crust;
       };
 
     template <>
@@ -978,8 +995,7 @@ namespace aspect
         // while running over all longitudes, and when we're done
         // with that changes the latitude by one step. so if the
         // latitude is wrong, we can definitely skip ahead a whole
-        // set of longitudes -- 660 to be exact, consulting the
-        // format of the input file
+        // set of longitudes. The number of values to skip is calculated.
         for (unsigned int i = 0; i <= latitudes_iso.size();)
         	if (std::fabs(latitude - latitudes_iso[i]) <= delta)
         	  {
@@ -1040,6 +1056,11 @@ namespace aspect
                                   "thickness.txt",
                                   Patterns::FileName(),
                                   "Surface coordinates and depths to the 1673.15 K isotherm. Units: degrees and kilometers.");
+
+                prm.declare_entry("Crustal thickness filename",
+                                   "crustal_thickness.txt",
+                                   Patterns::FileName(),
+                                   "Surface coordinates and depths to the Mohovoric discontinuity. Units: degrees and kilometers.");
               }
             prm.leave_subsection();
           }
@@ -1052,11 +1073,13 @@ namespace aspect
 
       {
         std::string isotherm_file;
+        std::string crustal_file;
         prm.enter_subsection("Initial conditions");
           {
             prm.enter_subsection("Lithosphere isotherm");
               {
                 isotherm_file = prm.get("Isotherm filename");
+                crustal_file = prm.get("Crustal thickness filename");
               }
             prm.leave_subsection();
           }
