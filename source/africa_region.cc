@@ -920,7 +920,7 @@ namespace aspect
       {
       public:
     	double delta;
-    	double delta_moho;
+    	double delta_crust;
     	int litho_flag;
     	int crust_flag;
     	int number_coords_litho;
@@ -1154,23 +1154,102 @@ namespace aspect
 					}
 					// End of loop for calculating delta for the lithosphere thickness file
 
+// Start reading in crustal data.
+	  std::ifstream input2(crustal_file.c_str());
+		if (input2.is_open())
+		  {
+			std::string line;
+
+			// Start loop with int countc to calculate delta_crust_crust below
+			int countc = 0;
+			while (true)
+			  {
+				double latitude_crust, longitude_crust, depth_crust;
+				input2 >> latitude_crust >> longitude_crust >> depth_crust;
+				if (input2.eof())
+				  break;
+
+				latitudes_crust.push_back(latitude_crust);
+				longitudes_crust.push_back(longitude_crust);
+				depths_crust.push_back(depth_crust);
+
+
+				  /** Find first 2 numbers that are different to use in
+				   * calculating half the difference between each position as delta_crust.
+				   */
+				  if (countc < 2 )
+				  {
+					countc ++;
+				  }
+					if (countc == 2)
+					{
+					//	std::cout << "latitudes_crust[0]: "<< latitudes_crust[0] << std::endl;
+					//	std::cout << "latitudes_crust[1]: "<< latitudes_crust[1] << std::endl;
+					//	std::cout << "longitudes_crust[0]: "<< longitudes_crust[0] << std::endl;
+					//	std::cout << "longitudes_crust[1]: "<< longitudes_crust[1] << std::endl;
+					//	std::cout << "latitude_crust: "<< latitude_crust << std::endl;
+					//	std::cout << "longitude_crust: "<< longitude_crust << std::endl;
+
+
+						if ((std::fabs(latitudes_crust[0] - latitudes_crust[1]) > 1e-9) && (std::fabs(longitudes_crust[0] - longitudes_crust[1]) > 1e-9))
+								{
+								// Stop program if file formatted incorrectly.
+								std::cout << ""<< std::endl;
+								throw std::ios_base::failure("Lithospheric thickness file not formatted correctly. " + isotherm_file + "Make sure you have lat, lon, value with lat. or lon. varying.");
+								}
+
+						if ((std::fabs(latitudes_crust[0] - latitudes_crust[1]) < 1e-9) && (std::fabs(longitudes_crust[0] - longitudes_crust[1]) < 1e-9))
+								{
+								// Stop program if file formatted incorrectly.
+								std::cout << ""<< std::endl;
+								throw std::ios_base::failure("Lithospheric thickness file not formatted correctly. " + isotherm_file + "Make sure you have lat, lon, value with lat. or lon. varying.");
+								}
+
+						if (std::fabs(latitudes_crust[0] - latitudes_crust[1]) > 1e-9)
+								{
+								// Calculate delta_crust as half the distance between points.
+								delta_crust = std::fabs((0.5)*(latitudes_crust[0] - latitudes_crust[1]));
+								// If flag is 0 then longitudes grouped and we calculate delta_crust from latitudes
+								crust_flag = 0;
+								}
+						else
+								{
+								// Calculate delta_crust as half the distance between points.
+								delta_crust = std::fabs((0.5)*(longitudes_crust[0] - longitudes_crust[1]));
+								// If flag is 1 then latitudes are grouped and we calculate delta_crust from longitudes
+								crust_flag = 1;
+								}
+
+						std::cout << ""<< std::endl;
+						std::cout<<"Crustal thickness delta_crust = "<< delta_crust << std::endl;
+						std::cout<<"Resolution of input Crustal thickness in meters is approximately = "<< delta_crust*111*2 << std::endl;
+						std::cout << ""<< std::endl;
+
+						countc++;
+					}
+			  }
+		  }
+			// End of loop for calculating delta_crust for the crustal thickness file
+
         	/** Print contents that are read.
         	 * int sz = longitudes_iso.size(), i;
         	 * for ( i =0; i < sz; i++ )
         	 * std::cout<<longitudes_iso[i] <<std::endl;
 			**/
 
-              }
-          }
         else
-          throw std::ios_base::failure("Cannot open lithospheric thickness file " + isotherm_file + "!!!");
+          throw std::ios_base::failure("Cannot open crustal thickness file " + crustal_file + "!!!");
 
-        //Calculate the number of unique longitudes or latitudes from the lithosphere isotherm file.
-		double c,d;
-		int count3;
+
+        //Calculate the number of unique longitudes or latitudes from the lithosphere isotherm file and crustal thickness file.
+		double c,d,r,s;
+		int count3,count5;
 		count3 = 0;
+		count5 = 0;
 		c = 0;
 		d = 0;
+		r = 0;
+		s = 0;
 
 		if ( litho_flag == 1 )
 				{
@@ -1205,6 +1284,9 @@ namespace aspect
       }
    }
 }
+  }
+}
+
 
 // explicit instantiations
 namespace aspect
