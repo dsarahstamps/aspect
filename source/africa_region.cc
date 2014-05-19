@@ -911,12 +911,14 @@ namespace InitialConditions
 using namespace dealii;
 
 /**
- * A class that implements temperature initial conditions.
+ * A class that implements temperature initial
+ * conditions and defines regions for which we will assign different
+ * rheological flow laws.
  *
  * @ingroup InitialConditionsModels
  */
 template <int dim>
-class LithosphereIsotherm : public Interface<dim>
+class ModelRegions : public Interface<dim>
 {
 public:
 	double delta;
@@ -986,7 +988,7 @@ private:
 
 template <>
 double
-LithosphereIsotherm<3>::get_lithosphere_isotherm(const double latitude,
+ModelRegions<3>::get_lithosphere_isotherm(const double latitude,
 		const double longitude) const
 		{
 	// loop over the entire array and see if we find a point
@@ -1014,7 +1016,7 @@ LithosphereIsotherm<3>::get_lithosphere_isotherm(const double latitude,
 
 template <int dim>
 double
-LithosphereIsotherm<dim>::initial_temperature (const Point<dim> &position) const
+ModelRegions<dim>::initial_temperature (const Point<dim> &position) const
 {
 	Assert (false, ExcNotImplemented());
 	return 0;
@@ -1022,7 +1024,7 @@ LithosphereIsotherm<dim>::initial_temperature (const Point<dim> &position) const
 
 template <>
 double
-LithosphereIsotherm<3>::initial_temperature (const Point<3> &position) const
+ModelRegions<3>::initial_temperature (const Point<3> &position) const
 {
 	// get the depth of the lithosphere isotherm for the current lat/long
 	// position
@@ -1046,11 +1048,11 @@ LithosphereIsotherm<3>::initial_temperature (const Point<3> &position) const
 
 template <int dim>
 void
-LithosphereIsotherm<dim>::declare_parameters(ParameterHandler &prm)
+ModelRegions<dim>::declare_parameters(ParameterHandler &prm)
 {
 	prm.enter_subsection("Initial conditions");
 	{
-		prm.enter_subsection("Lithosphere isotherm");
+		prm.enter_subsection("Model regions");
 		{
 			prm.declare_entry("Isotherm filename",
 					"thickness.txt",
@@ -1069,14 +1071,14 @@ LithosphereIsotherm<dim>::declare_parameters(ParameterHandler &prm)
 
 template <int dim>
 void
-LithosphereIsotherm<dim>::parse_parameters(ParameterHandler &prm)
+ModelRegions<dim>::parse_parameters(ParameterHandler &prm)
 
 {
 	std::string isotherm_file;
 	std::string crustal_file;
 	prm.enter_subsection("Initial conditions");
 	{
-		prm.enter_subsection("Lithosphere isotherm");
+		prm.enter_subsection("Model regions");
 		{
 			isotherm_file = prm.get("Isotherm filename");
 			crustal_file = prm.get("Crustal thickness filename");
@@ -1315,14 +1317,17 @@ namespace aspect
 {
 namespace InitialConditions
 {
-ASPECT_REGISTER_INITIAL_CONDITIONS(LithosphereIsotherm,
-		"lithosphere isotherm",
-		"The extent of the conductive heat "
+ASPECT_REGISTER_INITIAL_CONDITIONS(ModelRegions,
+		"model regions",
+		"In subsection lithosphere isotherm we define "
+		"the extent of the conductive heat "
 		"equation is assumed to be 1400 C (1673.15 K) "
 		"as previously used by Bird et al., 2008 "
 		"and Stamps et al. (in prep). This assumption "
 		"is consistent with the Schubert et al., 2004 "
-		"definition of the mechanical lithosphere.")
+		"definition of the mechanical lithosphere. We also"
+		"define the region of the crust such where we assign "
+		"Coulomb friction law.")
 }
 }
 
