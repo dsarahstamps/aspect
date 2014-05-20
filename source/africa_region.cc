@@ -1513,7 +1513,7 @@ public:
 	/**
 	 * Return the true if within crust and false everywhere else.
 	 */
-	//virtual bool crustal_region (const Point<dim> &position) const;
+	virtual bool crustal_region (const Point<dim> &position) const;
 
 	/**
 	 * Declare the parameters this class takes through input files.
@@ -1597,6 +1597,35 @@ Stamps<3>::get_crustal_depth(const double latitude,
 	Assert(false, ExcInternalError());
 	return 0;
 		}
+
+template <int dim>
+bool
+Stamps<dim>::crustal_region (const Point<dim> &position) const
+{
+	Assert (false, ExcNotImplemented());
+	return 0;
+}
+
+template <>
+bool
+Stamps<3>::crustal_region (const Point<3> &position) const
+{
+	// get the depth of the Mohovorhic discontinuity for the current lat/long
+	// position
+	const std::pair<double, double> lat_long = lat_long_from_xyz_wgs84(position);
+
+	//TODO: this is the depth with respect to the sphere; need WGS84 here
+	const double radius = 6378137;
+	const double depth = position.norm() - radius;
+
+	// if above or equal to the Moho, assign region as true, else false
+
+	const double crustal_depth = get_crustal_depth(lat_long.first, lat_long.second);
+	if (depth <= crustal_depth)
+		return true;
+	else
+		return false;
+}
 
 template <int dim>
 double
