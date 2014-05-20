@@ -711,18 +711,6 @@ Africa<dim>::get_used_boundary_indicators() const
 
 template <int dim>
 double
-Africa<dim>::length_scale() const
-{
-	// diameter divided by 20
-	return ((xyz_from_lat_long_height_in_wgs84(-10,
-			26,
-			-DomainData::bottom_depth)
-			- xyz_from_lat_long_height_in_wgs84(5, 35, 0)).norm()
-			/ 20);
-}
-
-template <int dim>
-double
 Africa<dim>::depth(const Point<dim> &position) const
 {
 	//FIXME: need to use actual ellipsoid
@@ -856,6 +844,18 @@ Africa<dim>::parse_parameters(ParameterHandler &prm)
 }
 
 template <int dim>
+double
+Africa<dim>::length_scale() const
+{
+	// diameter divided by 20
+	return ((xyz_from_lat_long_height_in_wgs84(southLatitude,
+			eastLongitude,
+			-DomainData::bottom_depth)
+			- xyz_from_lat_long_height_in_wgs84(northLatitude, westLongitude, 0)).norm()
+			/ 20);
+}
+
+template <int dim>
 Point<dim>
 Africa<dim>::representative_point(const double depth) const
 {
@@ -874,11 +874,6 @@ Africa<3>::representative_point(const double depth) const
 
 	// choose a point on the center axis of the domain
 	Point<dim> p =
-			//	(xyz_from_lat_long_height_in_wgs84(-10,
-			//			26,
-			//			-DomainData::bottom_depth)
-			//			+ xyz_from_lat_long_height_in_wgs84(5, 35, 0))
-			//			/ 2;
 			(xyz_from_lat_long_height_in_wgs84(southLatitude,
 					eastLongitude,
 					-DomainData::bottom_depth)
