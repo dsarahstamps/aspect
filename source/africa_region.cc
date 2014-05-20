@@ -1923,6 +1923,10 @@ Stamps<dim>::parse_parameters (ParameterHandler &prm)
 		prm.leave_subsection();
 	}
 	prm.leave_subsection();
+
+	std::ifstream input2(crustal_file.c_str());
+	AssertThrow (input2.is_open(),
+			ExcMessage (std::string("Can't read from file <") + crustal_file + ">"));
 }
 }
 }
