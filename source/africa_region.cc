@@ -1099,14 +1099,13 @@ ModelRegions<3>::crustal_region (const Point<3> &position) const
 	const double radius = 6378137;
 	const double depth = position.norm() - radius;
 
-	// if above or equal to the Moho, assign region as true, else false.
-	bool crust;
+	// if above or equal to the Moho, assign region as true, else false
 
 	const double crustal_depth = get_crustal_depth(lat_long.first, lat_long.second);
 	if (depth <= crustal_depth)
-		return crust = true;
+		return true;
 	else
-		return crust = false;
+		return false;
 }
 
 template <int dim>
@@ -1181,13 +1180,6 @@ ModelRegions<dim>::parse_parameters(ParameterHandler &prm)
 		}
 		if (count == 2)
 		{
-			//	std::cout << "latitudes_iso[0]: "<< latitudes_iso[0] << std::endl;
-			//	std::cout << "latitudes_iso[1]: "<< latitudes_iso[1] << std::endl;
-			//	std::cout << "longitudes_iso[0]: "<< longitudes_iso[0] << std::endl;
-			//	std::cout << "longitudes_iso[1]: "<< longitudes_iso[1] << std::endl;
-			//	std::cout << "latitude_iso: "<< latitude_iso << std::endl;
-			//	std::cout << "longitude_iso: "<< longitude_iso << std::endl;
-
 			if ((std::fabs(latitudes_iso[0] - latitudes_iso[1]) > 1e-9) && (std::fabs(longitudes_iso[0] - longitudes_iso[1]) > 1e-9))
 			{
 				// Stop program if file formatted incorrectly.
@@ -1487,7 +1479,7 @@ public:
 	 * Return whether the model is compressible or not.  Incompressibility
 	 * does not necessarily imply that the density is constant; rather, it
 	 * may still depend on temperature or pressure. In the current
-	 * context, compressibility means whether we should solve the contuity
+	 * context, compressibility means whether we should solve the continuity
 	 * equation as $\nabla \cdot (\rho \mathbf u)=0$ (compressible Stokes)
 	 * or as $\nabla \cdot \mathbf{u}=0$ (incompressible Stokes).:L
 	 */
@@ -1567,19 +1559,29 @@ viscosity (const double temperature,
 		{
 	// Material parameters are from Karato and Wu (1993) for dry olivine)
 	const double B_diff_m = 810000000000.0; 	// see p.248-240 Schubert et al., 2004; grain size = 3 mm
-	const double R = 8.3144;                // gas constant J/K.mol
-	const double V_diff_m = 0.000006;         // Activation volume m^3/mol
-	const double E_diff_m = 300000;           // J/mol
+	const double R = 8.3144;                	// gas constant J/K.mol
+	const double V_diff_m = 0.000006;         	// Activation volume m^3/mol
+	const double E_diff_m = 300000;           	// J/mol
+	const double Biot = 0.01;					// Biot's pore pressure
 
 	if (temperature < 1673.15)
-
 		return 1e25;
-
 	else
-		// Use diffusion creep flow law below the lithosphere
 		return (0.5 * B_diff_m * std::exp((E_diff_m+pressure*V_diff_m)/(R*temperature)));
-
 		}
+//	if (crustal_region(position) == true && temperature < 1673.15)
+//
+//		return (Coulomb friction law)
+//
+//				if (crustal_region(position) == false && temperature < 1673.15)
+//
+//					return (dislocation creep);
+//
+//				else
+//					// Use diffusion creep flow law below the lithosphere
+//					return (0.5 * B_diff_m * std::exp((E_diff_m+pressure*V_diff_m)/(R*temperature)));
+//
+//		}
 
 
 template <int dim>
