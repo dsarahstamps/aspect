@@ -732,35 +732,6 @@ Africa<dim>::depth(const Point<dim> &position) const
 	return std::max(std::min(d, maximal_depth()), 0.0);
 }
 
-template <>
-Point<3>
-Africa<3>::representative_point(const double depth) const
-{
-	const int dim = 3;
-	const double radius = 6378137;
-	Assert(depth >= 0, ExcMessage("Given depth must be positive or zero."));
-	Assert(depth <= maximal_depth(),
-			ExcMessage("Given depth must be less than or equal to the maximal depth of this geometry."));
-
-	// choose a point on the center axis of the domain
-	Point<dim> p =
-			(xyz_from_lat_long_height_in_wgs84(-10,
-					26,
-					-DomainData::bottom_depth)
-					+ xyz_from_lat_long_height_in_wgs84(5, 35, 0))
-					/ 2;
-	p /= p.norm();
-	p *= radius - depth;
-	return p;
-}
-
-template <int dim>
-Point<dim>
-Africa<dim>::representative_point(const double depth) const
-{
-	return Point<dim>();
-}
-
 template <int dim>
 double
 Africa<dim>::maximal_depth() const
@@ -884,6 +855,40 @@ Africa<dim>::parse_parameters(ParameterHandler &prm)
 	prm.leave_subsection();
 }
 
+template <int dim>
+Point<dim>
+Africa<dim>::representative_point(const double depth) const
+{
+	return Point<dim>();
+}
+
+template <>
+Point<3>
+Africa<3>::representative_point(const double depth) const
+{
+	const int dim = 3;
+	const double radius = 6378137;
+	Assert(depth >= 0, ExcMessage("Given depth must be positive or zero."));
+	Assert(depth <= maximal_depth(),
+			ExcMessage("Given depth must be less than or equal to the maximal depth of this geometry."));
+
+	// choose a point on the center axis of the domain
+	Point<dim> p =
+			//	(xyz_from_lat_long_height_in_wgs84(-10,
+			//			26,
+			//			-DomainData::bottom_depth)
+			//			+ xyz_from_lat_long_height_in_wgs84(5, 35, 0))
+			//			/ 2;
+			(xyz_from_lat_long_height_in_wgs84(southLatitude,
+					eastLongitude,
+					-DomainData::bottom_depth)
+					+ xyz_from_lat_long_height_in_wgs84(northLatitude, eastLongitude, 0))
+					/ 2;
+	p /= p.norm();
+	p *= radius - depth;
+	return p;
+}
+
 }
 }
 
@@ -900,7 +905,6 @@ ASPECT_REGISTER_GEOMETRY_MODEL(Africa,
 		"the central part of the East African Rift."
 		"Faces of model are defined as 0, west; 1,east; 2, south; 3, north; 4, bottom; "
 		"5, top.")
-
 }
 }
 
@@ -1846,6 +1850,10 @@ Stamps<dim>::declare_parameters (ParameterHandler &prm)
 	{
 		prm.enter_subsection("Stamps model");
 		{
+			prm.declare_entry("Crustal thickness filename",
+					"crustal_thickness.txt",
+					Patterns::FileName(),
+					"Surface coordinates and depths to the Mohovoric discontinuity. Units: degrees and kilometers.");
 			prm.declare_entry ("Reference density", "3300",
 					Patterns::Double (0),
 					"Reference density $\\rho_0$. Units: $kg/m^3$.");
