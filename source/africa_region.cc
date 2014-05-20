@@ -1927,6 +1927,66 @@ Stamps<dim>::parse_parameters (ParameterHandler &prm)
 	std::ifstream input2(crustal_file.c_str());
 	AssertThrow (input2.is_open(),
 			ExcMessage (std::string("Can't read from file <") + crustal_file + ">"));
+
+	// Start loop with int countc to calculate delta_crust_crust below
+	int countc = 0;
+	while (true)
+	{
+		double latitude_crust, longitude_crust, depth_crust;
+		input2 >> latitude_crust >> longitude_crust >> depth_crust;
+		if (input2.eof())
+			break;
+
+		latitudes_crust.push_back(latitude_crust);
+		longitudes_crust.push_back(longitude_crust);
+		depths_crust.push_back(depth_crust);
+		/** Find first 2 numbers that are different to use in
+		 * calculating half the difference between each position as delta_crust.
+		 */
+		if (countc < 2 )
+		{
+			countc ++;
+		}
+		if (countc == 2)
+		{
+
+			if ((std::fabs(latitudes_crust[0] - latitudes_crust[1]) > 1e-9) && (std::fabs(longitudes_crust[0] - longitudes_crust[1]) > 1e-9))
+			{
+				// Stop program if file formatted incorrectly.
+				std::cout << ""<< std::endl;
+				throw std::ios_base::failure("Lithospheric thickness file not formatted correctly. " + crustal_file + "Make sure you have lat, lon, value with lat. or lon. varying.");
+			}
+
+			if ((std::fabs(latitudes_crust[0] - latitudes_crust[1]) < 1e-9) && (std::fabs(longitudes_crust[0] - longitudes_crust[1]) < 1e-9))
+			{
+				// Stop program if file formatted incorrectly.
+				std::cout << ""<< std::endl;
+				throw std::ios_base::failure("Lithospheric thickness file not formatted correctly. " + crustal_file + "Make sure you have lat, lon, value with lat. or lon. varying.");
+			}
+
+			if (std::fabs(latitudes_crust[0] - latitudes_crust[1]) > 1e-9)
+			{
+				// Calculate delta_crust as half the distance between points.
+				delta_crust = std::fabs((0.5)*(latitudes_crust[0] - latitudes_crust[1]));
+				// If flag is 0 then longitudes grouped and we calculate delta_crust from latitudes
+				crust_flag = 0;
+			}
+			else
+			{
+				// Calculate delta_crust as half the distance between points.
+				delta_crust = std::fabs((0.5)*(longitudes_crust[0] - longitudes_crust[1]));
+				// If flag is 1 then latitudes are grouped and we calculate delta_crust from longitudes
+				crust_flag = 1;
+			}
+
+			std::cout << ""<< std::endl;
+			std::cout<<"Crustal thickness delta_crust = "<< delta_crust << std::endl;
+			std::cout<<"Resolution of input Crustal thickness in meters is approximately = "<< delta_crust*111*2 << std::endl;
+			std::cout << ""<< std::endl;
+
+			countc++;
+		}
+	} //End loop for calculate delta for crustal thickness.
 }
 }
 }
