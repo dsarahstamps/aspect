@@ -1620,7 +1620,7 @@ Stamps<3>::crustal_region (const Point<3> &position) const
 	// if above or equal to the Moho, assign region as true, else false
 
 	const double crustal_depth = get_crustal_depth(lat_long.first, lat_long.second);
-	if (depth <= crustal_depth)
+	if (depth >= crustal_depth)
 		return true;
 	else
 		return false;
@@ -1642,8 +1642,9 @@ viscosity (const double temperature,
 	const double E_diff_m = 300000;           	// J/mol
 	const double Biot = 0.01;					// Biot's pore pressure
 
+//	if (crustal_region(position) == true)
 	if (temperature < 1673.15)
-		return 1e25;
+		return 1e20;
 	else
 		return (0.5 * B_diff_m * std::exp((E_diff_m+pressure*V_diff_m)/(R*temperature)));
 		}
@@ -1658,7 +1659,8 @@ viscosity (const double temperature,
 //				else
 //					// Use diffusion creep flow law below the lithosphere
 //					return (0.5 * B_diff_m * std::exp((E_diff_m+pressure*V_diff_m)/(R*temperature)));
-//
+//				std::cout << ""<< std::endl;
+
 //		}
 
 
