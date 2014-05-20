@@ -1838,8 +1838,6 @@ is_compressible () const
 	return false;
 }
 
-
-
 template <int dim>
 void
 Stamps<dim>::declare_parameters (ParameterHandler &prm)
@@ -1900,10 +1898,12 @@ template <int dim>
 void
 Stamps<dim>::parse_parameters (ParameterHandler &prm)
 {
+	std::string crustal_file;
 	prm.enter_subsection("Material model");
 	{
 		prm.enter_subsection("Stamps model");
 		{
+			crustal_file 			   = prm.get("Crustal thickness filename");
 			reference_rho              = prm.get_double ("Reference density");
 			reference_T                = prm.get_double ("Reference temperature");
 			eta                        = prm.get_double ("Viscosity");
