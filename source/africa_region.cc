@@ -912,8 +912,7 @@ using namespace dealii;
 
 /**
  * A class that implements temperature initial
- * conditions and defines regions for which we will assign different
- * rheological flow laws.
+ * conditions.
  *
  * @ingroup InitialConditionsModels
  */
@@ -1367,9 +1366,7 @@ ASPECT_REGISTER_INITIAL_CONDITIONS(ModelRegions,
 		"as previously used by Bird et al., 2008 "
 		"and Stamps et al. (in prep). This assumption "
 		"is consistent with the Schubert et al., 2004 "
-		"definition of the mechanical lithosphere. We also"
-		"define the region of the crust such where we assign "
-		"Coulomb friction law.")
+		"definition of the mechanical lithosphere.")
 }
 }
 
@@ -1428,6 +1425,7 @@ public:
 			const double pressure,
 			const std::vector<double> &compositional_fields,
 			const Point<dim> &position) const;
+
 	/**
 	 * @}
 	 */
@@ -1498,13 +1496,24 @@ public:
 
 	virtual double reference_thermal_expansion_coefficient () const;
 
-	//TODO: should we make this a virtual function as well? where is it used?
 	double reference_thermal_diffusivity () const;
 
 	double reference_cp () const;
 	/**
 	 * @}
 	 */
+
+	/** Variables used to read in crustal thickness file.
+	 *
+	 */
+	double delta_crust;
+	int crust_flag;
+	int number_coords_crust;
+
+	/**
+	 * Return the true if within crust and false everywhere else.
+	 */
+	//virtual bool crustal_region (const Point<dim> &position) const;
 
 	/**
 	 * Declare the parameters this class takes through input files.
@@ -1538,6 +1547,20 @@ private:
 	 */
 	double k_value;
 	double compositional_delta_rho;
+
+	/**
+	 * Find depth of crust.
+	 */
+	double
+	get_crustal_depth(const double latitude,
+			const double longitude) const;
+
+	/**
+	 * Read and access depth to crustal file crust_thickness.txt
+	 */
+	std::vector<double> latitudes_crust;
+	std::vector<double> longitudes_crust;
+	std::vector<double> depths_crust;
 };
 
 }
@@ -1547,6 +1570,33 @@ namespace aspect
 {
 namespace MaterialModel
 {
+
+template <>
+double
+Stamps<3>::get_crustal_depth(const double latitude,
+		const double longitude) const
+		{
+	// loop over the entire array and see if we find a point
+	// that's within delta of what we're looking for. the data
+	// is arranged in a way that keeps the latitude constant
+	// while running over all longitudes, and when we're done
+	// with that changes the latitude by one step. so if the
+	// latitude is wrong, we can definitely skip ahead a whole
+	// set of longitudes. The number of values to skip is calculated.
+	for (unsigned int i = 0; i <= latitudes_crust.size();)
+		if (std::fabs(latitude - latitudes_crust[i]) <= delta_crust)
+		{
+			if (std::fabs(longitude - longitudes_crust[i]) <= delta_crust)
+				return -depths_crust[i]*1000;
+			else
+				++i;
+		}
+		else
+			i += number_coords_crust;
+
+	Assert(false, ExcInternalError());
+	return 0;
+		}
 
 template <int dim>
 double
