@@ -1954,14 +1954,14 @@ Stamps<dim>::parse_parameters (ParameterHandler &prm)
 			{
 				// Stop program if file formatted incorrectly.
 				std::cout << ""<< std::endl;
-				throw std::ios_base::failure("Lithospheric thickness file not formatted correctly. " + crustal_file + "Make sure you have lat, lon, value with lat. or lon. varying.");
+				throw std::ios_base::failure("Crustal thickness file not formatted correctly. " + crustal_file + "Make sure you have lat, lon, value with lat. or lon. varying.");
 			}
 
 			if ((std::fabs(latitudes_crust[0] - latitudes_crust[1]) < 1e-9) && (std::fabs(longitudes_crust[0] - longitudes_crust[1]) < 1e-9))
 			{
 				// Stop program if file formatted incorrectly.
 				std::cout << ""<< std::endl;
-				throw std::ios_base::failure("Lithospheric thickness file not formatted correctly. " + crustal_file + "Make sure you have lat, lon, value with lat. or lon. varying.");
+				throw std::ios_base::failure("Crustal thickness file not formatted correctly. " + crustal_file + "Make sure you have lat, lon, value with lat. or lon. varying.");
 			}
 
 			if (std::fabs(latitudes_crust[0] - latitudes_crust[1]) > 1e-9)
@@ -1987,6 +1987,45 @@ Stamps<dim>::parse_parameters (ParameterHandler &prm)
 			countc++;
 		}
 	} //End loop for calculate delta for crustal thickness.
+
+	//Calculate the number of unique longitudes or latitudes from the lithosphere isotherm file and crustal thickness file.
+	double r,s;
+	int count5;
+	count5 = 0;
+	r = 0;
+	s = 0;
+
+	if ( crust_flag == 1 )
+	{
+		r = latitudes_crust[0];
+		s = latitudes_crust[1];
+		count5 = 2;
+
+		while (r-s < 1e-9)
+		{
+			r = s;
+			s = latitudes_crust[count5];
+			count5++;
+		}
+	}
+
+	if ( crust_flag == 0 )
+	{
+		r = longitudes_crust[0];
+		s = longitudes_crust[1];
+		count5 = 2;
+
+		while (r-s < 1e-9)
+		{
+			r = s;
+			s = longitudes_crust[count5];
+			count5++;
+		}
+	}
+
+	std::cout << ""<< std::endl;
+	std::cout<<"Number of unique latitudes or longitudes in crustal thickness file= "<< count5 - 1 << std::endl;
+	number_coords_crust = count5-1;
 }
 }
 }
