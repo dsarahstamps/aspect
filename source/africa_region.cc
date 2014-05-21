@@ -31,7 +31,6 @@
 #include <fstream>
 #include <iostream>
 
-
 namespace
 {
 using namespace dealii;
@@ -1452,35 +1451,37 @@ Stamps<dim>::
 viscosity (const double temperature,
 		const double pressure,
 		const std::vector<double> &composition,       /*composition*/
-		const SymmetricTensor<2,dim> &,
+		const SymmetricTensor<2,dim> &strain_rate,
 		const Point<dim> &position) const
 		{
 	// Material parameters are from Karato and Wu (1993) for dry olivine)
-	const double B_diff_m = 810000000000.0; 	// see p.248-240 Schubert et al., 2004; grain size = 3 mm
+	const double B_diff = 810000000000.0; 		// see p.248-240 (Schubert 2001; grain size = 3 mm)
 	const double R = 8.3144;                	// gas constant J/K.mol
-	const double V_diff_m = 0.000006;         	// Activation volume m^3/mol
-	const double E_diff_m = 300000;           	// J/mol
-	const double Biot = 0.01;					// Biot's pore pressure
+	const double V_diff = 0.000006;         	// Activation volume m^3/mol (Schubert 2001 and ref. therein)
+	const double E_diff = 300000;           	// Activation energy J/mol (Schubert 2001 and ref. therein)
+	const double Biot = 0.01;					// Biot's pore pressure (Kong and Bird, 1995 and ref. therein)
+	const double n_disl = 3.5;					// n for dislocation creep (Freed et al., 2012 and ref. therein)
+	const double E_disl = 480000;				// Activation energy J/mol (Freed et al., 2012 and ref. therein)
+	const double V_disl = 0.00000000001;		// Activation volume m^3/mol (Freed et al., 2012 and ref. therein)
+	const double A_disl = 30000000;				// Material parameter Pa^-n s^-1
+	const double d = 0.003;						// Grain size m
+	const double p_disl = 0;					// Dislocation creep grain size exponent
+	const double C_OH = 1000;					// Olivine water content H/10^6Si (Freed et al., 2012 and ref. therein)
+	const double r_disl = 1.2;					// Dislocation creep water exponent (Freed et al., 2012 and ref. therein)
 
 	if (crustal_region(position) == true && temperature < 1673.15)
-		//	std::cout << "crustal region is true" << endl;
-		//	if (temperature < 1673.15)
+		// return (Coulomb friction law)
 		return 1e24;
 	if (crustal_region(position) == true && temperature > 1673.15)
-		//
-	//	return (dislocation creep)
-				return 1e20;
-						//
-						if (crustal_region(position) == false && temperature < 1673.15)
-							//
-							return 1e20;
-	//
-						else
-							//					// Use diffusion creep flow law below the lithosphere
-							return 1e23;
-	//return (0.5 * B_diff_m * std::exp((E_diff_m+pressure*V_diff_m)/(R*temperature)));
-	//				std::cout << ""<< std::endl;
-
+		//	return (dislocation creep)
+		return 1e20;
+	if (crustal_region(position) == false && temperature < 1673.15)
+		// Use strain rate dependent dislocation creep flow law for mantle lithosphere
+		return (0.5 * std::pow(second_invariant(strain_rate), ((1-n_disl)/n_disl)) * std::exp((E_disl+pressure*V_disl)/(n_disl*R*temperature)) * std::pow((A_disl * (std::pow(d,(-p_disl))) * (std::pow(C_OH,(r_disl)))),(1/n_disl)));
+	else
+		// Use diffusion creep flow law below the lithosphere
+		return 1e24;
+//		return (0.5 * B_diff * std::exp((E_diff+pressure*V_diff)/(R*temperature)));
 		}
 
 
