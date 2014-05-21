@@ -965,12 +965,6 @@ private:
 	std::vector<double> longitudes_iso;
 	std::vector<double> depths_iso;
 
-	/**
-	 * Read and access depth to crustal file crust_thickness.txt
-	 */
-	std::vector<double> latitudes_crust;
-	std::vector<double> longitudes_crust;
-	std::vector<double> depths_crust;
 };
 
 template <>
@@ -1184,7 +1178,7 @@ ASPECT_REGISTER_INITIAL_CONDITIONS(ModelRegions,
 		"equation is assumed to be 1400 C (1673.15 K) "
 		"as previously used by Bird et al., 2008 "
 		"and Stamps et al. (in prep). This assumption "
-		"is consistent with the Schubert et al., 2004 "
+		"is consistent with the Schubert 2001 "
 		"definition of the mechanical lithosphere.")
 }
 }
@@ -1454,6 +1448,8 @@ viscosity (const double temperature,
 		const SymmetricTensor<2,dim> &strain_rate,
 		const Point<dim> &position) const
 		{
+		Assert (temperature > 0, ExcMessage ("Temperature cannot be zero."));
+
 	// Material parameters are from Karato and Wu (1993) for dry olivine)
 	const double B_diff = 810000000000.0; 		// see p.248-240 (Schubert 2001; grain size = 3 mm)
 	const double R = 8.3144;                	// gas constant J/K.mol
@@ -1469,19 +1465,34 @@ viscosity (const double temperature,
 	const double C_OH = 1000;					// Olivine water content H/10^6Si (Freed et al., 2012 and ref. therein)
 	const double r_disl = 1.2;					// Dislocation creep water exponent (Freed et al., 2012 and ref. therein)
 
+	const double B_disl = A_disl * (std::pow(d,(-1.0*p_disl))) * (std::pow(C_OH,(r_disl)));
+	const double exp_factor = std::exp((E_disl + pressure*V_disl)/(n_disl*R*temperature));
+	const double n_factor = 1/n_disl;
+	const double exp_B_disl = std::pow(B_disl,n_factor);
+	const double secInvStrainRate = second_invariant(strain_rate);
+	//const double strain_factor = std::pow(second_invariant(strain_rate),(n_factor-1));
+
 	if (crustal_region(position) == true && temperature < 1673.15)
 		// return (Coulomb friction law)
 		return 1e24;
 	if (crustal_region(position) == true && temperature > 1673.15)
 		//	return (dislocation creep)
+	{
+		std::cout << "temperature value is: "<< temperature << std::endl; // nothing outputs here, so this condition doesn't happen.
 		return 1e20;
+	}
 	if (crustal_region(position) == false && temperature < 1673.15)
+	{
 		// Use strain rate dependent dislocation creep flow law for mantle lithosphere
-		return (0.5 * std::pow(second_invariant(strain_rate), ((1-n_disl)/n_disl)) * std::exp((E_disl+pressure*V_disl)/(n_disl*R*temperature)) * std::pow((A_disl * (std::pow(d,(-p_disl))) * (std::pow(C_OH,(r_disl)))),(1/n_disl)));
+		std::cout << "secInvStrainRate value is: "<< secInvStrainRate << std::endl;
+			return 1e21;
+	//	return (0.5 * (std::pow(second_invariant(strain_rate), ((n_factor-1))) * exp_factor * exp_B_disl;
+	}
 	else
 		// Use diffusion creep flow law below the lithosphere
+		//		std::cout << "temperature value is: "<< temperature << std::endl;
 		return 1e24;
-//		return (0.5 * B_diff * std::exp((E_diff+pressure*V_diff)/(R*temperature)));
+	//		return (0.5 * B_diff * std::exp((E_diff+pressure*V_diff)/(R*temperature)));
 		}
 
 
