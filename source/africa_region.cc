@@ -1618,7 +1618,6 @@ Stamps<3>::crustal_region (const Point<3> &position) const
 	const double depth = position.norm() - radius;
 
 	// if above or equal to the Moho, assign region as true, else false
-
 	const double crustal_depth = get_crustal_depth(lat_long.first, lat_long.second);
 	if (depth >= crustal_depth)
 		return true;
@@ -1642,12 +1641,14 @@ viscosity (const double temperature,
 	const double E_diff_m = 300000;           	// J/mol
 	const double Biot = 0.01;					// Biot's pore pressure
 
-//	if (crustal_region(position) == true)
-	if (temperature < 1673.15)
+	if (crustal_region(position) == true)
+//	std::cout << "crustal region is true" << endl;
+//	if (temperature < 1673.15)
 		return 1e20;
-	else
-		return (0.5 * B_diff_m * std::exp((E_diff_m+pressure*V_diff_m)/(R*temperature)));
-		}
+//	else
+	//	return 1e23;
+//		return (0.5 * B_diff_m * std::exp((E_diff_m+pressure*V_diff_m)/(R*temperature)));
+//		}
 //	if (crustal_region(position) == true && temperature < 1673.15)
 //
 //		return (Coulomb friction law)
@@ -1656,12 +1657,13 @@ viscosity (const double temperature,
 //
 //					return (dislocation creep);
 //
-//				else
+				else
 //					// Use diffusion creep flow law below the lithosphere
-//					return (0.5 * B_diff_m * std::exp((E_diff_m+pressure*V_diff_m)/(R*temperature)));
+					return 1e25;
+					//return (0.5 * B_diff_m * std::exp((E_diff_m+pressure*V_diff_m)/(R*temperature)));
 //				std::cout << ""<< std::endl;
 
-//		}
+		}
 
 
 template <int dim>
