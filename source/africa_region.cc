@@ -1473,29 +1473,25 @@ viscosity (const double temperature,
 	const double secInvStrainRate = second_invariant(strain_rate) + strain_o;
 	const double strain_factor = 0.5 * std::pow(secInvStrainRate,(n_factor-1));
 
-	//const double strain_factor = std::pow(second_invariant(strain_rate),(n_factor-1));
-
 	if (crustal_region(position) == true && temperature < 1673.15)
 		// return (Coulomb friction law)
-		return 1e22;
+		return 1e25;
 	if (crustal_region(position) == true && temperature > 1673.15)
-		//	return (dislocation creep)
 	{
-		std::cout << "temperature value is: "<< temperature << std::endl; // nothing outputs here, so this condition doesn't happen.
-		return 1e22;
+		std::cout << "Crust is thicker than lithosphere. Check input files. temperature values are: "<< temperature << std::endl; // nothing outputs here, so this condition doesn't happen.
+		return (strain_factor*exp_factor*exp_B_disl);
 	}
 	if (crustal_region(position) == false && temperature < 1673.15)
 	{
 		// Use strain rate dependent dislocation creep flow law for mantle lithosphere
-		std::cout << "strain_factor*exp_factor*exp_B_disl value is: "<< strain_factor*exp_factor*exp_B_disl << std::endl;
-	//		return 1e21;
+		//std::cout << "strain_factor*exp_factor*exp_B_disl value is: "<< strain_factor*exp_factor*exp_B_disl << std::endl;
 		return (strain_factor*exp_factor*exp_B_disl);
 	}
 	else
 		// Use diffusion creep flow law below the lithosphere
 		//		std::cout << "temperature value is: "<< temperature << std::endl;
-		return 1e20;
-	//		return (0.5 * B_diff * std::exp((E_diff+pressure*V_diff)/(R*temperature)));
+	//	return 1e20;
+			return (0.5 * B_diff * std::exp((E_diff+pressure*V_diff)/(R*temperature)));
 		}
 
 
