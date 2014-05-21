@@ -1464,34 +1464,37 @@ viscosity (const double temperature,
 	const double p_disl = 0;					// Dislocation creep grain size exponent
 	const double C_OH = 1000;					// Olivine water content H/10^6Si (Freed et al., 2012 and ref. therein)
 	const double r_disl = 1.2;					// Dislocation creep water exponent (Freed et al., 2012 and ref. therein)
+	const double strain_o = 1e-18;				// Set small strain rate for which limit viscosity calculation
 
 	const double B_disl = A_disl * (std::pow(d,(-1.0*p_disl))) * (std::pow(C_OH,(r_disl)));
 	const double exp_factor = std::exp((E_disl + pressure*V_disl)/(n_disl*R*temperature));
 	const double n_factor = 1/n_disl;
 	const double exp_B_disl = std::pow(B_disl,n_factor);
-	const double secInvStrainRate = second_invariant(strain_rate);
+	const double secInvStrainRate = second_invariant(strain_rate) + strain_o;
+	const double strain_factor = 0.5 * std::pow(secInvStrainRate,(n_factor-1));
+
 	//const double strain_factor = std::pow(second_invariant(strain_rate),(n_factor-1));
 
 	if (crustal_region(position) == true && temperature < 1673.15)
 		// return (Coulomb friction law)
-		return 1e24;
+		return 1e22;
 	if (crustal_region(position) == true && temperature > 1673.15)
 		//	return (dislocation creep)
 	{
 		std::cout << "temperature value is: "<< temperature << std::endl; // nothing outputs here, so this condition doesn't happen.
-		return 1e20;
+		return 1e22;
 	}
 	if (crustal_region(position) == false && temperature < 1673.15)
 	{
 		// Use strain rate dependent dislocation creep flow law for mantle lithosphere
-		std::cout << "secInvStrainRate value is: "<< secInvStrainRate << std::endl;
-			return 1e21;
-	//	return (0.5 * (std::pow(second_invariant(strain_rate), ((n_factor-1))) * exp_factor * exp_B_disl;
+		std::cout << "strain_factor*exp_factor*exp_B_disl value is: "<< strain_factor*exp_factor*exp_B_disl << std::endl;
+	//		return 1e21;
+		return (strain_factor*exp_factor*exp_B_disl);
 	}
 	else
 		// Use diffusion creep flow law below the lithosphere
 		//		std::cout << "temperature value is: "<< temperature << std::endl;
-		return 1e24;
+		return 1e20;
 	//		return (0.5 * B_diff * std::exp((E_diff+pressure*V_diff)/(R*temperature)));
 		}
 
