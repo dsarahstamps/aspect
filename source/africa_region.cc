@@ -1459,7 +1459,7 @@ viscosity (const double temperature,
 	const double n_disl = 3.5;					// n for dislocation creep (Freed et al., 2012 and ref. therein)
 	const double E_disl = 480000;				// Activation energy J/mol (Freed et al., 2012 and ref. therein)
 	const double V_disl = 0.00000000001;		// Activation volume m^3/mol (Freed et al., 2012 and ref. therein)
-	const double A_disl = 30000000;				// Material parameter Pa^-n s^-1
+	const double A_disl = 4.89e6;				// Material parameter Pa^-n s^-1  x1e-18 to get Pa (Freed per. comm.)
 	const double d = 0.003;						// Grain size m
 	const double p_disl = 0;					// Dislocation creep grain size exponent
 	const double C_OH = 1000;					// Olivine water content H/10^6Si (Freed et al., 2012 and ref. therein)
@@ -1478,20 +1478,20 @@ viscosity (const double temperature,
 		return 1e25;
 	if (crustal_region(position) == true && temperature > 1673.15)
 	{
-		std::cout << "Crust is thicker than lithosphere. Check input files. temperature values are: "<< temperature << std::endl; // nothing outputs here, so this condition doesn't happen.
+	//	std::cout << "Crust is thicker than lithosphere. Check input files. temperature values are: "<< temperature << std::endl; // nothing outputs here, so this condition doesn't happen.
 		return (strain_factor*exp_factor*exp_B_disl);
 	}
 	if (crustal_region(position) == false && temperature < 1673.15)
 	{
 		// Use strain rate dependent dislocation creep flow law for mantle lithosphere
-		//std::cout << "strain_factor*exp_factor*exp_B_disl value is: "<< strain_factor*exp_factor*exp_B_disl << std::endl;
+	//	std::cout << "strain_factor*exp_factor*exp_B_disl value is: "<< strain_factor*exp_factor*exp_B_disl << std::endl;
 		return (strain_factor*exp_factor*exp_B_disl);
 	}
 	else
 		// Use diffusion creep flow law below the lithosphere
 		//		std::cout << "temperature value is: "<< temperature << std::endl;
-	//	return 1e20;
-			return (0.5 * B_diff * std::exp((E_diff+pressure*V_diff)/(R*temperature)));
+		//return 1e20;
+		return (0.5 * B_diff * std::exp((E_diff+pressure*V_diff)/(R*temperature)));
 		}
 
 
@@ -1563,16 +1563,13 @@ Stamps<dim>::
 density (const double temperature,
 		const double,
 		const std::vector<double> &compositional_fields, /*composition*/
-		const Point<dim> &) const
+		const Point<dim> &position) const
 		{
-	return (reference_rho * (1 - thermal_alpha * (temperature - reference_T))
-			+
-			(compositional_fields.size()>0
-					?
-							compositional_delta_rho * compositional_fields[0]
-							                                               :
-							0));
-		}
+	if (crustal_region(position) == true)
+	  return 2700;
+	else
+  	  return (reference_rho * (1 - thermal_alpha * (temperature - reference_T)));
+}
 
 
 template <int dim>
