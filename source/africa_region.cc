@@ -231,12 +231,12 @@ public:
 				}
 				if (count == 2)
 				{
-					//	std::cout << "latitudes_alt[0]: "<< latitudes_alt[0] << std::endl;
-					//	std::cout << "latitudes_alt[1]: "<< latitudes_alt[1] << std::endl;
-					//	std::cout << "longitudes_alt[0]: "<< longitudes_alt[0] << std::endl;
-					//	std::cout << "longitudes_alt[1]: "<< longitudes_alt[1] << std::endl;
-					//	std::cout << "latitude_alt: "<< latitude_alt << std::endl;
-					//	std::cout << "longitude_alt: "<< longitude_alt << std::endl;
+						std::cout << "latitudes_alt[0]: "<< latitudes_alt[0] << std::endl;
+						std::cout << "latitudes_alt[1]: "<< latitudes_alt[1] << std::endl;
+						std::cout << "longitudes_alt[0]: "<< longitudes_alt[0] << std::endl;
+						std::cout << "longitudes_alt[1]: "<< longitudes_alt[1] << std::endl;
+						std::cout << "latitude_alt: "<< latitude_alt << std::endl;
+						std::cout << "longitude_alt: "<< longitude_alt << std::endl;
 
 					if ((std::fabs(latitudes_alt[0] - latitudes_alt[1]) > 1e-9) && (std::fabs(longitudes_alt[0] - longitudes_alt[1]) > 1e-9))
 					{
@@ -256,7 +256,7 @@ public:
 					if (std::fabs(latitudes_alt[0] - latitudes_alt[1]) > 1e-9)
 					{
 						// Calculate half the distance between points for delta
-						delta = (std::fabs((0.5)*(latitudes_alt[0] - latitudes_alt[1])));
+						delta = (std::fabs((0.5)*(latitudes_alt[0] - latitudes_alt[1])))+0.015;
 						// Set flag for counting the number of latitudes later
 						// If flag is 0 then longitudes grouped and we calculate delta from latitudes
 						topo_flag = 0;
@@ -264,14 +264,14 @@ public:
 					else
 					{
 						// Calculate half the distance between points for delta
-						delta = std::fabs((0.5)*(longitudes_alt[0] - longitudes_alt[1]));
+						delta = (std::fabs((0.5)*(longitudes_alt[0] - longitudes_alt[1])))+0.015;
 						// Set flag for counting number of longitudes later
 						// If flag is 1 then latitudes are grouped and we calculate delta from longitudes
 						topo_flag = 1;
 					}
 					std::cout << ""<< std::endl;
 					std::cout<<"Topography file delta = "<< delta << std::endl;
-					std::cout<<"Resolution of input topography in meters is approximately "<< delta*111*2 << std::endl;
+					std::cout<<"Resolution of input topography in meters is approximately "<< (delta-0.015)*111*2 << std::endl;
 					std::cout << ""<< std::endl;
 					count++;
 				}
@@ -348,6 +348,7 @@ public:
 			else
 				i += number_coords;
 		std::cout<<"Is your topography file ordered latitude, longitude, value? " << std::endl;
+		std::cout<<"Also check that you are able to find a point between calculated deltas. " << std::endl;
 		AssertThrow(false, ExcInternalError());
 		return 0;
 	}
@@ -1566,10 +1567,11 @@ density (const double temperature,
 		const Point<dim> &position) const
 		{
 	if (crustal_region(position) == true)
-	  return 2700;
+		return 2700;
 	else
-  	  return (reference_rho * (1 - thermal_alpha * (temperature - reference_T)));
-}
+		//return (reference_rho * (1 - thermal_alpha * (temperature - reference_T)));
+		return (reference_rho * (1 - thermal_alpha * (temperature - 1673.15)));
+		}
 
 
 template <int dim>
@@ -1797,21 +1799,21 @@ Stamps<dim>::parse_parameters (ParameterHandler &prm)
 			if (std::fabs(latitudes_crust[0] - latitudes_crust[1]) > 1e-9)
 			{
 				// Calculate delta_crust as half the distance between points.
-				delta_crust = std::fabs((0.5)*(latitudes_crust[0] - latitudes_crust[1]));
+				delta_crust = (std::fabs((0.5)*(latitudes_crust[0] - latitudes_crust[1])))+0.01;
 				// If flag is 0 then longitudes grouped and we calculate delta_crust from latitudes
 				crust_flag = 0;
 			}
 			else
 			{
 				// Calculate delta_crust as half the distance between points.
-				delta_crust = std::fabs((0.5)*(longitudes_crust[0] - longitudes_crust[1]));
+				delta_crust = (std::fabs((0.5)*(longitudes_crust[0] - longitudes_crust[1])))+0.01;
 				// If flag is 1 then latitudes are grouped and we calculate delta_crust from longitudes
 				crust_flag = 1;
 			}
 
 			std::cout << ""<< std::endl;
 			std::cout<<"Crustal thickness delta_crust = "<< delta_crust << std::endl;
-			std::cout<<"Resolution of input Crustal thickness in meters is approximately = "<< delta_crust*111*2 << std::endl;
+			std::cout<<"Resolution of input Crustal thickness in meters is approximately = "<< (delta_crust - 0.01)*111*2 << std::endl;
 			std::cout << ""<< std::endl;
 
 			countc++;
