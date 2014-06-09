@@ -1954,7 +1954,7 @@ SurfaceVelocities<dim>::execute (TableHandler &statistics)
 						std::pair<double,double> lat_long = lat_long_from_xyz (p);
 
 						output << lat_long.second << ' ' << lat_long.first
-								<< ' ' << (velocity_values[q] * year_in_seconds) / 1000
+								<< ' ' << (velocity_values[q] * year_in_seconds) * 1000
 								<< std::endl;
 					}
 				}
