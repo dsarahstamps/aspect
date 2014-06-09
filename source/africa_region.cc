@@ -1563,15 +1563,12 @@ Stamps<dim>::
 density (const double temperature,
 		const double,
 		const std::vector<double> &compositional_fields, /*composition*/
-		const Point<dim> &) const
+		const Point<dim> &position) const
 		{
-	return (reference_rho * (1 - thermal_alpha * (temperature - reference_T))
-			+
-			(compositional_fields.size()>0
-					?
-							compositional_delta_rho * compositional_fields[0]
-							                                               :
-							0));
+	if (crustal_region(position) == true)
+			return 2700;
+	else
+		return (reference_rho * (1 - thermal_alpha * (temperature - reference_T)));
 		}
 
 
