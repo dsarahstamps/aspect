@@ -17,7 +17,7 @@ subsection Geometry model
   set Model name = africa
 
   subsection Africa
-    set Topography = ./input_files/topography_africa_0.5.txt
+    set Topography = ./input_files/topography.txt
     set west longitude = 25.0
     set east longitude = 36.0
     set north latitude = 7.0
@@ -67,7 +67,7 @@ subsection Material model
   set Model name = stamps   # previously: simple
 
   subsection Stamps model
-    set Crustal thickness filename = ./input_files/crust_same.txt
+    set Crustal thickness filename 	= ./input_files/crust_same.txt
   end
   	
   subsection Simple model
