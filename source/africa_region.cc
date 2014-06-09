@@ -1568,7 +1568,7 @@ density (const double temperature,
 	if (crustal_region(position) == true)
 			return 2700;
 	else
-		return (reference_rho * (1 - thermal_alpha * (temperature - reference_T)));
+		return (reference_rho * (1 - thermal_alpha * (temperature - 1673.15)));
 		}
 
 
