@@ -1473,7 +1473,7 @@ viscosity (const double temperature,
 	const double secInvStrainRate = second_invariant(strain_rate) + strain_o;
 	const double strain_factor = 0.5 * std::pow(secInvStrainRate,(n_factor-1));
 
-	if (crustal_region(position) == true && temperature < 1673.15)
+	if (crustal_region(position) == true && temperature <= 1673.15)
 		// return (Coulomb friction law)
 		return 1e25;
 	if (crustal_region(position) == true && temperature > 1673.15)
