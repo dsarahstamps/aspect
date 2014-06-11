@@ -1568,7 +1568,7 @@ density (const double temperature,
 	if (crustal_region(position) == true)
 			return 2700;
 	else
-		return (reference_rho * (1 - thermal_alpha * (temperature - 1673.15)));
+	return (reference_rho * (1 - thermal_alpha * (temperature - reference_T)));
 		}
 
 
@@ -1951,7 +1951,7 @@ SurfaceVelocities<dim>::execute (TableHandler &statistics)
 						std::pair<double,double> lat_long = lat_long_from_xyz (p);
 
 						output << lat_long.second << ' ' << lat_long.first
-								<< ' ' << (velocity_values[q] * year_in_seconds) * 1000
+								<< ' ' << (velocity_values[q] * year_in_seconds) / 1000
 								<< std::endl;
 					}
 				}
