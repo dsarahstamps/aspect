@@ -117,7 +117,7 @@ namespace aspect
       GPlatesLookup::fexists(const std::string &filename) const
       {
         std::ifstream ifile(filename.c_str());
-        return ifile;
+        return static_cast<bool>(ifile);
       }
 
       void
