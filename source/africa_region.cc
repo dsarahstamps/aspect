@@ -1474,7 +1474,7 @@ viscosity (const double temperature,
 	const double secInvStrainRate = second_invariant(strain_rate) + strain_o;
 	const double strain_factor = 0.5 * std::pow(secInvStrainRate,(n_factor-1));
 
-	if (crustal_region(position) == true && temperature < 1673.15)
+	if (crustal_region(position) == true && temperature <= 1673.15)
 		// return (Coulomb friction law)
 		return 1e25;
 	if (crustal_region(position) == true && temperature > 1673.15)
@@ -1953,7 +1953,7 @@ SurfaceVelocities<dim>::execute (TableHandler &statistics)
 						std::pair<double,double> lat_long = lat_long_from_xyz (p);
 
 						output << lat_long.second << ' ' << lat_long.first
-								<< ' ' << (velocity_values[q] * year_in_seconds) / 1000
+								<< ' ' << (velocity_values[q] * year_in_seconds) * 1000
 								<< std::endl;
 					}
 				}
@@ -1972,6 +1972,6 @@ namespace Postprocess
 {
 ASPECT_REGISTER_POSTPROCESSOR(SurfaceVelocities,
 		"surface velocities",
-		"Output surface velocities at the centers of surface faces.")
+		"Output surface velocities at the centers of surface faces in mm/yr.")
 }
 }
