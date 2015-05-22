@@ -70,7 +70,7 @@ PS_VERBOSE			= FALSE
 GLOBAL_X_SCALE		= 1
 GLOBAL_Y_SCALE		= 1
 #-------- I/O Format Parameters -------------
-D_FORMAT		= %0.2f
+D_FORMAT		= %0.6f
 FIELD_DELIMITER		= tab
 GRIDFILE_SHORTHAND	= FALSE
 GRID_FORMAT       	= nf
