@@ -17,7 +17,6 @@
  along with ASPECT; see the file doc/COPYING.  If not see
  <http://www.gnu.org/licenses/>.
  */
-/*  $Id$  */
 
 #ifndef __aspect__particle_world_h
 #define __aspect__particle_world_h
@@ -102,9 +101,9 @@ namespace aspect
          * searched for. The particle will be marked to indicate whether it is
          * in the local subdomain or not.
          * @param [in] cur_cell The current cell level and index being
-         * investigated as potentially containing the particle. @return The
-         * level and index of the cell the particle was determined to be in.
-         * If no cell was found this returns (-1, -1).
+         * investigated as potentially containing the particle.
+         * @return The level and index of the cell the particle was determined
+         * to be in.  If no cell was found this returns (-1, -1).
          */
         LevelInd recursive_find_cell(T &particle,
                                      const LevelInd cur_cell)
@@ -211,9 +210,9 @@ namespace aspect
          */
         void set_triangulation(const parallel::distributed::Triangulation<dim> *new_tria)
         {
-          //if (triangulation) triangulation->signals.post_refinement.disconnect(std_cxx1x::bind(&World::mesh_changed, std_cxx1x::ref(*this)));
+          //if (triangulation) triangulation->signals.post_refinement.disconnect(std_cxx11::bind(&World::mesh_changed, std_cxx11::ref(*this)));
           triangulation = new_tria;
-          triangulation->signals.post_refinement.connect(std_cxx1x::bind(&World::mesh_changed, std_cxx1x::ref(*this)));
+          triangulation->signals.post_refinement.connect(std_cxx11::bind(&World::mesh_changed, std_cxx11::ref(*this)));
         };
 
         /**
@@ -499,9 +498,10 @@ namespace aspect
          * particle will be updated to indicate whether it is in the local
          * subdomain or not.
          * @param [in] cur_cell The current cell (level and index) being
-         * checked. @return The level and index of the active cell the
-         * particle is in. If no cell was found to contain the particle,
-         * return the level/index (-1, -1)
+         * checked.
+         * @return The level and index of the active cell the particle is in.
+         * If no cell was found to contain the particle, return the
+         * level/index (-1, -1)
          */
         LevelInd find_cell(T &particle, const LevelInd &cur_cell)
         {

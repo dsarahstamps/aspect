@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2014 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2015 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -17,7 +17,6 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id$  */
 
 
 #include <aspect/simulator.h>
@@ -26,19 +25,24 @@
 #include <deal.II/base/mpi.h>
 #include <deal.II/base/multithread_info.h>
 
-#include <dlfcn.h>
+#if ASPECT_USE_SHARED_LIBS==1
+#  include <dlfcn.h>
+#  ifdef ASPECT_HAVE_LINK_H
+#    include <link.h>
+#  endif
+#endif
 
 
 
-// get the value of a particular parameter from the input
+// get the value of a particular parameter from the contents of the input
 // file. return an empty string if not found
 std::string
-get_last_value_of_parameter(const std::string &parameter_filename,
+get_last_value_of_parameter(const std::string &parameters,
                             const std::string &parameter_name)
 {
   std::string return_value;
 
-  std::ifstream x_file(parameter_filename.c_str());
+  std::istringstream x_file(parameters);
   while (x_file)
     {
       // get one line and strip spaces at the front and back
@@ -91,14 +95,14 @@ get_last_value_of_parameter(const std::string &parameter_filename,
 
 
 // extract the dimension in which to run ASPECT from the
-// parameter file. this is something that we need to do
-// before processing the parameter file since we need to
-// know whether to use the dim=2 or dim=3 instantiation
+// the contents of the parameter file. this is something that
+// we need to do before processing the parameter file since we
+// need to know whether to use the dim=2 or dim=3 instantiation
 // of the main classes
 unsigned int
-get_dimension(const std::string &parameter_filename)
+get_dimension(const std::string &parameters)
 {
-  const std::string dimension = get_last_value_of_parameter(parameter_filename, "Dimension");
+  const std::string dimension = get_last_value_of_parameter(parameters, "Dimension");
   if (dimension.size() > 0)
     return dealii::Utilities::string_to_int (dimension);
   else
@@ -106,19 +110,100 @@ get_dimension(const std::string &parameter_filename)
 }
 
 
+#if ASPECT_USE_SHARED_LIBS==1
+
+#ifdef ASPECT_HAVE_LINK_H
+// collect the names of the shared libraries linked to by this program. this
+// function is a callback for the dl_iterate_phdr() function we call below
+int get_names_of_shared_libs (struct dl_phdr_info *info,
+                              size_t,
+                              void *data)
+{
+  reinterpret_cast<std::set<std::string>*>(data)->insert (info->dlpi_name);
+  return 0;
+}
+#endif
+
+
+// make sure the list of shared libraries we currently link with
+// has deal.II only once
+void validate_shared_lib_list (const bool before_loading_shared_libs)
+{
+#ifdef ASPECT_HAVE_LINK_H
+  // get the list of all shared libs we currently link against
+  std::set<std::string> shared_lib_names;
+  dl_iterate_phdr(get_names_of_shared_libs, &shared_lib_names);
+
+  // find everything that is interesting
+  std::set<std::string> dealii_shared_lib_names;
+  for (std::set<std::string>::const_iterator p = shared_lib_names.begin();
+       p != shared_lib_names.end(); ++p)
+    if (p->find ("libdeal_II") != std::string::npos)
+      dealii_shared_lib_names.insert (*p);
+
+  // produce an error if we load deal.II more than once
+  if (dealii_shared_lib_names.size() != 1)
+    {
+      std::ostringstream error;
+      error << "........................................................\n"
+            << "ASPECT currently links against different versions of the\n"
+            << "deal.II library, namely the ones at these locations:\n";
+      for (std::set<std::string>::const_iterator p = dealii_shared_lib_names.begin();
+           p != dealii_shared_lib_names.end(); ++p)
+        error << "  " << *p << '\n';
+      error << "This can not work.\n\n";
+
+      if (before_loading_shared_libs)
+        error << "Since this is happening already before opening additional\n"
+              << "shared libraries, this means that something must have gone\n"
+              << "wrong when you configured deal.II and/or ASPECT. Please\n"
+              << "contact the mailing lists for help.\n";
+      else
+        error << "Since this is happening after opening additional shared\n"
+              << "library plugins, this likely means that you have compiled\n"
+              << "ASPECT in release mode and the plugin in debug mode, or the\n"
+              << "other way around. Please re-compile the plugin in the same\n"
+              << "mode as ASPECT.\n";
+
+      error << "........................................................\n";
+
+      // if not success, then throw an exception: ExcMessage on processor 0,
+      // QuietException on the others
+      if (dealii::Utilities::MPI::this_mpi_process (MPI_COMM_WORLD) == 0)
+        {
+          AssertThrow (false, dealii::ExcMessage (error.str()));
+        }
+      else
+        throw aspect::QuietException();
+    }
+#else
+  // simply mark the argument as read, to avoid compiler warnings
+  (void)before_loading_shared_libs;
+#endif
+}
+
+
+#endif
+
 
 // retrieve a list of shared libraries from the parameter file and
 // dlopen them so that we can load plugins declared in them
-void possibly_load_shared_libs (const std::string &parameter_filename)
+void possibly_load_shared_libs (const std::string &parameters)
 {
   using namespace dealii;
 
+
   const std::string shared_libs
-    = get_last_value_of_parameter(parameter_filename,
+    = get_last_value_of_parameter(parameters,
                                   "Additional shared libraries");
   if (shared_libs.size() > 0)
     {
 #if ASPECT_USE_SHARED_LIBS==1
+      // check up front whether the list of shared libraries is internally
+      // consistent or whether we link, for whatever reason, with both the
+      // debug and release versions of deal.II
+      validate_shared_lib_list (true);
+
       const std::vector<std::string>
       shared_libs_list = Utilities::split_string_list (shared_libs);
 
@@ -135,6 +220,23 @@ void possibly_load_shared_libs (const std::string &parameter_filename)
                                    + shared_libs_list[i] + ">. The operating system reports "
                                    + "that the error is this: <"
                                    + dlerror() + ">."));
+
+          // check again whether the list of shared libraries is
+          // internally consistent or whether we link with both the
+          // debug and release versions of deal.II. this may happen if
+          // the plugin was compiled against the debug version of
+          // deal.II but aspect itself against the release version, or
+          // the other way around
+          validate_shared_lib_list (false);
+
+          // on systems where we can detect that both libdeal_II.so and
+          // libdeal_II.g.so is loaded, the test above function above will
+          // throw an exception and we will terminate. on the other hand, on
+          // systems where we can't detect this we should at least mitigate
+          // some of the ill effects -- in particular, make sure that
+          // deallog is set to use the desired output depth since otherwise
+          // we get lots of output from the linear solvers
+          deallog.depth_console(0);
         }
 
       if (Utilities::MPI::this_mpi_process (MPI_COMM_WORLD) == 0)
@@ -145,14 +247,121 @@ void possibly_load_shared_libs (const std::string &parameter_filename)
           std::cerr << std::endl << std::endl
                     << "----------------------------------------------------"
                     << std::endl;
-          std::cerr << "You can not load additional shared libraries on " << std::endl
-                    << "systems where you link ASPECT as a static executable."
+          std::cerr << "You can not load plugins through additional shared libraries " << std::endl
+                    << "on systems where you link ASPECT as a static executable."
                     << std::endl
                     << "----------------------------------------------------"
                     << std::endl;
         }
       std::exit (1);
 #endif
+    }
+}
+
+
+/**
+ *  Look up break line sign (\\) at the end of a line and merge this line with the next one.
+ *  Return the result as a string in which all lines of the input file are
+ *  separated by \n characters, unless the corresponding lines ended
+ *  in backslashes.
+ */
+std::string
+expand_backslashes (std::istream &input)
+{
+  std::string result;
+
+  unsigned int need_empty_lines = 0;
+
+  while (input)
+    {
+      // get one line and strip spaces at the back
+      std::string line;
+      std::getline(input, line);
+      while ((line.size() > 0)
+             && (line[line.size() - 1] == ' ' || line[line.size() - 1] == '\t'))
+        line.erase(line.size() - 1, std::string::npos);
+
+      // if the line ends in a backslash, add it without the backslash to
+      // the buffer and increase the counter for the number of lines we have
+      // just concatenated
+      if ((line.size() > 0) && (line[line.size()-1] == '\\'))
+        {
+          result += line.substr(0, line.size()-1);
+          ++need_empty_lines;
+        }
+      else
+        // if it doesn't end in a newline, concatenate the current line
+        // with what we have in the buffer and add the \n character
+        {
+          result += line;
+          result += '\n';
+
+          // if we have just added a line (not ending in a backslash)
+          // to something that was obtained by addressing backslashes,
+          // then add some empty lines to make sure that the line
+          // counter is still correct at least for all lines that don't
+          // end in a backslash (so that we can ensure that errors
+          // message propagating out of ParameterHandler)
+          for (; need_empty_lines>0; --need_empty_lines)
+            result += '\n';
+        }
+    }
+
+  // finally return whatever we have in the buffer
+  return result;
+}
+
+
+/**
+ * Let ParameterHandler parse the input file, here given as a string.
+ * Since ParameterHandler unconditionally writes to the screen when it
+ * finds something it doesn't like, we get massive amounts of output
+ * in parallel computations since every processor writes the same
+ * stuff to screen. To avoid this, let processor 0 parse the input
+ * first and, if necessary, produce its output. Only if this
+ * succeeds, also let the other processors read their input.
+ *
+ * In case of an error, we need to abort all processors without them
+ * having read their data. This is done by throwing an exception of the
+ * special class aspect::QuietException that we can catch in main() and terminate
+ * the program quietly without generating other output.
+ */
+void
+parse_parameters (const std::string &input_as_string,
+                  dealii::ParameterHandler  &prm)
+{
+  // try reading on processor 0
+  bool success = true;
+  if (dealii::Utilities::MPI::this_mpi_process (MPI_COMM_WORLD) == 0)
+    success = prm.read_input_from_string(input_as_string.c_str());
+
+  // broadcast the result. we'd like to do this with a bool
+  // data type but MPI_C_BOOL is not part of old MPI standards.
+  // so, do the broadcast in integers
+  {
+    int isuccess = (success ? 1 : 0);
+    MPI_Bcast (&isuccess, 1, MPI_INT, 0, MPI_COMM_WORLD);
+    success = (isuccess == 1);
+  }
+
+  // if not success, then throw an exception: ExcMessage on processor 0,
+  // QuietException on the others
+  if (success == false)
+    {
+      if (dealii::Utilities::MPI::this_mpi_process (MPI_COMM_WORLD) == 0)
+        {
+          AssertThrow(false, dealii::ExcMessage ("Invalid input parameter file."));
+        }
+      else
+        throw aspect::QuietException();
+    }
+
+  // otherwise, processor 0 was ok reading the data, so we can expect the
+  // other processors will be ok as well
+  if (dealii::Utilities::MPI::this_mpi_process (MPI_COMM_WORLD) != 0)
+    {
+      success = prm.read_input_from_string(input_as_string.c_str());
+      AssertThrow(success, dealii::ExcMessage ("Invalid input parameter file."));
     }
 }
 
@@ -169,58 +378,88 @@ int main (int argc, char *argv[])
   try
     {
       deallog.depth_console(0);
-
-      // print some status messages at the top
       if (Utilities::MPI::this_mpi_process(MPI_COMM_WORLD) == 0)
-        {
-          const int n_tasks = Utilities::MPI::n_mpi_processes(MPI_COMM_WORLD);
-
-          std::cout << "-----------------------------------------------------------------------------\n"
-                    << "-- This is ASPECT, the Advanced Solver for Problems in Earth's ConvecTion.\n"
-#ifdef DEBUG
-                    << "--     . running in DEBUG mode\n"
-#else
-                    << "--     . running in OPTIMIZED mode\n"
-#endif
-                    << "--     . running with " << n_tasks << " MPI process" << (n_tasks == 1 ? "\n" : "es\n");
-#if (DEAL_II_MAJOR*100 + DEAL_II_MINOR) >= 801
-          const int n_threads = multithread_info.n_threads();
-          if (n_threads>1)
-            std::cout << "--     . using " << n_threads << " threads " << (n_tasks == 1 ? "\n" : "each\n");
-#endif
-#ifdef USE_PETSC
-          std::cout << "--     . using PETSc\n";
-#else
-          std::cout << "--     . using Trilinos\n";
-#endif
-          std::cout << "-----------------------------------------------------------------------------\n"
-                    << std::endl;
-        }
+        print_aspect_header(std::cout);
 
       if (argc < 2)
         {
-          std::cout << "\tUsage: ./aspect <parameter_file.prm>" << std::endl;
-          return 0;
+          // print usage info only on processor 0
+          if (Utilities::MPI::this_mpi_process(MPI_COMM_WORLD) == 0)
+            {
+              std::cout << "Usage: ./aspect <parameter_file.prm>   (to read from an input file)"
+                        << std::endl
+                        << "    or ./aspect --                     (to read from stdin)"
+                        << std::endl
+                        << std::endl;
+            }
+          return 2;
         }
 
-      // see which parameter file to use
+      // see where to read input from, then do the reading and
+      // put the contents of the input into a string
+      //
+      // as stated above, treat "--" as special: as is common
+      // on unix, treat it as a way to read input from stdin
       std::string parameter_filename = argv[1];
+      std::string input_as_string;
 
-      // verify that it can be opened
-      {
-        std::ifstream parameter_file(parameter_filename.c_str());
-        if (!parameter_file)
-          {
-            const std::string message = (std::string("Input parameter file <")
-                                         + parameter_filename + "> not found.");
-            AssertThrow(false, ExcMessage (message));
-          }
-      }
-      // now that we know that the file can, at least in principle, be read
+      if (parameter_filename != "--")
+        {
+          std::ifstream parameter_file(parameter_filename.c_str());
+          if (!parameter_file)
+            {
+              if (Utilities::MPI::this_mpi_process(MPI_COMM_WORLD) == 0)
+                AssertThrow(false, ExcMessage (std::string("Input parameter file <")
+                                               + parameter_filename + "> not found."));
+              return 3;
+            }
+
+          input_as_string = expand_backslashes (parameter_file);
+        }
+      else
+        {
+          // read parameters from stdin. unfortunately, if you do
+          //    echo "abc" | mpirun -np 4 ./aspect
+          // then only MPI process 0 gets the data. so we have to
+          // read it there, then broadcast it to the other processors
+          if (Utilities::MPI::this_mpi_process(MPI_COMM_WORLD) == 0)
+            {
+              input_as_string = expand_backslashes (std::cin);
+              int size = input_as_string.size()+1;
+              MPI_Bcast (&size,
+                         1,
+                         MPI_INT,
+                         /*root=*/0, MPI_COMM_WORLD);
+              MPI_Bcast (const_cast<char *>(input_as_string.c_str()),
+                         size,
+                         MPI_CHAR,
+                         /*root=*/0, MPI_COMM_WORLD);
+            }
+          else
+            {
+              // on this side, read what processor zero has broadcast about
+              // the size of the input file. then create a buffer to put the
+              // text in, get it from processor 0, and copy it to
+              // input_as_string
+              int size;
+              MPI_Bcast (&size, 1,
+                         MPI_INT,
+                         /*root=*/0, MPI_COMM_WORLD);
+
+              char *p = new char[size];
+              MPI_Bcast (p, size,
+                         MPI_CHAR,
+                         /*root=*/0, MPI_COMM_WORLD);
+              input_as_string = p;
+              delete[] p;
+            }
+        }
+
+
       // try to determine the dimension we want to work in. the default
       // is 2, but if we find a line of the kind "set Dimension = ..."
       // then the last such line wins
-      const unsigned int dim = get_dimension(parameter_filename);
+      const unsigned int dim = get_dimension(input_as_string);
 
       // do the same with lines potentially indicating shared libs to
       // be loaded. these shared libs could contain additional module
@@ -228,7 +467,7 @@ int main (int argc, char *argv[])
       // available as part of the possible parameters of the input
       // file, so they need to be loaded before we even start processing
       // the parameter file
-      possibly_load_shared_libs (parameter_filename);
+      possibly_load_shared_libs (input_as_string);
 
       // now switch between the templates that code for 2d or 3d. it
       // would be nicer if we didn't have to duplicate code, but the
@@ -236,15 +475,12 @@ int main (int argc, char *argv[])
       // is only read at run-time
       ParameterHandler prm;
 
-      std::ifstream parameter_file(parameter_filename.c_str());
       switch (dim)
         {
           case 2:
           {
             aspect::Simulator<2>::declare_parameters(prm);
-
-            const bool success = prm.read_input(parameter_file);
-            AssertThrow(success, ExcMessage ("Invalid input parameter file."));
+            parse_parameters (input_as_string, prm);
 
             aspect::Simulator<2> flow_problem(MPI_COMM_WORLD, prm);
             flow_problem.run();
@@ -255,9 +491,7 @@ int main (int argc, char *argv[])
           case 3:
           {
             aspect::Simulator<3>::declare_parameters(prm);
-
-            const bool success = prm.read_input(parameter_file);
-            AssertThrow(success, ExcMessage ("Invalid input parameter file."));
+            parse_parameters (input_as_string, prm);
 
             aspect::Simulator<3> flow_problem(MPI_COMM_WORLD, prm);
             flow_problem.run();
@@ -282,6 +516,14 @@ int main (int argc, char *argv[])
                 << "----------------------------------------------------"
                 << std::endl;
 
+      return 1;
+    }
+  catch (aspect::QuietException &)
+    {
+      // Quietly treat an exception used on processors other than
+      // root when we already know that processor 0 will generate
+      // an exception. We do this to avoid creating too much
+      // (duplicate) screen output.
       return 1;
     }
   catch (...)

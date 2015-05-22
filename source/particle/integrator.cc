@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2014 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2015 by the authors of the ASPECT code.
 
  This file is part of ASPECT.
 
@@ -17,7 +17,6 @@
  along with ASPECT; see the file doc/COPYING.  If not see
  <http://www.gnu.org/licenses/>.
  */
-/*  $Id$  */
 
 #include <aspect/particle/integrator.h>
 
@@ -50,16 +49,24 @@ namespace aspect
 
             return false;
           };
-          virtual void add_mpi_types(std::vector<MPIDataInfo> &data_info) {};
+
+          virtual void add_mpi_types(std::vector<MPIDataInfo> &)
+          {};
+
           virtual unsigned int data_len() const
           {
             return 0;
           };
-          virtual unsigned int read_data(const std::vector<double> &data, const unsigned int &pos, const double &id_num)
+
+          virtual unsigned int read_data(const std::vector<double> &,
+                                         const unsigned int &pos,
+                                         const double &)
           {
             return pos;
           };
-          virtual void write_data(std::vector<double> &data, const double &id_num) const
+
+          virtual void write_data(std::vector<double> &,
+                                  const double &) const
           {
           };
       };
@@ -209,7 +216,7 @@ namespace aspect
                 else if (step == 3)
                   {
                     k4 = dt*vel;
-                    it->second.set_location(loc0[id_num] + (k1[id_num]+2*k2[id_num]+2*k3[id_num]+k4)/6.0);
+                    it->second.set_location(loc0[id_num] + (k1[id_num]+2.0*k2[id_num]+2.0*k3[id_num]+k4)/6.0);
                   }
                 else
                   {
@@ -320,7 +327,9 @@ namespace aspect
           std::map<double, Point<dim> >   loc0, k1, k2, k3;
           std::map<double, IntegrationScheme>        scheme;
 
-          virtual IntegrationScheme select_scheme(const std::vector<Point<dim> > &cell_vertices, const std::vector<Point<dim> > &cell_velocities, const double timestep)
+          virtual IntegrationScheme select_scheme(const std::vector<Point<dim> > &cell_vertices,
+                                                  const std::vector<Point<dim> > &/*cell_velocities*/,
+                                                  const double /*timestep*/)
           {
             return cell_vertices[0][0] > 0.5 ? SCHEME_RK4 : SCHEME_EULER;
           };
@@ -437,7 +446,7 @@ namespace aspect
                       else if (step == 3)
                         {
                           k4 = dt*vel;
-                          it->second.set_location(loc0[id_num] + (k1[id_num]+2*k2[id_num]+2*k3[id_num]+k4)/6.0);
+                          it->second.set_location(loc0[id_num] + (k1[id_num]+2.0*k2[id_num]+2.0*k3[id_num]+k4)/6.0);
                         }
                       break;
                     default:

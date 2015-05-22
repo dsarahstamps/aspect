@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2014 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2015 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -17,7 +17,6 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id$  */
 
 
 #include <aspect/boundary_composition/initial_composition.h>
@@ -33,8 +32,8 @@ namespace aspect
     template <int dim>
     double
     InitialComposition<dim>::
-    composition (const GeometryModel::Interface<dim> &geometry_model,
-                 const unsigned int                   boundary_indicator,
+    composition (const GeometryModel::Interface<dim> &,
+                 const types::boundary_id             ,
                  const Point<dim>                    &location,
                  const unsigned int                   compositional_field) const
     {
@@ -45,7 +44,7 @@ namespace aspect
     template <int dim>
     double
     InitialComposition<dim>::
-    minimal_composition (const std::set<types::boundary_id> &fixed_boundary_ids) const
+    minimal_composition (const std::set<types::boundary_id> &) const
     {
       return min_composition;
     }
@@ -55,7 +54,7 @@ namespace aspect
     template <int dim>
     double
     InitialComposition<dim>::
-    maximal_composition (const std::set<types::boundary_id> &fixed_boundary_ids) const
+    maximal_composition (const std::set<types::boundary_id> &) const
     {
       return max_composition;
     }
@@ -108,8 +107,8 @@ namespace aspect
   {
     ASPECT_REGISTER_BOUNDARY_COMPOSITION_MODEL(InitialComposition,
                                                "initial composition",
-                                               "A model in which the composition at the boundary"
-                                               "is chosen to be the same as given in the initial"
+                                               "A model in which the composition at the boundary "
+                                               "is chosen to be the same as given in the initial "
                                                "conditions."
                                                "\n\n"
                                                "Because this class simply takes what the initial "

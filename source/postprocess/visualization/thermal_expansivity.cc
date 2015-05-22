@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2014 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2015 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -17,13 +17,11 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id$  */
 
 
 #include <aspect/postprocess/visualization/thermal_expansivity.h>
 #include <aspect/simulator_access.h>
 
-#include <deal.II/numerics/data_out.h>
 
 
 namespace aspect
@@ -55,7 +53,7 @@ namespace aspect
         const unsigned int n_quadrature_points = uh.size();
         Assert (computed_quantities.size() == n_quadrature_points,    ExcInternalError());
         Assert (computed_quantities[0].size() == 1,                   ExcInternalError());
-        Assert (uh[0].size() == dim+2+this->n_compositional_fields(), ExcInternalError());
+        Assert (uh[0].size() == this->introspection().n_components,           ExcInternalError());
 
         typename MaterialModel::Interface<dim>::MaterialModelInputs in(n_quadrature_points,
                                                                        this->n_compositional_fields());
@@ -67,11 +65,11 @@ namespace aspect
         for (unsigned int q=0; q<n_quadrature_points; ++q)
           {
             //in.strain_rate[q] =
-            in.pressure[q]=uh[q][dim];
-            in.temperature[q]=uh[q][dim+1];
+            in.pressure[q]=uh[q][this->introspection().component_indices.pressure];
+            in.temperature[q]=uh[q][this->introspection().component_indices.temperature];
 
             for (unsigned int c=0; c<this->n_compositional_fields(); ++c)
-              in.composition[q][c] = uh[q][dim+2+c];
+              in.composition[q][c] = uh[q][this->introspection().component_indices.compositional_fields[c]];
 
           }
 

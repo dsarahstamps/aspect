@@ -75,6 +75,9 @@ subsection Model settings
 end
 
 subsection Postprocess
-  set List of postprocessors = visualization, velocity statistics, temperature statistics, heat flux statistics, depth average
+  set List of postprocessors = visualization, velocity statistics, basic statistics,  temperature statistics, heat flux statistics, depth average
+  subsection Depth average
+    set Number of zones = 10
+  end
 end
 

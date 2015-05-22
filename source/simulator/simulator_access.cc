@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2014 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2015 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -17,7 +17,6 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id$  */
 
 
 #include <aspect/simulator.h>
@@ -36,7 +35,14 @@ namespace aspect
   void
   SimulatorAccess<dim>::initialize (const Simulator<dim> &simulator_object)
   {
-    simulator = SmartPointer<const Simulator<dim> > (&simulator_object, typeid(*this).name());
+    simulator = &simulator_object;
+  }
+
+  template <int dim>
+  const Simulator<dim> &
+  SimulatorAccess<dim>::get_simulator() const
+  {
+    return *simulator;
   }
 
 
@@ -151,12 +157,25 @@ namespace aspect
     return simulator->parameters.include_latent_heat;
   }
 
+  template <int dim>
+  int
+  SimulatorAccess<dim>::get_stokes_velocity_degree () const
+  {
+    return simulator->parameters.stokes_velocity_degree;
+  }
 
   template <int dim>
   double
   SimulatorAccess<dim>::get_adiabatic_surface_temperature () const
   {
     return simulator->parameters.adiabatic_surface_temperature;
+  }
+
+  template <int dim>
+  double
+  SimulatorAccess<dim>::get_surface_pressure () const
+  {
+    return simulator->parameters.surface_pressure;
   }
 
   template <int dim>
@@ -170,7 +189,17 @@ namespace aspect
   void
   SimulatorAccess<dim>::get_artificial_viscosity (Vector<float> &viscosity_per_cell) const
   {
-    simulator->get_artificial_viscosity(viscosity_per_cell);
+    const typename Simulator<dim>::AdvectionField advection_field = Simulator<dim>::AdvectionField::temperature();
+    simulator->get_artificial_viscosity(viscosity_per_cell, advection_field);
+  }
+
+  template <int dim>
+  void
+  SimulatorAccess<dim>::get_artificial_viscosity_composition (Vector<float> &viscosity_per_cell,
+                                                              const unsigned int compositional_variable) const
+  {
+    const typename Simulator<dim>::AdvectionField advection_field = Simulator<dim>::AdvectionField::composition(compositional_variable);
+    simulator->get_artificial_viscosity(viscosity_per_cell, advection_field);
   }
 
   template <int dim>
@@ -213,7 +242,7 @@ namespace aspect
   void
   SimulatorAccess<dim>::get_depth_average_temperature(std::vector<double> &values) const
   {
-    simulator->compute_depth_average_field(Simulator<dim>::TemperatureOrComposition::temperature(),
+    simulator->compute_depth_average_field(Simulator<dim>::AdvectionField::temperature(),
                                            values);
   }
 
@@ -225,7 +254,7 @@ namespace aspect
     // make sure that what we get here is really an index of one of the compositional fields
     AssertIndexRange(composition_index,this->n_compositional_fields());
 
-    simulator->compute_depth_average_field(Simulator<dim>::TemperatureOrComposition::composition(composition_index),
+    simulator->compute_depth_average_field(Simulator<dim>::AdvectionField::composition(composition_index),
                                            values);
   }
 
@@ -268,15 +297,27 @@ namespace aspect
   const MaterialModel::Interface<dim> &
   SimulatorAccess<dim>::get_material_model () const
   {
+    Assert (simulator->material_model.get() != 0,
+            ExcMessage("You can not call this function if no such model is actually available."));
     return *simulator->material_model.get();
   }
 
 
 
   template <int dim>
+  bool
+  SimulatorAccess<dim>::has_boundary_temperature () const
+  {
+    return (simulator->boundary_temperature.get() != 0);
+  }
+
+
+  template <int dim>
   const BoundaryTemperature::Interface<dim> &
   SimulatorAccess<dim>::get_boundary_temperature () const
   {
+    Assert (simulator->boundary_temperature.get() != 0,
+            ExcMessage("You can not call this function if no such model is actually available."));
     return *simulator->boundary_temperature.get();
   }
 
@@ -290,9 +331,27 @@ namespace aspect
 
 
   template <int dim>
+  const std::set<types::boundary_id> &
+  SimulatorAccess<dim>::get_fixed_composition_boundary_indicators () const
+  {
+    return simulator->parameters.fixed_composition_boundary_indicators;
+  }
+
+
+  template <int dim>
+  const std::map<types::boundary_id,std_cxx11::shared_ptr<VelocityBoundaryConditions::Interface<dim> > >
+  SimulatorAccess<dim>::get_prescribed_velocity_boundary_conditions () const
+  {
+    return simulator->velocity_boundary_conditions;
+  }
+
+
+  template <int dim>
   const GeometryModel::Interface<dim> &
   SimulatorAccess<dim>::get_geometry_model () const
   {
+    Assert (simulator->geometry_model.get() != 0,
+            ExcMessage("You can not call this function if no such model is actually available."));
     return *simulator->geometry_model.get();
   }
 
@@ -300,14 +359,18 @@ namespace aspect
   const GravityModel::Interface<dim> &
   SimulatorAccess<dim>::get_gravity_model () const
   {
+    Assert (simulator->gravity_model.get() != 0,
+            ExcMessage("You can not call this function if no such model is actually available."));
     return *simulator->gravity_model.get();
   }
 
 
   template <int dim>
-  const AdiabaticConditions<dim> &
+  const AdiabaticConditions::Interface<dim> &
   SimulatorAccess<dim>::get_adiabatic_conditions () const
   {
+    Assert (simulator->adiabatic_conditions.get() != 0,
+            ExcMessage("You can not call this function if no such model is actually available."));
     return *simulator->adiabatic_conditions.get();
   }
 
@@ -316,6 +379,8 @@ namespace aspect
   const InitialConditions::Interface<dim> &
   SimulatorAccess<dim>::get_initial_conditions () const
   {
+    Assert (simulator->initial_conditions.get() != 0,
+            ExcMessage("You can not call this function if no such model is actually available."));
     return *simulator->initial_conditions.get();
   }
 
@@ -324,7 +389,18 @@ namespace aspect
   const CompositionalInitialConditions::Interface<dim> &
   SimulatorAccess<dim>::get_compositional_initial_conditions () const
   {
+    Assert (simulator->compositional_initial_conditions.get() != 0,
+            ExcMessage("You can not call this function if no such model is actually available."));
     return *simulator->compositional_initial_conditions.get();
+  }
+
+  template <int dim>
+  const HeatingModel::Interface<dim> &
+  SimulatorAccess<dim>::get_heating_model () const
+  {
+    Assert (simulator->heating_model.get() != 0,
+            ExcMessage("You can not call this function if no such model is actually available."));
+    return *simulator->heating_model.get();
   }
 
   template <int dim>

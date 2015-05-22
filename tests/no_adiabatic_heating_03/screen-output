@@ -1,3 +1,10 @@
+-----------------------------------------------------------------------------
+-- This is ASPECT, the Advanced Solver for Problems in Earth's ConvecTion.
+--     . version 1.2.pre
+--     . running in DEBUG mode
+--     . running with 1 MPI process
+--     . using Trilinos
+-----------------------------------------------------------------------------
 
 Loading shared library <./libno_adiabatic_heating_03.so>
 
@@ -10,27 +17,27 @@ Number of degrees of freedom: 3,556 (2,178+289+1,089)
    Solving Stokes system... 26 iterations.
 
    Rebuilding Stokes preconditioner...
-   Solving Stokes system... 20 iterations.
-      residual: 0.0245986
+   Solving Stokes system... 21 iterations.
+   Residual after nonlinear iteration 2: 0.0245986
 
    Rebuilding Stokes preconditioner...
    Solving Stokes system... 15 iterations.
-      residual: 0.00133812
+   Residual after nonlinear iteration 3: 0.00133812
 
    Rebuilding Stokes preconditioner...
-   Solving Stokes system... 10 iterations.
-      residual: 4.59637e-05
+   Solving Stokes system... 11 iterations.
+   Residual after nonlinear iteration 4: 4.59626e-05
 
    Rebuilding Stokes preconditioner...
    Solving Stokes system... 5 iterations.
-      residual: 2.11765e-06
+   Residual after nonlinear iteration 5: 2.11507e-06
 
    Postprocessing:
 
      Reference density (kg/m^3):                    1
      Reference gravity (m/s^2):                     10
      Reference thermal expansion (1/K):             0
-     Temperature contrast across model domain (K): 0
+     Temperature contrast across model domain (K):  0
      Model domain depth (m):                        1
      Reference thermal diffusivity (m^2/s):         1e-06
      Reference viscosity (Pas):                     10
@@ -44,107 +51,107 @@ Number of degrees of freedom: 3,556 (2,178+289+1,089)
      Writing graphical output: output-no_adiabatic_heating_03/solution-00000
 
 *** Timestep 1:  t=0.0284091 seconds
-   Solving temperature system... 25 iterations.
+   Solving temperature system... 17 iterations.
    Rebuilding Stokes preconditioner...
-   Solving Stokes system... 3 iterations.
+   Solving Stokes system... 2 iterations.
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 1 iterations.
+   Residual after nonlinear iteration 2: 0.463546
 
    Rebuilding Stokes preconditioner...
    Solving Stokes system... 0 iterations.
-      residual: 0.206557
+   Residual after nonlinear iteration 3: 0.398348
 
    Rebuilding Stokes preconditioner...
    Solving Stokes system... 0 iterations.
-      residual: 0.206557
+   Residual after nonlinear iteration 4: 0.398348
 
    Rebuilding Stokes preconditioner...
    Solving Stokes system... 0 iterations.
-      residual: 0.206557
-
-   Rebuilding Stokes preconditioner...
-   Solving Stokes system... 0 iterations.
-      residual: 0.206557
+   Residual after nonlinear iteration 5: 0.398348
 
 
    Postprocessing:
-     Temperature min/avg/max: 0 K, 0.00385 K, 0.004155 K
+     Temperature min/avg/max: 0 K, 0.003842 K, 0.004154 K
      RMS, max velocity:       1.05 m/s, 1.1 m/s
 
 *** Timestep 2:  t=0.0568181 seconds
    Solving temperature system... 16 iterations.
    Rebuilding Stokes preconditioner...
-   Solving Stokes system... 3 iterations.
+   Solving Stokes system... 2 iterations.
 
    Rebuilding Stokes preconditioner...
    Solving Stokes system... 0 iterations.
-      residual: 0.149268
+   Residual after nonlinear iteration 2: 0.267625
 
    Rebuilding Stokes preconditioner...
    Solving Stokes system... 0 iterations.
-      residual: 0.149268
+   Residual after nonlinear iteration 3: 0.267625
 
    Rebuilding Stokes preconditioner...
    Solving Stokes system... 0 iterations.
-      residual: 0.149268
+   Residual after nonlinear iteration 4: 0.267625
 
    Rebuilding Stokes preconditioner...
    Solving Stokes system... 0 iterations.
-      residual: 0.149268
+   Residual after nonlinear iteration 5: 0.267625
 
 
    Postprocessing:
-     Temperature min/avg/max: 0 K, 0.007611 K, 0.008302 K
+     Temperature min/avg/max: 0 K, 0.007599 K, 0.008302 K
      RMS, max velocity:       1.05 m/s, 1.1 m/s
 
 *** Timestep 3:  t=0.0852272 seconds
    Solving temperature system... 16 iterations.
    Rebuilding Stokes preconditioner...
-   Solving Stokes system... 0 iterations.
+   Solving Stokes system... 3 iterations.
 
    Rebuilding Stokes preconditioner...
    Solving Stokes system... 0 iterations.
-      residual: 1
+   Residual after nonlinear iteration 2: 0.30113
 
    Rebuilding Stokes preconditioner...
    Solving Stokes system... 0 iterations.
-      residual: 1
+   Residual after nonlinear iteration 3: 0.30113
 
    Rebuilding Stokes preconditioner...
    Solving Stokes system... 0 iterations.
-      residual: 1
+   Residual after nonlinear iteration 4: 0.30113
 
    Rebuilding Stokes preconditioner...
    Solving Stokes system... 0 iterations.
-      residual: 1
+   Residual after nonlinear iteration 5: 0.30113
 
 
    Postprocessing:
-     Temperature min/avg/max: 0 K, 0.01126 K, 0.01244 K
+     Temperature min/avg/max: 0 K, 0.01125 K, 0.01244 K
      RMS, max velocity:       1.05 m/s, 1.1 m/s
 
 *** Timestep 4:  t=0.1 seconds
    Solving temperature system... 13 iterations.
    Rebuilding Stokes preconditioner...
-   Solving Stokes system... 2 iterations.
+   Solving Stokes system... 0 iterations.
 
    Rebuilding Stokes preconditioner...
    Solving Stokes system... 0 iterations.
-      residual: 0.696779
+   Residual after nonlinear iteration 2: 1
 
    Rebuilding Stokes preconditioner...
    Solving Stokes system... 0 iterations.
-      residual: 0.696779
+   Residual after nonlinear iteration 3: 1
 
    Rebuilding Stokes preconditioner...
    Solving Stokes system... 0 iterations.
-      residual: 0.696779
+   Residual after nonlinear iteration 4: 1
 
    Rebuilding Stokes preconditioner...
    Solving Stokes system... 0 iterations.
-      residual: 0.696779
+   Residual after nonlinear iteration 5: 1
 
 
    Postprocessing:
-     Temperature min/avg/max:  0 K, 0.01312 K, 0.01459 K
+     Temperature min/avg/max:  0 K, 0.01311 K, 0.01459 K
      RMS, max velocity:        1.05 m/s, 1.1 m/s
      Writing graphical output: output-no_adiabatic_heating_03/solution-00001
 
@@ -152,6 +159,18 @@ Termination requested by criterion: end time
 
 
 +---------------------------------------------+------------+------------+
+| Total wallclock time elapsed since start    |      27.8s |            |
+|                                             |            |            |
+| Section                         | no. calls |  wall time | % of total |
 +---------------------------------+-----------+------------+------------+
+| Assemble Stokes system          |        25 |      15.4s |        55% |
+| Assemble temperature system     |         5 |      1.55s |       5.6% |
+| Build Stokes preconditioner     |        25 |      9.19s |        33% |
+| Build temperature preconditioner|         5 |    0.0223s |      0.08% |
+| Solve Stokes system             |        25 |     0.439s |       1.6% |
+| Solve temperature system        |         5 |    0.0368s |      0.13% |
+| Initialization                  |         2 |     0.135s |      0.49% |
+| Postprocessing                  |         5 |     0.245s |      0.88% |
+| Setup dof systems               |         1 |     0.172s |      0.62% |
 +---------------------------------+-----------+------------+------------+
 

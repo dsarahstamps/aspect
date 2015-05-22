@@ -17,7 +17,6 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id$  */
 
 
 #ifndef __aspect__termination_criteria_interface_h
@@ -26,7 +25,7 @@
 #include <aspect/global.h>
 #include <aspect/plugins.h>
 
-#include <deal.II/base/std_cxx1x/shared_ptr.h>
+#include <deal.II/base/std_cxx11/shared_ptr.h>
 #include <deal.II/base/parameter_handler.h>
 #include <aspect/simulator_access.h>
 
@@ -72,6 +71,13 @@ namespace aspect
          */
         virtual
         ~Interface ();
+
+        /**
+         * Initialization function. This function is called once at the
+         * beginning of the program after parse_parameters is run and after
+         * the SimulatorAccess (if applicable) is initialized.
+         */
+        virtual void initialize ();
 
         /**
          * Execute evaluation of the termination criterion.
@@ -150,16 +156,6 @@ namespace aspect
     class Manager : public ::aspect::SimulatorAccess<dim>
     {
       public:
-        /**
-         * Initialize the plugins handled by this object for a given
-         * simulator.
-         *
-         * @param simulator A reference to the main simulator object to which
-         * the postprocessor implemented in the derived class should be
-         * applied.
-         */
-        void initialize (const Simulator<dim> &simulator);
-
         /**
          * Execute all of the termination criteria objects that have been
          * requested in the input file.
@@ -247,7 +243,7 @@ namespace aspect
          * A list of termination criterion objects that have been requested in
          * the parameter file.
          */
-        std::list<std_cxx1x::shared_ptr<Interface<dim> > > termination_objects;
+        std::list<std_cxx11::shared_ptr<Interface<dim> > > termination_objects;
 
         /**
          * A list of names corresponding to the termination criteria in the
@@ -276,10 +272,10 @@ namespace aspect
   template class classname<3>; \
   namespace ASPECT_REGISTER_TERMINATION_CRITERION_ ## classname \
   { \
-    aspect::internal::Plugins::RegisterHelper<Interface<2>,classname<2> > \
+    aspect::internal::Plugins::RegisterHelper<aspect::TerminationCriteria::Interface<2>,classname<2> > \
     dummy_ ## classname ## _2d (&aspect::TerminationCriteria::Manager<2>::register_termination_criterion, \
                                 name, description); \
-    aspect::internal::Plugins::RegisterHelper<Interface<3>,classname<3> > \
+    aspect::internal::Plugins::RegisterHelper<aspect::TerminationCriteria::Interface<3>,classname<3> > \
     dummy_ ## classname ## _3d (&aspect::TerminationCriteria::Manager<3>::register_termination_criterion, \
                                 name, description); \
   }

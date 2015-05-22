@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2014 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2015 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -17,7 +17,6 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id$  */
 
 
 #include <aspect/mesh_refinement/thermal_energy_density.h>
@@ -101,8 +100,8 @@ namespace aspect
             for (unsigned int i=0; i<this->get_fe().base_element(this->introspection().base_elements.temperature).dofs_per_cell; ++i)
               {
                 const unsigned int system_local_dof
-                  = this->get_fe().component_to_system_index(/*temperature component=*/dim+1,
-                                                                                       /*dof index within component=*/i);
+                  = this->get_fe().component_to_system_index(this->introspection().component_indices.temperature,
+                                                             /*dof index within component=*/i);
 
                 vec_distributed(local_dof_indices[system_local_dof])
                   = out.densities[i]
@@ -111,9 +110,12 @@ namespace aspect
               }
           }
 
+      vec_distributed.compress(VectorOperation::insert);
+
       // now create a vector with the requisite ghost elements
       // and use it for estimating the gradients
-      LinearAlgebra::BlockVector vec (this->introspection().index_sets.system_relevant_partitioning,
+      LinearAlgebra::BlockVector vec (this->introspection().index_sets.system_partitioning,
+                                      this->introspection().index_sets.system_relevant_partitioning,
                                       this->get_mpi_communicator());
       vec = vec_distributed;
 
@@ -121,8 +123,7 @@ namespace aspect
                                                       this->get_dof_handler(),
                                                       vec,
                                                       indicators,
-//TODO: get this from introspection
-                                                      dim+1);
+                                                      this->introspection().component_indices.temperature);
 
       // Scale gradient in each cell with the correct power of h. Otherwise,
       // error indicators do not reduce when refined if there is a density

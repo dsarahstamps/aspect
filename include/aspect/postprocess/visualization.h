@@ -17,7 +17,6 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id$  */
 
 
 #ifndef __aspect__postprocess_visualization_h
@@ -30,6 +29,7 @@
 #include <deal.II/base/thread_management.h>
 #include <deal.II/numerics/data_postprocessor.h>
 #include <deal.II/base/data_out_base.h>
+#include <deal.II/numerics/data_out.h>
 
 namespace aspect
 {
@@ -197,17 +197,18 @@ namespace aspect
         public:
           /**
            * The function classes have to implement that want to output
-           * cellwise data. @return A pair of values with the following
-           * meaning: - The first element provides the name by which this data
-           * should be written to the output file. - The second element is a
-           * pointer to a vector with one element per active cell on the
-           * current processor. Elements corresponding to active cells that
-           * are either artificial or ghost cells (in deal.II language, see
-           * the deal.II glossary) will be ignored but must nevertheless exist
-           * in the returned vector. While implementations of this function
-           * must create this vector, ownership is taken over by the caller of
-           * this function and the caller will take care of destroying the
-           * vector pointed to.
+           * cellwise data.
+           * @return A pair of values with the following meaning: - The first
+           * element provides the name by which this data should be written to
+           * the output file. - The second element is a pointer to a vector
+           * with one element per active cell on the current processor.
+           * Elements corresponding to active cells that are either artificial
+           * or ghost cells (in deal.II language, see the deal.II glossary)
+           * will be ignored but must nevertheless exist in the returned
+           * vector. While implementations of this function must create this
+           * vector, ownership is taken over by the caller of this function
+           * and the caller will take care of destroying the vector pointed
+           * to.
            */
           virtual
           std::pair<std::string, Vector<float> *>
@@ -253,18 +254,6 @@ namespace aspect
         virtual
         std::pair<std::string,std::string>
         execute (TableHandler &statistics);
-
-        /**
-         * Initialize this class for a given simulator. In addition to calling
-         * the respective function from the base class, this function also
-         * initializes all the visualization postprocessor plugins.
-         *
-         * @param simulator A reference to the main simulator object to which
-         * the postprocessor implemented in the derived class should be
-         * applied.
-         */
-        virtual void initialize (const Simulator<dim> &simulator);
-
 
         /**
          * A function that is used to register visualization postprocessor
@@ -338,19 +327,14 @@ namespace aspect
          * Interval between the generation of graphical output. This parameter
          * is read from the input file and consequently is not part of the
          * state that needs to be saved and restored.
-         *
-         * For technical reasons, this value is stored as given in the input
-         * file and upon use is either interpreted as seconds or years,
-         * depending on how the global flag in the input parameter file is
-         * set.
          */
         double output_interval;
 
         /**
-         * A time (in years) after which the next time step should produce
-         * graphical output again.
+         * A time (in seconds) at which the last graphical output was supposed
+         * to be produced. Used to check for the next necessary output time.
          */
-        double next_output_time;
+        double last_output_time;
 
         /**
          * Consecutively counted number indicating the how-manyth time we will
@@ -372,13 +356,26 @@ namespace aspect
         unsigned int group_files;
 
         /**
-         * Compute the next output time from the current one. In the simplest
-         * case, this is simply the previous next output time plus the
-         * interval, but in general we'd like to ensure that it is larger than
-         * the current time to avoid falling behind with next_output_time and
-         * having to catch up once the time step becomes larger.
+         * deal.II offers the possibility to linearly interpolate output
+         * fields of higher order elements to a finer resolution. This
+         * somewhat compensates the fact that most visualization software only
+         * offers linear interpolation between grid points and therefore the
+         * output file is a very coarse representation of the actual solution
+         * field. Activating this option increases the spatial resolution in
+         * each dimension by a factor equal to the polynomial degree used for
+         * the velocity finite element (usually 2).
          */
-        void set_next_output_time (const double current_time);
+        bool interpolate_output;
+
+        /**
+         * Set the time output was supposed to be written. In the simplest
+         * case, this is the previous last output time plus the interval, but
+         * in general we'd like to ensure that it is the largest supposed
+         * output time, which is smaller than the current time, to avoid
+         * falling behind with last_output_time and having to catch up once
+         * the time step becomes larger. This is done after every output.
+         */
+        void set_last_output_time (const double current_time);
 
         /**
          * Record that the mesh changed. This helps some output writers avoid
@@ -415,10 +412,30 @@ namespace aspect
                                 const std::string *file_contents);
 
         /**
+         * Write the various master record files. The master files are used by
+         * visualization programs to identify which of the output files in a
+         * directory, possibly one file written by each processor, belong to a
+         * single time step and/or form the different time steps of a
+         * simulation. For Paraview, this is a <code>.pvtu</code> file per
+         * time step and a <code>.pvd</code> for all time steps. For Visit it
+         * is a <code>.visit</code> file per time step and one for all time
+         * steps.
+         *
+         * @param data_out The DataOut object that was used to write the
+         * solutions.
+         * @param solution_file_prefix The stem of the filename to be written.
+         * @param filenames List of filenames for the current output from all
+         * processors.
+         */
+        void write_master_files (const DataOut<dim> &data_out,
+                                 const std::string &solution_file_prefix,
+                                 const std::vector<std::string> &filenames);
+
+        /**
          * A list of postprocessor objects that have been requested in the
          * parameter file.
          */
-        std::list<std_cxx1x::shared_ptr<VisualizationPostprocessors::Interface<dim> > > postprocessors;
+        std::list<std_cxx11::shared_ptr<VisualizationPostprocessors::Interface<dim> > > postprocessors;
 
         /**
          * A list of pairs (time, pvtu_filename) that have so far been written
@@ -459,10 +476,10 @@ namespace aspect
   template class classname<3>; \
   namespace ASPECT_REGISTER_VISUALIZATION_POSTPROCESSOR_ ## classname \
   { \
-    aspect::internal::Plugins::RegisterHelper<VisualizationPostprocessors::Interface<2>,classname<2> > \
+    aspect::internal::Plugins::RegisterHelper<aspect::Postprocess::VisualizationPostprocessors::Interface<2>,classname<2> > \
     dummy_ ## classname ## _2d (&aspect::Postprocess::Visualization<2>::register_visualization_postprocessor, \
                                 name, description); \
-    aspect::internal::Plugins::RegisterHelper<VisualizationPostprocessors::Interface<3>,classname<3> > \
+    aspect::internal::Plugins::RegisterHelper<aspect::Postprocess::VisualizationPostprocessors::Interface<3>,classname<3> > \
     dummy_ ## classname ## _3d (&aspect::Postprocess::Visualization<3>::register_visualization_postprocessor, \
                                 name, description); \
   }

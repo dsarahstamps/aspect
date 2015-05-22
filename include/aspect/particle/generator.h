@@ -17,7 +17,6 @@
  along with ASPECT; see the file doc/COPYING.  If not see
  <http://www.gnu.org/licenses/>.
  */
-/*  $Id$  */
 
 #ifndef __aspect__particle_generator_h
 #define __aspect__particle_generator_h
@@ -59,7 +58,7 @@ namespace aspect
            * @param [in] total_num_particles Total number of particles to
            * generate. The actual number of generated particles may differ,
            * for example if the generator reads particles from a file this
-           * parameter may be ignored. @return
+           * parameter may be ignored.
            */
           virtual
           void
@@ -72,7 +71,8 @@ namespace aspect
        * Create a generator object.
        *
        * @param[in] generator_type Name of the type of generator to create
-       * @return
+       * @return pointer to the generator. Caller needs to delete this
+       * pointer.
        */
       template <int dim, class T>
       Interface<dim, T> *

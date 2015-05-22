@@ -17,7 +17,6 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id: simple.h 1313 2012-10-23 11:47:02Z gassmoeller $  */
 
 
 #ifndef __aspect__model_latent_heat_h
@@ -240,7 +239,6 @@ namespace aspect
         std::vector<double> density_jumps;
         std::vector<int> transition_phases;
         std::vector<double> phase_prefactors;
-        std::vector<double> activation_enthalpies;
     };
 
   }

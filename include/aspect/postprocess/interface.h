@@ -17,7 +17,6 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id$  */
 
 
 #ifndef __aspect__postprocess_interface_h
@@ -25,8 +24,9 @@
 
 #include <aspect/global.h>
 #include <aspect/plugins.h>
+#include <aspect/simulator_access.h>
 
-#include <deal.II/base/std_cxx1x/shared_ptr.h>
+#include <deal.II/base/std_cxx11/shared_ptr.h>
 #include <deal.II/base/table_handler.h>
 #include <deal.II/base/parameter_handler.h>
 
@@ -38,6 +38,7 @@ namespace aspect
   using namespace dealii;
 
   template <int dim> class Simulator;
+  template <int dim> class SimulatorAccess;
 
 
   /**
@@ -73,6 +74,11 @@ namespace aspect
          */
         virtual
         ~Interface ();
+
+        /**
+         * Initialize function.
+         */
+        virtual void initialize ();
 
         /**
          * Execute this postprocessor. Derived classes will implement this
@@ -177,19 +183,9 @@ namespace aspect
      * @ingroup Postprocessing
      */
     template <int dim>
-    class Manager
+    class Manager : public ::aspect::SimulatorAccess<dim>
     {
       public:
-        /**
-         * Initialize the postprocessors handled by this object for a given
-         * simulator.
-         *
-         * @param simulator A reference to the main simulator object to which
-         * the postprocessor implemented in the derived class should be
-         * applied.
-         */
-        void initialize (const Simulator<dim> &simulator);
-
         /**
          * Execute all of the postprocessor objects that have been requested
          * in the input file. These objects also fill the contents of the
@@ -200,6 +196,17 @@ namespace aspect
          */
         std::list<std::pair<std::string,std::string> >
         execute (TableHandler &statistics);
+
+        /**
+         * Go through the list of all postprocessors that have been selected
+         * in the input file (and are consequently currently active) and see
+         * if one of them has the desired type specified by the template
+         * argument. If so, return a pointer to it. If no postprocessor is
+         * active that matches the given type, return a NULL pointer.
+         */
+        template <typename PostprocessorType>
+        PostprocessorType *
+        find_postprocessor () const;
 
         /**
          * Declare the parameters of all known postprocessors, as well as of
@@ -273,7 +280,7 @@ namespace aspect
          * A list of postprocessor objects that have been requested in the
          * parameter file.
          */
-        std::list<std_cxx1x::shared_ptr<Interface<dim> > > postprocessors;
+        std::list<std_cxx11::shared_ptr<Interface<dim> > > postprocessors;
     };
 
 
@@ -287,7 +294,7 @@ namespace aspect
       // let all the postprocessors save their data in a map and then
       // serialize that
       std::map<std::string,std::string> saved_text;
-      for (typename std::list<std_cxx1x::shared_ptr<Interface<dim> > >::const_iterator
+      for (typename std::list<std_cxx11::shared_ptr<Interface<dim> > >::const_iterator
            p = postprocessors.begin();
            p != postprocessors.end(); ++p)
         (*p)->save (saved_text);
@@ -308,10 +315,31 @@ namespace aspect
       std::map<std::string,std::string> saved_text;
       ar &saved_text;
 
-      for (typename std::list<std_cxx1x::shared_ptr<Interface<dim> > >::iterator
+      for (typename std::list<std_cxx11::shared_ptr<Interface<dim> > >::iterator
            p = postprocessors.begin();
            p != postprocessors.end(); ++p)
         (*p)->load (saved_text);
+    }
+
+    /**
+     * Go through the list of all postprocessors that have been selected in
+     * the input file (and are consequently currently active) and see if one
+     * of them has the desired type specified by the template argument. If so,
+     * return a pointer to it. If no postprocessor is active that matches the
+     * given type, return a NULL pointer.
+     */
+    template <int dim>
+    template <typename PostprocessorType>
+    inline
+    PostprocessorType *
+    Manager<dim>::find_postprocessor () const
+    {
+      for (typename std::list<std_cxx11::shared_ptr<Interface<dim> > >::const_iterator
+           p = postprocessors.begin();
+           p != postprocessors.end(); ++p)
+        if (PostprocessorType *x = dynamic_cast<PostprocessorType *> ( (*p).get()) )
+          return x;
+      return NULL;
     }
 
 
@@ -327,10 +355,10 @@ namespace aspect
   template class classname<3>; \
   namespace ASPECT_REGISTER_POSTPROCESSOR_ ## classname \
   { \
-    aspect::internal::Plugins::RegisterHelper<Interface<2>,classname<2> > \
+    aspect::internal::Plugins::RegisterHelper<aspect::Postprocess::Interface<2>,classname<2> > \
     dummy_ ## classname ## _2d (&aspect::Postprocess::Manager<2>::register_postprocessor, \
                                 name, description); \
-    aspect::internal::Plugins::RegisterHelper<Interface<3>,classname<3> > \
+    aspect::internal::Plugins::RegisterHelper<aspect::Postprocess::Interface<3>,classname<3> > \
     dummy_ ## classname ## _3d (&aspect::Postprocess::Manager<3>::register_postprocessor, \
                                 name, description); \
   }

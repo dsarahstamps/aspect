@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2014 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2015 by the authors of the ASPECT code.
 
  This file is part of ASPECT.
 
@@ -17,7 +17,6 @@
  along with ASPECT; see the file doc/COPYING.  If not see
  <http://www.gnu.org/licenses/>.
  */
-/*  $Id$  */
 
 #include <aspect/global.h>
 #include <aspect/postprocess/tracer.h>
@@ -47,10 +46,8 @@ namespace aspect
 
     template <int dim>
     std::pair<std::string,std::string>
-    PassiveTracers<dim>::execute (TableHandler &statistics)
+    PassiveTracers<dim>::execute (TableHandler &)
     {
-      bool            output_data = false;
-
       if (!initialized)
         {
           // Create a generator object using a random uniform distribution
@@ -150,7 +147,7 @@ namespace aspect
                              "Units: years if the "
                              "'Use years in output instead of seconds' parameter is set; "
                              "seconds otherwise.");
-          prm.declare_entry("Data output format", "none",
+          prm.declare_entry("Data output format", "vtu",
                             Patterns::Selection(Particle::Output::output_object_names()),
                             "File format to output raw particle data in.");
           prm.declare_entry("Integration scheme", "rk2",

@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2014 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2015 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -17,7 +17,6 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id$  */
 
 
 #include <aspect/mesh_refinement/velocity.h>
@@ -35,7 +34,8 @@ namespace aspect
     {
       indicators = 0;
 
-      KellyErrorEstimator<dim>::estimate (this->get_dof_handler(),
+      KellyErrorEstimator<dim>::estimate (this->get_mapping(),
+                                          this->get_dof_handler(),
                                           QGauss<dim-1>(this->get_fe().base_element(this->introspection().base_elements.velocities).degree+1),
                                           typename FunctionMap<dim>::type(),
                                           this->get_solution(),

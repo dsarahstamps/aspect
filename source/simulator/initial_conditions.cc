@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2014 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2015 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -17,11 +17,10 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id$  */
 
 
 #include <aspect/simulator.h>
-#include <aspect/adiabatic_conditions.h>
+#include <aspect/adiabatic_conditions/interface.h>
 #include <aspect/initial_conditions/interface.h>
 #include <aspect/compositional_initial_conditions/interface.h>
 
@@ -67,18 +66,15 @@ namespace aspect
     // we need to track whether we need to normalize the totality of fields
     bool normalize_composition = false;
 
-//TODO: The code here is confusing. We should be using something
-// like the TemperatureOrComposition class instead of just a single
-// integer 'n'
+    //TODO: it would be great if we had a cleaner way than iterating to 1+n_fields.
+    // Additionally, the n==1 logic for normalization at the bottom is not pretty.
     for (unsigned int n=0; n<1+parameters.n_compositional_fields; ++n)
       {
+        AdvectionField advf = ((n == 0) ? AdvectionField::temperature()
+                               : AdvectionField::composition(n-1));
         initial_solution.reinit(system_rhs, false);
 
-        // base element in the finite element is 2 for temperature (n=0) and 3 for
-        // compositional fields (n>0)
-        const unsigned int base_element = (n==0 ?
-                                           introspection.base_elements.temperature :
-                                           introspection.base_elements.compositional_fields);
+        const unsigned int base_element = advf.base_element(introspection);
 
         // get the temperature/composition support points
         const std::vector<Point<dim> > support_points
@@ -104,20 +100,19 @@ namespace aspect
               cell->get_dof_indices (local_dof_indices);
               for (unsigned int i=0; i<finite_element.base_element(base_element).dofs_per_cell; ++i)
                 {
-//TODO: Use introspection here
                   const unsigned int system_local_dof
-                    = finite_element.component_to_system_index(/*temperature/composition component=*/dim+1+n,
-                        /*dof index within component=*/i);
+                    = finite_element.component_to_system_index(advf.component_index(introspection),
+                                                               /*dof index within component=*/i);
 
                   const double value =
-                    (n == 0
+                    (advf.is_temperature()
                      ?
                      initial_conditions->initial_temperature(fe_values.quadrature_point(i))
                      :
                      compositional_initial_conditions->initial_composition(fe_values.quadrature_point(i),n-1));
                   initial_solution(local_dof_indices[system_local_dof]) = value;
 
-                  if (n > 0)
+                  if (!advf.is_temperature())
                     Assert (value >= 0,
                             ExcMessage("Invalid initial conditions: Composition is negative"));
 
@@ -143,7 +138,7 @@ namespace aspect
         // we should not have written at all into any of the blocks with
         // the exception of the current temperature or composition block
         for (unsigned int b=0; b<initial_solution.n_blocks(); ++b)
-          if (b != 2+n)
+          if (b != advf.block_index(introspection))
             Assert (initial_solution.block(b).l2_norm() == 0,
                     ExcInternalError());
 
@@ -166,13 +161,17 @@ namespace aspect
           }
 
         // then apply constraints and copy the
-        // result into vectors with ghost elements
-        constraints.distribute(initial_solution);
+        // result into vectors with ghost elements. to do so,
+        // we need the current constraints to be correct for
+        // the current time
+        compute_current_constraints ();
+        current_constraints.distribute(initial_solution);
 
         // copy temperature/composition block only
-        solution.block(2+n) = initial_solution.block(2+n);
-        old_solution.block(2+n) = initial_solution.block(2+n);
-        old_old_solution.block(2+n) = initial_solution.block(2+n);
+        const unsigned int blockidx = advf.block_index(introspection);
+        solution.block(blockidx) = initial_solution.block(blockidx);
+        old_solution.block(blockidx) = initial_solution.block(blockidx);
+        old_old_solution.block(blockidx) = initial_solution.block(blockidx);
       }
   }
 
@@ -180,6 +179,11 @@ namespace aspect
   template <int dim>
   void Simulator<dim>::compute_initial_pressure_field ()
   {
+    // Note that this code will overwrite the velocity solution with 0 if
+    // velocity and pressure are in the same block (i.e., direct solver is
+    // used). As the velocity is all zero anyway, this is currently not a
+    // problem.
+
     // we'd like to interpolate the initial pressure onto the pressure
     // variable but that's a bit involved because the pressure may either
     // be an FE_Q (for which we can interpolate) or an FE_DGP (for which
@@ -203,25 +207,24 @@ namespace aspect
         // solution vector, so create such a function object
         // that is simply zero for all velocity components
         VectorTools::interpolate (mapping, dof_handler,
-                                  VectorFunctionFromScalarFunctionObject<dim> (std_cxx1x::bind (&AdiabaticConditions<dim>::pressure,
-                                                                               std_cxx1x::cref (*adiabatic_conditions),
-                                                                               std_cxx1x::_1),
-                                                                               dim,
-                                                                               dim+2+parameters.n_compositional_fields),
+                                  VectorFunctionFromScalarFunctionObject<dim> (std_cxx11::bind (&AdiabaticConditions::Interface<dim>::pressure,
+                                                                               std_cxx11::cref (*adiabatic_conditions),
+                                                                               std_cxx11::_1),
+                                                                               introspection.component_indices.pressure,
+                                                                               introspection.n_components),
                                   system_tmp);
 
         // we may have hanging nodes, so apply constraints
         constraints.distribute (system_tmp);
 
-        old_solution.block(1) = system_tmp.block(1);
+        old_solution.block(introspection.block_indices.pressure) = system_tmp.block(introspection.block_indices.pressure);
       }
     else
       {
         // implement the local projection for the discontinuous pressure
         // element. this is only going to work if, indeed, the element
         // is discontinuous
-        const FiniteElement<dim> &system_pressure_fe = finite_element.base_element(introspection.base_elements.pressure);
-        Assert (system_pressure_fe.dofs_per_face == 0,
+        Assert (finite_element.base_element(introspection.base_elements.pressure).dofs_per_face == 0,
                 ExcNotImplemented());
 
         LinearAlgebra::BlockVector system_tmp;
@@ -246,9 +249,9 @@ namespace aspect
         std::vector<double> rhs_values(n_q_points);
 
         ScalarFunctionFromFunctionObject<dim>
-        adiabatic_pressure (std_cxx1x::bind (&AdiabaticConditions<dim>::pressure,
-                                             std_cxx1x::cref(*adiabatic_conditions),
-                                             std_cxx1x::_1));
+        adiabatic_pressure (std_cxx11::bind (&AdiabaticConditions::Interface<dim>::pressure,
+                                             std_cxx11::cref(*adiabatic_conditions),
+                                             std_cxx11::_1));
 
 
         typename DoFHandler<dim>::active_cell_iterator
@@ -281,9 +284,9 @@ namespace aspect
                     // for all other variables so that the whole thing remains
                     // invertible
                     for (unsigned int j=0; j<dofs_per_cell; ++j)
-                      if ((finite_element.system_to_component_index(i).first == dim)
+                      if ((finite_element.system_to_component_index(i).first == introspection.component_indices.pressure)
                           &&
-                          (finite_element.system_to_component_index(j).first == dim))
+                          (finite_element.system_to_component_index(j).first == introspection.component_indices.pressure))
                         local_mass_matrix(j,i) += (fe_values[introspection.extractors.pressure].value(i,point) *
                                                    fe_values[introspection.extractors.pressure].value(j,point) *
                                                    fe_values.JxW(point));
@@ -299,7 +302,7 @@ namespace aspect
               cell->set_dof_values (local_projection, system_tmp);
             }
 
-        old_solution.block(1) = system_tmp.block(1);
+        old_solution.block(introspection.block_indices.pressure) = system_tmp.block(introspection.block_indices.pressure);
       }
 
     // normalize the pressure in such a way that the surface pressure

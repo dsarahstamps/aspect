@@ -17,7 +17,6 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id$  */
 
 
 #ifndef __aspect__boundary_composition_interface_h
@@ -58,6 +57,28 @@ namespace aspect
         virtual ~Interface();
 
         /**
+         * Initialization function. This function is called once at the
+         * beginning of the program after parse_parameters is run and after
+         * the SimulatorAccess (if applicable) is initialized.
+         */
+        virtual void initialize ();
+
+        /**
+         * A function that is called at the beginning of each time step. The
+         * default implementation of the function does nothing, but derived
+         * classes that need more elaborate setups for a given time step may
+         * overload the function.
+         *
+         * The point of this function is to allow complex boundary composition
+         * models to do an initialization step once at the beginning of each
+         * time step. An example would be a model that needs to call an
+         * external program to compute composition changes at sides.
+         */
+        virtual
+        void
+        update ();
+
+        /**
          * Return the composition that is to hold at a particular location on
          * the boundary of the domain.
          *
@@ -71,10 +92,12 @@ namespace aspect
          * composition.
          * @param compositional_field The number of the compositional field
          * for which we are requesting the composition.
+         * @param compositional_field The index of the compositional field
+         * between 0 and @p parameters.n_compositional_fields.
          */
         virtual
         double composition (const GeometryModel::Interface<dim> &geometry_model,
-                            const unsigned int                   boundary_indicator,
+                            const types::boundary_id             boundary_indicator,
                             const Point<dim>                    &location,
                             const unsigned int                   compositional_field) const = 0;
 
@@ -127,6 +150,9 @@ namespace aspect
      * object that describes it. Ownership of the pointer is transferred to
      * the caller.
      *
+     * The model object returned is not yet initialized and has not read its
+     * runtime parameters yet.
+     *
      * @ingroup BoundaryCompositions
      */
     template <int dim>
@@ -157,10 +183,10 @@ namespace aspect
   template class classname<3>; \
   namespace ASPECT_REGISTER_BOUNDARY_COMPOSITION_MODEL_ ## classname \
   { \
-    aspect::internal::Plugins::RegisterHelper<Interface<2>,classname<2> > \
+    aspect::internal::Plugins::RegisterHelper<aspect::BoundaryComposition::Interface<2>,classname<2> > \
     dummy_ ## classname ## _2d (&aspect::BoundaryComposition::register_boundary_composition<2>, \
                                 name, description); \
-    aspect::internal::Plugins::RegisterHelper<Interface<3>,classname<3> > \
+    aspect::internal::Plugins::RegisterHelper<aspect::BoundaryComposition::Interface<3>,classname<3> > \
     dummy_ ## classname ## _3d (&aspect::BoundaryComposition::register_boundary_composition<3>, \
                                 name, description); \
   }

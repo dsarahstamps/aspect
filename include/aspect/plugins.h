@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011, 2012 by the authors of the ASPECT code.
+  Copyright (C) 2011, 2012, 2014, 2015 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -17,7 +17,6 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id$  */
 
 
 #ifndef __aspect__plugins_h
@@ -25,10 +24,12 @@
 
 
 #include <deal.II/base/parameter_handler.h>
-#include <deal.II/base/std_cxx1x/tuple.h>
+#include <deal.II/base/std_cxx11/tuple.h>
 
 #include <string>
 #include <list>
+#include <set>
+#include <map>
 
 
 namespace aspect
@@ -104,7 +105,7 @@ namespace aspect
          * - A function that can produce objects of this plugin type.
          */
         typedef
-        std_cxx1x::tuple<std::string,
+        std_cxx11::tuple<std::string,
                   std::string,
                   void ( *) (ParameterHandler &),
                   InterfaceClass *( *) ()>
@@ -142,16 +143,20 @@ namespace aspect
 
         /**
          * Generate a list of names of the registered plugins separated by '|'
-         * so that they can be taken as the input for Patterns::Selection. If
-         * the argument is true, then add "|all" to the list, i.e. allow a
-         * user to select all plugins at the same time.
+         * so that they can be taken as the input for Patterns::Selection.
+         *
+         * To make it easier to visually scan through the list of plugins,
+         * names are sorted alphabetically.
          */
         static
-        std::string get_pattern_of_names (const bool allow_all = false);
+        std::string get_pattern_of_names ();
 
         /**
          * Return a string that describes all registered plugins using the
          * descriptions that have been provided at the time of registration.
+         *
+         * To make it easier to visually scan through the list of plugins,
+         * names are sorted alphabetically.
          */
         static
         std::string get_description_string ();
@@ -234,7 +239,7 @@ namespace aspect
         for (typename std::list<PluginInfo>::const_iterator
              p = plugins->begin();
              p != plugins->end(); ++p)
-          Assert (std_cxx1x::get<0>(*p) != name,
+          Assert (std_cxx11::get<0>(*p) != name,
                   ExcMessage ("A plugin with name <" + name + "> has "
                               "already been registered!"));
 
@@ -250,26 +255,28 @@ namespace aspect
       template <typename InterfaceClass>
       std::string
       PluginList<InterfaceClass>::
-      get_pattern_of_names (const bool allow_all)
+      get_pattern_of_names ()
       {
         Assert (plugins != 0,
                 ExcMessage ("No plugins registered!?"));
 
-        std::string pattern_of_names;
+        // get all names and put them into a data structure that keeps
+        // them sorted
+        std::set<std::string> names;
         for (typename std::list<PluginInfo>::const_iterator
              p = plugins->begin();
              p != plugins->end(); ++p)
-          {
-            if (pattern_of_names.size() > 0)
-              pattern_of_names += "|";
-            pattern_of_names += std_cxx1x::get<0>(*p);
-          }
+          names.insert (std_cxx11::get<0>(*p));
 
-        if (allow_all == true)
+        // now create a pattern from all of these sorted names
+        std::string pattern_of_names;
+        for (typename std::set<std::string>::const_iterator
+             p = names.begin();
+             p != names.end(); ++p)
           {
             if (pattern_of_names.size() > 0)
               pattern_of_names += "|";
-            pattern_of_names += "all";
+            pattern_of_names += *p;
           }
 
         return pattern_of_names;
@@ -284,24 +291,33 @@ namespace aspect
       {
         std::string description;
 
-        typename std::list<PluginInfo>::const_iterator
-        p = plugins->begin();
+        // get all names_and_descriptions and put them into a data structure that keeps
+        // them sorted
+        std::map<std::string,std::string> names_and_descriptions;
+        for (typename std::list<PluginInfo>::const_iterator
+             p = plugins->begin();
+             p != plugins->end(); ++p)
+          names_and_descriptions[std_cxx11::get<0>(*p)] = std_cxx11::get<1>(*p);;
+
+        // then output it all
+        typename std::map<std::string,std::string>::const_iterator
+        p = names_and_descriptions.begin();
         while (true)
           {
             // write the name and
             // description of the
             // parameter
             description += "`";
-            description += std_cxx1x::get<0>(*p);
+            description += p->first;
             description += "': ";
-            description += std_cxx1x::get<1>(*p);
+            description += p->second;
 
             // increment the pointer
             // by one. if we are not
             // at the end yet then
             // add an empty line
             ++p;
-            if (p != plugins->end())
+            if (p != names_and_descriptions.end())
               description += "\n\n";
             else
               break;
@@ -324,7 +340,7 @@ namespace aspect
         for (typename std::list<PluginInfo>::const_iterator
              p = plugins->begin();
              p != plugins->end(); ++p)
-          (std_cxx1x::get<2>(*p))(prm);
+          (std_cxx11::get<2>(*p))(prm);
       }
 
 
@@ -332,9 +348,10 @@ namespace aspect
       template <typename InterfaceClass>
       InterfaceClass *
       PluginList<InterfaceClass>::
-      create_plugin (const std::string  &name,
+      create_plugin (const std::string &name,
                      const std::string &documentation)
       {
+        (void)documentation;
         Assert (plugins != 0,
                 ExcMessage ("No postprocessors registered!?"));
         Assert (name != "",
@@ -356,9 +373,9 @@ namespace aspect
 
         for (typename std::list<PluginInfo>::const_iterator p = plugins->begin();
              p != plugins->end(); ++p)
-          if (std_cxx1x::get<0>(*p) == name)
+          if (std_cxx11::get<0>(*p) == name)
             {
-              InterfaceClass *i = std_cxx1x::get<3>(*p)();
+              InterfaceClass *i = std_cxx11::get<3>(*p)();
               return i;
             }
 
@@ -373,7 +390,7 @@ namespace aspect
       PluginList<InterfaceClass>::
       create_plugin (const std::string &name,
                      const std::string &documentation,
-                     ParameterHandler &prm)
+                     ParameterHandler  &prm)
       {
         InterfaceClass *i = create_plugin(name, documentation);
         i->parse_parameters (prm);
@@ -386,5 +403,3 @@ namespace aspect
 
 
 #endif
-
-class P;

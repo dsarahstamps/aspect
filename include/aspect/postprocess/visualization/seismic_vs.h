@@ -17,7 +17,6 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id$  */
 
 
 #ifndef __aspect__postprocess_visualization_seismic_vs_h
@@ -26,7 +25,7 @@
 #include <aspect/postprocess/visualization.h>
 #include <aspect/simulator_access.h>
 
-#include <deal.II/numerics/data_out.h>
+#include <deal.II/numerics/data_postprocessor.h>
 
 
 namespace aspect

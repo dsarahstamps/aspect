@@ -17,7 +17,6 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id$  */
 
 
 #ifndef __aspect__boundary_temperature_box_h
@@ -56,7 +55,7 @@ namespace aspect
          */
         virtual
         double temperature (const GeometryModel::Interface<dim> &geometry_model,
-                            const unsigned int                   boundary_indicator,
+                            const types::boundary_id             boundary_indicator,
                             const Point<dim>                    &location) const;
 
         /**

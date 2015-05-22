@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2014 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2015 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -17,7 +17,6 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id: density.cc 1624 2013-04-28 21:15:28Z heister $  */
 
 
 #include <aspect/mesh_refinement/viscosity.h>
@@ -58,7 +57,7 @@ namespace aspect
       FEValues<dim> fe_values (this->get_mapping(),
                                this->get_fe(),
                                quadrature,
-                               update_quadrature_points | update_values);
+                               update_quadrature_points | update_values | update_gradients);
 
       // the values of the compositional fields are stored as blockvectors for each field
       // we have to extract them in this structure
@@ -82,12 +81,14 @@ namespace aspect
                                                                                       in.pressure);
             fe_values[this->introspection().extractors.temperature].get_function_values (this->get_solution(),
                                                                                          in.temperature);
+            fe_values[this->introspection().extractors.velocities].get_function_symmetric_gradients (this->get_solution(),
+                in.strain_rate);
+
             for (unsigned int c=0; c<this->n_compositional_fields(); ++c)
               fe_values[this->introspection().extractors.compositional_fields[c]].get_function_values (this->get_solution(),
                   prelim_composition_values[c]);
 
             in.position = fe_values.get_quadrature_points();
-            in.strain_rate.resize(0);// we are not reading the viscosity
             for (unsigned int i=0; i<quadrature.size(); ++i)
               {
                 for (unsigned int c=0; c<this->n_compositional_fields(); ++c)
@@ -103,17 +104,20 @@ namespace aspect
             for (unsigned int i=0; i<this->get_fe().base_element(this->introspection().base_elements.temperature).dofs_per_cell; ++i)
               {
                 const unsigned int system_local_dof
-                  = this->get_fe().component_to_system_index(/*temperature component=*/dim+1,
-                                                                                       /*dof index within component=*/i);
+                  = this->get_fe().component_to_system_index(this->introspection().component_indices.temperature,
+                                                             /*dof index within component=*/i);
 
                 vec_distributed(local_dof_indices[system_local_dof])
                   = std::log(out.viscosities[i]);
               }
           }
 
+      vec_distributed.compress(VectorOperation::insert);
+
       // now create a vector with the requisite ghost elements
       // and use it for estimating the gradients
-      LinearAlgebra::BlockVector vec (this->introspection().index_sets.system_relevant_partitioning,
+      LinearAlgebra::BlockVector vec (this->introspection().index_sets.system_partitioning,
+                                      this->introspection().index_sets.system_relevant_partitioning,
                                       this->get_mpi_communicator());
       vec = vec_distributed;
 
@@ -121,8 +125,7 @@ namespace aspect
                                                       this->get_dof_handler(),
                                                       vec,
                                                       indicators,
-//TODO: replace by the appropriate component mask
-                                                      dim+1);
+                                                      this->introspection().component_indices.temperature);
 
       // Scale gradient in each cell with the correct power of h. Otherwise,
       // error indicators do not reduce when refined if there is a viscosity

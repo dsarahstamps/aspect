@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2014 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2015 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -17,7 +17,6 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id$  */
 
 
 #include <aspect/material_model/table.h>
@@ -280,9 +279,8 @@ namespace aspect
       {
 // TODO: clamping into the valid range in all cases okay?
         const double pressure = std::max(min_p, std::min(p, max_p-delta_p));
-
-        Assert (pressure >= min_p, ExcMessage ("Not in range"));
-        Assert (pressure <= max_p, ExcMessage ("Not in range"));
+        Assert (pressure >= min_p, ExcMessage ("The pressure is not greater than the minimum value for pressure."));
+        Assert (pressure <= max_p, ExcMessage ("The pressure is not less than the maximum value for pressure."));
 
 // TODO: clamping into the valid range in all cases okay?
         const double temperature = std::max(min_T, std::min(T, max_T-delta_T));
@@ -315,10 +313,10 @@ namespace aspect
 // TODO: clamping into the valid range in all cases okay?
         const double pressure = std::max(min_p, std::min(p, max_p-delta_p));
 
-        Assert (pressure >= min_p, ExcMessage ("Not in range"));
-        Assert (pressure <= max_p, ExcMessage ("Not in range"));
-        Assert (T >= min_T, ExcMessage ("Not in range"));
-        Assert (T <= max_T, ExcMessage ("Not in range"));
+        Assert (pressure >= min_p, ExcMessage ("The pressure is not greater than the minimum value for pressure."));
+        Assert (pressure <= max_p, ExcMessage ("The pressure is not less than the maximum value for pressure."));
+        Assert (T >= min_T, ExcMessage ("The temperature is not greater than the minimum value for temperature."));
+        Assert (T <= max_T, ExcMessage ("The temperature is not less than the maximum value for temperature."));
 
         const unsigned int i = static_cast<unsigned int>((pressure-min_p) / delta_p);
         const unsigned int j = static_cast<unsigned int>((T-min_T) / delta_T);
@@ -416,7 +414,7 @@ namespace aspect
                      const double pressure,
                      const std::vector<double> &, /*composition*/
                      const SymmetricTensor<2,dim> &strain_rate,
-                     const Point<dim> &position) const
+                     const Point<dim> &) const
     {
       const double R=  8.3143; //TODO gasconstant (well its constant....)
 
@@ -473,7 +471,7 @@ namespace aspect
     thermal_expansion_coefficient (const double temperature,
                                    const double pressure,
                                    const std::vector<double> &, /*composition*/
-                                   const Point<dim> &p) const
+                                   const Point<dim> &) const
     {
       static internal::P_T_LookupFunction alpha(data_directory+"alpha_bin");
       return alpha.value(temperature, pressure);
@@ -537,7 +535,7 @@ namespace aspect
     density (const double temperature,
              const double pressure,
              const std::vector<double> &, /*composition*/
-             const Point<dim> &position) const
+             const Point<dim> &) const
     {
       static internal::P_T_LookupFunction rho(data_directory+"rho_bin");
       return rho.value(temperature, pressure);
@@ -595,7 +593,7 @@ namespace aspect
     compressibility (const double temperature,
                      const double pressure,
                      const std::vector<double> &, /*composition*/
-                     const Point<dim> &position) const
+                     const Point<dim> &) const
     {
       static internal::P_T_LookupFunction rho(data_directory+"rho_bin");
       return rho.d_by_dp(temperature, pressure) / rho.value(temperature,pressure);

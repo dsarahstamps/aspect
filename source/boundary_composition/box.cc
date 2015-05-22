@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2014 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2015 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -17,7 +17,6 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id$  */
 
 
 #include <aspect/boundary_composition/box.h>
@@ -37,10 +36,12 @@ namespace aspect
     double
     Box<dim>::
     composition (const GeometryModel::Interface<dim> &geometry_model,
-                 const unsigned int                   boundary_indicator,
-                 const Point<dim>                    &location,
+                 const types::boundary_id             boundary_indicator,
+                 const Point<dim> &,
                  const unsigned int                   compositional_field) const
     {
+      (void)geometry_model;
+
       // verify that the geometry is in fact a box since only
       // for this geometry do we know for sure what boundary indicators it
       // uses and what they mean
@@ -142,12 +143,9 @@ namespace aspect
 
     template <int dim>
     void
-    Box<dim>::initialize(const Simulator<dim> &simulator)
+    Box<dim>::initialize()
     {
-      // first call the corresponding function of the base class.
-      SimulatorAccess<dim>::initialize (simulator);
-
-      // then verify that each of the lists for boundary values
+      // verify that each of the lists for boundary values
       // has the requisite number of elements
       for (unsigned int f=0; f<2*dim; ++f)
         AssertThrow (composition_values[f].size() == this->n_compositional_fields(),

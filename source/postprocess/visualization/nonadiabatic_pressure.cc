@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2014 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2015 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -17,13 +17,11 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id$  */
 
 
 #include <aspect/postprocess/visualization/nonadiabatic_pressure.h>
 #include <aspect/simulator_access.h>
 
-#include <deal.II/numerics/data_out.h>
 
 
 namespace aspect
@@ -55,11 +53,11 @@ namespace aspect
         const unsigned int n_quadrature_points = uh.size();
         Assert (computed_quantities.size() == n_quadrature_points,    ExcInternalError());
         Assert (computed_quantities[0].size() == 1,                   ExcInternalError());
-        Assert (uh[0].size() == dim+2+this->n_compositional_fields(), ExcInternalError());
+        Assert (uh[0].size() == this->introspection().n_components, ExcInternalError());
 
         for (unsigned int q=0; q<n_quadrature_points; ++q)
           {
-            const double pressure    = uh[q][dim];
+            const double pressure    = uh[q][this->introspection().component_indices.pressure];
 
             computed_quantities[q](0) = pressure - this->get_adiabatic_conditions().pressure(evaluation_points[q]);
           }

@@ -1,16 +1,16 @@
 /**
- * @page changes_after_1_0 Changes after Version 1.0
+ * @page changes_current Changes after the latest release (v1.3)
  *
  * <p> This is the list of changes made after the release of Aspect version
- * 1.0. All entries are signed with the names of the author. </p>
+ * 1.3. All entries are signed with the names of the author. </p>
+ *
  *
  * <ol>
- * <li>Fixed: Times associated with visualization output are now correctly
- * modified when "Use years in output instead of seconds" is true.
+ * <li> Changed: The specific heating plugin has a new interface now; it gets
+ * the material model inputs and outputs and fills a vector with heating
+ * model outputs for the whole cell.
  * <br>
- * (Eric Heien, 2014/05/09)
+ * (Juliane Dannberg, 2015/05/20)
  *
  * </ol>
- *
- *
  */

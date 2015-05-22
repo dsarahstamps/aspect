@@ -17,7 +17,6 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id$  */
 
 
 #ifndef __aspect__boundary_composition_box_h
@@ -43,22 +42,14 @@ namespace aspect
     {
       public:
         /**
-         * Return the composition that is to hold at a particular location on
-         * the boundary of the domain. This function returns constant
-         * compositions at the left and right boundaries.
+         * This function returns constant compositions at the left and right
+         * boundaries.
          *
-         * @param geometry_model The geometry model that describes the domain.
-         * This may be used to determine whether the boundary composition
-         * model is implemented for this geometry.
-         * @param boundary_indicator The boundary indicator of the part of the
-         * boundary of the domain on which the point is located at which we
-         * are requesting the composition.
-         * @param location The location of the point at which we ask for the
-         * composition.
+         * @copydoc aspect::BoundaryComposition::Interface::composition()
          */
         virtual
         double composition (const GeometryModel::Interface<dim> &geometry_model,
-                            const unsigned int                   boundary_indicator,
+                            const types::boundary_id             boundary_indicator,
                             const Point<dim>                    &location,
                             const unsigned int                   compositional_field) const;
 
@@ -78,15 +69,10 @@ namespace aspect
         parse_parameters (ParameterHandler &prm);
 
         /**
-         * Initialize this class for a given simulator. This function
-         * overloads that of the SimulatorAccess base class. It calls the
-         * respective function of the base class and then performs some basic
-         * sanity checks on the parameter values previously read from the
-         * input file.
-         *
-         * @param simulator A reference to the main simulator object.
+         * This function performs some basic sanity checks on the parameter
+         * values previously read from the input file.
          */
-        virtual void initialize (const Simulator<dim> &simulator);
+        virtual void initialize ();
 
       private:
         /**

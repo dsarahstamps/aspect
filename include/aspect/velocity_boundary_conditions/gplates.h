@@ -17,13 +17,14 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id$  */
 
 
 #ifndef __aspect__velocity_boundary_conditions_gplates_h
 #define __aspect__velocity_boundary_conditions_gplates_h
 
 #include <aspect/velocity_boundary_conditions/interface.h>
+#include <deal.II/base/std_cxx11/array.h>
+#include <deal.II/base/table.h>
 #include <aspect/simulator_access.h>
 
 
@@ -64,7 +65,8 @@ namespace aspect
            */
           template <int dim>
           void screen_output(const Tensor<1,2> &surface_point_one,
-                             const Tensor<1,2> &surface_point_two) const;
+                             const Tensor<1,2> &surface_point_two,
+                             const ConditionalOStream &pcout) const;
 
           /**
            * Check whether a file named @p filename exists.
@@ -76,7 +78,7 @@ namespace aspect
            * file does not exist.
            */
           void load_file(const std::string &filename,
-                         const bool screen_output);
+                         const ConditionalOStream &pcout);
 
           /**
            * Returns the computed surface velocity in cartesian coordinates.
@@ -95,21 +97,21 @@ namespace aspect
           /**
            * Tables which contain the velocities
            */
-          dealii::Table<2,Tensor<1,3> > velocity_vals;
-          dealii::Table<2,Tensor<1,3> > old_velocity_vals;
+          Table<2,Tensor<1,3> > velocity_vals;
+          Table<2,Tensor<1,3> > old_velocity_vals;
 
           /**
            * Table for the data point positions.
            */
-          dealii::Table<2,Tensor<1,3> > velocity_positions;
+          Table<2,Tensor<1,3> > velocity_positions;
 
           /**
            * Pointers to the actual tables. Used to avoid unnecessary copying
            * of values. These pointers point to either velocity_vals or
            * old_velocity_vals.
            */
-          dealii::Table<2,Tensor<1,3> > *velocity_values;
-          dealii::Table<2,Tensor<1,3> > *old_velocity_values;
+          Table<2,Tensor<1,3> > *velocity_values;
+          Table<2,Tensor<1,3> > *old_velocity_values;
 
           /**
            * Distances between adjacent point in the Lat/Long grid
@@ -117,12 +119,11 @@ namespace aspect
           double delta_phi, delta_theta;
 
           /**
-           * The rotation axis and angle around which a 2D model needs to be
-           * rotated to be transformed to a plane that contains the origin and
+           * The matrix, which describes the rotation by which a 2D model
+           * needs to be transformed to a plane that contains the origin and
            * the two user prescribed points. Is not used for 3D.
            */
-          Tensor<1,3> rotation_axis;
-          double rotation_angle;
+          Tensor<2,3> rotation_matrix;
 
           /**
            * Determines the width of the velocity interpolation zone around
@@ -140,9 +141,35 @@ namespace aspect
            * defined angle
            */
           Tensor<1,3>
-          rotate (const Tensor<1,3> &position,
-                  const Tensor<1,3> &rotation_axis,
-                  const double angle) const;
+          rotate_around_axis (const Tensor<1,3> &position,
+                              const Tensor<1,3> &rotation_axis,
+                              const double angle) const;
+
+          /**
+           * A function that returns the corresponding paraview angles for a
+           * rotation described by a rotation matrix. These differ from the
+           * usually used euler angles by assuming a rotation around the
+           * coordinate axes in the order y-x-z (instead of the often used
+           * z-x-z)
+           */
+          std_cxx11::array<double,3>
+          angles_from_matrix (const Tensor<2,3> &rotation_matrix) const;
+
+          /**
+           * A function that returns the corresponding rotation axis/angle for
+           * a rotation described by a rotation matrix.
+           */
+          double
+          rotation_axis_from_matrix (Tensor<1,3> &rotation_axis,
+                                     const Tensor<2,3> &rotation_matrix) const;
+
+          /**
+           * A function that returns the corresponding euler angles for a
+           * rotation described by rotation axis and angle.
+           */
+          Tensor<2,3>
+          rotation_matrix_from_axis (const Tensor<1,3> &rotation_axis,
+                                     const double rotation_angle) const;
 
           /**
            * Convert a tensor of rank 1 and dimension in to rank 1 and
@@ -151,11 +178,6 @@ namespace aspect
            */
           template <int in, int out>
           Tensor<1,out> convert_tensor (const Tensor<1,in> &old_tensor) const;
-
-          /**
-           * Returns spherical coordinates of a cartesian position.
-           */
-          Tensor<1,3> spherical_surface_coordinates(const Tensor<1,3> &position) const;
 
           /**
            * Return the cartesian coordinates of a spherical surface position
@@ -245,6 +267,14 @@ namespace aspect
            */
           void
           reformat_indices (int idx[2]) const;
+
+          /**
+           * Check whether the gpml file was created by GPlates1.4 or later.
+           * We need to know this, because the mesh has changed its longitude
+           * origin from 0 to -180 degrees and we need to correct for this.
+           */
+          bool
+          gplates_1_4_or_higher(const boost::property_tree::ptree &pt) const;
       };
     }
 
@@ -272,18 +302,19 @@ namespace aspect
 
         /**
          * Initialization function. This function is called once at the
-         * beginning of the program. Parses the user input and checks for
-         * valid geometry model.
+         * beginning of the program. Checks preconditions.
          */
+        virtual
         void
-        initialize (const GeometryModel::Interface<dim> &geometry_model);
+        initialize ();
 
         /**
-         * A function that is called at the beginning of each time step.
-         * For the current plugin, this function loads the next velocity files if necessary
-         * and outputs a warning if the end of the set of velocity files is
-         * reached.
+         * A function that is called at the beginning of each time step. For
+         * the current plugin, this function loads the next velocity files if
+         * necessary and outputs a warning if the end of the set of velocity
+         * files is reached.
          */
+        virtual
         void
         update ();
 
@@ -302,8 +333,8 @@ namespace aspect
 
       private:
         /**
-         * A variable that stores the current time of the simulation, but relative
-         * to the velocity_file_start_time.
+         * A variable that stores the current time of the simulation, but
+         * relative to the velocity_file_start_time.
          */
         double time_relative_to_vel_file_start_time;
 
@@ -351,6 +382,11 @@ namespace aspect
         bool time_dependent;
 
         /**
+         * Scale the velocity boundary condition by a scalar factor.
+         */
+        double scale_factor;
+
+        /**
          * Two user defined points that prescribe the plane from which the 2D
          * model takes the velocity boundary condition. One can think of this,
          * as if the model is lying in this plane although no actual model
@@ -380,21 +416,20 @@ namespace aspect
          * Pointer to an object that reads and processes data we get from
          * gplates files.
          */
-        std_cxx1x::shared_ptr<internal::GPlatesLookup> lookup;
+        std_cxx11::shared_ptr<internal::GPlatesLookup> lookup;
 
         /**
          * Handles the update of the velocity data in lookup.
          */
         void
-        update_velocity_data (const bool first_process);
+        update_velocity_data ();
 
         /**
          * Handles settings and user notification in case the time-dependent
          * part of the boundary condition is over.
          */
         void
-        end_time_dependence (const int timestep,
-                             const bool first_process);
+        end_time_dependence (const int timestep);
 
         /**
          * Create a filename out of the name template.

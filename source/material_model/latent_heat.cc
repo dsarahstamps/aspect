@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2014 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2015 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -17,7 +17,6 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id: simple.cc 1328 2012-10-25 13:24:16Z bangerth $  */
 
 
 #include <aspect/material_model/latent_heat.h>
@@ -38,7 +37,7 @@ namespace aspect
                     const int phase) const
     {
       // if we already have the adiabatic conditions, we can use them
-      if (&this->get_adiabatic_conditions())
+      if (this->get_adiabatic_conditions().is_initialized())
         {
           // first, get the pressure at which the phase transition occurs normally
           // and get the pressure change in the range of the phase transition
@@ -91,13 +90,13 @@ namespace aspect
     template <int dim>
     double
     LatentHeat<dim>::
-    phase_function_derivative (const Point<dim> &position,
+    phase_function_derivative (const Point<dim> &,
                                const double temperature,
                                const double pressure,
                                const int phase) const
     {
       // we already should have the adiabatic conditions here
-      AssertThrow (&this->get_adiabatic_conditions(),
+      AssertThrow (this->get_adiabatic_conditions().is_initialized(),
                    ExcMessage("need adiabatic conditions to incorporate phase transitions"));
 
       // first, get the pressure at which the phase transition occurs normally
@@ -125,10 +124,10 @@ namespace aspect
     double
     LatentHeat<dim>::
     viscosity (const double temperature,
-               const double pressure,
+               const double,
                const std::vector<double> &composition,       /*composition*/
                const SymmetricTensor<2,dim> &,
-               const Point<dim> &position) const
+               const Point<dim> &) const
     {
       const double delta_temp = temperature-reference_T;
       double temperature_dependence = std::max(std::min(std::exp(-thermal_viscosity_exponent*delta_temp/reference_T),1e2),1e-2);
@@ -197,7 +196,7 @@ namespace aspect
     thermal_conductivity (const double,
                           const double,
                           const std::vector<double> &, /*composition*/
-                          const Point<dim> &position) const
+                          const Point<dim> &) const
     {
       return k_value;
     }
@@ -223,7 +222,7 @@ namespace aspect
       if (this->include_adiabatic_heating ())
         {
           // temperature dependence is 1 - alpha * (T - T(adiabatic))
-          if (&this->get_adiabatic_conditions())
+          if (this->get_adiabatic_conditions().is_initialized())
             temperature_dependence -= (temperature - this->get_adiabatic_conditions().temperature(position))
                                       * thermal_expansion_coefficient(temperature, pressure, compositional_fields, position);
         }
@@ -271,14 +270,8 @@ namespace aspect
           }
 
       // fourth, pressure dependence of density
-      double pressure_dependence = 0.0;
-      if (is_compressible() && &this->get_adiabatic_conditions())
-        {
-          const Point<dim> surface_point = this->get_geometry_model().representative_point(0.0);
-          const double adiabatic_surface_pressure = this->get_adiabatic_conditions().pressure(surface_point);
-          const double kappa = compressibility(temperature,pressure,compositional_fields,position);
-          pressure_dependence = kappa * (pressure - adiabatic_surface_pressure);
-        }
+      const double kappa = compressibility(temperature,pressure,compositional_fields,position);
+      const double pressure_dependence = reference_rho * kappa * (pressure - this->get_surface_pressure());
 
       // in the end, all the influences are added up
       return (reference_rho + composition_dependence + pressure_dependence + phase_dependence) * temperature_dependence;
@@ -288,10 +281,10 @@ namespace aspect
     template <int dim>
     double
     LatentHeat<dim>::
-    thermal_expansion_coefficient (const double temperature,
+    thermal_expansion_coefficient (const double,
                                    const double,
                                    const std::vector<double> &, /*composition*/
-                                   const Point<dim> &position) const
+                                   const Point<dim> &) const
     {
       return thermal_alpha;
     }
@@ -320,7 +313,7 @@ namespace aspect
     {
       double entropy_gradient = 0.0;
       const double rho = density (temperature, pressure, compositional_fields, position);
-      if (&this->get_adiabatic_conditions() && this->include_latent_heat())
+      if (this->get_adiabatic_conditions().is_initialized() && this->include_latent_heat())
         for (unsigned int phase=0; phase<transition_depths.size(); ++phase)
           {
             //calculate derivative of the phase function
@@ -402,7 +395,7 @@ namespace aspect
     template <int dim>
     bool
     LatentHeat<dim>::
-    thermal_conductivity_depends_on (const NonlinearDependence::Dependence dependence) const
+    thermal_conductivity_depends_on (const NonlinearDependence::Dependence) const
     {
       return false;
     }
@@ -524,12 +517,6 @@ namespace aspect
                              "viscosity for each phase. "
                              "List must have one more entry than Phase transition depths. "
                              "Units: non-dimensional.");
-          prm.declare_entry ("Activation enthalpies", "",
-                             Patterns::List (Patterns::Double(0)),
-                             "A list of activation enthalpies for the temperature dependence of the "
-                             "viscosity of each phase. "
-                             "List must have one more entry than Phase transition depths. "
-                             "Units: $1/K$.");
         }
         prm.leave_subsection();
       }
@@ -571,16 +558,13 @@ namespace aspect
                               (Utilities::split_string_list(prm.get ("Corresponding phase for density jump")));
           phase_prefactors = Utilities::string_to_double
                              (Utilities::split_string_list(prm.get ("Viscosity prefactors")));
-          activation_enthalpies = Utilities::string_to_double
-                                  (Utilities::split_string_list(prm.get ("Activation enthalpies")));
 
           if (transition_widths.size() != transition_depths.size() ||
               transition_temperatures.size() != transition_depths.size() ||
               transition_slopes.size() != transition_depths.size() ||
               density_jumps.size() != transition_depths.size() ||
               transition_phases.size() != transition_depths.size() ||
-              phase_prefactors.size() != transition_depths.size()+1 ||
-              activation_enthalpies.size() != transition_depths.size()+1)
+              phase_prefactors.size() != transition_depths.size()+1)
             AssertThrow(false, ExcMessage("Error: At least one list that gives input parameters for the phase transitions has the wrong size."));
 
           if (thermal_viscosity_exponent!=0.0 && reference_T == 0.0)

@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2014 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2015 by the authors of the ASPECT code.
 
  This file is part of ASPECT.
 
@@ -17,7 +17,6 @@
  along with ASPECT; see the file doc/COPYING.  If not see
  <http://www.gnu.org/licenses/>.
  */
-/*  $Id$  */
 
 #include <aspect/particle/output.h>
 #include <aspect/particle/particle.h>
@@ -111,6 +110,9 @@ namespace aspect
           output_particle_data(const std::multimap<LevelInd, T> &particles,
                                const double &current_time)
           {
+            // avoid warnings about unused variables
+            (void)current_time;
+
             typename std::multimap<LevelInd, T>::const_iterator  it;
             unsigned int                            i;
             std::string                             output_file_prefix, output_path_prefix, full_filename;
@@ -561,6 +563,10 @@ namespace aspect
 
                 data_out.write_xdmf_file(xdmf_entries, xdmf_filename.c_str(), this->communicator);
               }
+#else
+            // avoid warnings about unused variables
+            (void)particles;
+            (void)current_time;
 #endif
 
             this->file_index++;

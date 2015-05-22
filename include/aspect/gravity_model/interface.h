@@ -17,7 +17,6 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id$  */
 
 
 #ifndef __aspect__gravity_model_interface_h
@@ -53,6 +52,13 @@ namespace aspect
          * virtual destructors.
          */
         virtual ~Interface();
+
+        /**
+         * Initialization function. This function is called once at the
+         * beginning of the program after parse_parameters is run and after
+         * the SimulatorAccess (if applicable) is initialized.
+         */
+        virtual void initialize ();
 
         /**
          * Return the gravity vector as a function of position.
@@ -121,6 +127,9 @@ namespace aspect
      * object that describes it. Ownership of the pointer is transferred to
      * the caller.
      *
+     * The model object returned is not yet initialized and has not read its
+     * runtime parameters yet.
+     *
      * @ingroup GravityModels
      */
     template <int dim>
@@ -150,10 +159,10 @@ namespace aspect
   template class classname<3>; \
   namespace ASPECT_REGISTER_GRAVITY_MODEL_ ## classname \
   { \
-    aspect::internal::Plugins::RegisterHelper<Interface<2>,classname<2> > \
+    aspect::internal::Plugins::RegisterHelper<aspect::GravityModel::Interface<2>,classname<2> > \
     dummy_ ## classname ## _2d (&aspect::GravityModel::register_gravity_model<2>, \
                                 name, description); \
-    aspect::internal::Plugins::RegisterHelper<Interface<3>,classname<3> > \
+    aspect::internal::Plugins::RegisterHelper<aspect::GravityModel::Interface<3>,classname<3> > \
     dummy_ ## classname ## _3d (&aspect::GravityModel::register_gravity_model<3>, \
                                 name, description); \
   }

@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2014 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2015 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -17,7 +17,6 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id$  */
 
 
 #include <aspect/boundary_temperature/spherical_constant.h>
@@ -37,9 +36,11 @@ namespace aspect
     double
     SphericalConstant<dim>::
     temperature (const GeometryModel::Interface<dim> &geometry_model,
-                 const unsigned int                   boundary_indicator,
-                 const Point<dim>                    &location) const
+                 const types::boundary_id             boundary_indicator,
+                 const Point<dim> &) const
     {
+      (void)geometry_model;
+
       // verify that the geometry is in fact a spherical shell since only
       // for this geometry do we know for sure what boundary indicators it
       // uses and what they mean
@@ -64,7 +65,7 @@ namespace aspect
     template <int dim>
     double
     SphericalConstant<dim>::
-    minimal_temperature (const std::set<types::boundary_id> &fixed_boundary_ids) const
+    minimal_temperature (const std::set<types::boundary_id> &) const
     {
       return std::min (inner_temperature, outer_temperature);
     }
@@ -74,7 +75,7 @@ namespace aspect
     template <int dim>
     double
     SphericalConstant<dim>::
-    maximal_temperature (const std::set<types::boundary_id> &fixed_boundary_ids) const
+    maximal_temperature (const std::set<types::boundary_id> &) const
     {
       return std::max (inner_temperature, outer_temperature);
     }

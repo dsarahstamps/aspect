@@ -17,7 +17,6 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id$  */
 
 
 #ifndef __aspect__velocity_boundary_conditions_interface_h
@@ -57,18 +56,19 @@ namespace aspect
         virtual ~Interface();
 
         /**
-         * Initialization function. Takes a reference to the geometry model so
-         * that derived classes can access them.
+         * Initialization function. This function is called once at the
+         * beginning of the program after parse_parameters is run and after
+         * the SimulatorAccess (if applicable) is initialized.
          */
         virtual
         void
-        initialize (const GeometryModel::Interface<dim> &geometry_model);
+        initialize ();
 
         /**
-         * A function that is called at the beginning of each time step.
-         * The default implementation of the function does nothing, but
-         * derived classes that need more elaborate setups for a given time
-         * step may overload the function.
+         * A function that is called at the beginning of each time step. The
+         * default implementation of the function does nothing, but derived
+         * classes that need more elaborate setups for a given time step may
+         * overload the function.
          *
          * The point of this function is to allow complex boundary velocity
          * models to do an initialization step once at the beginning of each
@@ -105,12 +105,6 @@ namespace aspect
         virtual
         void
         parse_parameters (ParameterHandler &prm);
-
-      protected:
-        /**
-         * Pointer to the geometry object in use.
-         */
-        const GeometryModel::Interface<dim> *geometry_model;
     };
 
 
@@ -144,17 +138,14 @@ namespace aspect
      * object that describes it. Ownership of the pointer is transferred to
      * the caller.
      *
-     * This function makes the newly created object read its parameters from
-     * the input parameter object, and then initializes it with the given
-     * geometry model.
+     * The model object returned is not yet initialized and has not read its
+     * runtime parameters yet.
      *
      * @ingroup VelocityBoundaryConditionsModels
      */
     template <int dim>
     Interface<dim> *
-    create_velocity_boundary_conditions (const std::string &name,
-                                         ParameterHandler &prm,
-                                         const GeometryModel::Interface<dim> &geometry_model);
+    create_velocity_boundary_conditions (const std::string &name);
 
     /**
      * Return a list of names of all implemented boundary velocity models,
@@ -189,10 +180,10 @@ namespace aspect
   template class classname<3>; \
   namespace ASPECT_REGISTER_VELOCITY_BOUNDARY_CONDITIONS_ ## classname \
   { \
-    aspect::internal::Plugins::RegisterHelper<Interface<2>,classname<2> > \
+    aspect::internal::Plugins::RegisterHelper<aspect::VelocityBoundaryConditions::Interface<2>,classname<2> > \
     dummy_ ## classname ## _2d (&aspect::VelocityBoundaryConditions::register_velocity_boundary_conditions_model<2>, \
                                 name, description); \
-    aspect::internal::Plugins::RegisterHelper<Interface<3>,classname<3> > \
+    aspect::internal::Plugins::RegisterHelper<aspect::VelocityBoundaryConditions::Interface<3>,classname<3> > \
     dummy_ ## classname ## _3d (&aspect::VelocityBoundaryConditions::register_velocity_boundary_conditions_model<3>, \
                                 name, description); \
   }

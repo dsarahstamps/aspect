@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2014 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2015 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -17,7 +17,6 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id$  */
 
 
 #include <aspect/boundary_temperature/initial_temperature.h>
@@ -33,8 +32,8 @@ namespace aspect
     template <int dim>
     double
     InitialTemperature<dim>::
-    temperature (const GeometryModel::Interface<dim> &geometry_model,
-                 const unsigned int                   boundary_indicator,
+    temperature (const GeometryModel::Interface<dim> &,
+                 const types::boundary_id             ,
                  const Point<dim>                    &location) const
     {
       return this->get_initial_conditions().initial_temperature(location);
@@ -44,7 +43,7 @@ namespace aspect
     template <int dim>
     double
     InitialTemperature<dim>::
-    minimal_temperature (const std::set<types::boundary_id> &fixed_boundary_ids) const
+    minimal_temperature (const std::set<types::boundary_id> &) const
     {
       return min_temperature;
     }
@@ -54,7 +53,7 @@ namespace aspect
     template <int dim>
     double
     InitialTemperature<dim>::
-    maximal_temperature (const std::set<types::boundary_id> &fixed_boundary_ids) const
+    maximal_temperature (const std::set<types::boundary_id> &) const
     {
       return max_temperature;
     }
@@ -107,8 +106,8 @@ namespace aspect
   {
     ASPECT_REGISTER_BOUNDARY_TEMPERATURE_MODEL(InitialTemperature,
                                                "initial temperature",
-                                               "A model in which the temperature at the boundary"
-                                               "is chosen to be the same as given in the initial"
+                                               "A model in which the temperature at the boundary "
+                                               "is chosen to be the same as given in the initial "
                                                "conditions."
                                                "\n\n"
                                                "Because this class simply takes what the initial "

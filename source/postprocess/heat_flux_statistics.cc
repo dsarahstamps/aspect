@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2014 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2015 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -17,7 +17,6 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id$  */
 
 
 #include <aspect/postprocess/heat_flux_statistics.h>
@@ -31,6 +30,21 @@ namespace aspect
 {
   namespace Postprocess
   {
+    namespace
+    {
+      /**
+       * Given a string #s, return it in the form ' ("s")' if nonempty.
+       * Otherwise just return the empty string itself.
+       */
+      std::string parenthesize_if_nonempty (const std::string &s)
+      {
+        if (s.size() > 0)
+          return " (\"" + s + "\")";
+        else
+          return "";
+      }
+    }
+
     template <int dim>
     std::pair<std::string,std::string>
     HeatFluxStatistics<dim>::execute (TableHandler &statistics)
@@ -114,8 +128,13 @@ namespace aspect
                       fe_face_values.JxW(q);
                   }
 
-                local_boundary_fluxes[cell->face(f)->boundary_indicator()]
-                += local_normal_flux;
+                const types::boundary_id boundary_indicator
+#if DEAL_II_VERSION_GTE(8,3,0)
+                  = cell->face(f)->boundary_id();
+#else
+                  = cell->face(f)->boundary_indicator();
+#endif
+                local_boundary_fluxes[boundary_indicator] += local_normal_flux;
               }
 
       // now communicate to get the global values
@@ -154,6 +173,8 @@ namespace aspect
         {
           const std::string name = "Outward heat flux through boundary with indicator "
                                    + Utilities::int_to_string(p->first)
+                                   + parenthesize_if_nonempty(this->get_geometry_model()
+                                                              .translate_id_to_symbol_name (p->first))
                                    + " (W)";
           statistics.add_value (name, p->second);
 

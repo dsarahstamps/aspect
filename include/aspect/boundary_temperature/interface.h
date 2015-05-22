@@ -17,7 +17,6 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id$  */
 
 
 #ifndef __aspect__boundary_temperature_interface_h
@@ -58,6 +57,13 @@ namespace aspect
         virtual ~Interface();
 
         /**
+         * Initialization function. This function is called once at the
+         * beginning of the program after parse_parameters is run and after
+         * the SimulatorAccess (if applicable) is initialized.
+         */
+        virtual void initialize ();
+
+        /**
          * Return the temperature that is to hold at a particular location on
          * the boundary of the domain.
          *
@@ -72,7 +78,7 @@ namespace aspect
          */
         virtual
         double temperature (const GeometryModel::Interface<dim> &geometry_model,
-                            const unsigned int                   boundary_indicator,
+                            const types::boundary_id             boundary_indicator,
                             const Point<dim>                    &location) const = 0;
 
         /**
@@ -96,6 +102,21 @@ namespace aspect
         virtual
         double maximal_temperature (const std::set<types::boundary_id> &fixed_boundary_ids =
                                       std::set<types::boundary_id>()) const = 0;
+
+        /**
+         * A function that is called at the beginning of each time step. The
+         * default implementation of the function does nothing, but derived
+         * classes that need more elaborate setups for a given time step may
+         * overload the function.
+         *
+         * The point of this function is to allow complex boundary temperature
+         * models to do an initialization step once at the beginning of each
+         * time step. An example would be a model that needs to call an
+         * external program to compute temperature change at bottom.
+         */
+        virtual
+        void
+        update ();
 
         /**
          * Declare the parameters this class takes through input files. The
@@ -146,6 +167,9 @@ namespace aspect
      * object that describes it. Ownership of the pointer is transferred to
      * the caller.
      *
+     * The model object returned is not yet initialized and has not read its
+     * runtime parameters yet.
+     *
      * @ingroup BoundaryTemperatures
      */
     template <int dim>
@@ -176,10 +200,10 @@ namespace aspect
   template class classname<3>; \
   namespace ASPECT_REGISTER_BOUNDARY_TEMPERATURE_MODEL_ ## classname \
   { \
-    aspect::internal::Plugins::RegisterHelper<Interface<2>,classname<2> > \
+    aspect::internal::Plugins::RegisterHelper<aspect::BoundaryTemperature::Interface<2>,classname<2> > \
     dummy_ ## classname ## _2d (&aspect::BoundaryTemperature::register_boundary_temperature<2>, \
                                 name, description); \
-    aspect::internal::Plugins::RegisterHelper<Interface<3>,classname<3> > \
+    aspect::internal::Plugins::RegisterHelper<aspect::BoundaryTemperature::Interface<3>,classname<3> > \
     dummy_ ## classname ## _3d (&aspect::BoundaryTemperature::register_boundary_temperature<3>, \
                                 name, description); \
   }

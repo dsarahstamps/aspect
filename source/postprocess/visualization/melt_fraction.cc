@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2014 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2015 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -17,13 +17,11 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id$  */
 
 
 #include <aspect/postprocess/visualization/melt_fraction.h>
 #include <aspect/simulator_access.h>
 
-#include <deal.II/numerics/data_out.h>
 #include <deal.II/base/parameter_handler.h>
 
 
@@ -47,25 +45,25 @@ namespace aspect
       void
       MeltFraction<dim>::
       compute_derived_quantities_vector (const std::vector<Vector<double> >              &uh,
-                                         const std::vector<std::vector<Tensor<1,dim> > > &duh,
-                                         const std::vector<std::vector<Tensor<2,dim> > > &dduh,
-                                         const std::vector<Point<dim> >                  &normals,
-                                         const std::vector<Point<dim> >                  &evaluation_points,
+                                         const std::vector<std::vector<Tensor<1,dim> > > &,
+                                         const std::vector<std::vector<Tensor<2,dim> > > &,
+                                         const std::vector<Point<dim> > &,
+                                         const std::vector<Point<dim> > &,
                                          std::vector<Vector<double> >                    &computed_quantities) const
       {
         const unsigned int n_quadrature_points = uh.size();
         Assert (computed_quantities.size() == n_quadrature_points,    ExcInternalError());
         Assert (computed_quantities[0].size() == 1,                   ExcInternalError());
-        Assert (uh[0].size() == dim+2+this->n_compositional_fields(), ExcInternalError());
+        Assert (uh[0].size() == this->introspection().n_components,           ExcInternalError());
 
         for (unsigned int q=0; q<n_quadrature_points; ++q)
           {
-            const double pressure    = uh[q][dim];
-            const double temperature = uh[q][dim+1];
+            const double pressure    = uh[q][this->introspection().component_indices.pressure];
+            const double temperature = uh[q][this->introspection().component_indices.temperature];
             std::vector<double> composition(this->n_compositional_fields());
 
             for (unsigned int c=0; c<this->n_compositional_fields(); ++c)
-              composition[c] = uh[q][dim+2+c];
+              composition[c] = uh[q][this->introspection().component_indices.compositional_fields[c]];
 
             // anhydrous melting of peridotite after Katz, 2003
             const double T_solidus  = A1 + 273.15
@@ -94,7 +92,7 @@ namespace aspect
             if (peridotite_melt_fraction > F_max && temperature < T_liquidus)
               {
                 const double T_max = std::pow(F_max,1/beta) * (T_lherz_liquidus - T_solidus) + T_solidus;
-                peridotite_melt_fraction = F_max + (1 - F_max) * (temperature - T_max) / (T_liquidus - T_max);
+                peridotite_melt_fraction = F_max + (1 - F_max) * pow((temperature - T_max) / (T_liquidus - T_max),beta);
               }
 
             // melting of pyroxenite after Sobolev et al., 2011
@@ -194,7 +192,7 @@ namespace aspect
                                  "in the quadratic function that approximates "
                                  "the liquidus of peridotite. "
                                  "Units: $°C/(Pa^2)$.");
-              prm.declare_entry ("r1", "0.4",
+              prm.declare_entry ("r1", "0.5",
                                  Patterns::Double (),
                                  "Constant in the linear function that "
                                  "approximates the clinopyroxene reaction "
@@ -211,7 +209,7 @@ namespace aspect
                                  "Exponent of the melting temperature in "
                                  "the melt fraction calculation. "
                                  "Units: non-dimensional.");
-              prm.declare_entry ("Mass fraction cpx", "0.3",
+              prm.declare_entry ("Mass fraction cpx", "0.15",
                                  Patterns::Double (),
                                  "Mass fraction of clinopyroxene in the "
                                  "peridotite to be molten. "
@@ -222,11 +220,15 @@ namespace aspect
                                  "function that approximates the solidus "
                                  "of pyroxenite. "
                                  "Units: $°C$.");
-              prm.declare_entry ("D2", "1.23e-7",
+              prm.declare_entry ("D2", "1.329e-7",
                                  Patterns::Double (),
                                  "Prefactor of the linear pressure term "
                                  "in the quadratic function that approximates "
                                  "the solidus of pyroxenite. "
+                                 "Note that this factor is different from the "
+                                 "value given in Sobolev, 2011, because they use "
+                                 "the potential temperature whereas we use the "
+                                 "absolute temperature. "
                                  "Units: $°C/Pa$.");
               prm.declare_entry ("D3", "-5.1e-18",
                                  Patterns::Double (),
@@ -234,7 +236,7 @@ namespace aspect
                                  "in the quadratic function that approximates "
                                  "the solidus of pyroxenite. "
                                  "Units: $°C/(Pa^2)$.");
-              prm.declare_entry ("E1", "633.8",
+              prm.declare_entry ("E1", "663.8",
                                  Patterns::Double (),
                                  "Prefactor of the linear depletion term "
                                  "in the quadratic function that approximates "
@@ -302,11 +304,27 @@ namespace aspect
     namespace VisualizationPostprocessors
     {
       ASPECT_REGISTER_VISUALIZATION_POSTPROCESSOR(MeltFraction,
-                                                  "melt fraction",
+                                                  "melt fraction", // TODO write down equations here
                                                   "A visualization output object that generates output "
                                                   "for the melt fraction at the temperature and "
                                                   "pressure of the current point (batch melting). "
-                                                  "Does not take into account latent heat.")
+                                                  "Does not take into account latent heat. "
+                                                  "If there are no compositional fields, this postprocessor "
+                                                  "will visualize the melt fraction of peridotite "
+                                                  "(calculated using the anhydrous model of Katz, 2003). "
+                                                  "If there is at least one compositional field, the "
+                                                  "postprocessor assumes that the  first compositional "
+                                                  "field is the content of pyroxenite, and will visualize "
+                                                  "the melt fraction for a mixture of peridotite and pyroxenite "
+                                                  "(using the melting model of Sobolev, 2011 for pyroxenite). "
+                                                  "All the parameters that were used in these calculations "
+                                                  "can be changed in the input file, the most relevant maybe "
+                                                  "being the mass fraction of Cpx in peridotite in the Katz "
+                                                  "melting model (Mass fraction cpx), which right now has a "
+                                                  "default of 15\\%. "
+                                                  "The corresponding p-T-diagrams can be generated by running "
+                                                  "the tests melt\\_postprocessor\\_peridotite and "
+                                                  "melt\\_postprocessor\\_pyroxenite.")
     }
   }
 }

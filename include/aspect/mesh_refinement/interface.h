@@ -17,7 +17,6 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id$  */
 
 
 #ifndef __aspect__mesh_refinement_interface_h
@@ -25,8 +24,9 @@
 
 #include <aspect/global.h>
 #include <aspect/plugins.h>
+#include <aspect/simulator_access.h>
 
-#include <deal.II/base/std_cxx1x/shared_ptr.h>
+#include <deal.II/base/std_cxx11/shared_ptr.h>
 #include <deal.II/base/table_handler.h>
 #include <deal.II/base/parameter_handler.h>
 #include <deal.II/distributed/tria.h>
@@ -37,6 +37,7 @@ namespace aspect
   using namespace dealii;
 
   template <int dim> class Simulator;
+  template <int dim> class SimulatorAccess;
 
 
   /**
@@ -50,9 +51,17 @@ namespace aspect
 
     /**
      * This class declares the public interface of mesh refinement plugins.
-     * These plugins must implement a function that can be called between time
-     * steps to refine the mesh based on the solution and/or the location of a
-     * cell.
+     * Plugins have two different ways to influence adaptive refinement (and
+     * can make use of either or both):
+     *
+     * First, execute() allows the plugin to specify weights for individual
+     * cells that are then used to coarsen and refine (where larger numbers
+     * indicate a larger error).
+     *
+     * Second, after cells get flagged for coarsening and refinement (using
+     * the first approach), tag_additional_cells() is executed for each
+     * plugin. Here the plugin is free to set or clear coarsen and refine
+     * flags on any cell.
      *
      * Access to the data of the simulator is granted by the @p protected
      * member functions of the SimulatorAccess class, i.e., classes
@@ -73,7 +82,15 @@ namespace aspect
         ~Interface ();
 
         /**
-         * Execute this mesh refinement criterion.
+         * Initialization function. This function is called once at the
+         * beginning of the program after parse_parameters is run and after
+         * the SimulatorAccess (if applicable) is initialized.
+         */
+        virtual void initialize ();
+
+        /**
+         * Execute this mesh refinement criterion. The default implementation
+         * sets all the error indicators to zero.
          *
          * @param[out] error_indicators A vector that for every active cell of
          * the current mesh (which may be a partition of a distributed mesh)
@@ -82,7 +99,21 @@ namespace aspect
          */
         virtual
         void
-        execute (Vector<float> &error_indicators) const = 0;
+        execute (Vector<float> &error_indicators) const;
+
+        /**
+         * After cells have been marked for coarsening/refinement, apply
+         * additional criteria independent of the error estimate. The default
+         * implementation does nothing.
+         *
+         * This function is also called during the initial global refinement
+         * cycle. At this point you do not have access to solutions,
+         * DoFHandlers, or finite element spaces. You can check if this is the
+         * case by querying this->get_dof_handler().n_dofs() == 0.
+         */
+        virtual
+        void
+        tag_additional_cells () const;
 
         /**
          * Declare the parameters this class takes through input files.
@@ -124,7 +155,7 @@ namespace aspect
      * @ingroup MeshRefinement
      */
     template <int dim>
-    class Manager
+    class Manager : public ::aspect::SimulatorAccess<dim>
     {
       public:
         /**
@@ -132,16 +163,6 @@ namespace aspect
          * functions.
          */
         virtual ~Manager ();
-
-        /**
-         * Initialize the plugins handled by this object for a given
-         * simulator.
-         *
-         * @param simulator A reference to the main simulator object to which
-         * the postprocessor implemented in the derived class should be
-         * applied.
-         */
-        void initialize (const Simulator<dim> &simulator);
 
         /**
          * Execute all of the mesh refinement objects that have been requested
@@ -152,6 +173,15 @@ namespace aspect
         virtual
         void
         execute (Vector<float> &error_indicators) const;
+
+        /**
+         * Apply additional refinement criteria independent of the error
+         * estimate for all of the mesh refinement objects that have been
+         * requested in the input file.
+         */
+        virtual
+        void
+        tag_additional_cells () const;
 
         /**
          * Declare the parameters of all known mesh refinement plugins, as
@@ -230,13 +260,7 @@ namespace aspect
          * A list of mesh refinement objects that have been requested in the
          * parameter file.
          */
-        std::list<std_cxx1x::shared_ptr<Interface<dim> > > mesh_refinement_objects;
-
-        /**
-         * An MPI communicator that spans the set of processors on which the
-         * simulator object lives.
-         */
-        MPI_Comm mpi_communicator;
+        std::list<std_cxx11::shared_ptr<Interface<dim> > > mesh_refinement_objects;
     };
 
 
@@ -253,10 +277,10 @@ namespace aspect
   template class classname<3>; \
   namespace ASPECT_REGISTER_MESH_REFINEMENT_CRITERION_ ## classname \
   { \
-    aspect::internal::Plugins::RegisterHelper<Interface<2>,classname<2> > \
+    aspect::internal::Plugins::RegisterHelper<aspect::MeshRefinement::Interface<2>,classname<2> > \
     dummy_ ## classname ## _2d (&aspect::MeshRefinement::Manager<2>::register_mesh_refinement_criterion, \
                                 name, description); \
-    aspect::internal::Plugins::RegisterHelper<Interface<3>,classname<3> > \
+    aspect::internal::Plugins::RegisterHelper<aspect::MeshRefinement::Interface<3>,classname<3> > \
     dummy_ ## classname ## _3d (&aspect::MeshRefinement::Manager<3>::register_mesh_refinement_criterion, \
                                 name, description); \
   }

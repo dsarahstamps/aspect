@@ -17,7 +17,6 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id$  */
 
 
 #ifndef __aspect__simulator_access_h
@@ -30,6 +29,7 @@
 #include <deal.II/fe/mapping_q.h>
 
 #include <aspect/global.h>
+#include <aspect/parameters.h>
 #include <aspect/introspection.h>
 #include <aspect/material_model/interface.h>
 #include <aspect/geometry_model/interface.h>
@@ -40,7 +40,8 @@
 #include <aspect/velocity_boundary_conditions/interface.h>
 #include <aspect/mesh_refinement/interface.h>
 #include <aspect/postprocess/interface.h>
-#include <aspect/adiabatic_conditions.h>
+#include <aspect/heating_model/interface.h>
+#include <aspect/adiabatic_conditions/interface.h>
 
 
 
@@ -108,6 +109,16 @@ namespace aspect
        */
       const Introspection<dim> &
       introspection () const;
+
+      /**
+       * Returns a reference to the Simulator itself. Note that you can not
+       * access any members or functions of the Simulator. This function
+       * exists so that any class with SimulatorAccess can create other
+       * objects with SimulatorAccess (because initializing them requires a
+       * reference to the Simulator).
+       */
+      const Simulator<dim> &
+      get_simulator() const;
 
       /**
        * Return the MPI communicator for this simulation.
@@ -181,10 +192,23 @@ namespace aspect
       include_latent_heat () const;
 
       /**
+       * Return the stokes velocity degree.
+       */
+      int
+      get_stokes_velocity_degree () const;
+
+
+      /**
        * Return the adiabatic surface temperature.
        */
       double
       get_adiabatic_surface_temperature () const;
+
+      /**
+       * Return the adiabatic surface pressure.
+       */
+      double
+      get_surface_pressure () const;
 
       /**
        * Return whether things like velocities should be converted from the
@@ -217,6 +241,13 @@ namespace aspect
       void
       get_artificial_viscosity(Vector<float> &viscosity_per_cell) const;
 
+      /**
+       * Returns the entropy viscosity on each locally owned cell as it is
+       * used to stabilize the composition equation.
+       */
+      void
+      get_artificial_viscosity_composition(Vector<float> &viscosity_per_cell,
+                                           const unsigned int compositional_variable) const;
       /** @} */
 
 
@@ -372,8 +403,18 @@ namespace aspect
        * Return a pointer to the object that describes the adiabatic
        * conditions.
        */
-      const AdiabaticConditions<dim> &
+      const AdiabaticConditions::Interface<dim> &
       get_adiabatic_conditions () const;
+
+      /**
+       * Return whether the current model has a boundary temperature object
+       * set. This is useful because a simulation does not actually have to
+       * declare any boundary temperature model, for example if all
+       * boundaries are insulating. In such cases, there is no
+       * boundary temperature model that can provide, for example,
+       * a minimal and maximal temperature on the boundary.
+       */
+      bool has_boundary_temperature () const;
 
       /**
        * Return a pointer to the object that describes the temperature
@@ -398,12 +439,30 @@ namespace aspect
       get_compositional_initial_conditions () const;
 
       /**
-       * Return a set of boudary indicators that describes which of the
+       * Return a set of boundary indicators that describes which of the
        * boundaries have a fixed temperature.
        */
       const std::set<types::boundary_id> &
       get_fixed_temperature_boundary_indicators () const;
 
+      /**
+       * Return a set of boundary indicators that describes which of the
+       * boundaries have a fixed composition.
+       */
+      const std::set<types::boundary_id> &
+      get_fixed_composition_boundary_indicators () const;
+
+      /**
+       * Return the map of prescribed_velocity_boundary_conditions
+       */
+      const std::map<types::boundary_id,std_cxx11::shared_ptr<VelocityBoundaryConditions::Interface<dim> > >
+      get_prescribed_velocity_boundary_conditions () const;
+
+      /**
+       * Return a pointer to the heating model.
+       */
+      const HeatingModel::Interface<dim> &
+      get_heating_model () const;
 
       /**
        * A convenience function that copies the values of the compositional
@@ -416,6 +475,15 @@ namespace aspect
                                          const unsigned int                      q,
                                          std::vector<double>                    &composition_values_at_q_point);
 
+
+      /**
+       * Find a pointer to a certain postprocessor, if not return a NULL
+       * pointer.
+       */
+      template <typename PostprocessorType>
+      PostprocessorType *
+      find_postprocessor () const;
+
       /** @} */
 
     private:
@@ -424,6 +492,15 @@ namespace aspect
        */
       const Simulator<dim> *simulator;
   };
+
+  template <int dim>
+  template <typename PostprocessorType>
+  inline
+  PostprocessorType *
+  SimulatorAccess<dim>::find_postprocessor () const
+  {
+    return simulator->postprocess_manager.template find_postprocessor<PostprocessorType>();
+  }
 }
 
 
