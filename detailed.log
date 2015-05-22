@@ -1,9 +1,9 @@
 ###
 #
 #  ASPECT configuration:
-#        DEAL_II_DIR:            /usr/local/libs/deal.II/lib/cmake/deal.II
-#        DEAL_II VERSION:        8.0.0
-#        CMAKE_BUILD_TYPE:       Release
+#        DEAL_II_DIR:            /Applications/deal.II.app/Contents/Resources/lib/cmake/deal.II
+#        DEAL_II VERSION:        8.2.1
+#        CMAKE_BUILD_TYPE:       Debug
 #        CMAKE_INSTALL_PREFIX:   /usr/local
 #        CMAKE_SOURCE_DIR:       /usr/local/src/aspect_clone 
 #        CMAKE_BINARY_DIR:       /usr/local/src/aspect_clone
