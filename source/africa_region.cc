@@ -17,7 +17,7 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id: africa_region.cc stamps and bangerth with new Step-53 $  */
+/*  $Id: africa_region.cc stamps and bangerth with new Step-53 Testing $  */
 
 #include <aspect/geometry_model/interface.h>
 #include <aspect/initial_conditions/interface.h>
