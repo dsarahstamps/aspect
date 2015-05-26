@@ -1,0 +1,1 @@
+../aspect/input_files/lithosphere_model_melt.txt

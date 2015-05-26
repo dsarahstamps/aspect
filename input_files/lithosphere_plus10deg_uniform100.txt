@@ -1,0 +1,1 @@
+../../aspect/input_files/lithosphere_plus10deg_uniform100.txt
