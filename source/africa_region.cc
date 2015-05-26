@@ -88,7 +88,8 @@ namespace
     AfricaTopography::get_endpoints ()
     {
       std_cxx11::array<std::pair<double,double>,2> endpoints;
-      endpoints[0] = std::make_pair (-6.983333, 11.966667);
+      //endpoints[0] = std::make_pair (-6.983333, 11.966667);
+      endpoints[0] = std::make_pair (-11.966667, 6.983333);
       endpoints[1] = std::make_pair (25, 35.95);
       return endpoints;
     }
