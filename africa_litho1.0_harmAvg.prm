@@ -2,7 +2,7 @@ set Dimension                              = 3
 
 set Use years in output instead of seconds = true
 set End time                               = 0
-set Output directory                       = africa_litho1.0_crust1.0_g4_harmAvg
+set Output directory                       = africa_litho1.0_crust1.0_g3_hackathon
 set Nonlinear solver scheme                = iterated Stokes
 set Nonlinear solver tolerance             = 1e-4
 set Linear solver tolerance                = 1e-4
@@ -63,7 +63,7 @@ end
 
 subsection Material model
   set Model name = stamps   # previously: simple
-  set Material averaging = harmonic average
+#  set Material averaging = harmonic average
 
   subsection Stamps model
     set Crustal thickness filename = input_files/crust1.0.txt   
