@@ -2,10 +2,10 @@ set Dimension                              = 3
 
 set Use years in output instead of seconds = true
 set End time                               = 0
-set Output directory                       = africa_lithosphere_melt_neumann                 
+set Output directory                       = africa_lithosphere_melt_neumann           
 set Nonlinear solver scheme                = iterated Stokes
-set Nonlinear solver tolerance             = 1e-5
-set Linear solver tolerance                = 1e-4
+set Nonlinear solver tolerance             = 1e-7
+set Linear solver tolerance                = 1e-7
 set Max nonlinear iterations               = 6
 set Temperature solver tolerance           = 1e-7
 set Number of cheap Stokes solver steps    = 0
@@ -17,7 +17,7 @@ subsection Geometry model
   set Model name = africa
 
   subsection Africa
-    set Topography = ../aspect/input_files/topography_uniform100.txt
+    set Topography = input_files/topography_uniform100.txt
     set west longitude = 26.0
     set east longitude = 35.0
     set north latitude = 5.0
@@ -30,7 +30,7 @@ subsection Initial conditions
   set Model name = model regions
 
   subsection Model regions
-    set Isotherm filename = lithosphere_model_melt.txt
+    set Isotherm filename = input_files/lithosphere_model_melt.txt
   end
 end
 
@@ -47,7 +47,6 @@ end
 
 subsection Model settings
   set Fixed temperature boundary indicators   =
-
   set Zero velocity boundary indicators       = 
   set Prescribed velocity boundary indicators =
   set Tangential velocity boundary indicators = 0,1,2,3,4,5
@@ -67,7 +66,7 @@ subsection Material model
   set Model name = stamps   # previously: simple
 
   subsection Stamps model
-    set Crustal thickness filename = ../aspect/input_files/crust_uniform20.txt
+    set Crustal thickness filename = input_files/crust_uniform20.txt
   end
   	
   subsection Simple model
