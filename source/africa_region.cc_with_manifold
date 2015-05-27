@@ -17,7 +17,7 @@
   along with ASPECT; see the file doc/COPYING.  If not see
   <http://www.gnu.org/licenses/>.
 */
-/*  $Id: africa.cc 1538 2013-01-06 03:12:23Z bangerth $  */
+/*  $Id: africa_region.cc stamps and bangerth with new Step-53 $  */
 
 #include <aspect/geometry_model/interface.h>
 #include <aspect/initial_conditions/interface.h>
@@ -33,6 +33,7 @@
 #include <aspect/material_model/interface.h>
 #include <fstream>
 #include <iostream>
+#include <string>
 
 #include <deal.II/grid/grid_tools.h>
 #include <boost/iostreams/filtering_stream.hpp>
@@ -87,7 +88,8 @@ namespace
     AfricaTopography::get_endpoints ()
     {
       std_cxx11::array<std::pair<double,double>,2> endpoints;
-      endpoints[0] = std::make_pair (-6.983333, 11.966667);
+      //endpoints[0] = std::make_pair (-6.983333, 11.966667);
+      endpoints[0] = std::make_pair (-11.966667, 6.983333);
       endpoints[1] = std::make_pair (25, 35.95);
       return endpoints;
     }
@@ -653,7 +655,7 @@ namespace aspect
 	  std::cout << ""<< std::endl;
 	  std::cout << "Southern, middle, and northern latitudes = "<< std::endl;
 	  for (int i = 0; i<6; i++){
-	    string String = static_cast<std::ostringstream*>( &(std::ostringstream() << i))->str();
+	    std::string String = static_cast<std::ostringstream*>( &(std::ostringstream() << i))->str();
 	    std::cout << "latitudes["+ String +"]: " << DomainData::latitudes[i] << std::endl;
 	  }
 
@@ -669,7 +671,7 @@ namespace aspect
 	  std::cout << ""<< std::endl;
 	  std::cout << "Eastern and western longitudes = "<< std::endl;
 	  for (int i = 0; i<6; i++){
-	    string String = static_cast<std::ostringstream*>( &(std::ostringstream() << i))->str();
+	    std::string String = static_cast<std::ostringstream*>( &(std::ostringstream() << i))->str();
 	    std::cout << "longitudes["+ String +"]: " << DomainData::longitudes[i] << std::endl;
 	  }
 

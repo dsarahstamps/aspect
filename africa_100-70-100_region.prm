@@ -2,7 +2,7 @@ set Dimension                              = 3
 
 set Use years in output instead of seconds = true
 set End time                               = 0
-set Output directory                       = africa_100-70-100
+set Output directory                       = africa_100-70-100_region
 set Nonlinear solver scheme                = IMPES
 set Nonlinear solver tolerance             = 1e-4
 set Linear solver tolerance                = 1e-4
@@ -17,7 +17,7 @@ subsection Geometry model
   set Model name = africa
 
   subsection Africa
-    set Topography = ./input_files/topography.txt
+    set Topography = ./input_files/topography_uniform1.txt
     set west longitude = 26.0
     set east longitude = 35.0
     set north latitude = 7.0
@@ -54,7 +54,7 @@ subsection Model settings
 
   set Include adiabatic heating               = false
   set Include shear heating                   = false
-  set Radiogenic heating rate                 = 0
+  #set Radiogenic heating rate                 = 0
 end
 
 
