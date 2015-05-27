@@ -2,7 +2,7 @@ set Dimension                              = 3
 
 set Use years in output instead of seconds = true
 set End time                               = 0
-set Output directory                       = africa_litho1.0_crust1.0_g3_harmAvg
+set Output directory                       = africa_litho1.0_smooth_harmAvg_g3
 set Nonlinear solver scheme                = iterated Stokes
 set Nonlinear solver tolerance             = 1e-4
 set Linear solver tolerance                = 1e-4
@@ -30,7 +30,7 @@ subsection Initial conditions
   set Model name = model regions
 
   subsection Model regions
-    set Isotherm filename = input_files/litho1.0_aspect.txt
+    set Isotherm filename = input_files/litho1.0_smooth_aspect.txt
   end
 end
 
