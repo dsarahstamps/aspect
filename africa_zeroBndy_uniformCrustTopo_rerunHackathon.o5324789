@@ -1,0 +1,42 @@
+TACC: Starting up job 5324789
+TACC: Setting up parallel environment for MVAPICH2+mpispawn.
+TACC: Starting parallel tasks...
+-----------------------------------------------------------------------------
+-- This is ASPECT, the Advanced Solver for Problems in Earth's ConvecTion.
+--     . version 1.4.pre
+--     . running in DEBUG mode
+--     . running with 5 MPI processes
+--     . using Trilinos
+-----------------------------------------------------------------------------
+
+Line <57> of file <input string>: No such entry was declared:
+    Radiogenic heating rate
+    <Present subsection:
+        subsection Model settings
+    >
+
+
+----------------------------------------------------
+Exception on processing: 
+
+--------------------------------------------------------
+An error occurred in line <353> of file </home1/02668/gbg4dss/packages/aspect/source/main.cc> in function
+    void parse_parameters(const string&, dealii::ParameterHandler&)
+The violated condition was: 
+    false
+The name and call sequence of the exception was:
+    dealii::ExcMessage ("Invalid input parameter file.")
+Additional Information: 
+Invalid input parameter file.
+--------------------------------------------------------
+
+Aborting!
+----------------------------------------------------
+[c417-904.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 2, pid: 44756) exited with status 1
+[c417-904.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 0, pid: 44754) exited with status 1
+[c417-904.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 1, pid: 44755) exited with status 1
+[c417-904.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 3, pid: 44757) exited with status 1
+[c417-904.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 4, pid: 44758) exited with status 1
+TACC: MPI job exited with code: 1
+ 
+TACC: Shutdown complete. Exiting.
