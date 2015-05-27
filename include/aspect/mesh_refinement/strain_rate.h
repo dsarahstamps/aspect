@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011, 2012 by the authors of the ASPECT code.
+  Copyright (C) 2013 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -19,36 +19,41 @@
 */
 
 
-#ifndef __aspect__postprocess_viscous_dissipation_statistics_h
-#define __aspect__postprocess_viscous_dissipation_statistics_h
+#ifndef __aspect__mesh_refinement_strain_rate_h
+#define __aspect__mesh_refinement_strain_rate_h
 
-#include <aspect/postprocess/interface.h>
+#include <aspect/mesh_refinement/interface.h>
 #include <aspect/simulator_access.h>
 
 namespace aspect
 {
-  namespace Postprocess
+  namespace MeshRefinement
   {
 
     /**
-     * A postprocessor that computes some statistics about the
-     * viscous_dissipation.
+     * A class that implements a mesh refinement criterion based on
+     * the strain rate field.
      *
-     * @ingroup Postprocessing
+     * @ingroup MeshRefinement
      */
     template <int dim>
-    class ViscousDissipationStatistics : public Interface<dim>, public ::aspect::SimulatorAccess<dim>
+    class StrainRate : public Interface<dim>,
+      public SimulatorAccess<dim>
     {
       public:
         /**
-         * Evaluate the solution for some viscous_dissipation statistics.
+         * Execute this mesh refinement criterion.
+         *
+         * @param[out] error_indicators A vector that for every active cell of
+         * the current mesh (which may be a partition of a distributed mesh)
+         * provides an error indicator. This vector will already have the
+         * correct size when the function is called.
          */
         virtual
-        std::pair<std::string,std::string>
-        execute (TableHandler &statistics);
+        void
+        execute (Vector<float> &error_indicators) const;
     };
   }
 }
-
 
 #endif

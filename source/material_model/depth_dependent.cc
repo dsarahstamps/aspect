@@ -41,7 +41,7 @@ namespace aspect
                    ExcMessage (std::string("Couldn't open file <") + filename + std::string(">")));
 
       double min_depth=std::numeric_limits<double>::max();
-      double max_depth=std::numeric_limits<double>::lowest();
+      double max_depth=-std::numeric_limits<double>::max();
 
       /* The input viscosity file has two columns that are the viscosity and Depth */
       std::string header;
@@ -239,12 +239,11 @@ namespace aspect
               Assert( depth_values.size() == viscosity_values.size() ,
                       ExcMessage("Depth list must be same size as Viscosity list"));
               /* check that list is in ascending order */
-              for ( int i=1; i<depth_values.size(); i++)
+              for (unsigned int i=1; i<depth_values.size(); i++)
                 Assert(depth_values[i] > depth_values[i-1],
                        ExcMessage("Viscosity depth values must be strictly ascending"));
               /* check that last layer includes base of model */
-              const double maximal_depth = this->get_geometry_model().maximal_depth();
-              Assert( *(depth_values.end()-1) >= maximal_depth,
+              Assert( *(depth_values.end()-1) >= this->get_geometry_model().maximal_depth(),
                       ExcMessage("Last value in Depth list must be greater than or equal to maximal depth of domain"));
             }
 
@@ -368,7 +367,9 @@ namespace aspect
     ASPECT_REGISTER_MATERIAL_MODEL(DepthDependent,
                                    "depth dependent",
                                    "The ``depth dependent'' Material model applies a depth-dependent scaling "
-                                   "to any of the other available material models. "
+                                   "to any of the other available material models. In other words, it "
+                                   "is a ``compositing material model''."
+                                   "\n\n"
                                    "Parameters related to the depth dependent model are read from a subsection "
                                    "``Material model/Depth dependent model''. "
                                    "The user must specify a ``Base model'' from which material properties are "
