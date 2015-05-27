@@ -320,6 +320,10 @@ via The California Institute of Technology). In addition, the libraries upon
 which \aspect{} builds heavily have been supported through many other grants
 that are equally gratefully acknowledged.
 
+Please acknowledge CIG as follows:
+\begin{lstlisting}[frame=single,language=tex]
+ASPECT is hosted by the Computational Infrastructure for Geodynamics (CIG) which is supported by the National Science Foundation award NSF-094946.
+\end{lstlisting}
 
 \section{Equations, models, coefficients}
 \label{sec:models}
@@ -4732,6 +4736,51 @@ that the true pressure is in fact discontinuous along the edge of the circle.
 \end{table}
 
 
+\subsubsection{Prescribed internal velocity constraints}
+\label{sec:prescribed-velocities}
+\textit{This section was contributed by Jonathan Perry-Houts}
+
+In cases where it is desirable to investigate the behavior of one part of the model
+domain but the controlling physics of another part is difficult to capture,
+such as corner flow in subduction zones, it may be useful to force the desired
+behavior in some parts of the model domain and solve for the resulting flow
+everywhere else. This is possible through the use of \aspect{}'s ``signal'' mechanism,
+as documented in Section~\ref{sec:extending-signals}.
+
+Internally, \aspect{} adds ``constraints'' to the finite element system for boundary
+conditions and hanging nodes. These are places in the finite element system where
+certain solution variables are required to match some prescribed value. Although it
+is somewhat mathematically inadmissible to prescribe constraints on nodes inside
+the model domain, $\Omega$, it is nevertheless possible so long as the prescribed
+velocity field fits in to the finite element's solution space, and satisfies the
+other constraints (i.e., is divergence free).
+
+Using \aspect{}'s signals mechanism, we write a shared library which provides a
+``slot'' that listens for the signal which is triggered after the regular model
+constraints are set, but before they are ``distributed.''
+
+As an example of this functionality, below is a plugin which allows the user to prescribe
+internal velocities with functions in a parameter file:
+\lstinputlisting[language=c++]{../../cookbooks/prescribed_velocity/prescribed_velocity.cc}
+
+The above plugin can be compiled with \texttt{cmake . \&\& make} in the
+\url{cookbooks/prescribed_velocity} directory. It can be loaded in a parameter file
+as an ``Additional shared library.'' By setting parameters like those shown below,
+it is possible to produce many interesting flow fields such as the ones visualized in
+(Figure \ref{fig:prescribed-velocity}).
+\lstinputlisting[language=prmfile]{cookbooks/prescribed_velocity/minimal.prm.out}
+
+\begin{figure}
+    \centering
+  \subfigure[]{
+    \includegraphics[width=.48\textwidth]{cookbooks/prescribed_velocity/corner_flow}}
+  ~
+  \subfigure[]{
+    \includegraphics[width=.48\textwidth]{cookbooks/prescribed_velocity/circle}}
+    \caption{Examples of flows with prescribed internal velocities, as described in Section \ref{sec:prescribed-velocities}.}
+    \label{fig:prescribed-velocity}
+\end{figure}
+
 \subsection{Geophysical setups}
 \label{sec:cookbooks-geophysical}
 
@@ -6151,7 +6200,7 @@ error is smaller than the discretization error.
 
 Expected analytical solutions at two locations are summarised in Table~\ref{tab:burstedde-table} and can be deduced from equations \eqref{eq:burstedde-velocity} and
 \eqref{eq:burstedde-pressure}.
-Figure \ref{figure} shows that the analytical solution is indeed retrieved by the model.
+Figure~\ref{fig:burstedde-benchmark} shows that the analytical solution is indeed retrieved by the model.
 
 \begin{table}[h!]
 \caption{Analytical solutions \label{tab:burstedde-table}}
@@ -6166,7 +6215,7 @@ $|\mathbf{u}|$ & $0$ &  $14.177$ \\
 
 \begin{figure}[t!]
   \centering
-  \subfigure[b]{
+  \subfigure[]{
     \includegraphics[width=0.48\textwidth]{cookbooks/benchmarks/burstedde/viscosity.png}}%
   ~ 
   \subfigure[]{
@@ -6177,7 +6226,7 @@ $|\mathbf{u}|$ & $0$ &  $14.177$ \\
   ~
   \subfigure[]{
     \includegraphics[width=0.48\textwidth]{cookbooks/benchmarks/burstedde/velocity_z.png}}
-  \caption{Burstedde benchmark: Results for the 3D polynomial Stokes benchmark, obtained with a resolution of $16\times 16$ elements, with $\beta = 10$.}\label{figure}
+  \caption{Burstedde benchmark: Results for the 3D polynomial Stokes benchmark, obtained with a resolution of $16\times 16$ elements, with $\beta = 10$.}\label{fig:burstedde-benchmark}
 \end{figure}
 
 The convergence of the numerical error of this benchmark has been analysed by
@@ -8459,8 +8508,12 @@ respective signals.
 In the first case, code that registers slots with global signals would look like
 this:
 \begin{lstlisting}[frame=single,language=c++]
-// A function that will be called at the time when parameters are declared
-void declare_parameters(ParameterHandler &prm)
+// A function that will be called at the time when parameters are declared.
+// It receives the dimension in which ASPECT will be run as the first argument,
+// and the ParameterHandler object that holds the runtime parameter
+// declarations as second argument.
+void declare_parameters(const unsigned int dim,
+                        ParameterHandler &prm)
 {
   prm.declare_entry("My parameter", ...);
 }
@@ -8558,7 +8611,7 @@ called) an entry in a new column in the statistics file that records the number
 of constraints. On the other hand, it is equally possible to also modify the
 constraints object at this point. An application would be if you wanted to run a
 simulation where you prescribe the velocity in a part of the domain, e.g., for a
-subducting slab.
+subducting slab (see Section \ref{sec:prescribed-velocities}).
 
 Signals exist for various waypoints in a simulation and you can consequently
 monitor and change what is happening inside a simulation by connecting your own

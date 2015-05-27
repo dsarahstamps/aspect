@@ -6,6 +6,21 @@
  *
  *
  * <ol>
+ *
+ * <li> New: Added cookbook for prescribed internal velocity values.
+ * <br>
+ * (Jonathan Perry-Houts, 2015/05/26)
+ *
+ * <li> New: There is now a Material model called diffusion dislocation that 
+ * implements diffusion and dislocation creep viscosity.
+ * <br>
+ * (Bob Myhill, 2015/05/26)
+ *
+ * <li> Changed: Modified S40RTS initial condition file to incorporate 
+ * the option to zero out heterogeneities within a given depth.
+ * <br>
+ * (Jacqueline Austermann, 2015/05/26)
+ *
  * <li> New: There is now a refinement plugin based on strain rate which
  * will come handy to capture shear bands when combined with plasticity.
  * <br>
