@@ -997,13 +997,13 @@ namespace aspect
       return 0;
     }
 
-    template <int dim>
-    double
-    ModelRegions<dim>::initial_temperature (const Point<dim> &position) const
-    {
-      Assert (false, ExcNotImplemented());
-      return 0;
-    }
+ //   template <int dim>
+ //   double
+ //   ModelRegions<dim>::initial_temperature (const Point<dim> &position) const
+ //   {
+ //     Assert (false, ExcNotImplemented());
+ //     return 0;
+ //    }
 
     template <>
     double
