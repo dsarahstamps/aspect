@@ -2075,7 +2075,7 @@ namespace aspect
         for (unsigned int q=0; q<n_quadrature_points; ++q)
 	  {
 	    const double depth = this->introspection().get_geometry_model().depth(evaluation_points[q]);
-	    min_depth = std::min (m_depth, depth);in
+	    min_depth = std::min (min_depth, depth);in
 	    max_depth = std::max (max_depth, depth);
 	  }
 
