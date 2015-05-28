@@ -1414,13 +1414,13 @@ namespace aspect
       return 0;
     }
 
-    template <int dim>
-    bool
-    Stamps<dim>::crustal_region (const Point<dim> &position) const
-    {
-      Assert (false, ExcNotImplemented());
-      return 0;
-    }
+//    template <int dim>
+ //   bool
+ //   Stamps<dim>::crustal_region (const Point<dim> &position) const
+ //   {
+ //     Assert (false, ExcNotImplemented());
+ //     return 0;
+ //   }
 
     template <>
     bool
@@ -1458,7 +1458,7 @@ namespace aspect
       const double R = 8.3144;                  // gas constant J/K.mol
       const double V_diff = 0.000006;           // Activation volume m^3/mol (Schubert 2001 and ref. therein)
       const double E_diff = 300000;             // Activation energy J/mol (Schubert 2001 and ref. therein)
-      const double Biot = 0.01;         		// Biot's pore pressure (Kong and Bird, 1995 and ref. therein)
+//      const double Biot = 0.01;         		// Biot's pore pressure (Kong and Bird, 1995 and ref. therein)
       const double n_disl = 3.5;          		// n for dislocation creep (Freed et al., 2012 and ref. therein)
       const double E_disl = 480000;       		// Activation energy J/mol (Freed et al., 2012 and ref. therein)
       const double V_disl = 0.00000000001;    	// Activation volume m^3/mol (Freed et al., 2012 and ref. therein)
