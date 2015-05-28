@@ -506,13 +506,13 @@ namespace aspect
          * and the documentation of the
          * base class.
          */
-        //virtual
-        //void
-        //get_normals_at_vertices(//const Triangulation<3>::face_iterator &face,
-         //                       Boundary<3,3>::FaceVertexNormals &face_vertex_normals) const
-        //{
-         // Assert(false, ExcNotImplemented());
-        //}
+        virtual
+        void
+        get_normals_at_vertices(const Triangulation<3>::face_iterator &face,
+                                Boundary<3,3>::FaceVertexNormals &face_vertex_normals) const
+        {
+          Assert(false, ExcNotImplemented());
+        }
 
       private:
 
