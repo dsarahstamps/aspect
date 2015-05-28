@@ -153,7 +153,7 @@ namespace
     const double N = radius
                      / (std::sqrt(1
                                   - ellipticity * ellipticity * std::sin(lat) * std::sin(lat)));
-    const double alt = p / std::cos(lat) - N;
+//    const double alt = p / std::cos(lat) - N;
 
     /* convert to degrees */
     const double lon_degrees = lon * (180 / numbers::PI);
