@@ -2073,7 +2073,7 @@ namespace aspect
 	double max_depth = -1e300;
         for (unsigned int q=0; q<n_quadrature_points; ++q)
 	  {
-	    const double depth = this->introspection().get_geometry_model().depth(evaluation_points[q]);
+	    const double depth = this->get_geometry_model().depth(evaluation_points[q]);
 	    min_depth = std::min (min_depth, depth);
 	    max_depth = std::max (max_depth, depth);
 	  }
@@ -2087,7 +2087,7 @@ namespace aspect
 	center_point /= n_quadrature_points;
 
 	const std::pair<double,double> center_point_lat_long
-	  = lat_long_from_xyz_wgs84(center_point);
+	  = lat_long_from_xyz_wgs84(Point<3>(center_point[0], center_point[1], center_point[2]);
 	const double local_isotherm_depth
 	  = initial_conditions.get_lithosphere_isotherm (center_point_lat_long.first,
 							 center_point_lat_long.second);
