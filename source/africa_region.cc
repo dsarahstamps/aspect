@@ -1561,7 +1561,6 @@ namespace aspect
     {
       return k_value/(reference_rho*reference_specific_heat);
     }
-    unused parameter ‘compositional_fields’ [-Wunused-parameter]
     template <int dim>
     double
     Stamps<dim>::
