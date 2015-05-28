@@ -1447,7 +1447,7 @@ namespace aspect
     Stamps<dim>::
     viscosity (const double temperature,
                const double pressure,
-               const std::vector<double> &composition,       /*composition*/
+               const std::vector<double> &,       /*composition*/
                const SymmetricTensor<2,dim> &strain_rate,
                const Point<dim> &position) const
     {
