@@ -1979,3 +1979,244 @@ namespace aspect
                                   "Output surface velocities at the centers of surface faces in mm/yr.")
   }
 }
+
+
+#include <aspect/postprocess/visualization.h>
+#include <aspect/simulator_access.h>
+
+#include <deal.II/numerics/data_postprocessor.h>
+
+
+namespace aspect
+{
+  namespace Postprocess
+  {
+    namespace VisualizationPostprocessors
+    {
+      /**
+       * A class derived from DataPostprocessor that takes an output vector
+       * and computes a variable that represents the 3 or 6 independent
+       * components (in 2d and 3d, respectively) of the stress tensor at every
+       * point. The shear stress is defined as $2 \eta (\varepsilon(\mathbf u)
+       * - \tfrac 13 \textrm{trace}\ \varepsilon(\mathbf u) \mathbf 1) +pI =
+       * 2\eta (\varepsilon(\mathbf u) - \frac 13 (\nabla \cdot \mathbf u)
+       * \mathbf I) + pI$.  The second term in the parentheses is zero if the
+       * model is incompressible.
+       *
+       * The member functions are all implementations of those declared in the
+       * base class. See there for their meaning.
+       */
+      template <int dim>
+      class LABstress
+        : public DataPostprocessor<dim>,
+          public SimulatorAccess<dim>,
+          public Interface<dim>
+      {
+        public:
+          virtual
+          void
+          compute_derived_quantities_vector (const std::vector<Vector<double> >              &uh,
+                                             const std::vector<std::vector<Tensor<1,dim> > > &duh,
+                                             const std::vector<std::vector<Tensor<2,dim> > > &dduh,
+                                             const std::vector<Point<dim> >                  &normals,
+                                             const std::vector<Point<dim> >                  &evaluation_points,
+                                             std::vector<Vector<double> >                    &computed_quantities) const;
+
+          /**
+           * Return the vector of strings describing the names of the computed
+           * quantities. Given the purpose of this class, this is a vector
+           * with entries all equal to the name of the plugin.
+           */
+          virtual std::vector<std::string> get_names () const;
+
+          /**
+           * This functions returns information about how the individual
+           * components of output files that consist of more than one data set
+           * are to be interpreted. The returned value is
+           * DataComponentInterpretation::component_is_scalar repeated
+           * SymmetricTensor::n_independent_components times. (These
+           * components should really be part of a symmetric tensor, but
+           * deal.II does not allow marking components as such.)
+           */
+          virtual
+          std::vector<DataComponentInterpretation::DataComponentInterpretation>
+          get_data_component_interpretation () const;
+
+          /**
+           * Return which data has to be provided to compute the derived
+           * quantities. The flags returned here are the ones passed to the
+           * constructor of this class.
+           */
+          virtual UpdateFlags get_needed_update_flags () const;
+      };
+
+
+
+
+
+      template <int dim>
+      void
+      LABstress<dim>::
+      compute_derived_quantities_vector (const std::vector<Vector<double> >              &uh,
+                                         const std::vector<std::vector<Tensor<1,dim> > > &duh,
+                                         const std::vector<std::vector<Tensor<2,dim> > > &,
+                                         const std::vector<Point<dim> > &,
+                                         const std::vector<Point<dim> >                  &evaluation_points,
+                                         std::vector<Vector<double> >                    &computed_quantities) const
+      {
+        const unsigned int n_quadrature_points = uh.size();
+        Assert (computed_quantities.size() == n_quadrature_points,    ExcInternalError());
+        Assert ((computed_quantities[0].size() == SymmetricTensor<2,dim>::n_independent_components),
+                ExcInternalError());
+        Assert (uh[0].size() == this->introspection().n_components,   ExcInternalError());
+        Assert (duh[0].size() == this->introspection().n_components,  ExcInternalError());
+
+	const aspect::InitialConditions::ModelRegions<dim> &
+	  initial_conditions = dynamic_cast<const aspect::InitialConditions::ModelRegions<dim> >(this->get_initial_conditions());
+
+	// find min and max depth of the evaluation points of this cell
+	double min_depth = 1e300;
+	double max_depth = -1e300;
+        for (unsigned int q=0; q<n_quadrature_points; ++q)
+	  {
+	    const double depth = this->introspection().get_geometry_model().depth(evaluation_points[q]);
+	    min_depth = std::min (min_depth, depth);
+	    max_depth = std::max (max_depth, depth);
+	  }
+
+	// find center point of this cell, and evaluate how deep the
+	// lithosphere isotherm is for the corresponding lat/long
+	// values there
+	Point<dim> center_point;
+        for (unsigned int q=0; q<n_quadrature_points; ++q)
+	  center_point += evaluation_points[q];
+	center_point /= n_quadrature_points;
+
+	const std::pair<double,double> center_point_lat_long
+	  = lat_long_from_xyz_wgs84(center_point);
+	const double local_isotherm_depth
+	  = initial_conditions.get_lithosphere_isotherm (center_point_lat_long.first,
+							 center_point_lat_long.second);
+
+	if ((min_depth <= local_isotherm)
+	    &&
+	    (local_isotherm_depth <= max_depth))
+	  {
+	    MaterialModel::MaterialModelInputs<dim> in(n_quadrature_points,
+						       this->n_compositional_fields());
+	    MaterialModel::MaterialModelOutputs<dim> out(n_quadrature_points,
+							 this->n_compositional_fields());
+
+	    // collect input information to compute the viscosity at every evaluation point
+	    in.position = evaluation_points;
+	    for (unsigned int q=0; q<n_quadrature_points; ++q)
+	      {
+		Tensor<2,dim> grad_u;
+		for (unsigned int d=0; d<dim; ++d)
+		  grad_u[d] = duh[q][d];
+		in.strain_rate[q] = symmetrize (grad_u);
+
+		in.pressure[q]=uh[q][this->introspection().component_indices.pressure];
+		in.temperature[q]=uh[q][this->introspection().component_indices.temperature];
+
+		for (unsigned int c=0; c<this->n_compositional_fields(); ++c)
+		  in.composition[q][c] = uh[q][this->introspection().component_indices.compositional_fields[c]];
+	      }
+
+	    // then do compute the viscosity...
+	    this->get_material_model().evaluate(in, out);
+
+	    // ...and use it to compute the stresses
+	    for (unsigned int q=0; q<n_quadrature_points; ++q)
+	      {
+		const SymmetricTensor<2,dim> strain_rate = in.strain_rate[q];
+		const SymmetricTensor<2,dim> compressible_strain_rate
+		  = (this->get_material_model().is_compressible()
+		     ?
+		     strain_rate - 1./3 * trace(strain_rate) * unit_symmetric_tensor<dim>()
+		     :
+		     strain_rate);
+
+		const double eta = out.viscosities[q];
+
+		const SymmetricTensor<2,dim> stress = 2*eta*compressible_strain_rate +
+		  in.pressure[q] * unit_symmetric_tensor<dim>();
+		for (unsigned int i=0; i<SymmetricTensor<2,dim>::n_independent_components; ++i)
+		  computed_quantities[q](i) = stress[stress.unrolled_to_component_indices(i)];
+	      }
+	  }
+	else
+	  {
+	    for (unsigned int q=0; q<n_quadrature_points; ++q)
+	      for (unsigned int i=0; i<SymmetricTensor<2,dim>::n_independent_components; ++i)
+		computed_quantities[q](i) = -1e300;
+	  }
+      }
+
+      template <int dim>
+      std::vector<std::string>
+      LABstress<dim>::get_names () const
+      {
+        std::vector<std::string> names;
+        switch (dim)
+          {
+            case 2:
+              names.push_back ("stress_xx");
+              names.push_back ("stress_yy");
+              names.push_back ("stress_xy");
+              break;
+
+            case 3:
+              names.push_back ("stress_xx");
+              names.push_back ("stress_yy");
+              names.push_back ("stress_zz");
+              names.push_back ("stress_xy");
+              names.push_back ("stress_xz");
+              names.push_back ("stress_yz");
+              break;
+
+            default:
+              Assert (false, ExcNotImplemented());
+          }
+
+        return names;
+      }
+
+
+      template <int dim>
+      std::vector<DataComponentInterpretation::DataComponentInterpretation>
+      LABstress<dim>::get_data_component_interpretation () const
+      {
+        return
+          std::vector<DataComponentInterpretation::DataComponentInterpretation>
+          (SymmetricTensor<2,dim>::n_independent_components,
+           DataComponentInterpretation::component_is_scalar);
+      }
+
+
+
+      template <int dim>
+      UpdateFlags
+      LABstress<dim>::get_needed_update_flags () const
+      {
+        return update_gradients | update_values | update_q_points;
+      }
+
+    }
+  }
+}
+
+
+// explicit instantiations
+namespace aspect
+{
+  namespace Postprocess
+  {
+    namespace VisualizationPostprocessors
+    {
+      ASPECT_REGISTER_VISUALIZATION_POSTPROCESSOR(LABstress,
+                                                  "lithosphere-asthenosphere boundary stress",
+                                                  "Like the stress visualizer, but only for points around the lithosphere isotherm.")
+    }
+  }
+}
