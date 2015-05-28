@@ -2094,7 +2094,7 @@ namespace aspect
 	  = initial_conditions.get_lithosphere_isotherm (center_point_lat_long.first,
 							 center_point_lat_long.second);
 
-	if ((min_depth <= local_isotherm)
+	if ((min_depth <= local_isotherm_depth)
 	    &&
 	    (local_isotherm_depth <= max_depth))
 	  {
