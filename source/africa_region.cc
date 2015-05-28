@@ -490,7 +490,7 @@ namespace aspect
          * base class.
          */
         virtual Tensor<1, 3>
-        normal_vector(const Triangulation<3>::face_iterator &face,
+        normal_vector(//const Triangulation<3>::face_iterator &face,
                       const Point<3> &p) const
         {
           // assume radial normal vectors
