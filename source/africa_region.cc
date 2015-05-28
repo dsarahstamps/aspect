@@ -490,8 +490,7 @@ namespace aspect
          * base class.
          */
         virtual Tensor<1, 3>
-        normal_vector(//const Triangulation<3>::face_iterator &face,
-                      const Point<3> &p) const
+        normal_vector(const Point<3> &p) const
         {
           // assume radial normal vectors
           return p / p.norm();
@@ -507,13 +506,13 @@ namespace aspect
          * and the documentation of the
          * base class.
          */
-        virtual
-        void
-        get_normals_at_vertices(const Triangulation<3>::face_iterator &face,
-                                Boundary<3,3>::FaceVertexNormals &face_vertex_normals) const
-        {
-          Assert(false, ExcNotImplemented());
-        }
+        //virtual
+        //void
+        //get_normals_at_vertices(//const Triangulation<3>::face_iterator &face,
+         //                       Boundary<3,3>::FaceVertexNormals &face_vertex_normals) const
+        //{
+         // Assert(false, ExcNotImplemented());
+        //}
 
       private:
 
