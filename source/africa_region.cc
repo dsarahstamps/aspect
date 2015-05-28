@@ -1580,7 +1580,7 @@ namespace aspect
     template <int dim>
     double
     Stamps<dim>::
-    thermal_expansion_coefficient (const double temperature,
+    thermal_expansion_coefficient (const double,
                                    const double,
                                    const std::vector<double> &, /*composition*/
                                    const Point<dim> &) const
