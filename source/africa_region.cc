@@ -1561,7 +1561,7 @@ namespace aspect
     {
       return k_value/(reference_rho*reference_specific_heat);
     }
-
+    unused parameter ‘compositional_fields’ [-Wunused-parameter]
     template <int dim>
     double
     Stamps<dim>::
@@ -1658,7 +1658,7 @@ namespace aspect
     template <int dim>
     bool
     Stamps<dim>::
-    thermal_conductivity_depends_on (const NonlinearDependence::Dependence dependence) const
+    thermal_conductivity_depends_on (const NonlinearDependence::Dependence ) const
     {
       return false;
     }
