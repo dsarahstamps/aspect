@@ -690,12 +690,12 @@ namespace aspect
       coarse_grid.set_boundary(4, bottom_boundary);
     }
 
-//    template <int dim>
- //   void
-//    Africa<dim>::create_coarse_mesh(parallel::distributed::Triangulation<dim> &coarse_grid) const
-//    {
-//      Assert(false, ExcNotImplemented());
-//    }
+    template <int dim>
+    void
+    Africa<dim>::create_coarse_mesh(parallel::distributed::Triangulation<dim> &) const
+    {
+      Assert(false, ExcNotImplemented());
+    }
 
     template <int dim>
     std::set<types::boundary_id>
