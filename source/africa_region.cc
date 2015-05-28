@@ -856,12 +856,12 @@ namespace aspect
               / 20);
     }
 
-    template <int dim>
-    Point<dim>
-    Africa<dim>::representative_point(const double depth) const
-    {
-      return Point<dim>();
-    }
+//    template <int dim>
+//    Point<dim>
+//    Africa<dim>::representative_point(const double depth) const
+//    {
+//      return Point<dim>();
+//    }
 
     template <>
     Point<3>
