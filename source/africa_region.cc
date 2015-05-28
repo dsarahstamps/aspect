@@ -1658,7 +1658,7 @@ namespace aspect
     template <int dim>
     bool
     Stamps<dim>::
-    thermal_conductivity_depends_on (const NonlinearDependence::Dependence ) const
+    thermal_conductivity_depends_on (const NonlinearDependence::Dependence) const
     {
       return false;
     }
