@@ -1567,7 +1567,7 @@ namespace aspect
     Stamps<dim>::
     density (const double temperature,
              const double,
-             const std::vector<double> &compositional_fields, /*composition*/
+             const std::vector<double> &, /*composition*/
              const Point<dim> &position) const
     {
       if (crustal_region(position) == true)
