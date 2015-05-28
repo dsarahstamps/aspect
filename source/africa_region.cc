@@ -1414,13 +1414,13 @@ namespace aspect
       return 0;
     }
 
-//    template <int dim>
- //   bool
- //   Stamps<dim>::crustal_region (const Point<dim> &position) const
- //   {
- //     Assert (false, ExcNotImplemented());
- //     return 0;
- //   }
+    template <int dim>
+    bool
+    Stamps<dim>::crustal_region (const Point<dim> &) const
+    {
+      Assert (false, ExcNotImplemented());
+      return 0;
+    }
 
     template <>
     bool
