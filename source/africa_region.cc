@@ -1454,20 +1454,20 @@ namespace aspect
     {
       Assert (temperature > 0, ExcMessage ("Temperature cannot be zero."));
 
-      // Material parameters are from Karato and Wu (1993) for dry olivine)
+      // Material parameters are from Karato and Wu (1993) for dry olivine
       const double B_diff = 810000000000.0;     // see p.248-240 (Schubert 2001; grain size = 3 mm)
       const double R = 8.3144;                  // gas constant J/K.mol
       const double V_diff = 0.000006;           // Activation volume m^3/mol (Schubert 2001 and ref. therein)
       const double E_diff = 300000;             // Activation energy J/mol (Schubert 2001 and ref. therein)
-      const double Biot = 0.01;         	// Biot's pore pressure (Kong and Bird, 1995 and ref. therein)
-      const double n_disl = 3.5;          	// n for dislocation creep (Freed et al., 2012 and ref. therein)
-      const double E_disl = 480000;       	// Activation energy J/mol (Freed et al., 2012 and ref. therein)
+      const double Biot = 0.01;         		// Biot's pore pressure (Kong and Bird, 1995 and ref. therein)
+      const double n_disl = 3.5;          		// n for dislocation creep (Freed et al., 2012 and ref. therein)
+      const double E_disl = 480000;       		// Activation energy J/mol (Freed et al., 2012 and ref. therein)
       const double V_disl = 0.00000000001;    	// Activation volume m^3/mol (Freed et al., 2012 and ref. therein)
       const double A_disl = 30000000;       	// Material parameter Pa^-n s^-1
-      const double d = 0.003;           	// Grain size m
-      const double p_disl = 0;          	// Dislocation creep grain size exponent
-      const double C_OH = 1000;         	// Olivine water content H/10^6Si (Freed et al., 2012 and ref. therein)
-      const double r_disl = 1.2;          	// Dislocation creep water exponent (Freed et al., 2012 and ref. therein)
+      const double d = 0.003;           		// Grain size m
+      const double p_disl = 0;          		// Dislocation creep grain size exponent
+      const double C_OH = 1000;         		// Olivine water content H/10^6Si (Freed et al., 2012 and ref. therein)
+      const double r_disl = 1.2;          		// Dislocation creep water exponent (Freed et al., 2012 and ref. therein)
       const double strain_o = 1e-18;        	// Set small strain rate for which limit viscosity calculation
 
       const double B_disl = A_disl * (std::pow(d,(-1.0*p_disl))) * (std::pow(C_OH,(r_disl)));
@@ -1983,7 +1983,6 @@ namespace aspect
 
 #include <aspect/postprocess/visualization.h>
 #include <aspect/simulator_access.h>
-
 #include <deal.II/numerics/data_postprocessor.h>
 
 
@@ -1997,7 +1996,8 @@ namespace aspect
        * A class derived from DataPostprocessor that takes an output vector
        * and computes a variable that represents the 3 or 6 independent
        * components (in 2d and 3d, respectively) of the stress tensor at every
-       * point. The shear stress is defined as $2 \eta (\varepsilon(\mathbf u)
+       * point around the lithosphere isotherm as defined by input file.
+       * The shear stress is defined as $2 \eta (\varepsilon(\mathbf u)
        * - \tfrac 13 \textrm{trace}\ \varepsilon(\mathbf u) \mathbf 1) +pI =
        * 2\eta (\varepsilon(\mathbf u) - \frac 13 (\nabla \cdot \mathbf u)
        * \mathbf I) + pI$.  The second term in the parentheses is zero if the
@@ -2049,10 +2049,6 @@ namespace aspect
            */
           virtual UpdateFlags get_needed_update_flags () const;
       };
-
-
-
-
 
       template <int dim>
       void
