@@ -150,9 +150,9 @@ namespace
                                         * radius
                                         * (std::cos(th) * std::cos(th)
                                            * std::cos(th)))));
-    const double N = radius
-                     / (std::sqrt(1
-                                  - ellipticity * ellipticity * std::sin(lat) * std::sin(lat)));
+    //const double N = radius
+    //                 / (std::sqrt(1
+     //                             - ellipticity * ellipticity * std::sin(lat) * std::sin(lat)));
 //    const double alt = p / std::cos(lat) - N;
 
     /* convert to degrees */
