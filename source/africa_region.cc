@@ -1458,16 +1458,16 @@ namespace aspect
       const double R = 8.3144;                  // gas constant J/K.mol
       const double V_diff = 0.000006;           // Activation volume m^3/mol (Schubert 2001 and ref. therein)
       const double E_diff = 300000;             // Activation energy J/mol (Schubert 2001 and ref. therein)
-      const double Biot = 0.01;         // Biot's pore pressure (Kong and Bird, 1995 and ref. therein)
-      const double n_disl = 3.5;          // n for dislocation creep (Freed et al., 2012 and ref. therein)
-      const double E_disl = 480000;       // Activation energy J/mol (Freed et al., 2012 and ref. therein)
-      const double V_disl = 0.00000000001;    // Activation volume m^3/mol (Freed et al., 2012 and ref. therein)
-      const double A_disl = 30000000;       // Material parameter Pa^-n s^-1
-      const double d = 0.003;           // Grain size m
-      const double p_disl = 0;          // Dislocation creep grain size exponent
-      const double C_OH = 1000;         // Olivine water content H/10^6Si (Freed et al., 2012 and ref. therein)
-      const double r_disl = 1.2;          // Dislocation creep water exponent (Freed et al., 2012 and ref. therein)
-      const double strain_o = 1e-18;        // Set small strain rate for which limit viscosity calculation
+      const double Biot = 0.01;         	// Biot's pore pressure (Kong and Bird, 1995 and ref. therein)
+      const double n_disl = 3.5;          	// n for dislocation creep (Freed et al., 2012 and ref. therein)
+      const double E_disl = 480000;       	// Activation energy J/mol (Freed et al., 2012 and ref. therein)
+      const double V_disl = 0.00000000001;    	// Activation volume m^3/mol (Freed et al., 2012 and ref. therein)
+      const double A_disl = 30000000;       	// Material parameter Pa^-n s^-1
+      const double d = 0.003;           	// Grain size m
+      const double p_disl = 0;          	// Dislocation creep grain size exponent
+      const double C_OH = 1000;         	// Olivine water content H/10^6Si (Freed et al., 2012 and ref. therein)
+      const double r_disl = 1.2;          	// Dislocation creep water exponent (Freed et al., 2012 and ref. therein)
+      const double strain_o = 1e-18;        	// Set small strain rate for which limit viscosity calculation
 
       const double B_disl = A_disl * (std::pow(d,(-1.0*p_disl))) * (std::pow(C_OH,(r_disl)));
       const double exp_factor = std::exp((E_disl + pressure*V_disl)/(n_disl*R*temperature));
