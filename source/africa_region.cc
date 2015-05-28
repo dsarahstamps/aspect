@@ -952,7 +952,6 @@ namespace aspect
         void
         parse_parameters(ParameterHandler &prm);
 
-      private:
 
         /**
          * Return the depth at which the temperature is 1673.15 K as a function of position.
@@ -960,6 +959,8 @@ namespace aspect
         double
         get_lithosphere_isotherm(const double latitude,
                                  const double longitude) const;
+
+      private:
 
         /**
          * Read and access depth to isotherm file thickness.txt
