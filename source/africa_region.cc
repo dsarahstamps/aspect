@@ -2166,7 +2166,8 @@ namespace aspect
       std::vector<std::string>
       LABstress<dim>::get_names () const
       {
-        std::vector<std::string> names ("LAB_normal_stress", dim);
+       // std::vector<std::string> names ("LAB_normal_stress", dim);
+        std::vector<std::string> names ("LABstress", dim);
         return names;
       }
 
