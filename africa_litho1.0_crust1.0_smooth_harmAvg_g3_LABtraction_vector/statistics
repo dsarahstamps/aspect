@@ -9,5 +9,5 @@
 # 9: Schur complement iterations in Stokes preconditioner
 # 10: Time step size (years)
 # 11: Visualization file name
-0 0.0000e+00 1024 29988 9537 0 351 4691 5710 0.0000e+00                                                                           "" 
-0 0.0000e+00    0     0    0 0  43  594  706 1.4871e+06 africa_litho1.0_crust1.0_smooth_harmAvg_g3_LABtraction_vector/solution-00000 
+0 0.0000e+00 1024 29988 9537 0 353 4817 5730 0.0000e+00                                                                           "" 
+0 0.0000e+00    0     0    0 0  43  628  703 1.4871e+06 africa_litho1.0_crust1.0_smooth_harmAvg_g3_LABtraction_vector/solution-00000 
