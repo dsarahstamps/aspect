@@ -2098,7 +2098,7 @@ namespace aspect
 	const std::pair<double,double> center_point_lat_long
 	  = lat_long_from_xyz_wgs84(Point<3>(center_point[0], center_point[1], center_point[2]));
 	const double local_isotherm_depth
-	  = initial_conditions.get_lithosphere_isotherm (center_point_lat_long.first,
+	  = -1*initial_conditions.get_lithosphere_isotherm (center_point_lat_long.first,
 							 center_point_lat_long.second);
 
 	std::cout << "****** " << center_point  << ": "
