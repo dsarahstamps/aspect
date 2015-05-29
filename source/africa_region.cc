@@ -2101,11 +2101,6 @@ namespace aspect
 	  = -1*initial_conditions.get_lithosphere_isotherm (center_point_lat_long.first,
 							 center_point_lat_long.second);
 
-	std::cout << "****** " << center_point  << ": "
-			<< min_depth << ' ' << max_depth << "      "
-			<< local_isotherm_depth
-			<< std::endl;
-
 	if ((min_depth <= local_isotherm_depth)
 	    &&
 	    (local_isotherm_depth <= max_depth))
