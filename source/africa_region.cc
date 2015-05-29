@@ -2218,7 +2218,7 @@ namespace aspect
     namespace VisualizationPostprocessors
     {
       ASPECT_REGISTER_VISUALIZATION_POSTPROCESSOR(LABstress,
-                                                  "lithosphere-asthenosphere boundary stress",
+                                                  "lab stress",
                                                   "Like the stress visualizer, but only for points around the lithosphere isotherm.")
     }
   }
