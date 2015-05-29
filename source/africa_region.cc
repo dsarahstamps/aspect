@@ -2145,7 +2145,7 @@ namespace aspect
 		const SymmetricTensor<2,dim> stress = 2*eta*compressible_strain_rate +
 		  in.pressure[q] * unit_symmetric_tensor<dim>();
 
-		const Tensor<1,dim> normal_vector = Point<2,dim>::unit_vector<dim>(dim-1);
+		const Tensor<1,dim> normal_vector = Point<dim>::unit_vector<dim>(dim-1);
 //		const Tensor<1,dim> normal_vector = Point<dim>::unit_vector(dim-1);
 
 		const Tensor<1,dim> normal_stress = stress * normal_vector;
@@ -2166,8 +2166,8 @@ namespace aspect
       std::vector<std::string>
       LABstress<dim>::get_names () const
       {
-       // std::vector<std::string> names ("LAB_normal_stress", dim);
-        std::vector<std::string> names ("LABstress", dim);
+        std::vector<std::string> names ("LAB_normal_stress", dim);
+       // std::vector<std::string> names ("LABstress", dim);
         return names;
       }
 
