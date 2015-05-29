@@ -681,7 +681,7 @@ namespace aspect
              coarse_grid.begin_active(); cell != coarse_grid.end(); ++cell)
         for (unsigned int f = 0; f < GeometryInfo<dim>::faces_per_cell; ++f)
           if (cell->face(f)->at_boundary())
-            cell->face(f)->set_all_boundary_ids(f);
+            cell->face(f)->set_all_boundary_id(f);
 
       static AfricaTopographyBoundary top_boundary(topography);
       coarse_grid.set_boundary(5, top_boundary);
@@ -2087,7 +2087,7 @@ namespace aspect
 	center_point /= n_quadrature_points;
 
 	const std::pair<double,double> center_point_lat_long
-	  = lat_long_from_xyz_wgs84(Point<3>(center_point[0], center_point[1], center_point[2]);
+	  = lat_long_from_xyz_wgs84(Point<3>(center_point[0], center_point[1], center_point[2]));
 	const double local_isotherm_depth
 	  = initial_conditions.get_lithosphere_isotherm (center_point_lat_long.first,
 							 center_point_lat_long.second);
