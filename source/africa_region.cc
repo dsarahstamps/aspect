@@ -2144,14 +2144,19 @@ namespace aspect
 
 		const SymmetricTensor<2,dim> stress = 2*eta*compressible_strain_rate +
 		  in.pressure[q] * unit_symmetric_tensor<dim>();
-		for (unsigned int i=0; i<SymmetricTensor<2,dim>::n_independent_components; ++i)
-		  computed_quantities[q](i) = stress[stress.unrolled_to_component_indices(i)];
+
+		const Tensor<1,dim> normal_vector = Point<dim>::unit_vector<dim>(dim-1);
+
+		const Tensor<1,dim> normal_stress = stress * normal_vector;
+
+		for (unsigned int i=0; i<dim; ++i)
+		  computed_quantities[q](i) = normal_stress[i];
 	      }
 	  }
 	else
 	  {
 	    for (unsigned int q=0; q<n_quadrature_points; ++q)
-	      for (unsigned int i=0; i<SymmetricTensor<2,dim>::n_independent_components; ++i)
+	      for (unsigned int i=0; i<dim; ++i)
 		computed_quantities[q](i) = -1e10;
 	  }
       }
@@ -2160,28 +2165,7 @@ namespace aspect
       std::vector<std::string>
       LABstress<dim>::get_names () const
       {
-        std::vector<std::string> names;
-        switch (dim)
-          {
-            case 2:
-              names.push_back ("LABstress_xx");
-              names.push_back ("LABstress_yy");
-              names.push_back ("LABstress_xy");
-              break;
-
-            case 3:
-              names.push_back ("LABstress_xx");
-              names.push_back ("LABstress_yy");
-              names.push_back ("LABstress_zz");
-              names.push_back ("LABstress_xy");
-              names.push_back ("LABstress_xz");
-              names.push_back ("LABstress_yz");
-              break;
-
-            default:
-              Assert (false, ExcNotImplemented());
-          }
-
+        std::vector<std::string> names ("LAB_normal_stress", dim);
         return names;
       }
 
@@ -2192,8 +2176,8 @@ namespace aspect
       {
         return
           std::vector<DataComponentInterpretation::DataComponentInterpretation>
-          (SymmetricTensor<2,dim>::n_independent_components,
-           DataComponentInterpretation::component_is_scalar);
+          (dim,
+           DataComponentInterpretation::component_is_part_of_vector);
       }
 
 
