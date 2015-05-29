@@ -971,6 +971,15 @@ namespace aspect
     };
 
     template <>
+        double
+        ModelRegions<2>::get_lithosphere_isotherm(const double,
+                                                  const double) const
+        { abort();
+    	return 0;
+        }
+
+
+    template <>
     double
     ModelRegions<3>::get_lithosphere_isotherm(const double latitude,
                                               const double longitude) const
