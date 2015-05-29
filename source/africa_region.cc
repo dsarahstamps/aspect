@@ -2152,7 +2152,7 @@ namespace aspect
 	  {
 	    for (unsigned int q=0; q<n_quadrature_points; ++q)
 	      for (unsigned int i=0; i<SymmetricTensor<2,dim>::n_independent_components; ++i)
-		computed_quantities[q](i) = -1e300;
+		computed_quantities[q](i) = -1e10;
 	  }
       }
 
@@ -2164,18 +2164,18 @@ namespace aspect
         switch (dim)
           {
             case 2:
-              names.push_back ("stress_xx");
-              names.push_back ("stress_yy");
-              names.push_back ("stress_xy");
+              names.push_back ("LABstress_xx");
+              names.push_back ("LABstress_yy");
+              names.push_back ("LABstress_xy");
               break;
 
             case 3:
-              names.push_back ("stress_xx");
-              names.push_back ("stress_yy");
-              names.push_back ("stress_zz");
-              names.push_back ("stress_xy");
-              names.push_back ("stress_xz");
-              names.push_back ("stress_yz");
+              names.push_back ("LABstress_xx");
+              names.push_back ("LABstress_yy");
+              names.push_back ("LABstress_zz");
+              names.push_back ("LABstress_xy");
+              names.push_back ("LABstress_xz");
+              names.push_back ("LABstress_yz");
               break;
 
             default:
