@@ -1,0 +1,103 @@
+TACC: Starting up job 5326096
+TACC: Setting up parallel environment for MVAPICH2+mpispawn.
+TACC: Starting parallel tasks...
+-----------------------------------------------------------------------------
+-- This is ASPECT, the Advanced Solver for Problems in Earth's ConvecTion.
+--     . version 1.4.pre
+--     . running in DEBUG mode
+--     . running with 64 MPI processes
+--     . using Trilinos
+-----------------------------------------------------------------------------
+
+Line <89> of file <input string>:
+    The entry value
+        density, strain rate, viscosity, lab stress
+    for the entry named
+        List of output variables
+    does not match the given pattern
+        [MultipleSelection Vp anomaly|Vs anomaly|artificial viscosity|density|dynamic topography|error indicator|friction heating|gravity|internal heating|material properties|melt fraction|nonadiabatic pressure|nonadiabatic temperature|partition|seismic vp|seismic vs|shear stress|specific heat|strain rate|stress|thermal expansivity|thermodynamic phase|viscosity|viscosity ratio ]
+
+
+----------------------------------------------------
+Exception on processing: 
+
+--------------------------------------------------------
+An error occurred in line <353> of file </home1/02668/gbg4dss/packages/aspect/source/main.cc> in function
+    void parse_parameters(const string&, dealii::ParameterHandler&)
+The violated condition was: 
+    false
+The name and call sequence of the exception was:
+    dealii::ExcMessage ("Invalid input parameter file.")
+Additional Information: 
+Invalid input parameter file.
+--------------------------------------------------------
+
+Aborting!
+----------------------------------------------------
+[c517-702.stampede.tacc.utexas.edu:mpispawn_1][child_handler] MPI process (rank: 20, pid: 102095) exited with status 1
+[c534-001.stampede.tacc.utexas.edu:mpispawn_3][child_handler] MPI process (rank: 62, pid: 29947) exited with status 1
+[c518-201.stampede.tacc.utexas.edu:mpispawn_2][child_handler] MPI process (rank: 37, pid: 116963) exited with status 1
+[c517-702.stampede.tacc.utexas.edu:mpispawn_1][child_handler] MPI process (rank: 19, pid: 102094) exited with status 1
+[c518-201.stampede.tacc.utexas.edu:mpispawn_2][child_handler] MPI process (rank: 38, pid: 116964) exited with status 1
+[c534-001.stampede.tacc.utexas.edu:mpispawn_3][child_handler] MPI process (rank: 55, pid: 29940) exited with status 1
+[c517-702.stampede.tacc.utexas.edu:mpispawn_1][child_handler] MPI process (rank: 16, pid: 102091) exited with status 1
+[c518-201.stampede.tacc.utexas.edu:mpispawn_2][child_handler] MPI process (rank: 32, pid: 116958) exited with status 1
+[c517-203.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 5, pid: 87021) exited with status 1
+[c534-001.stampede.tacc.utexas.edu:mpispawn_3][child_handler] MPI process (rank: 48, pid: 29933) exited with status 1
+[c517-702.stampede.tacc.utexas.edu:mpispawn_1][child_handler] MPI process (rank: 17, pid: 102092) exited with status 1
+[c518-201.stampede.tacc.utexas.edu:mpispawn_2][child_handler] MPI process (rank: 33, pid: 116959) exited with status 1
+[c517-203.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 1, pid: 87017) exited with status 1
+[c534-001.stampede.tacc.utexas.edu:mpispawn_3][child_handler] MPI process (rank: 49, pid: 29934) exited with status 1
+[c517-702.stampede.tacc.utexas.edu:mpispawn_1][child_handler] MPI process (rank: 18, pid: 102093) exited with status 1
+[c518-201.stampede.tacc.utexas.edu:mpispawn_2][child_handler] MPI process (rank: 34, pid: 116960) exited with status 1
+[c517-203.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 0, pid: 87016) exited with status 1
+[c534-001.stampede.tacc.utexas.edu:mpispawn_3][child_handler] MPI process (rank: 50, pid: 29935) exited with status 1
+[c517-702.stampede.tacc.utexas.edu:mpispawn_1][child_handler] MPI process (rank: 21, pid: 102096) exited with status 1
+[c518-201.stampede.tacc.utexas.edu:mpispawn_2][child_handler] MPI process (rank: 35, pid: 116961) exited with status 1
+[c517-203.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 2, pid: 87018) exited with status 1
+[c534-001.stampede.tacc.utexas.edu:mpispawn_3][child_handler] MPI process (rank: 51, pid: 29936) exited with status 1
+[c517-702.stampede.tacc.utexas.edu:mpispawn_1][child_handler] MPI process (rank: 22, pid: 102097) exited with status 1
+[c518-201.stampede.tacc.utexas.edu:mpispawn_2][child_handler] MPI process (rank: 36, pid: 116962) exited with status 1
+[c517-203.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 3, pid: 87019) exited with status 1
+[c534-001.stampede.tacc.utexas.edu:mpispawn_3][child_handler] MPI process (rank: 52, pid: 29937) exited with status 1
+[c517-702.stampede.tacc.utexas.edu:mpispawn_1][child_handler] MPI process (rank: 23, pid: 102098) exited with status 1
+[c518-201.stampede.tacc.utexas.edu:mpispawn_2][child_handler] MPI process (rank: 39, pid: 116965) exited with status 1
+[c517-203.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 4, pid: 87020) exited with status 1
+[c534-001.stampede.tacc.utexas.edu:mpispawn_3][child_handler] MPI process (rank: 53, pid: 29938) exited with status 1
+[c517-702.stampede.tacc.utexas.edu:mpispawn_1][child_handler] MPI process (rank: 24, pid: 102099) exited with status 1
+[c518-201.stampede.tacc.utexas.edu:mpispawn_2][child_handler] MPI process (rank: 40, pid: 116966) exited with status 1
+[c517-203.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 6, pid: 87022) exited with status 1
+[c534-001.stampede.tacc.utexas.edu:mpispawn_3][child_handler] MPI process (rank: 54, pid: 29939) exited with status 1
+[c517-702.stampede.tacc.utexas.edu:mpispawn_1][child_handler] MPI process (rank: 25, pid: 102100) exited with status 1
+[c518-201.stampede.tacc.utexas.edu:mpispawn_2][child_handler] MPI process (rank: 41, pid: 116967) exited with status 1
+[c517-203.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 7, pid: 87023) exited with status 1
+[c534-001.stampede.tacc.utexas.edu:mpispawn_3][child_handler] MPI process (rank: 56, pid: 29941) exited with status 1
+[c517-702.stampede.tacc.utexas.edu:mpispawn_1][child_handler] MPI process (rank: 26, pid: 102101) exited with status 1
+[c518-201.stampede.tacc.utexas.edu:mpispawn_2][child_handler] MPI process (rank: 42, pid: 116968) exited with status 1
+[c517-203.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 8, pid: 87024) exited with status 1
+[c534-001.stampede.tacc.utexas.edu:mpispawn_3][child_handler] MPI process (rank: 57, pid: 29942) exited with status 1
+[c517-702.stampede.tacc.utexas.edu:mpispawn_1][child_handler] MPI process (rank: 27, pid: 102102) exited with status 1
+[c517-203.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 9, pid: 87025) exited with status 1
+[c518-201.stampede.tacc.utexas.edu:mpispawn_2][child_handler] MPI process (rank: 43, pid: 116969) exited with status 1
+[c534-001.stampede.tacc.utexas.edu:mpispawn_3][child_handler] MPI process (rank: 58, pid: 29943) exited with status 1
+[c517-203.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 10, pid: 87026) exited with status 1
+[c517-702.stampede.tacc.utexas.edu:mpispawn_1][child_handler] MPI process (rank: 28, pid: 102103) exited with status 1
+[c518-201.stampede.tacc.utexas.edu:mpispawn_2][child_handler] MPI process (rank: 44, pid: 116970) exited with status 1
+[c534-001.stampede.tacc.utexas.edu:mpispawn_3][child_handler] MPI process (rank: 59, pid: 29944) exited with status 1
+[c517-203.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 11, pid: 87027) exited with status 1
+[c517-702.stampede.tacc.utexas.edu:mpispawn_1][child_handler] MPI process (rank: 29, pid: 102104) exited with status 1
+[c518-201.stampede.tacc.utexas.edu:mpispawn_2][child_handler] MPI process (rank: 45, pid: 116971) exited with status 1
+[c534-001.stampede.tacc.utexas.edu:mpispawn_3][child_handler] MPI process (rank: 60, pid: 29945) exited with status 1
+[c517-203.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 12, pid: 87028) exited with status 1
+[c517-702.stampede.tacc.utexas.edu:mpispawn_1][child_handler] MPI process (rank: 30, pid: 102105) exited with status 1
+[c518-201.stampede.tacc.utexas.edu:mpispawn_2][child_handler] MPI process (rank: 46, pid: 116972) exited with status 1
+[c534-001.stampede.tacc.utexas.edu:mpispawn_3][child_handler] MPI process (rank: 61, pid: 29946) exited with status 1
+[c517-203.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 13, pid: 87029) exited with status 1
+[c517-702.stampede.tacc.utexas.edu:mpispawn_1][child_handler] MPI process (rank: 31, pid: 102106) exited with status 1
+[c518-201.stampede.tacc.utexas.edu:mpispawn_2][child_handler] MPI process (rank: 47, pid: 116973) exited with status 1
+[c534-001.stampede.tacc.utexas.edu:mpispawn_3][child_handler] MPI process (rank: 63, pid: 29948) exited with status 1
+[c517-203.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 14, pid: 87030) exited with status 1
+[c517-203.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 15, pid: 87031) exited with status 1
+TACC: MPI job exited with code: 1
+ 
+TACC: Shutdown complete. Exiting.
