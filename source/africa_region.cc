@@ -681,7 +681,7 @@ namespace aspect
              coarse_grid.begin_active(); cell != coarse_grid.end(); ++cell)
         for (unsigned int f = 0; f < GeometryInfo<dim>::faces_per_cell; ++f)
           if (cell->face(f)->at_boundary())
-            cell->face(f)->set_all_boundary_indicators(f);
+            cell->face(f)->boundary_id(f);
 
       static AfricaTopographyBoundary top_boundary(topography);
       coarse_grid.set_boundary(5, top_boundary);
