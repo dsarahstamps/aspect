@@ -1941,7 +1941,7 @@ namespace aspect
         if (cell->is_locally_owned())
           for (unsigned int f=0; f<GeometryInfo<dim>::faces_per_cell; ++f)
             if (cell->at_boundary(f) &&
-                cell->face(f)->boundary_indicator() == 5) // face is at top boundary
+                cell->face(f)->boundary_id() == 5) // face is at top boundary
               {
                 fe_face_values.reinit (cell, f);
                 fe_face_values[this->introspection().extractors.velocities].get_function_values (this->get_solution(),
