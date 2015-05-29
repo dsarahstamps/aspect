@@ -2145,7 +2145,8 @@ namespace aspect
 		const SymmetricTensor<2,dim> stress = 2*eta*compressible_strain_rate +
 		  in.pressure[q] * unit_symmetric_tensor<dim>();
 
-		const Tensor<1,dim> normal_vector = Point<dim>::unit_vector<dim>(dim-1);
+//		const Tensor<1,dim> normal_vector = Point<dim>::unit_vector<dim>(dim-1);
+		const Tensor<1,dim> normal_vector = Point<dim>::unit_vector(dim-1);
 
 		const Tensor<1,dim> normal_stress = stress * normal_vector;
 
