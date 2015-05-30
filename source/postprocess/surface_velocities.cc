@@ -19,7 +19,7 @@
  */
 /*  $Id: surface_velocities.cc $  */
 
-#include <aspect/postprocess/surface_velocities.h>
+//#include <aspect/postprocess/surface_velocities.h>
 #include <aspect/postprocess/interface.h>
 #include <aspect/simulator_access.h>
 #include <deal.II/grid/grid_tools.h>
