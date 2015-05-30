@@ -108,11 +108,11 @@ namespace aspect
 		                            break;
 		                        }
 		                }
-		                if (top_face_idx == numbers::invalid_unsigned_int)
-		                {
-		                    (*return_value.second)(cell_index) = 0;
-		                    continue;
-		                }
+//		                if (top_face_idx == numbers::invalid_unsigned_int)
+//		                {
+//		                    (*return_value.second)(cell_index) = 0;
+//		                    continue;
+//		                }
 
 		            }
 	        			// extract velocity solution for cells at the top boundary
