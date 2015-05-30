@@ -166,6 +166,6 @@ namespace aspect
 	ASPECT_REGISTER_POSTPROCESSOR(SurfaceVelocities,
 			"surface velocities",
 			"A postprocessor that outputs surface velocities at the centers "
-			"of surface faces for a box.cc model with the surface assigned face 5.")
+			"cells on the top boundary in a txt file at lat lon.")
 	}
 }
