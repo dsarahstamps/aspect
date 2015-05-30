@@ -95,19 +95,7 @@ namespace aspect
 	        unsigned int cell_index = 0;
 	        for (; cell!=endc; ++cell,++cell_index)
 				if (cell->is_locally_owned())
-		            if (cell->at_boundary())
-		            {
-		            	// check if cell is at the top boundary
-		                unsigned int top_face_idx = numbers::invalid_unsigned_int;
-		                {
-		                	for (unsigned int f=0; f<GeometryInfo<dim>::faces_per_cell; ++f)
-		                        if (cell->at_boundary(f) && this->get_geometry_model().depth (cell->face(f)->center()) < cell->face(f)->minimum_vertex_distance()/3)
-		                        {
-		                            top_face_idx = f;
-		                            break;
-		                        }
-		                }
-		            }
+		            if (cell->at_boundary()&& this->get_geometry_model().depth (cell->face(f)->center()) < cell->face(f)->minimum_vertex_distance()/3)
 	        			// extract velocity solution for cells at the top boundary
 						{
 							fe_face_values.reinit (cell, f);
