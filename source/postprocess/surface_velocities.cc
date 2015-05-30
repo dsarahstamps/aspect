@@ -39,7 +39,6 @@
 #include <deal.II/grid/grid_generator.h>
 #include <deal.II/grid/grid_tools.h>
 #include <deal.II/grid/grid_out.h>
-#include <aspect/material_model/interface.h>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -108,12 +107,6 @@ namespace aspect
 		                            break;
 		                        }
 		                }
-//		                if (top_face_idx == numbers::invalid_unsigned_int)
-//		                {
-//		                    (*return_value.second)(cell_index) = 0;
-//		                    continue;
-//		                }
-
 		            }
 	        			// extract velocity solution for cells at the top boundary
 						{
