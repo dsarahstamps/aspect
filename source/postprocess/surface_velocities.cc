@@ -120,7 +120,7 @@ namespace aspect
 								 *   east from the Greenwich meridian.
 								 */
 
-								std::pair<double,double> lat_long = make_pair(std::atan2(p[2],
+								std::pair<double,double> lat_long = std::make_pair(std::atan2(p[2],
 										std::sqrt(p[0] * p[0] + p[1] * p[1]))
 										* 180
 										/ numbers::PI,
