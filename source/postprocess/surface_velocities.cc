@@ -69,7 +69,7 @@ namespace aspect
 	{
 		template <int dim>
 		std::pair<std::string,std::string>
-		SurfaceVelocities<dim>::execute (TableHandler &statistics)
+		SurfaceVelocities<dim>::execute (TableHandler &)
 		{
 			const QMidpoint<dim-1> quadrature_formula;
 
