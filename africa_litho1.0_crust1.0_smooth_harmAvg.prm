@@ -2,7 +2,7 @@ set Dimension                              = 3
 
 set Use years in output instead of seconds = true
 set End time                               = 0
-set Output directory                       = africa_litho1.0_crust1.0_smooth_harmAvg_g3_LABtraction_vector
+set Output directory                       = africa_litho1.0_crust1.0_smooth_harmAvg_g5_traction_vector
 set Nonlinear solver scheme                = iterated Stokes
 set Nonlinear solver tolerance             = 1e-4
 set Linear solver tolerance                = 1e-4
@@ -76,7 +76,7 @@ end
 
 
 subsection Mesh refinement
-  set Initial global refinement                = 3
+  set Initial global refinement                = 5
   set Initial adaptive refinement              = 0
   set Time steps between mesh refinement       = 0
 end

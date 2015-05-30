@@ -1297,9 +1297,7 @@ subsection Initial conditions
   # 'Thermal expansion coefficient in initial temperature scaling' parameter.
   # The temperature perturbation is added to an otherwise constant temperature
   # (incompressible model) or adiabatic reference profile (compressible
-  # model). If a depth is specified in 'Remove temperature heterogeneity down
-  # to specified depth', there is no temperature perturbation prescribed down
-  # to that depth.
+  # model).
   # 
   # `adiabatic': Temperature is prescribed as an adiabatic profile with upper
   # and lower thermal boundary layers, whose ages are given as input
@@ -1616,15 +1614,6 @@ subsection Initial conditions
     # equal to the background temperature.
     set Remove degree 0 from perturbation                            = true
 
-    # This will set the heterogeneity prescribed by S20RTS or S40RTS to zero
-    # down to the specified depth (in meters).Note that your resolution has to
-    # be adquate to capture this cutoff. For example if you specify a depth of
-    # 660km, but your closest spherical depth layers are only at 500km and
-    # 750km (due to a coarse resolution) it will only zero out heterogeneities
-    # down to 500km. Similar caution has to be taken when using adaptive
-    # meshing.
-    set Remove temperature heterogeneity down to specified depth     = -1.7976931348623157e+308
-
     # The file name of the spline knot locations from Ritsema et al.
     set Spline knots depth file name                                 = Spline_knots.txt
 
@@ -1738,16 +1727,7 @@ subsection Material model
   # detail in Section~\ref{sec:sinker-with-averaging}.
   set Material averaging = harmonic average # default: none
 
-  # The name of the material model to be used in this simulation. There are
-  # many material models you can choose from, as listed below. They generally
-  # fall into two category: (i) models that implement a particular case of
-  # material behavior, (ii) models that modify other models in some way. We
-  # sometimes call the latter ``compositing models''. An example of a
-  # compositing model is the ``depth dependent'' model below in that it takes
-  # another, freely choosable model as its base and then modifies that model's
-  # output in some way.
-  # 
-  # You can select one of the following models:
+  # Select one of the following models:
   # 
   # `Morency and Doin': An implementation of the visco-plastic rheology
   # described by (Morency and Doin, 2004). Compositional fields can each be
@@ -1794,9 +1774,7 @@ subsection Material model
   # fields gets converted to the second field.
   # 
   # `depth dependent': The ``depth dependent'' Material model applies a
-  # depth-dependent scaling to any of the other available material models. In
-  # other words, it is a ``compositing material model''.
-  # 
+  # depth-dependent scaling to any of the other available material models.
   # Parameters related to the depth dependent model are read from a subsection
   # ``Material model/Depth dependent model''. The user must specify a ``Base
   # model'' from which material properties are derived. Currently the depth
@@ -1842,34 +1820,11 @@ subsection Material model
   # layer viscosities is specified as ``Material model/Depth dependent
   # model/Viscosity list''
   # 
-  # `diffusion dislocation':  An implementation of a viscous rheology
-  # including diffusion and dislocation creep. Compositional fields can each
-  # be assigned individual activation energies, reference densities, thermal
-  # expansivities, and stress exponents. The effective viscosity is defined as
-  # 
-  # \[v_{eff} =
-  # \left(\frac{1}{v_{eff}^{diff}}+\frac{1}{v_{eff}^{dis}\right)^{-1}\] where
-  # \[v_{eff}^{diff} = A_{diff}^-1 \exp\left(rac{E_{diff} +
-  # PV_{diff}}{RT}\right)\] \[v_{eff}^{dis} =  A_{dis}^{\frac{-1}{n_dis}}
-  # \dot{\varepsilon}^{rac{1-n}{n}} \exp\left(rac{E_{diff} +
-  # PV_{diff}}{n_{dis}RT}\right)\]
-  # 
-  # where $\dot{\varepsilon}$ is the second invariant of the strain rate
-  # tensor, $A_i$ are prefactors where $i$ corresponds to diffusion or
-  # dislocation creep, $E_i$ are the activation energies, $V_i$ are the
-  # activation volumes, $n_dislocation$ are stress exponents for dislocation
-  # creep, $\rho_m$ is the mantle density, $R$ is the gas constant, $T$ is
-  # temperature, and $P$ is pressure.
-  # 
-  # The value for the components of this formula and additional parameters are
-  # read from the parameter file in subsection 'Material
-  # model/DiffusionDislocation'.
-  # 
   # `latent heat': A material model that includes phase transitions and the
   # possibility that latent heat is released or absorbed when material crosses
   # one of the phase transitions of up to two different materials
   # (compositional fields). This model implements a standard approximation of
-  # the latent heat terms following Christensen \& Yuen, 1985. The change of
+  # the latent heat terms following Christensen \& Yuen, 1986. The change of
   # entropy is calculated as $Delta S = \gamma \frac{\Delta\rho}{\rho^2}$ with
   # the Clapeyron slope $\gamma$ and the density change $\Delta\rho$ of the
   # phase transition being input parameters. The model employs an analytic
@@ -2124,92 +2079,6 @@ subsection Material model
       set Variable names      = x,t
     end
 
-  end
-
-  subsection DiffusionDislocation
-    # List of activation energies, $E_a$, for background mantle and
-    # compositional fields,for a total of N+1 values, where N is the number of
-    # compositional fields.If only one values is given, then all use the same
-    # value.  Units: $J / mol$
-    set Activation energies for diffusion creep   = 335e3
-
-    # List of activation energies, $E_a$, for background mantle and
-    # compositional fields,for a total of N+1 values, where N is the number of
-    # compositional fields.If only one values is given, then all use the same
-    # value.  Units: $J / mol$
-    set Activation energies for dislocation creep = 540e3
-
-    # List of activation volumes, $V_a$, for background mantle and
-    # compositional fields,for a total of N+1 values, where N is the number of
-    # compositional fields.If only one value is given, then all use the same
-    # value.  Units: $m^3 / mol$
-    set Activation volumes for diffusion creep    = 6.4e-6
-
-    # List of activation volumes, $V_a$, for background mantle and
-    # compositional fields,for a total of N+1 values, where N is the number of
-    # compositional fields.If only one value is given, then all use the same
-    # value.  Units: $m^3 / mol$
-    set Activation volumes for dislocation creep  = 6.4e-6
-
-    # List of densities, $\rho$, for background mantle and compositional
-    # fields,for a total of N+1 values, where N is the number of compositional
-    # fields.If only one values is given, then all use the same value.  Units:
-    # $kg / m^3$
-    set Densities                                 = 3300.
-
-    # Scaling coefficient for effective viscosity.
-    set Effective viscosity coefficient           = 1.0
-
-    # Units: $J / (K * kg)$
-    set Heat capacity                             = 1.25e3
-
-    # Upper cutoff for effective viscosity. Units: $Pa s$
-    set Maximum viscosity                         = 1e28
-
-    # Stabilizes strain dependent viscosity. Units: $1 / s$
-    set Minimum strain rate                       = 1.4e-20
-
-    # Lower cutoff for effective viscosity. Units: $Pa s$
-    set Minimum viscosity                         = 1e17
-
-    # List of viscosity prefactors, $A$, for background mantle and
-    # compositional fields,for a total of N+1 values, where N is the number of
-    # compositional fields.If only one values is given, then all use the same
-    # value.  Units: $1 / s$
-    set Prefactors for diffusion creep            = 1.92e-11
-
-    # List of viscosity prefactors, $A$, for background mantle and
-    # compositional fields,for a total of N+1 values, where N is the number of
-    # compositional fields.If only one values is given, then all use the same
-    # value.  Units: $Pa^{-n_dislocation} s^{-1}$
-    set Prefactors for dislocation creep          = 2.42e-10
-
-    # For calculating density by thermal expansivity. Units: $K$
-    set Reference temperature                     = 293
-
-    # Reference viscosity for nondimensionalization. Units $Pa s$
-    set Reference viscosity                       = 1e22
-
-    # List of stress exponents, $n_dislocation$, for background mantle and
-    # compositional fields,for a total of N+1 values, where N is the number of
-    # compositional fields.If only one values is given, then all use the same
-    # value.  Units: None
-    set Stress exponents for dislocation creep    = 3
-
-    # Units: $m^2/s$
-    set Thermal diffusivity                       = 0.8e-6
-
-    # List of thermal expansivities for background mantle and compositional
-    # fields,for a total of N+1 values, where N is the number of compositional
-    # fields.If only one values is given, then all use the same value.  Units:
-    # $1 / K$
-    set Thermal expansivities                     = 3.5e-5
-
-    # When more than one compositional field is present at a point with
-    # different viscosities, we need to come up with an average viscosity at
-    # that point.  Select a weighted harmonic, arithmetic, geometric, or
-    # maximum composition.
-    set Viscosity averaging scheme                = harmonic
   end
 
   subsection Latent heat
@@ -3025,10 +2894,6 @@ subsection Mesh refinement
   # criteria' flag and using the 'max' setting for 'Refinement criteria merge
   # operation'.
   # 
-  # `strain rate': A mesh refinement criterion that computes therefinement
-  # indicators equal to the strain rate norm computed at the center of the
-  # elements.
-  # 
   # `temperature': A mesh refinement criterion that computes refinement
   # indicators from the temperature field.
   # 
@@ -3733,7 +3598,7 @@ subsection Postprocess
     # 
     # `viscosity ratio': A visualization output object that generates output
     # for the ratio between dislocation viscosity and diffusion viscosity.
-    set List of output variables      = density, dynamic topography, strain rate, viscosity, shear stress, stress # default: 
+    set List of output variables      = density, strain rate, viscosity, stress # default: 
 
     # VTU file output supports grouping files from several CPUs into a given
     # number of files using MPI I/O when writing on a parallel filesystem.
@@ -3751,7 +3616,7 @@ subsection Postprocess
     # value of zero indicates that output should be generated in each time
     # step. Units: years if the 'Use years in output instead of seconds'
     # parameter is set; seconds otherwise.
-    set Time between graphical output = 1.0                                                                       # default: 1e8
+    set Time between graphical output = 1.0                                     # default: 1e8
 
 
     subsection Dynamic Topography

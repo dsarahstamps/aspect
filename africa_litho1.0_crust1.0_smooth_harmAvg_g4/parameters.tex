@@ -2732,7 +2732,7 @@ If the function you are describing represents a vector-valued function with mult
 
 {\it Description:} Select one of the following models:
 
-`S40RTS perturbation': An initial temperature field in which the temperature is perturbed following the S20RTS or S40RTS shear wave velocity model by Ritsema and others, which can be downloaded here \url{http://www.earth.lsa.umich.edu/~jritsema/research.html}. Information on the vs model can be found in Ritsema, J., Deuss, A., van Heijst, H.J. \& Woodhouse, J.H., 2011. S40RTS: a degree-40 shear-velocity model for the mantle from new Rayleigh wave dispersion, teleseismic traveltime and normal-mode splitting function measurements, Geophys. J. Int. 184, 1223-1236. The scaling between the shear wave perturbation and the temperature perturbation can be set by the user with the 'vs to density scaling' parameter and the 'Thermal expansion coefficient in initial temperature scaling' parameter. The scaling is as follows: $\delta ln \rho (r,\theta,\phi) = \xi \cdot \delta ln v_s(r,\theta, \phi)$ and $\delta T(r,\theta,\phi) = - \frac{1}{\alpha} \delta ln \rho(r,\theta,\phi)$. $\xi$ is the 'vs to density scaling' parameter and $\alpha$ is the 'Thermal expansion coefficient in initial temperature scaling' parameter. The temperature perturbation is added to an otherwise constant temperature (incompressible model) or adiabatic reference profile (compressible model). If a depth is specified in 'Remove temperature heterogeneity down to specified depth', there is no temperature perturbation prescribed down to that depth.
+`S40RTS perturbation': An initial temperature field in which the temperature is perturbed following the S20RTS or S40RTS shear wave velocity model by Ritsema and others, which can be downloaded here \url{http://www.earth.lsa.umich.edu/~jritsema/research.html}. Information on the vs model can be found in Ritsema, J., Deuss, A., van Heijst, H.J. \& Woodhouse, J.H., 2011. S40RTS: a degree-40 shear-velocity model for the mantle from new Rayleigh wave dispersion, teleseismic traveltime and normal-mode splitting function measurements, Geophys. J. Int. 184, 1223-1236. The scaling between the shear wave perturbation and the temperature perturbation can be set by the user with the 'vs to density scaling' parameter and the 'Thermal expansion coefficient in initial temperature scaling' parameter. The scaling is as follows: $\delta ln \rho (r,\theta,\phi) = \xi \cdot \delta ln v_s(r,\theta, \phi)$ and $\delta T(r,\theta,\phi) = - \frac{1}{\alpha} \delta ln \rho(r,\theta,\phi)$. $\xi$ is the 'vs to density scaling' parameter and $\alpha$ is the 'Thermal expansion coefficient in initial temperature scaling' parameter. The temperature perturbation is added to an otherwise constant temperature (incompressible model) or adiabatic reference profile (compressible model).
 
 `adiabatic': Temperature is prescribed as an adiabatic profile with upper and lower thermal boundary layers, whose ages are given as input parameters.
 
@@ -3350,22 +3350,6 @@ If the function you are describing represents a vector-valued function with mult
 
 
 {\it Possible values:} [Bool]
-\item {\it Parameter name:} {\tt Remove temperature heterogeneity down to specified depth}
-\phantomsection\label{parameters:Initial conditions/S40RTS perturbation/Remove temperature heterogeneity down to specified depth}
-
-
-\index[prmindex]{Remove temperature heterogeneity down to specified depth}
-\index[prmindexfull]{Initial conditions!S40RTS perturbation!Remove temperature heterogeneity down to specified depth}
-{\it Value:} -1.7976931348623157e+308
-
-
-{\it Default:} -1.7976931348623157e+308
-
-
-{\it Description:} This will set the heterogeneity prescribed by S20RTS or S40RTS to zero down to the specified depth (in meters).Note that your resolution has to be adquate to capture this cutoff. For example if you specify a depth of 660km, but your closest spherical depth layers are only at 500km and 750km (due to a coarse resolution) it will only zero out heterogeneities down to 500km. Similar caution has to be taken when using adaptive meshing.
-
-
-{\it Possible values:} [Double -1.79769e+308...1.79769e+308 (inclusive)]
 \item {\it Parameter name:} {\tt Spline knots depth file name}
 \phantomsection\label{parameters:Initial conditions/S40RTS perturbation/Spline knots depth file name}
 
@@ -3728,9 +3712,7 @@ The process of averaging, and where it may be used, is discussed in more detail 
 {\it Default:} 
 
 
-{\it Description:} The name of the material model to be used in this simulation. There are many material models you can choose from, as listed below. They generally fall into two category: (i) models that implement a particular case of material behavior, (ii) models that modify other models in some way. We sometimes call the latter ``compositing models''. An example of a compositing model is the ``depth dependent'' model below in that it takes another, freely choosable model as its base and then modifies that model's output in some way.
-
-You can select one of the following models:
+{\it Description:} Select one of the following models:
 
 `Morency and Doin': An implementation of the visco-plastic rheology described by (Morency and Doin, 2004). Compositional fields can each be assigned individual activation energies, reference densities, thermal expansivities, and stress exponents. The effective viscosity is defined as
 
@@ -3746,9 +3728,7 @@ You can select one of the following models:
 
 `composition reaction': A material model that behaves in the same way as the simple material model, but includes two compositional fields and a reaction between them. Above a depth given in the input file, the first fields gets converted to the second field. 
 
-`depth dependent': The ``depth dependent'' Material model applies a depth-dependent scaling to any of the other available material models. In other words, it is a ``compositing material model''.
-
-Parameters related to the depth dependent model are read from a subsection ``Material model/Depth dependent model''. The user must specify a ``Base model'' from which material properties are derived. Currently the depth dependent model only allows depth dependence of viscosity - other material properties are taken from the ``Base model''. Viscosity $\eta$ at depth $z$ is calculated according to:\begin{equation}\eta(z,p,T,X,...) = \eta(z) \eta_b(p,T,X,..)/\eta_{rb}\end{equation}where $\eta(z)$ is the the depth-dependence specified by the depth dependent model, $\eta_b(p,T,X,...)$ is the viscosity calculated from the base model, and $\eta_{rb}$ is the reference viscosity of the ``Base model''. In addition to the specification of the ``Base model'', the user must specify the method to be used to calculate the depth-dependent viscosity $\eta(z)$ as ``Material model/Depth dependent model/Depth dependence method'', which can be chosen among ``None|Function|File|List''. Each method and the associated parameters are as follows:
+`depth dependent': The ``depth dependent'' Material model applies a depth-dependent scaling to any of the other available material models. Parameters related to the depth dependent model are read from a subsection ``Material model/Depth dependent model''. The user must specify a ``Base model'' from which material properties are derived. Currently the depth dependent model only allows depth dependence of viscosity - other material properties are taken from the ``Base model''. Viscosity $\eta$ at depth $z$ is calculated according to:\begin{equation}\eta(z,p,T,X,...) = \eta(z) \eta_b(p,T,X,..)/\eta_{rb}\end{equation}where $\eta(z)$ is the the depth-dependence specified by the depth dependent model, $\eta_b(p,T,X,...)$ is the viscosity calculated from the base model, and $\eta_{rb}$ is the reference viscosity of the ``Base model''. In addition to the specification of the ``Base model'', the user must specify the method to be used to calculate the depth-dependent viscosity $\eta(z)$ as ``Material model/Depth dependent model/Depth dependence method'', which can be chosen among ``None|Function|File|List''. Each method and the associated parameters are as follows:
 
 ``Function'': read a user-specified parsed function from the input file in a subsection ``Material model/Depth dependent model/Viscosity depth function''. By default, this function is uniformly equal to 1.0e21. Specifying a function that returns a value less than or equal to 0.0 anywhere in the model domain will produce an error. 
 
@@ -3760,15 +3740,7 @@ Viscosity is interpolated from this file using linear interpolation. ``None'': n
 
 ``List:'': read a comma-separated list of depth values corresponding to the maximum depths of layers having constant depth-dependence $\eta(z)$. The layers must be specified in order of increasing depth, and the last layer in the list must have a depth greater than or equal to the maximal depth of the model. The list of layer depths is specified as ``Material model/Depth dependent model/Depth list'' and the corresponding list of layer viscosities is specified as ``Material model/Depth dependent model/Viscosity list''
 
-`diffusion dislocation':  An implementation of a viscous rheology including diffusion and dislocation creep. Compositional fields can each be assigned individual activation energies, reference densities, thermal expansivities, and stress exponents. The effective viscosity is defined as
-
- \[v_{eff} = \left(\frac{1}{v_{eff}^{diff}}+\frac{1}{v_{eff}^{dis}\right)^{-1}\] where \[v_{eff}^{diff} = A_{diff}^-1 \exp\left(rac{E_{diff} + PV_{diff}}{RT}\right)\] \[v_{eff}^{dis} =  A_{dis}^{\frac{-1}{n_dis}} \dot{\varepsilon}^{rac{1-n}{n}} \exp\left(rac{E_{diff} + PV_{diff}}{n_{dis}RT}\right)\]
-
- where $\dot{\varepsilon}$ is the second invariant of the strain rate tensor, $A_i$ are prefactors where $i$ corresponds to diffusion or dislocation creep, $E_i$ are the activation energies, $V_i$ are the activation volumes, $n_dislocation$ are stress exponents for dislocation creep, $\rho_m$ is the mantle density, $R$ is the gas constant, $T$ is temperature, and $P$ is pressure. 
-
- The value for the components of this formula and additional parameters are read from the parameter file in subsection 'Material model/DiffusionDislocation'.
-
-`latent heat': A material model that includes phase transitions and the possibility that latent heat is released or absorbed when material crosses one of the phase transitions of up to two different materials (compositional fields). This model implements a standard approximation of the latent heat terms following Christensen \& Yuen, 1985. The change of entropy is calculated as $Delta S = \gamma \frac{\Delta\rho}{\rho^2}$ with the Clapeyron slope $\gamma$ and the density change $\Delta\rho$ of the phase transition being input parameters. The model employs an analytic phase function in the form $X=0.5 \left( 1 + \tanh \left( \frac{\Delta p}{\Delta p_0} \right) \right)$ with $\Delta p = p - p_{transition} - \gamma \left( T - T_{transition} \right)$ and $\Delta p_0$ being the pressure difference over the width of the phase transition (specified as input parameter).
+`latent heat': A material model that includes phase transitions and the possibility that latent heat is released or absorbed when material crosses one of the phase transitions of up to two different materials (compositional fields). This model implements a standard approximation of the latent heat terms following Christensen \& Yuen, 1986. The change of entropy is calculated as $Delta S = \gamma \frac{\Delta\rho}{\rho^2}$ with the Clapeyron slope $\gamma$ and the density change $\Delta\rho$ of the phase transition being input parameters. The model employs an analytic phase function in the form $X=0.5 \left( 1 + \tanh \left( \frac{\Delta p}{\Delta p_0} \right) \right)$ with $\Delta p = p - p_{transition} - \gamma \left( T - T_{transition} \right)$ and $\Delta p_0$ being the pressure difference over the width of the phase transition (specified as input parameter).
 
 `latent heat melt': A material model that includes the latent heat of melting for two materials: peridotite and pyroxenite. The melting model for peridotite is taken from Katz et al., 2003 (A new parameterization of hydrous mantle melting) and the one for pyroxenite from Sobolev et al., 2011 (Linking mantle plumes, large igneous provinces and environmental catastrophes). The model assumes a constant entropy change for melting 100\% of the material, which can be specified in the input file. The partial derivatives of entropy with respect to temperature and pressure required for calculating the latent heat consumption are then calculated as product of this constant entropy change, and the respective derivative of the function the describes the melt fraction. This is linearly averaged with respect to the fractions of the two materials present. If no compositional fields are specified in the input file, the model assumes that the material is peridotite. If compositional fields are specified, the model assumes that the first compositional field is the fraction of pyroxenite and the rest of the material is peridotite. 
 
@@ -3803,7 +3775,7 @@ This model uses the following equations for the density: \begin{align}  \rho(p,T
 `table': A material model that reads tables of pressure and temperature dependent material coefficients from files. The default values for this model's runtime parameters use a material description taken from the paper \textit{Complex phase distribution and seismic velocity structure of the transition zone: Convection model predictions for a magnesium-endmember olivine-pyroxene mantle} by Michael H.G. Jacobs and Arie P. van den Berg, Physics of the Earth and Planetary Interiors, Volume 186, Issues 1-2, May 2011, Pages 36--48. See \url{http://www.sciencedirect.com/science/article/pii/S0031920111000422}.
 
 
-{\it Possible values:} [Selection Morency and Doin|Steinberger|composition reaction|depth dependent|diffusion dislocation|latent heat|latent heat melt|multicomponent|simple|simple compressible|simpler|stamps|table ]
+{\it Possible values:} [Selection Morency and Doin|Steinberger|composition reaction|depth dependent|latent heat|latent heat melt|multicomponent|simple|simple compressible|simpler|stamps|table ]
 \end{itemize}
 
 
@@ -4025,7 +3997,7 @@ This model uses the following equations for the density: \begin{align}  \rho(p,T
 {\it Description:} The name of a material model that will be modified by a depth dependent viscosity. Valid values for this parameter are the names of models that are also valid for the ``Material models/Model name'' parameter. See the documentation for that for more information.
 
 
-{\it Possible values:} [Selection Morency and Doin|Steinberger|composition reaction|depth dependent|diffusion dislocation|latent heat|latent heat melt|multicomponent|simple|simple compressible|simpler|stamps|table ]
+{\it Possible values:} [Selection Morency and Doin|Steinberger|composition reaction|depth dependent|latent heat|latent heat melt|multicomponent|simple|simple compressible|simpler|stamps|table ]
 \item {\it Parameter name:} {\tt Data directory}
 \phantomsection\label{parameters:Material model/Depth dependent model/Data directory}
 
@@ -4161,300 +4133,6 @@ A typical example would be to set this runtime parameter to `pi=3.1415926536' an
 
 
 {\it Possible values:} [Anything]
-\end{itemize}
-
-\subsection{Parameters in section \tt Material model/DiffusionDislocation}
-\label{parameters:Material_20model/DiffusionDislocation}
-
-\begin{itemize}
-\item {\it Parameter name:} {\tt Activation energies for diffusion creep}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Activation energies for diffusion creep}
-
-
-\index[prmindex]{Activation energies for diffusion creep}
-\index[prmindexfull]{Material model!DiffusionDislocation!Activation energies for diffusion creep}
-{\it Value:} 335e3
-
-
-{\it Default:} 335e3
-
-
-{\it Description:} List of activation energies, $E_a$, for background mantle and compositional fields,for a total of N+1 values, where N is the number of compositional fields.If only one values is given, then all use the same value.  Units: $J / mol$
-
-
-{\it Possible values:} [List list of <[Double 0...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
-\item {\it Parameter name:} {\tt Activation energies for dislocation creep}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Activation energies for dislocation creep}
-
-
-\index[prmindex]{Activation energies for dislocation creep}
-\index[prmindexfull]{Material model!DiffusionDislocation!Activation energies for dislocation creep}
-{\it Value:} 540e3
-
-
-{\it Default:} 540e3
-
-
-{\it Description:} List of activation energies, $E_a$, for background mantle and compositional fields,for a total of N+1 values, where N is the number of compositional fields.If only one values is given, then all use the same value.  Units: $J / mol$
-
-
-{\it Possible values:} [List list of <[Double 0...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
-\item {\it Parameter name:} {\tt Activation volumes for diffusion creep}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Activation volumes for diffusion creep}
-
-
-\index[prmindex]{Activation volumes for diffusion creep}
-\index[prmindexfull]{Material model!DiffusionDislocation!Activation volumes for diffusion creep}
-{\it Value:} 6.4e-6
-
-
-{\it Default:} 6.4e-6
-
-
-{\it Description:} List of activation volumes, $V_a$, for background mantle and compositional fields,for a total of N+1 values, where N is the number of compositional fields.If only one value is given, then all use the same value.  Units: $m^3 / mol$
-
-
-{\it Possible values:} [List list of <[Double 0...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
-\item {\it Parameter name:} {\tt Activation volumes for dislocation creep}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Activation volumes for dislocation creep}
-
-
-\index[prmindex]{Activation volumes for dislocation creep}
-\index[prmindexfull]{Material model!DiffusionDislocation!Activation volumes for dislocation creep}
-{\it Value:} 6.4e-6
-
-
-{\it Default:} 6.4e-6
-
-
-{\it Description:} List of activation volumes, $V_a$, for background mantle and compositional fields,for a total of N+1 values, where N is the number of compositional fields.If only one value is given, then all use the same value.  Units: $m^3 / mol$
-
-
-{\it Possible values:} [List list of <[Double 0...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
-\item {\it Parameter name:} {\tt Densities}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Densities}
-
-
-\index[prmindex]{Densities}
-\index[prmindexfull]{Material model!DiffusionDislocation!Densities}
-{\it Value:} 3300.
-
-
-{\it Default:} 3300.
-
-
-{\it Description:} List of densities, $\rho$, for background mantle and compositional fields,for a total of N+1 values, where N is the number of compositional fields.If only one values is given, then all use the same value.  Units: $kg / m^3$
-
-
-{\it Possible values:} [List list of <[Double 0...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
-\item {\it Parameter name:} {\tt Effective viscosity coefficient}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Effective viscosity coefficient}
-
-
-\index[prmindex]{Effective viscosity coefficient}
-\index[prmindexfull]{Material model!DiffusionDislocation!Effective viscosity coefficient}
-{\it Value:} 1.0
-
-
-{\it Default:} 1.0
-
-
-{\it Description:} Scaling coefficient for effective viscosity.
-
-
-{\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
-\item {\it Parameter name:} {\tt Heat capacity}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Heat capacity}
-
-
-\index[prmindex]{Heat capacity}
-\index[prmindexfull]{Material model!DiffusionDislocation!Heat capacity}
-{\it Value:} 1.25e3
-
-
-{\it Default:} 1.25e3
-
-
-{\it Description:} Units: $J / (K * kg)$
-
-
-{\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
-\item {\it Parameter name:} {\tt Maximum viscosity}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Maximum viscosity}
-
-
-\index[prmindex]{Maximum viscosity}
-\index[prmindexfull]{Material model!DiffusionDislocation!Maximum viscosity}
-{\it Value:} 1e28
-
-
-{\it Default:} 1e28
-
-
-{\it Description:} Upper cutoff for effective viscosity. Units: $Pa s$
-
-
-{\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
-\item {\it Parameter name:} {\tt Minimum strain rate}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Minimum strain rate}
-
-
-\index[prmindex]{Minimum strain rate}
-\index[prmindexfull]{Material model!DiffusionDislocation!Minimum strain rate}
-{\it Value:} 1.4e-20
-
-
-{\it Default:} 1.4e-20
-
-
-{\it Description:} Stabilizes strain dependent viscosity. Units: $1 / s$
-
-
-{\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
-\item {\it Parameter name:} {\tt Minimum viscosity}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Minimum viscosity}
-
-
-\index[prmindex]{Minimum viscosity}
-\index[prmindexfull]{Material model!DiffusionDislocation!Minimum viscosity}
-{\it Value:} 1e17
-
-
-{\it Default:} 1e17
-
-
-{\it Description:} Lower cutoff for effective viscosity. Units: $Pa s$
-
-
-{\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
-\item {\it Parameter name:} {\tt Prefactors for diffusion creep}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Prefactors for diffusion creep}
-
-
-\index[prmindex]{Prefactors for diffusion creep}
-\index[prmindexfull]{Material model!DiffusionDislocation!Prefactors for diffusion creep}
-{\it Value:} 1.92e-11
-
-
-{\it Default:} 1.92e-11
-
-
-{\it Description:} List of viscosity prefactors, $A$, for background mantle and compositional fields,for a total of N+1 values, where N is the number of compositional fields.If only one values is given, then all use the same value.  Units: $1 / s$
-
-
-{\it Possible values:} [List list of <[Double 0...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
-\item {\it Parameter name:} {\tt Prefactors for dislocation creep}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Prefactors for dislocation creep}
-
-
-\index[prmindex]{Prefactors for dislocation creep}
-\index[prmindexfull]{Material model!DiffusionDislocation!Prefactors for dislocation creep}
-{\it Value:} 2.42e-10
-
-
-{\it Default:} 2.42e-10
-
-
-{\it Description:} List of viscosity prefactors, $A$, for background mantle and compositional fields,for a total of N+1 values, where N is the number of compositional fields.If only one values is given, then all use the same value.  Units: $Pa^{-n_dislocation} s^{-1}$
-
-
-{\it Possible values:} [List list of <[Double 0...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
-\item {\it Parameter name:} {\tt Reference temperature}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Reference temperature}
-
-
-\index[prmindex]{Reference temperature}
-\index[prmindexfull]{Material model!DiffusionDislocation!Reference temperature}
-{\it Value:} 293
-
-
-{\it Default:} 293
-
-
-{\it Description:} For calculating density by thermal expansivity. Units: $K$
-
-
-{\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
-\item {\it Parameter name:} {\tt Reference viscosity}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Reference viscosity}
-
-
-\index[prmindex]{Reference viscosity}
-\index[prmindexfull]{Material model!DiffusionDislocation!Reference viscosity}
-{\it Value:} 1e22
-
-
-{\it Default:} 1e22
-
-
-{\it Description:} Reference viscosity for nondimensionalization. Units $Pa s$
-
-
-{\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
-\item {\it Parameter name:} {\tt Stress exponents for dislocation creep}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Stress exponents for dislocation creep}
-
-
-\index[prmindex]{Stress exponents for dislocation creep}
-\index[prmindexfull]{Material model!DiffusionDislocation!Stress exponents for dislocation creep}
-{\it Value:} 3
-
-
-{\it Default:} 3
-
-
-{\it Description:} List of stress exponents, $n_dislocation$, for background mantle and compositional fields,for a total of N+1 values, where N is the number of compositional fields.If only one values is given, then all use the same value.  Units: None
-
-
-{\it Possible values:} [List list of <[Double 0...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
-\item {\it Parameter name:} {\tt Thermal diffusivity}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Thermal diffusivity}
-
-
-\index[prmindex]{Thermal diffusivity}
-\index[prmindexfull]{Material model!DiffusionDislocation!Thermal diffusivity}
-{\it Value:} 0.8e-6
-
-
-{\it Default:} 0.8e-6
-
-
-{\it Description:} Units: $m^2/s$
-
-
-{\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
-\item {\it Parameter name:} {\tt Thermal expansivities}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Thermal expansivities}
-
-
-\index[prmindex]{Thermal expansivities}
-\index[prmindexfull]{Material model!DiffusionDislocation!Thermal expansivities}
-{\it Value:} 3.5e-5
-
-
-{\it Default:} 3.5e-5
-
-
-{\it Description:} List of thermal expansivities for background mantle and compositional fields,for a total of N+1 values, where N is the number of compositional fields.If only one values is given, then all use the same value.  Units: $1 / K$
-
-
-{\it Possible values:} [List list of <[Double 0...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
-\item {\it Parameter name:} {\tt Viscosity averaging scheme}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Viscosity averaging scheme}
-
-
-\index[prmindex]{Viscosity averaging scheme}
-\index[prmindexfull]{Material model!DiffusionDislocation!Viscosity averaging scheme}
-{\it Value:} harmonic
-
-
-{\it Default:} harmonic
-
-
-{\it Description:} When more than one compositional field is present at a point with different viscosities, we need to come up with an average viscosity at that point.  Select a weighted harmonic, arithmetic, geometric, or maximum composition.
-
-
-{\it Possible values:} [Selection arithmetic|harmonic|geometric|maximum composition ]
 \end{itemize}
 
 \subsection{Parameters in section \tt Material model/Latent heat}
@@ -7116,8 +6794,6 @@ The format of these functions follows the syntax understood by the muparser libr
 
 To use this refinement criterion, you may want to combine it with other refinement criteria, setting the 'Normalize individual refinement criteria' flag and using the 'max' setting for 'Refinement criteria merge operation'.
 
-`strain rate': A mesh refinement criterion that computes therefinement indicators equal to the strain rate norm computed at the center of the elements.
-
 `temperature': A mesh refinement criterion that computes refinement indicators from the temperature field.
 
 `thermal energy density': A mesh refinement criterion that computes refinement indicators from a field that describes the spatial variability of the thermal energy density, $\rho C_p T$. Because this quantity may not be a continuous function ($\rho$ and $C_p$ may be discontinuous functions along discontinuities in the medium, for example due to phase changes), we approximate the gradient of this quantity to refine the mesh. The error indicator defined here takes the magnitude of the approximate gradient and scales it by $h_K^{1.5}$ where $h_K$ is the diameter of each cell. This scaling ensures that the error indicators converge to zero as $h_K\rightarrow 0$ even if the energy density is discontinuous, since the gradient of a discontinuous function grows like $1/h_K$.
@@ -7131,7 +6807,7 @@ To use this refinement criterion, you may want to combine it with other refineme
 `viscosity': A mesh refinement criterion that computes refinement indicators from a field that describes the spatial variability of the logarithm of the viscosity, $\log\eta$. (We choose the logarithm of the viscosity because it can vary by orders of magnitude.)Because this quantity may not be a continuous function ($\eta$ may be a discontinuous function along discontinuities in the medium, for example due to phase changes), we approximate the gradient of this quantity to refine the mesh. The error indicator defined here takes the magnitude of the approximate gradient and scales it by $h_K^{1+d/2}$ where $h_K$ is the diameter of each cell and $d$ is the dimension. This scaling ensures that the error indicators converge to zero as $h_K\rightarrow 0$ even if the energy density is discontinuous, since the gradient of a discontinuous function grows like $1/h_K$.
 
 
-{\it Possible values:} [MultipleSelection boundary|composition|density|maximum refinement function|minimum refinement function|nonadiabatic temperature|slope|strain rate|temperature|thermal energy density|topography|velocity|viscosity ]
+{\it Possible values:} [MultipleSelection boundary|composition|density|maximum refinement function|minimum refinement function|nonadiabatic temperature|slope|temperature|thermal energy density|topography|velocity|viscosity ]
 \item {\it Parameter name:} {\tt Time steps between mesh refinement}
 \phantomsection\label{parameters:Mesh refinement/Time steps between mesh refinement}
 
@@ -7798,7 +7474,7 @@ Of course, activating this option also greatly increases the amount of data \asp
 
 \index[prmindex]{List of output variables}
 \index[prmindexfull]{Postprocess!Visualization!List of output variables}
-{\it Value:} density, dynamic topography, strain rate, viscosity, shear stress, stress
+{\it Value:} density, strain rate, viscosity, stress
 
 
 {\it Default:} 
