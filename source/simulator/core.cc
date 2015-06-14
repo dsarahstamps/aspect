@@ -121,7 +121,6 @@ namespace aspect
                                                           std_cxx11::ref(prm),
                                                           std_cxx11::cref(*geometry_model))),
     material_model (MaterialModel::create_material_model<dim>(prm)),
-    heating_model (HeatingModel::create_heating_model<dim>(prm)),
     gravity_model (GravityModel::create_gravity_model<dim>(prm)),
     // create a boundary temperature model, but only if we actually need
     // it. otherwise, allow the user to simply specify nothing at all
@@ -194,18 +193,75 @@ namespace aspect
     // first do some error checking for the parameters we got
     {
       // make sure velocity boundary indicators don't appear in multiple lists
-      std::set<types::boundary_id> boundary_indicator_lists[4]
+      std::set<types::boundary_id> boundary_indicator_lists[6]
         = { parameters.zero_velocity_boundary_indicators,
             parameters.tangential_velocity_boundary_indicators,
             parameters.free_surface_boundary_indicators,
-            std::set<types::boundary_id>()
+            std::set<types::boundary_id>()   // to be prescribed velocity and traction boundary indicators
           };
 
+      std::set<types::boundary_id> velocity_bi;
+      std::set<types::boundary_id> traction_bi;
+
+      // copy the used boundary indicators of prescribed velocity and prescribed traction
+      // into a set while checking whether selectors of the same boundary indicator
+      // are duplicate
       for (std::map<types::boundary_id,std::pair<std::string, std::string> >::const_iterator
            p = parameters.prescribed_velocity_boundary_indicators.begin();
            p != parameters.prescribed_velocity_boundary_indicators.end();
            ++p)
-        boundary_indicator_lists[3].insert (p->first);
+        {
+          for (std::map<types::boundary_id,std::pair<std::string, std::string> >::const_iterator
+               r = parameters.prescribed_traction_boundary_indicators.begin();
+               r != parameters.prescribed_traction_boundary_indicators.end();
+               ++r)
+            {
+              if (p->first != r->first)
+                {
+                  velocity_bi.insert(p->first);
+                  traction_bi.insert(r->first);
+                }
+              else
+                {
+                  std::set<char> velocity_selector;
+                  std::set<char> traction_selector;
+
+                  for (std::string::const_iterator it=p->second.first.begin(); it!=p->second.first.end(); ++it)
+                    {
+                      velocity_selector.insert(*it);
+                    }
+
+                  for (std::string::const_iterator it=r->second.first.begin(); it!=r->second.first.end(); ++it)
+                    {
+                      traction_selector.insert(*it);
+                    }
+
+                  std::set<char> intersection;
+                  std::set_intersection (velocity_selector.begin(),
+                                         velocity_selector.end(),
+                                         traction_selector.begin(),
+                                         traction_selector.end(),
+                                         std::inserter(intersection, intersection.end()));
+
+                  AssertThrow(intersection.empty(), ExcMessage ("Prescribed velocity/traction boundary indicator and selector occur more than once."));
+
+                  velocity_bi.insert(p->first);
+                  traction_bi.insert(r->first);
+                }
+            }
+        }
+
+      // remove boundary indicators that have different selectors
+      // but occur in both the velocity and the traction set
+      std::set<types::boundary_id> union_set;
+      std::set_union (velocity_bi.begin(),
+                      velocity_bi.end(),
+                      traction_bi.begin(),
+                      traction_bi.end(),
+                      std::inserter(union_set, union_set.end()));
+      // Assign the prescribed boundary indicator list to the boundary_indicator_lists
+      boundary_indicator_lists[3] = union_set;
+
 
       // for each combination of boundary indicator lists, make sure that the
       // intersection is empty
@@ -218,6 +274,7 @@ namespace aspect
                                    boundary_indicator_lists[j].begin(),
                                    boundary_indicator_lists[j].end(),
                                    std::inserter(intersection, intersection.end()));
+
             AssertThrow (intersection.empty(),
                          ExcMessage ("Boundary indicator <"
                                      +
@@ -228,7 +285,7 @@ namespace aspect
                                      geometry_model->translate_id_to_symbol_name (*intersection.begin())
                                      +
                                      "> is listed as having more "
-                                     "than one type of velocity boundary condition in the input file."));
+                                     "than one type of velocity or traction boundary condition in the input file."));
           }
 
       const std::set<types::boundary_id> all_boundary_indicators
@@ -290,10 +347,8 @@ namespace aspect
     material_model->parse_parameters (prm);
     material_model->initialize ();
 
-    if (SimulatorAccess<dim> *sim = dynamic_cast<SimulatorAccess<dim>*>(heating_model.get()))
-      sim->initialize (*this);
-    heating_model->parse_parameters (prm);
-    heating_model->initialize ();
+    heating_model_manager.initialize (*this);
+    heating_model_manager.parse_parameters (prm);
 
     if (SimulatorAccess<dim> *sim = dynamic_cast<SimulatorAccess<dim>*>(gravity_model.get()))
       sim->initialize (*this);
@@ -366,8 +421,9 @@ namespace aspect
       {
         //It should be possible to make the free surface work with any of a number of nonlinear
         //schemes, but I do not see a way to do it in generality --IR
-        AssertThrow( parameters.nonlinear_solver == NonlinearSolver::IMPES,
-                     ExcMessage("The free surface scheme is only implemented for the IMPES solver") );
+        AssertThrow( parameters.nonlinear_solver == NonlinearSolver::IMPES ||
+                     parameters.nonlinear_solver == NonlinearSolver::iterated_Stokes,
+                     ExcMessage("The free surface scheme is only implemented for the IMPES or Iterated Stokes solver") );
         //Pressure normalization doesn't really make sense with a free surface, and if we do
         //use it, we can run into problems with geometry_model->depth().
         AssertThrow ( parameters.pressure_normalization == "no",
@@ -400,6 +456,21 @@ namespace aspect
           dynamic_cast<SimulatorAccess<dim>*>(bv)->initialize(*this);
         bv->parse_parameters (prm);
         bv->initialize ();
+      }
+
+    for (std::map<types::boundary_id,std::pair<std::string,std::string> >::const_iterator
+         p = parameters.prescribed_traction_boundary_indicators.begin();
+         p != parameters.prescribed_traction_boundary_indicators.end();
+         ++p)
+      {
+        TractionBoundaryConditions::Interface<dim> *bv
+          = TractionBoundaryConditions::create_traction_boundary_conditions<dim>
+            (p->second.second);
+        if (dynamic_cast<SimulatorAccess<dim>*>(bv) != 0)
+          dynamic_cast<SimulatorAccess<dim>*>(bv)->initialize(*this);
+        bv->parse_parameters (prm);
+        bv->initialize ();
+        traction_boundary_conditions[p->first].reset (bv);
       }
 
     // determine how to treat the pressure. we have to scale it for the solver
@@ -639,8 +710,17 @@ namespace aspect
     // Temperature BC are currently updated in compute_current_constraints
     material_model->update();
     gravity_model->update();
-    heating_model->update();
+    heating_model_manager.update();
     adiabatic_conditions->update();
+
+    // do the same for the traction boundary conditions and other things
+    // that end up in the bilinear form. we update those that end up in
+    // the constraints object when calling compute_current_constraints()
+    // above
+    for (typename std::map<types::boundary_id,std_cxx11::shared_ptr<TractionBoundaryConditions::Interface<dim> > >::iterator
+         p = traction_boundary_conditions.begin();
+         p != traction_boundary_conditions.end(); ++p)
+      p->second->update ();
   }
 
 
@@ -1631,13 +1711,11 @@ namespace aspect
           do
             {
               assemble_advection_system(AdvectionField::temperature());
+              build_advection_preconditioner(AdvectionField::temperature(),
+                                             T_preconditioner);
 
               if (iteration == 0)
-                {
-                  build_advection_preconditioner(AdvectionField::temperature(),
-                                                 T_preconditioner);
-                  initial_temperature_residual = system_rhs.block(introspection.block_indices.temperature).l2_norm();
-                }
+                initial_temperature_residual = system_rhs.block(introspection.block_indices.temperature).l2_norm();
 
               const double temperature_residual = solve_advection(AdvectionField::temperature());
 
@@ -1651,6 +1729,7 @@ namespace aspect
                   assemble_advection_system (AdvectionField::composition(c));
                   build_advection_preconditioner(AdvectionField::composition(c),
                                                  C_preconditioner);
+
                   if (iteration == 0)
                     initial_composition_residual[c] = system_rhs.block(introspection.block_indices.compositional_fields[c]).l2_norm();
 
@@ -1673,11 +1752,10 @@ namespace aspect
                 rebuild_stokes_matrix = rebuild_stokes_preconditioner = true;
 
               assemble_stokes_system();
+              build_stokes_preconditioner();
+
               if (iteration == 0)
-                {
-                  build_stokes_preconditioner();
-                  initial_stokes_residual = compute_initial_stokes_residual();
-                }
+                initial_stokes_residual = compute_initial_stokes_residual();
 
               const double stokes_residual = solve_stokes();
 
@@ -1692,8 +1770,8 @@ namespace aspect
 
               pcout << ", " << stokes_residual;
 
-              pcout << std::endl
-                    << std::endl;
+              pcout << std::endl;
+
 
               double max = 0.0;
               for (unsigned int c=0; c<parameters.n_compositional_fields; ++c)
@@ -1703,7 +1781,9 @@ namespace aspect
                 max = std::max(stokes_residual/initial_stokes_residual, max);
               if (initial_temperature_residual>0)
                 max = std::max(temperature_residual/initial_temperature_residual, max);
-              pcout << "      residual: " << max << std::endl;
+              pcout << "      Total relative nonlinear residual: " << max << std::endl;
+              pcout << std::endl
+                    << std::endl;
               if (max < parameters.nonlinear_tolerance)
                 break;
 
@@ -1717,6 +1797,9 @@ namespace aspect
 
         case NonlinearSolver::iterated_Stokes:
         {
+          if (parameters.free_surface_enabled)
+            free_surface->execute ();
+
           // solve the temperature system once...
           assemble_advection_system (AdvectionField::temperature());
           build_advection_preconditioner (AdvectionField::temperature (),
@@ -1754,17 +1837,16 @@ namespace aspect
 
               assemble_stokes_system();
               build_stokes_preconditioner();
-              const double stokes_residual = solve_stokes();
 
               if (i==0)
-                initial_stokes_residual = stokes_residual;
-              else
+                initial_stokes_residual = compute_initial_stokes_residual();
+
+              const double stokes_residual = solve_stokes();
+
+              pcout << "   Residual after nonlinear iteration " << i+1 << ": " << stokes_residual/initial_stokes_residual << std::endl;
+              if (stokes_residual/initial_stokes_residual < parameters.nonlinear_tolerance)
                 {
-                  pcout << "   Residual after nonlinear iteration " << i+1 << ": " << stokes_residual/initial_stokes_residual << std::endl;
-                  if (stokes_residual/initial_stokes_residual < parameters.nonlinear_tolerance)
-                    {
-                      break; // convergence reached, exist nonlinear iteration.
-                    }
+                  break; // convergence reached, exit nonlinear iterations.
                 }
 
               current_linearization_point.block(introspection.block_indices.velocities)

@@ -101,7 +101,7 @@ ENDFOREACH()
 # set up compiler flags, include paths, etc to compile an
 # Aspect plugin
 CONFIGURE_FILE(
-  ${CMAKE_SOURCE_DIR}/AspectConfig.cmake.in
+  ${CMAKE_SOURCE_DIR}/cmake/AspectConfig.cmake.in
   ${CMAKE_BINARY_DIR}/AspectConfig.cmake
   @ONLY
 )
@@ -112,12 +112,12 @@ CONFIGURE_FILE(
 SET(ASPECT_RUN_ALL_TESTS OFF CACHE BOOL "Set up complete test suite to run.")
 
 CONFIGURE_FILE(
-  ${CMAKE_SOURCE_DIR}/tests/CTestCustom.ctest.in
+  ${CMAKE_SOURCE_DIR}/tests/cmake/CTestCustom.ctest.in
   ${CMAKE_BINARY_DIR}/CTestCustom.ctest
   @ONLY
 )
 CONFIGURE_FILE(
-  ${CMAKE_SOURCE_DIR}/tests/print_test_info.sh
+  ${CMAKE_SOURCE_DIR}/tests/cmake/print_test_info.sh
   ${CMAKE_BINARY_DIR}/print_test_info.sh
   @ONLY
 )
@@ -166,6 +166,32 @@ IF (_HAVE_LINK_H)
 ENDIF()
 
 
+SET(ASPECT_USE_FP_EXCEPTIONS ON CACHE BOOL "If ON, floating point exception are raised in debug mode.")
+
+IF (ASPECT_USE_FP_EXCEPTIONS 
+    AND CMAKE_CXX_COMPILER_ID MATCHES "Intel"
+    AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "15"
+    )
+  # deal.II is triggering floating point exception in Pattern::Double() so disable them
+  MESSAGE("Runtime floating point checks not supported on Intel compiler. Disabling...")
+  SET(ASPECT_USE_FP_EXCEPTIONS OFF CACHE BOOL "" FORCE)
+ENDIF()
+
+INCLUDE (CheckCXXSymbolExists)
+CHECK_CXX_SYMBOL_EXISTS("feenableexcept" "fenv.h" _HAVE_FP_EXCEPTIONS)
+IF (_HAVE_FP_EXCEPTIONS AND ASPECT_USE_FP_EXCEPTIONS)
+  MESSAGE(STATUS "Runtime floating point checks enabled.")
+  FOREACH(_source_file ${TARGET_SRC})
+    SET_PROPERTY(SOURCE ${_source_file}
+      APPEND PROPERTY COMPILE_DEFINITIONS ASPECT_USE_FP_EXCEPTIONS=1)
+  ENDFOREACH()
+ELSE()
+  IF (ASPECT_USE_FP_EXCEPTIONS)
+    SET(ASPECT_USE_FP_EXCEPTIONS OFF CACHE BOOL "" FORCE)
+    MESSAGE(STATUS "No support for feenableexcept(), disabling runtime floating point exception checks.")
+  ENDIF()
+ENDIF()
+
 DEAL_II_INVOKE_AUTOPILOT()
 
 MESSAGE(STATUS "Writing config into detailed.log...")
@@ -173,5 +199,5 @@ LIST(APPEND CMAKE_MODULE_PATH
   ${CMAKE_SOURCE_DIR}
   )
 
-INCLUDE(write_config)
+INCLUDE(cmake/write_config)
 

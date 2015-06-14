@@ -282,9 +282,10 @@ namespace aspect
                                              parameters.stokes_velocity_degree);
     const unsigned int n_q_points = quadrature_formula.size();
 
-    FEValues<dim> fe_values (mapping, finite_element, quadrature_formula, update_values | (parameters.use_conduction_timestep ? update_quadrature_points : update_default));
+    FEValues<dim> fe_values (mapping, finite_element, quadrature_formula, update_values | update_gradients | (parameters.use_conduction_timestep ? update_quadrature_points : update_default));
     std::vector<Tensor<1,dim> > velocity_values(n_q_points);
     std::vector<double> pressure_values(n_q_points), temperature_values(n_q_points);
+    std::vector<Tensor<1,dim> > pressure_gradients(n_q_points);
     std::vector<std::vector<double> > composition_values (parameters.n_compositional_fields,std::vector<double> (n_q_points));
     std::vector<double> composition_values_at_q_point (parameters.n_compositional_fields);
 
@@ -318,6 +319,8 @@ namespace aspect
                                                                                 pressure_values);
               fe_values[introspection.extractors.temperature].get_function_values (solution,
                                                                                    temperature_values);
+              fe_values[introspection.extractors.pressure].get_function_gradients (solution,
+                                                                                   pressure_gradients);
               for (unsigned int c=0; c<parameters.n_compositional_fields; ++c)
                 fe_values[introspection.extractors.compositional_fields[c]].get_function_values (solution,
                     composition_values[c]);
@@ -336,6 +339,7 @@ namespace aspect
                   in.temperature[q] = temperature_values[q];
                   in.pressure[q] = pressure_values[q];
                   in.velocity[q] = velocity_values[q];
+                  in.pressure_gradient[q] = pressure_gradients[q];
                   for (unsigned int c=0; c<parameters.n_compositional_fields; ++c)
                     in.composition[q][c] = composition_values_at_q_point[c];
                 }
@@ -804,65 +808,17 @@ namespace aspect
     Assert(introspection.block_indices.velocities != introspection.block_indices.pressure,
            ExcNotImplemented());
 
-    // In the following we integrate the normal velocity over every surface
-    // of the model. This integral is part of the correction term that needs
-    // to be added to the pressure right hand side. To calculate the normal
-    // velocity we need the positions and normals of every quadrature point on
-    // the surface.
+    // In the following we integrate the right hand side. This integral is the
+    // correction term that needs to be added to the pressure right hand side.
+    // (so that the integral of right hand side is set to zero).
 
-    const QGauss<dim-1> quadrature_formula (parameters.stokes_velocity_degree+1);
-    FEFaceValues<dim> fe_face_values (mapping,
-                                      finite_element,
-                                      quadrature_formula,
-                                      update_normal_vectors |
-                                      update_q_points |
-                                      update_JxW_values);
-
-    double local_normal_velocity_integral = 0;
-
-    typename DoFHandler<dim>::active_cell_iterator
-    cell = dof_handler.begin_active(),
-    endc = dof_handler.end();
-
-    // for every surface face that is part of a geometry boundary with
-    // prescribed velocity and that is owned by this processor,
-    // integrate the normal velocity magnitude.
-    for (; cell!=endc; ++cell)
-      if (cell->is_locally_owned())
-        for (unsigned int f=0; f<GeometryInfo<dim>::faces_per_cell; ++f)
-          if (cell->face(f)->at_boundary())
-            {
-              const types::boundary_id boundary_indicator
-#if DEAL_II_VERSION_GTE(8,3,0)
-                = cell->face(f)->boundary_id();
-#else
-                = cell->face(f)->boundary_indicator();
-#endif
-
-              if (parameters.prescribed_velocity_boundary_indicators.find(boundary_indicator)==
-                  parameters.prescribed_velocity_boundary_indicators.end())
-                continue;
-
-              fe_face_values.reinit (cell, f);
-
-              // for each of the quadrature points, evaluate the
-              // normal velocity by calling the boundary conditions and add
-              // it to the integral
-              for (unsigned int q=0; q<quadrature_formula.size(); ++q)
-                {
-                  const Tensor<1,dim> velocity =
-                    velocity_boundary_conditions.find(boundary_indicator)->second->boundary_velocity(fe_face_values.quadrature_point(q));
-
-                  const double normal_velocity = velocity * fe_face_values.normal_vector(q);
-                  local_normal_velocity_integral += normal_velocity * fe_face_values.JxW(q);
-                }
-            }
-
-    const double global_normal_velocity_integral =
-      Utilities::MPI::sum (local_normal_velocity_integral,mpi_communicator);
+    // We do not have to integrate over the normal velocity at the
+    // boundaries with a prescribed velocity because the constraints
+    // are already distributed to the right hand side in
+    // current_constraints.distribute.
 
     const double mean       = vector.block(introspection.block_indices.pressure).mean_value();
-    const double correction = (global_normal_velocity_integral - mean * vector.block(introspection.block_indices.pressure).size()) / global_volume;
+    const double correction = ( - mean * vector.block(introspection.block_indices.pressure).size()) / global_volume;
 
     vector.block(introspection.block_indices.pressure).add(correction, pressure_shape_function_integrals.block(introspection.block_indices.pressure));
   }
@@ -971,6 +927,8 @@ namespace aspect
                                                                                   in.velocity);
               fe_values[introspection.extractors.velocities].get_function_symmetric_gradients (this->solution,
                   in.strain_rate);
+              fe_values[introspection.extractors.pressure].get_function_gradients (this->solution,
+                                                                                   in.pressure_gradient);
               for (unsigned int c=0; c<parameters.n_compositional_fields; ++c)
                 fe_values[introspection.extractors.compositional_fields[c]].get_function_values(this->solution,
                                                                                                 composition_values[c]);
@@ -1143,7 +1101,8 @@ namespace aspect
 
         bool need_material_properties() const
         {
-          return false;
+          // this is needed because we want to access in.position in operator()
+          return true;
         }
 
         void setup(const unsigned int q_points)
@@ -1161,7 +1120,7 @@ namespace aspect
           for (unsigned int q=0; q<output.size(); ++q)
             {
               Tensor<1,dim> g = gravity_->gravity_vector(in.position[q]);
-              output[q] = std::fabs(std::min(-1e-16,g*velocity_values[q]/g.norm()))*year_in_seconds;
+              output[q] = std::fabs(std::min(0.0, g*velocity_values[q]/g.norm()))*year_in_seconds;
             }
         }
 
