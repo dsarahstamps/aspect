@@ -124,6 +124,15 @@ namespace aspect
 
 
       template <int dim>
+      std::list<std::string>
+      Interface<dim>::required_other_postprocessors () const
+      {
+        return std::list<std::string>();
+      }
+
+
+
+      template <int dim>
       void
       Interface<dim>::save (std::map<std::string,std::string> &) const
       {}
@@ -144,7 +153,8 @@ namespace aspect
       // initialize this to a nonsensical value; set it to the actual time
       // the first time around we get to check it
       last_output_time (std::numeric_limits<double>::quiet_NaN()),
-      output_file_number (0)
+      output_file_number (0),
+      mesh_changed (true)
     {}
 
 
@@ -354,12 +364,12 @@ namespace aspect
           data_out.write_filtered_data(data_filter);
           data_out.write_hdf5_parallel(data_filter,
                                        mesh_changed,
-                                       (this->get_output_directory()+last_mesh_file_name).c_str(),
-                                       (this->get_output_directory()+h5_solution_file_name).c_str(),
+                                       this->get_output_directory()+last_mesh_file_name,
+                                       this->get_output_directory()+h5_solution_file_name,
                                        this->get_mpi_communicator());
           new_xdmf_entry = data_out.create_xdmf_entry(data_filter,
-                                                      last_mesh_file_name.c_str(),
-                                                      h5_solution_file_name.c_str(),
+                                                      last_mesh_file_name,
+                                                      h5_solution_file_name,
                                                       time_in_years_or_seconds,
                                                       this->get_mpi_communicator());
           xdmf_entries.push_back(new_xdmf_entry);
@@ -786,10 +796,15 @@ namespace aspect
       & output_file_number
       & times_and_pvtu_names
       & output_file_names_by_timestep
-      & mesh_changed
       & last_mesh_file_name
       & xdmf_entries
       ;
+
+      // We do not serialize mesh_changed but use the default (true) from our
+      // constructor. This will result in a new mesh file the first time we
+      // create visualization output after resuming from a snapshot. Otherwise
+      // we might get corrupted graphical output, because the ordering of
+      // vertices can be different after resuming.
     }
 
 
@@ -857,6 +872,30 @@ namespace aspect
                                                                declare_parameters_function,
                                                                factory_function);
     }
+
+
+
+    template <int dim>
+    std::list<std::string>
+    Visualization<dim>::required_other_postprocessors () const
+    {
+      std::list<std::string> requirements;
+
+      // loop over all of the viz postprocessors and collect what
+      // they want. don't worry about duplicates, the postprocessor
+      // manager will filter them out
+      for (typename std::list<std_cxx11::shared_ptr<VisualizationPostprocessors::Interface<dim> > >::const_iterator
+           p = postprocessors.begin();
+           p != postprocessors.end(); ++p)
+        {
+          const std::list<std::string> this_requirements = (*p)->required_other_postprocessors();
+          requirements.insert (requirements.end(),
+                               this_requirements.begin(), this_requirements.end());
+        }
+
+      return requirements;
+    }
+
 
   }
 }

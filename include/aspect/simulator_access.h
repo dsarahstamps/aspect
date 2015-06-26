@@ -50,8 +50,11 @@ namespace aspect
   using namespace dealii;
 
   // forward declaration
-  template <int> class Simulator;
-
+  template <int dim> class Simulator;
+  namespace HeatingModel
+  {
+    template <int dim> class Manager;
+  }
 
   /**
    * SimulatorAccess is base class for different plugins like postprocessors.
@@ -479,10 +482,12 @@ namespace aspect
       get_prescribed_velocity_boundary_conditions () const;
 
       /**
-       * Return a pointer to the heating model.
+       * Return a pointer to the manager of the heating model.
+       * This can then i.e. be used to get the names of the heating models
+       * used in a computation.
        */
-      const HeatingModel::Interface<dim> &
-      get_heating_model () const;
+      const HeatingModel::Manager<dim> &
+      get_heating_model_manager () const;
 
       /**
        * A convenience function that copies the values of the compositional
@@ -510,8 +515,14 @@ namespace aspect
 
 
       /**
-       * Find a pointer to a certain postprocessor, if not return a NULL
-       * pointer.
+       * This function can be used to find out whether the list of
+       * postprocessors that are run at the end of each time step
+       * contains an object of the given template type. If so, the function
+       * returns a pointer to the postprocessor object of this type. If
+       * no postprocessor of this type has been selected in the input
+       * file (or, has been required by another postprocessor using the
+       * Postprocess::Interface::required_other_postprocessors()
+       * mechanism), then the function returns a NULL pointer.
        */
       template <typename PostprocessorType>
       PostprocessorType *

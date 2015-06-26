@@ -52,6 +52,7 @@
 #include <aspect/compositional_initial_conditions/interface.h>
 #include <aspect/prescribed_stokes_solution/interface.h>
 #include <aspect/velocity_boundary_conditions/interface.h>
+#include <aspect/traction_boundary_conditions/interface.h>
 #include <aspect/mesh_refinement/interface.h>
 #include <aspect/termination_criteria/interface.h>
 #include <aspect/postprocess/interface.h>
@@ -601,20 +602,6 @@ namespace aspect
                                        internal::Assembly::Scratch::AdvectionSystem<dim>  &scratch,
                                        internal::Assembly::CopyData::AdvectionSystem<dim> &data);
 
-      /**
-       * Compute the heating term for the advection system index. Currently
-       * the heating term is 0 for compositional fields.
-       *
-       * This function is implemented in
-       * <code>source/simulator/assembly.cc</code>.
-       */
-      double compute_heating_term(const internal::Assembly::Scratch::AdvectionSystem<dim>  &scratch,
-                                  MaterialModel::MaterialModelInputs<dim> &material_model_inputs,
-                                  MaterialModel::MaterialModelOutputs<dim> &material_model_outputs,
-                                  const double specific_heating_rate,
-                                  const AdvectionField &advection_field,
-                                  const unsigned int q) const;
-
 
       /**
        * Copy the contribution to the advection system from a single cell into
@@ -1008,6 +995,8 @@ namespace aspect
        * describes the finite element space in use and that is used to
        * evaluate the solution values at the quadrature points of the current
        * cell.
+       * @param[in] cell The cell on which we are currently evaluating
+       * the material model.
        * @param[in] compute_strainrate A flag determining whether the strain
        * rate should be computed or not in the output structure.
        * @param[out] material_model_inputs The output structure that contains
@@ -1141,7 +1130,6 @@ namespace aspect
       const std::auto_ptr<GeometryModel::Interface<dim> >            geometry_model;
       const IntermediaryConstructorAction                            post_geometry_model_creation_action;
       const std::auto_ptr<MaterialModel::Interface<dim> >            material_model;
-      const std::auto_ptr<HeatingModel::Interface<dim> >             heating_model;
       const std::auto_ptr<GravityModel::Interface<dim> >             gravity_model;
       const std::auto_ptr<BoundaryTemperature::Interface<dim> >      boundary_temperature;
       const std::auto_ptr<BoundaryComposition::Interface<dim> >      boundary_composition;
@@ -1150,6 +1138,8 @@ namespace aspect
       const std::auto_ptr<CompositionalInitialConditions::Interface<dim> > compositional_initial_conditions;
       const std::auto_ptr<AdiabaticConditions::Interface<dim> >      adiabatic_conditions;
       std::map<types::boundary_id,std_cxx11::shared_ptr<VelocityBoundaryConditions::Interface<dim> > > velocity_boundary_conditions;
+      std::map<types::boundary_id,std_cxx11::shared_ptr<TractionBoundaryConditions::Interface<dim> > > traction_boundary_conditions;
+
       /**
        * @}
        */
@@ -1183,6 +1173,7 @@ namespace aspect
       double                                                    global_volume;
 
       MeshRefinement::Manager<dim>                              mesh_refinement_manager;
+      HeatingModel::Manager<dim>                                heating_model_manager;
 
       const MappingQ<dim>                                       mapping;
 
