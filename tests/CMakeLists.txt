@@ -170,6 +170,8 @@ FOREACH(_test ${_tests})
     ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${_test}.x.prm
       COMMAND cp ${CMAKE_CURRENT_SOURCE_DIR}/${_test}.prm
 		 ${CMAKE_CURRENT_BINARY_DIR}/${_test}.x.prm
+      COMMAND echo ''
+		 >> ${CMAKE_CURRENT_BINARY_DIR}/${_test}.x.prm
       COMMAND echo 'set Output directory = output-${_test}'
 		 >> ${CMAKE_CURRENT_BINARY_DIR}/${_test}.x.prm
       COMMAND echo '${_testlib}'
@@ -319,4 +321,10 @@ FOREACH(_test ${_tests})
   ENDIF()
 ENDFOREACH()
 
-MESSAGE(STATUS "Added ${_n_tests} tests")
+# display as important for 'make setup_tests' (stdout is hidden)
+IF(PRINT_TEST_SUMMARY_AS_IMPORTANT)
+  SET(PRINT_TEST_SUMMARY_AS_IMPORTANT OFF CACHE INTERNAL "" FORCE)
+  MESSAGE("Added ${_n_tests} tests.")
+ELSE()
+  MESSAGE(STATUS "Added ${_n_tests} tests.")
+ENDIF()
