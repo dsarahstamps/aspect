@@ -1,4 +1,17 @@
 The system is: Darwin - 13.4.0 - x86_64
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: /Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpic++ 
+Build flags: -Qunused-arguments;-pedantic;-fpic;-Wall;-Wpointer-arith;-Wwrite-strings;-Wsynth;-Wsign-compare;-Wswitch;-Wno-long-long;;;-Wno-dangling-else;-Wno-delete-non-virtual-dtor;-Wno-long-long;-Wno-newline-eof;-Wno-unused-function;-Wno-unused-private-field;-Wno-unused-variable;-Wno-unsupported-friend;-Wno-c++11-extensions;-Wno-c99-extensions;-Wno-variadic-macros;-std=c++11;-Wno-parentheses;-Wno-long-long;-Wno-unused;-Wno-extra;-Wno-overloaded-virtual;-Wno-long-long
+Id flags: 
+
+The output was:
+0
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
+
+The CXX compiler identification is AppleClang, found in "/Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/3.2.2/CompilerIdCXX/a.out"
+
 Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
 Compiler: /Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicc 
 Build flags: -g;-O3
@@ -28,31 +41,31 @@ The CXX compiler identification is AppleClang, found in "/Users/q/Documents/aspe
 Determining if the C compiler works passed with the following output:
 Change Dir: /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTryCompileExec432009573/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec432009573.dir/build.make CMakeFiles/cmTryCompileExec432009573.dir/build
+Run Build Command:"/usr/bin/make" "cmTryCompileExec630345837/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec630345837.dir/build.make CMakeFiles/cmTryCompileExec630345837.dir/build
 /Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building C object CMakeFiles/cmTryCompileExec432009573.dir/testCCompiler.c.o
-/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicc   -g -O3    -o CMakeFiles/cmTryCompileExec432009573.dir/testCCompiler.c.o   -c /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp/testCCompiler.c
-Linking C executable cmTryCompileExec432009573
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec432009573.dir/link.txt --verbose=1
-/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicc  -g -O3  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec432009573.dir/testCCompiler.c.o  -o cmTryCompileExec432009573  
+Building C object CMakeFiles/cmTryCompileExec630345837.dir/testCCompiler.c.o
+/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicc   -g -O3    -o CMakeFiles/cmTryCompileExec630345837.dir/testCCompiler.c.o   -c /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTryCompileExec630345837
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec630345837.dir/link.txt --verbose=1
+/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicc  -g -O3  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec630345837.dir/testCCompiler.c.o  -o cmTryCompileExec630345837  
 
 
 Detecting C compiler ABI info compiled with the following output:
 Change Dir: /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTryCompileExec4291582967/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec4291582967.dir/build.make CMakeFiles/cmTryCompileExec4291582967.dir/build
+Run Build Command:"/usr/bin/make" "cmTryCompileExec1961812182/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec1961812182.dir/build.make CMakeFiles/cmTryCompileExec1961812182.dir/build
 /Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building C object CMakeFiles/cmTryCompileExec4291582967.dir/CMakeCCompilerABI.c.o
-/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicc   -g -O3    -o CMakeFiles/cmTryCompileExec4291582967.dir/CMakeCCompilerABI.c.o   -c /Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeCCompilerABI.c
-Linking C executable cmTryCompileExec4291582967
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec4291582967.dir/link.txt --verbose=1
-/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicc  -g -O3  -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTryCompileExec4291582967.dir/CMakeCCompilerABI.c.o  -o cmTryCompileExec4291582967   
+Building C object CMakeFiles/cmTryCompileExec1961812182.dir/CMakeCCompilerABI.c.o
+/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicc   -g -O3    -o CMakeFiles/cmTryCompileExec1961812182.dir/CMakeCCompilerABI.c.o   -c /Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeCCompilerABI.c
+Linking C executable cmTryCompileExec1961812182
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec1961812182.dir/link.txt --verbose=1
+/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicc  -g -O3  -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTryCompileExec1961812182.dir/CMakeCCompilerABI.c.o  -o cmTryCompileExec1961812182   
 Apple LLVM version 6.0 (clang-600.0.57) (based on LLVM 3.5svn)
 Target: x86_64-apple-darwin13.4.0
 Thread model: posix
- "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -dynamic -arch x86_64 -macosx_version_min 10.9.0 -o cmTryCompileExec4291582967 -L/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/lib -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTryCompileExec4291582967.dir/CMakeCCompilerABI.c.o -lmpi -lm -L/usr/local/lib -lSystem /Library/Developer/CommandLineTools/usr/bin/../lib/clang/6.0/lib/darwin/libclang_rt.osx.a
+ "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -dynamic -arch x86_64 -macosx_version_min 10.9.0 -o cmTryCompileExec1961812182 -L/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/lib -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTryCompileExec1961812182.dir/CMakeCCompilerABI.c.o -lmpi -lm -L/usr/local/lib -lSystem /Library/Developer/CommandLineTools/usr/bin/../lib/clang/6.0/lib/darwin/libclang_rt.osx.a
 @(#)PROGRAM:ld  PROJECT:ld64-241.9
 configured to support archs: armv6 armv7 armv7s arm64 i386 x86_64 x86_64h armv6m armv7m armv7em
 Library search paths:
@@ -69,18 +82,18 @@ Parsed C implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/make" "cmTryCompileExec4291582967/fast"]
-  ignore line: [/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec4291582967.dir/build.make CMakeFiles/cmTryCompileExec4291582967.dir/build]
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTryCompileExec1961812182/fast"]
+  ignore line: [/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec1961812182.dir/build.make CMakeFiles/cmTryCompileExec1961812182.dir/build]
   ignore line: [/Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp/CMakeFiles 1]
-  ignore line: [Building C object CMakeFiles/cmTryCompileExec4291582967.dir/CMakeCCompilerABI.c.o]
-  ignore line: [/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicc   -g -O3    -o CMakeFiles/cmTryCompileExec4291582967.dir/CMakeCCompilerABI.c.o   -c /Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeCCompilerABI.c]
-  ignore line: [Linking C executable cmTryCompileExec4291582967]
-  ignore line: [/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec4291582967.dir/link.txt --verbose=1]
-  ignore line: [/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicc  -g -O3  -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTryCompileExec4291582967.dir/CMakeCCompilerABI.c.o  -o cmTryCompileExec4291582967   ]
+  ignore line: [Building C object CMakeFiles/cmTryCompileExec1961812182.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicc   -g -O3    -o CMakeFiles/cmTryCompileExec1961812182.dir/CMakeCCompilerABI.c.o   -c /Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeCCompilerABI.c]
+  ignore line: [Linking C executable cmTryCompileExec1961812182]
+  ignore line: [/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec1961812182.dir/link.txt --verbose=1]
+  ignore line: [/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicc  -g -O3  -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTryCompileExec1961812182.dir/CMakeCCompilerABI.c.o  -o cmTryCompileExec1961812182   ]
   ignore line: [Apple LLVM version 6.0 (clang-600.0.57) (based on LLVM 3.5svn)]
   ignore line: [Target: x86_64-apple-darwin13.4.0]
   ignore line: [Thread model: posix]
-  link line: [ "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -dynamic -arch x86_64 -macosx_version_min 10.9.0 -o cmTryCompileExec4291582967 -L/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/lib -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTryCompileExec4291582967.dir/CMakeCCompilerABI.c.o -lmpi -lm -L/usr/local/lib -lSystem /Library/Developer/CommandLineTools/usr/bin/../lib/clang/6.0/lib/darwin/libclang_rt.osx.a]
+  link line: [ "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -dynamic -arch x86_64 -macosx_version_min 10.9.0 -o cmTryCompileExec1961812182 -L/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/lib -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTryCompileExec1961812182.dir/CMakeCCompilerABI.c.o -lmpi -lm -L/usr/local/lib -lSystem /Library/Developer/CommandLineTools/usr/bin/../lib/clang/6.0/lib/darwin/libclang_rt.osx.a]
     arg [/Library/Developer/CommandLineTools/usr/bin/ld] ==> ignore
     arg [-demangle] ==> ignore
     arg [-dynamic] ==> ignore
@@ -89,12 +102,12 @@ Parsed C implicit link information from above output:
     arg [-macosx_version_min] ==> ignore
     arg [10.9.0] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTryCompileExec4291582967] ==> ignore
+    arg [cmTryCompileExec1961812182] ==> ignore
     arg [-L/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/lib] ==> dir [/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/lib]
     arg [-search_paths_first] ==> ignore
     arg [-headerpad_max_install_names] ==> ignore
     arg [-v] ==> ignore
-    arg [CMakeFiles/cmTryCompileExec4291582967.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [CMakeFiles/cmTryCompileExec1961812182.dir/CMakeCCompilerABI.c.o] ==> ignore
     arg [-lmpi] ==> lib [mpi]
     arg [-lm] ==> lib [m]
     arg [-L/usr/local/lib] ==> dir [/usr/local/lib]
@@ -122,14 +135,14 @@ Parsed C implicit link information from above output:
 Detecting C [-std=c11] compiler features compiled with the following output:
 Change Dir: /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTryCompileExec2779913195/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec2779913195.dir/build.make CMakeFiles/cmTryCompileExec2779913195.dir/build
+Run Build Command:"/usr/bin/make" "cmTryCompileExec2479969704/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec2479969704.dir/build.make CMakeFiles/cmTryCompileExec2479969704.dir/build
 /Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building C object CMakeFiles/cmTryCompileExec2779913195.dir/feature_tests.c.o
-/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicc   -g -O3    -std=c11 -o CMakeFiles/cmTryCompileExec2779913195.dir/feature_tests.c.o   -c /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/feature_tests.c
-Linking C executable cmTryCompileExec2779913195
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2779913195.dir/link.txt --verbose=1
-/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicc  -g -O3  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec2779913195.dir/feature_tests.c.o  -o cmTryCompileExec2779913195  
+Building C object CMakeFiles/cmTryCompileExec2479969704.dir/feature_tests.c.o
+/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicc   -g -O3    -std=c11 -o CMakeFiles/cmTryCompileExec2479969704.dir/feature_tests.c.o   -c /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/feature_tests.c
+Linking C executable cmTryCompileExec2479969704
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2479969704.dir/link.txt --verbose=1
+/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicc  -g -O3  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec2479969704.dir/feature_tests.c.o  -o cmTryCompileExec2479969704  
 
 
     Feature record: C_FEATURE:1c_function_prototypes
@@ -141,14 +154,14 @@ Linking C executable cmTryCompileExec2779913195
 Detecting C [-std=c99] compiler features compiled with the following output:
 Change Dir: /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTryCompileExec2695266143/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec2695266143.dir/build.make CMakeFiles/cmTryCompileExec2695266143.dir/build
+Run Build Command:"/usr/bin/make" "cmTryCompileExec91024822/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec91024822.dir/build.make CMakeFiles/cmTryCompileExec91024822.dir/build
 /Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building C object CMakeFiles/cmTryCompileExec2695266143.dir/feature_tests.c.o
-/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicc   -g -O3    -std=c99 -o CMakeFiles/cmTryCompileExec2695266143.dir/feature_tests.c.o   -c /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/feature_tests.c
-Linking C executable cmTryCompileExec2695266143
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2695266143.dir/link.txt --verbose=1
-/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicc  -g -O3  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec2695266143.dir/feature_tests.c.o  -o cmTryCompileExec2695266143  
+Building C object CMakeFiles/cmTryCompileExec91024822.dir/feature_tests.c.o
+/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicc   -g -O3    -std=c99 -o CMakeFiles/cmTryCompileExec91024822.dir/feature_tests.c.o   -c /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/feature_tests.c
+Linking C executable cmTryCompileExec91024822
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec91024822.dir/link.txt --verbose=1
+/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicc  -g -O3  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec91024822.dir/feature_tests.c.o  -o cmTryCompileExec91024822  
 
 
     Feature record: C_FEATURE:1c_function_prototypes
@@ -160,14 +173,14 @@ Linking C executable cmTryCompileExec2695266143
 Detecting C [-std=c90] compiler features compiled with the following output:
 Change Dir: /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTryCompileExec1875048999/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec1875048999.dir/build.make CMakeFiles/cmTryCompileExec1875048999.dir/build
+Run Build Command:"/usr/bin/make" "cmTryCompileExec2227942911/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec2227942911.dir/build.make CMakeFiles/cmTryCompileExec2227942911.dir/build
 /Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building C object CMakeFiles/cmTryCompileExec1875048999.dir/feature_tests.c.o
-/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicc   -g -O3    -std=c90 -o CMakeFiles/cmTryCompileExec1875048999.dir/feature_tests.c.o   -c /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/feature_tests.c
-Linking C executable cmTryCompileExec1875048999
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec1875048999.dir/link.txt --verbose=1
-/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicc  -g -O3  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec1875048999.dir/feature_tests.c.o  -o cmTryCompileExec1875048999  
+Building C object CMakeFiles/cmTryCompileExec2227942911.dir/feature_tests.c.o
+/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicc   -g -O3    -std=c90 -o CMakeFiles/cmTryCompileExec2227942911.dir/feature_tests.c.o   -c /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/feature_tests.c
+Linking C executable cmTryCompileExec2227942911
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2227942911.dir/link.txt --verbose=1
+/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicc  -g -O3  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec2227942911.dir/feature_tests.c.o  -o cmTryCompileExec2227942911  
 
 
     Feature record: C_FEATURE:1c_function_prototypes
@@ -177,31 +190,31 @@ Linking C executable cmTryCompileExec1875048999
 Determining if the CXX compiler works passed with the following output:
 Change Dir: /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTryCompileExec1113203182/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec1113203182.dir/build.make CMakeFiles/cmTryCompileExec1113203182.dir/build
+Run Build Command:"/usr/bin/make" "cmTryCompileExec3637462337/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec3637462337.dir/build.make CMakeFiles/cmTryCompileExec3637462337.dir/build
 /Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building CXX object CMakeFiles/cmTryCompileExec1113203182.dir/testCXXCompiler.cxx.o
-/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx    -g -O3 -std=c++11    -o CMakeFiles/cmTryCompileExec1113203182.dir/testCXXCompiler.cxx.o -c /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
-Linking CXX executable cmTryCompileExec1113203182
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec1113203182.dir/link.txt --verbose=1
-/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   -g -O3 -std=c++11  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec1113203182.dir/testCXXCompiler.cxx.o  -o cmTryCompileExec1113203182  
+Building CXX object CMakeFiles/cmTryCompileExec3637462337.dir/testCXXCompiler.cxx.o
+/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx    -g -O3 -std=c++11    -o CMakeFiles/cmTryCompileExec3637462337.dir/testCXXCompiler.cxx.o -c /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
+Linking CXX executable cmTryCompileExec3637462337
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3637462337.dir/link.txt --verbose=1
+/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   -g -O3 -std=c++11  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec3637462337.dir/testCXXCompiler.cxx.o  -o cmTryCompileExec3637462337  
 
 
 Detecting CXX compiler ABI info compiled with the following output:
 Change Dir: /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTryCompileExec1497638963/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec1497638963.dir/build.make CMakeFiles/cmTryCompileExec1497638963.dir/build
+Run Build Command:"/usr/bin/make" "cmTryCompileExec1289671792/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec1289671792.dir/build.make CMakeFiles/cmTryCompileExec1289671792.dir/build
 /Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building CXX object CMakeFiles/cmTryCompileExec1497638963.dir/CMakeCXXCompilerABI.cpp.o
-/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx    -g -O3 -std=c++11    -o CMakeFiles/cmTryCompileExec1497638963.dir/CMakeCXXCompilerABI.cpp.o -c /Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeCXXCompilerABI.cpp
-Linking CXX executable cmTryCompileExec1497638963
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec1497638963.dir/link.txt --verbose=1
-/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   -g -O3 -std=c++11  -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTryCompileExec1497638963.dir/CMakeCXXCompilerABI.cpp.o  -o cmTryCompileExec1497638963   
+Building CXX object CMakeFiles/cmTryCompileExec1289671792.dir/CMakeCXXCompilerABI.cpp.o
+/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx    -g -O3 -std=c++11    -o CMakeFiles/cmTryCompileExec1289671792.dir/CMakeCXXCompilerABI.cpp.o -c /Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeCXXCompilerABI.cpp
+Linking CXX executable cmTryCompileExec1289671792
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec1289671792.dir/link.txt --verbose=1
+/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   -g -O3 -std=c++11  -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTryCompileExec1289671792.dir/CMakeCXXCompilerABI.cpp.o  -o cmTryCompileExec1289671792   
 Apple LLVM version 6.0 (clang-600.0.57) (based on LLVM 3.5svn)
 Target: x86_64-apple-darwin13.4.0
 Thread model: posix
- "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -dynamic -arch x86_64 -macosx_version_min 10.9.0 -o cmTryCompileExec1497638963 -L/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/lib -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTryCompileExec1497638963.dir/CMakeCXXCompilerABI.cpp.o -lmpi_cxx -lmpi -lm -L/usr/local/lib -lc++ -lSystem /Library/Developer/CommandLineTools/usr/bin/../lib/clang/6.0/lib/darwin/libclang_rt.osx.a
+ "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -dynamic -arch x86_64 -macosx_version_min 10.9.0 -o cmTryCompileExec1289671792 -L/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/lib -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTryCompileExec1289671792.dir/CMakeCXXCompilerABI.cpp.o -lmpi_cxx -lmpi -lm -L/usr/local/lib -lc++ -lSystem /Library/Developer/CommandLineTools/usr/bin/../lib/clang/6.0/lib/darwin/libclang_rt.osx.a
 @(#)PROGRAM:ld  PROJECT:ld64-241.9
 configured to support archs: armv6 armv7 armv7s arm64 i386 x86_64 x86_64h armv6m armv7m armv7em
 Library search paths:
@@ -218,18 +231,18 @@ Parsed CXX implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/make" "cmTryCompileExec1497638963/fast"]
-  ignore line: [/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec1497638963.dir/build.make CMakeFiles/cmTryCompileExec1497638963.dir/build]
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTryCompileExec1289671792/fast"]
+  ignore line: [/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec1289671792.dir/build.make CMakeFiles/cmTryCompileExec1289671792.dir/build]
   ignore line: [/Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp/CMakeFiles 1]
-  ignore line: [Building CXX object CMakeFiles/cmTryCompileExec1497638963.dir/CMakeCXXCompilerABI.cpp.o]
-  ignore line: [/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx    -g -O3 -std=c++11    -o CMakeFiles/cmTryCompileExec1497638963.dir/CMakeCXXCompilerABI.cpp.o -c /Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeCXXCompilerABI.cpp]
-  ignore line: [Linking CXX executable cmTryCompileExec1497638963]
-  ignore line: [/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec1497638963.dir/link.txt --verbose=1]
-  ignore line: [/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   -g -O3 -std=c++11  -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTryCompileExec1497638963.dir/CMakeCXXCompilerABI.cpp.o  -o cmTryCompileExec1497638963   ]
+  ignore line: [Building CXX object CMakeFiles/cmTryCompileExec1289671792.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx    -g -O3 -std=c++11    -o CMakeFiles/cmTryCompileExec1289671792.dir/CMakeCXXCompilerABI.cpp.o -c /Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Linking CXX executable cmTryCompileExec1289671792]
+  ignore line: [/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec1289671792.dir/link.txt --verbose=1]
+  ignore line: [/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   -g -O3 -std=c++11  -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTryCompileExec1289671792.dir/CMakeCXXCompilerABI.cpp.o  -o cmTryCompileExec1289671792   ]
   ignore line: [Apple LLVM version 6.0 (clang-600.0.57) (based on LLVM 3.5svn)]
   ignore line: [Target: x86_64-apple-darwin13.4.0]
   ignore line: [Thread model: posix]
-  link line: [ "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -dynamic -arch x86_64 -macosx_version_min 10.9.0 -o cmTryCompileExec1497638963 -L/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/lib -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTryCompileExec1497638963.dir/CMakeCXXCompilerABI.cpp.o -lmpi_cxx -lmpi -lm -L/usr/local/lib -lc++ -lSystem /Library/Developer/CommandLineTools/usr/bin/../lib/clang/6.0/lib/darwin/libclang_rt.osx.a]
+  link line: [ "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -dynamic -arch x86_64 -macosx_version_min 10.9.0 -o cmTryCompileExec1289671792 -L/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/lib -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTryCompileExec1289671792.dir/CMakeCXXCompilerABI.cpp.o -lmpi_cxx -lmpi -lm -L/usr/local/lib -lc++ -lSystem /Library/Developer/CommandLineTools/usr/bin/../lib/clang/6.0/lib/darwin/libclang_rt.osx.a]
     arg [/Library/Developer/CommandLineTools/usr/bin/ld] ==> ignore
     arg [-demangle] ==> ignore
     arg [-dynamic] ==> ignore
@@ -238,12 +251,12 @@ Parsed CXX implicit link information from above output:
     arg [-macosx_version_min] ==> ignore
     arg [10.9.0] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTryCompileExec1497638963] ==> ignore
+    arg [cmTryCompileExec1289671792] ==> ignore
     arg [-L/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/lib] ==> dir [/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/lib]
     arg [-search_paths_first] ==> ignore
     arg [-headerpad_max_install_names] ==> ignore
     arg [-v] ==> ignore
-    arg [CMakeFiles/cmTryCompileExec1497638963.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [CMakeFiles/cmTryCompileExec1289671792.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
     arg [-lmpi_cxx] ==> lib [mpi_cxx]
     arg [-lmpi] ==> lib [mpi]
     arg [-lm] ==> lib [m]
@@ -273,14 +286,14 @@ Parsed CXX implicit link information from above output:
 Detecting CXX [-std=c++1y] compiler features compiled with the following output:
 Change Dir: /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTryCompileExec2987645763/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec2987645763.dir/build.make CMakeFiles/cmTryCompileExec2987645763.dir/build
+Run Build Command:"/usr/bin/make" "cmTryCompileExec392595090/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec392595090.dir/build.make CMakeFiles/cmTryCompileExec392595090.dir/build
 /Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building CXX object CMakeFiles/cmTryCompileExec2987645763.dir/feature_tests.cxx.o
-/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx    -g -O3 -std=c++11    -std=c++1y -o CMakeFiles/cmTryCompileExec2987645763.dir/feature_tests.cxx.o -c /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTryCompileExec2987645763
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2987645763.dir/link.txt --verbose=1
-/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   -g -O3 -std=c++11  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec2987645763.dir/feature_tests.cxx.o  -o cmTryCompileExec2987645763  
+Building CXX object CMakeFiles/cmTryCompileExec392595090.dir/feature_tests.cxx.o
+/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx    -g -O3 -std=c++11    -std=c++1y -o CMakeFiles/cmTryCompileExec392595090.dir/feature_tests.cxx.o -c /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTryCompileExec392595090
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec392595090.dir/link.txt --verbose=1
+/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   -g -O3 -std=c++11  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec392595090.dir/feature_tests.cxx.o  -o cmTryCompileExec392595090  
 
 
     Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
@@ -345,14 +358,14 @@ Linking CXX executable cmTryCompileExec2987645763
 Detecting CXX [-std=c++11] compiler features compiled with the following output:
 Change Dir: /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTryCompileExec2771621308/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec2771621308.dir/build.make CMakeFiles/cmTryCompileExec2771621308.dir/build
+Run Build Command:"/usr/bin/make" "cmTryCompileExec2787597375/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec2787597375.dir/build.make CMakeFiles/cmTryCompileExec2787597375.dir/build
 /Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building CXX object CMakeFiles/cmTryCompileExec2771621308.dir/feature_tests.cxx.o
-/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx    -g -O3 -std=c++11    -std=c++11 -o CMakeFiles/cmTryCompileExec2771621308.dir/feature_tests.cxx.o -c /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTryCompileExec2771621308
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2771621308.dir/link.txt --verbose=1
-/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   -g -O3 -std=c++11  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec2771621308.dir/feature_tests.cxx.o  -o cmTryCompileExec2771621308  
+Building CXX object CMakeFiles/cmTryCompileExec2787597375.dir/feature_tests.cxx.o
+/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx    -g -O3 -std=c++11    -std=c++11 -o CMakeFiles/cmTryCompileExec2787597375.dir/feature_tests.cxx.o -c /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTryCompileExec2787597375
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2787597375.dir/link.txt --verbose=1
+/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   -g -O3 -std=c++11  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec2787597375.dir/feature_tests.cxx.o  -o cmTryCompileExec2787597375  
 
 
     Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
@@ -417,14 +430,14 @@ Linking CXX executable cmTryCompileExec2771621308
 Detecting CXX [-std=c++98] compiler features compiled with the following output:
 Change Dir: /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTryCompileExec2781089185/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec2781089185.dir/build.make CMakeFiles/cmTryCompileExec2781089185.dir/build
+Run Build Command:"/usr/bin/make" "cmTryCompileExec660891561/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec660891561.dir/build.make CMakeFiles/cmTryCompileExec660891561.dir/build
 /Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building CXX object CMakeFiles/cmTryCompileExec2781089185.dir/feature_tests.cxx.o
-/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx    -g -O3 -std=c++11    -std=c++98 -o CMakeFiles/cmTryCompileExec2781089185.dir/feature_tests.cxx.o -c /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTryCompileExec2781089185
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2781089185.dir/link.txt --verbose=1
-/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   -g -O3 -std=c++11  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec2781089185.dir/feature_tests.cxx.o  -o cmTryCompileExec2781089185  
+Building CXX object CMakeFiles/cmTryCompileExec660891561.dir/feature_tests.cxx.o
+/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx    -g -O3 -std=c++11    -std=c++98 -o CMakeFiles/cmTryCompileExec660891561.dir/feature_tests.cxx.o -c /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTryCompileExec660891561
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec660891561.dir/link.txt --verbose=1
+/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   -g -O3 -std=c++11  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec660891561.dir/feature_tests.cxx.o  -o cmTryCompileExec660891561  
 
 
     Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers

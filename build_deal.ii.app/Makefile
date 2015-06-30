@@ -341,6 +341,30 @@ source/adiabatic_conditions/interface.cc.s:
 	$(MAKE) -f CMakeFiles/aspect.dir/build.make CMakeFiles/aspect.dir/source/adiabatic_conditions/interface.cc.s
 .PHONY : source/adiabatic_conditions/interface.cc.s
 
+source/africa_region.o: source/africa_region.cc.o
+.PHONY : source/africa_region.o
+
+# target to build an object file
+source/africa_region.cc.o:
+	$(MAKE) -f CMakeFiles/aspect.dir/build.make CMakeFiles/aspect.dir/source/africa_region.cc.o
+.PHONY : source/africa_region.cc.o
+
+source/africa_region.i: source/africa_region.cc.i
+.PHONY : source/africa_region.i
+
+# target to preprocess a source file
+source/africa_region.cc.i:
+	$(MAKE) -f CMakeFiles/aspect.dir/build.make CMakeFiles/aspect.dir/source/africa_region.cc.i
+.PHONY : source/africa_region.cc.i
+
+source/africa_region.s: source/africa_region.cc.s
+.PHONY : source/africa_region.s
+
+# target to generate assembly for a file
+source/africa_region.cc.s:
+	$(MAKE) -f CMakeFiles/aspect.dir/build.make CMakeFiles/aspect.dir/source/africa_region.cc.s
+.PHONY : source/africa_region.cc.s
+
 source/boundary_composition/ascii_data.o: source/boundary_composition/ascii_data.cc.o
 .PHONY : source/boundary_composition/ascii_data.o
 
@@ -3850,6 +3874,9 @@ help:
 	@echo "... source/adiabatic_conditions/interface.o"
 	@echo "... source/adiabatic_conditions/interface.i"
 	@echo "... source/adiabatic_conditions/interface.s"
+	@echo "... source/africa_region.o"
+	@echo "... source/africa_region.i"
+	@echo "... source/africa_region.s"
 	@echo "... source/boundary_composition/ascii_data.o"
 	@echo "... source/boundary_composition/ascii_data.i"
 	@echo "... source/boundary_composition/ascii_data.s"

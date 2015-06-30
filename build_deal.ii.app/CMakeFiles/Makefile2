@@ -125,13 +125,13 @@ clean: CMakeFiles/debug.dir/clean
 CMakeFiles/distclean.dir/all:
 	$(MAKE) -f CMakeFiles/distclean.dir/build.make CMakeFiles/distclean.dir/depend
 	$(MAKE) -f CMakeFiles/distclean.dir/build.make CMakeFiles/distclean.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles 
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles  92
 	@echo "Built target distclean"
 .PHONY : CMakeFiles/distclean.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/distclean.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles 1
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/distclean.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles 0
 .PHONY : CMakeFiles/distclean.dir/rule
@@ -391,13 +391,13 @@ tests/preinstall:
 tests/CMakeFiles/quick_mpi.dir/all:
 	$(MAKE) -f tests/CMakeFiles/quick_mpi.dir/build.make tests/CMakeFiles/quick_mpi.dir/depend
 	$(MAKE) -f tests/CMakeFiles/quick_mpi.dir/build.make tests/CMakeFiles/quick_mpi.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles  92
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles 
 	@echo "Built target quick_mpi"
 .PHONY : tests/CMakeFiles/quick_mpi.dir/all
 
 # Build rule for subdir invocation for target.
 tests/CMakeFiles/quick_mpi.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 tests/CMakeFiles/quick_mpi.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles 0
 .PHONY : tests/CMakeFiles/quick_mpi.dir/rule
@@ -429,7 +429,7 @@ tests/CMakeFiles/quick_mpi.screen-output.diff.dir/all: CMakeFiles/aspect.dir/all
 
 # Build rule for subdir invocation for target.
 tests/CMakeFiles/quick_mpi.screen-output.diff.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles 94
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles 93
 	$(MAKE) -f CMakeFiles/Makefile2 tests/CMakeFiles/quick_mpi.screen-output.diff.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles 0
 .PHONY : tests/CMakeFiles/quick_mpi.screen-output.diff.dir/rule
@@ -460,7 +460,7 @@ tests/CMakeFiles/tests.dir/all: tests/CMakeFiles/tests.quick_mpi.dir/all
 
 # Build rule for subdir invocation for target.
 tests/CMakeFiles/tests.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles 96
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles 95
 	$(MAKE) -f CMakeFiles/Makefile2 tests/CMakeFiles/tests.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles 0
 .PHONY : tests/CMakeFiles/tests.dir/rule
@@ -483,8 +483,8 @@ clean: tests/CMakeFiles/tests.dir/clean
 
 # All Build rule for target.
 tests/CMakeFiles/tests.quick_mpi.dir/all: tests/CMakeFiles/quick_mpi.dir/all
-tests/CMakeFiles/tests.quick_mpi.dir/all: tests/CMakeFiles/quick_mpi.screen-output.diff.dir/all
 tests/CMakeFiles/tests.quick_mpi.dir/all: CMakeFiles/aspect.dir/all
+tests/CMakeFiles/tests.quick_mpi.dir/all: tests/CMakeFiles/quick_mpi.screen-output.diff.dir/all
 	$(MAKE) -f tests/CMakeFiles/tests.quick_mpi.dir/build.make tests/CMakeFiles/tests.quick_mpi.dir/depend
 	$(MAKE) -f tests/CMakeFiles/tests.quick_mpi.dir/build.make tests/CMakeFiles/tests.quick_mpi.dir/build
 	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles  99 100
@@ -493,7 +493,7 @@ tests/CMakeFiles/tests.quick_mpi.dir/all: CMakeFiles/aspect.dir/all
 
 # Build rule for subdir invocation for target.
 tests/CMakeFiles/tests.quick_mpi.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles 96
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles 95
 	$(MAKE) -f CMakeFiles/Makefile2 tests/CMakeFiles/tests.quick_mpi.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles 0
 .PHONY : tests/CMakeFiles/tests.quick_mpi.dir/rule

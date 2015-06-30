@@ -22,18 +22,15 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeDetermineCompiler.cmake"
   "/Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeDetermineCompilerABI.cmake"
   "/Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeDetermineCompilerId.cmake"
-  "/Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeDetermineSystem.cmake"
   "/Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeFindBinUtils.cmake"
   "/Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeGenericSystem.cmake"
   "/Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeParseArguments.cmake"
   "/Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeParseImplicitLinkInfo.cmake"
-  "/Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeSystem.cmake.in"
   "/Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeSystemSpecificInformation.cmake"
   "/Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeSystemSpecificInitialize.cmake"
   "/Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeTestCCompiler.cmake"
   "/Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeTestCXXCompiler.cmake"
   "/Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeTestCompilerCommon.cmake"
-  "/Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeUnixFindMake.cmake"
   "/Applications/CMake.app/Contents/share/cmake-3.2/Modules/CheckCXXSourceRuns.cmake"
   "/Applications/CMake.app/Contents/share/cmake-3.2/Modules/CheckIncludeFiles.cmake"
   "/Applications/CMake.app/Contents/share/cmake-3.2/Modules/Compiler/ADSP-DetermineCompiler.cmake"
@@ -123,7 +120,6 @@ set(CMAKE_MAKEFILE_OUTPUTS
 
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
-  "CMakeFiles/3.2.2/CMakeSystem.cmake"
   "CMakeFiles/3.2.2/CMakeCCompiler.cmake"
   "CMakeFiles/3.2.2/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.2.2/CMakeCCompiler.cmake"

@@ -6,6 +6,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_CXX
   "/Users/q/Documents/aspect/source/adiabatic_conditions/initial_profile.cc" "/Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/aspect.dir/source/adiabatic_conditions/initial_profile.cc.o"
   "/Users/q/Documents/aspect/source/adiabatic_conditions/interface.cc" "/Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/aspect.dir/source/adiabatic_conditions/interface.cc.o"
+  "/Users/q/Documents/aspect/source/africa_region.cc" "/Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/aspect.dir/source/africa_region.cc.o"
   "/Users/q/Documents/aspect/source/boundary_composition/ascii_data.cc" "/Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/aspect.dir/source/boundary_composition/ascii_data.cc.o"
   "/Users/q/Documents/aspect/source/boundary_composition/box.cc" "/Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/aspect.dir/source/boundary_composition/box.cc.o"
   "/Users/q/Documents/aspect/source/boundary_composition/initial_composition.cc" "/Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/aspect.dir/source/boundary_composition/initial_composition.cc.o"

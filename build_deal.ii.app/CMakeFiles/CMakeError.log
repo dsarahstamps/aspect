@@ -1,17 +1,79 @@
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: /Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx 
+Build flags: 
+Id flags: 
+
+The output was:
+1
+clang: warning: treating 'c' input as 'c++' when in C++ mode, this behavior is deprecated
+CMakeCCompilerId.c:2:3: error: "A C++ compiler has been selected for C."
+# error "A C++ compiler has been selected for C."
+  ^
+1 error generated.
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: /Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx 
+Build flags: 
+Id flags: -c
+
+The output was:
+1
+clang: warning: treating 'c' input as 'c++' when in C++ mode, this behavior is deprecated
+CMakeCCompilerId.c:2:3: error: "A C++ compiler has been selected for C."
+# error "A C++ compiler has been selected for C."
+  ^
+1 error generated.
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: /Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx 
+Build flags: 
+Id flags: -Aa
+
+The output was:
+1
+clang: warning: treating 'c' input as 'c++' when in C++ mode, this behavior is deprecated
+clang: warning: argument unused during compilation: '-Aa'
+CMakeCCompilerId.c:2:3: error: "A C++ compiler has been selected for C."
+# error "A C++ compiler has been selected for C."
+  ^
+1 error generated.
+
+
+Checking whether the C compiler is IAR using "" did not match "IAR .+ Compiler":
+clang: error: no input files
+Determining if the C compiler works failed with the following output:
+Change Dir: /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec3483642138/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec3483642138.dir/build.make CMakeFiles/cmTryCompileExec3483642138.dir/build
+/Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec3483642138.dir/testCCompiler.c.o
+/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx    -o CMakeFiles/cmTryCompileExec3483642138.dir/testCCompiler.c.o   -c /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp/testCCompiler.c
+clang: warning: treating 'c' input as 'c++' when in C++ mode, this behavior is deprecated
+/Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp/testCCompiler.c:2:3: error: "The CMAKE_C_COMPILER is set to a C++ compiler"
+# error "The CMAKE_C_COMPILER is set to a C++ compiler"
+  ^
+1 error generated.
+make[1]: *** [CMakeFiles/cmTryCompileExec3483642138.dir/testCCompiler.c.o] Error 1
+make: *** [cmTryCompileExec3483642138/fast] Error 2
+
+
 Determining if files link.h exist failed with the following output:
 Change Dir: /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTryCompileExec3219103520/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec3219103520.dir/build.make CMakeFiles/cmTryCompileExec3219103520.dir/build
+Run Build Command:"/usr/bin/make" "cmTryCompileExec1723746188/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec1723746188.dir/build.make CMakeFiles/cmTryCompileExec1723746188.dir/build
 /Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building C object CMakeFiles/cmTryCompileExec3219103520.dir/CheckIncludeFiles.c.o
-/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicc   -g -O3    -o CMakeFiles/cmTryCompileExec3219103520.dir/CheckIncludeFiles.c.o   -c /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp/CheckIncludeFiles.c
+Building C object CMakeFiles/cmTryCompileExec1723746188.dir/CheckIncludeFiles.c.o
+/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicc   -g -O3    -o CMakeFiles/cmTryCompileExec1723746188.dir/CheckIncludeFiles.c.o   -c /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp/CheckIncludeFiles.c
 /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp/CheckIncludeFiles.c:2:10: fatal error: 'link.h' file not found
 #include <link.h>
          ^
 1 error generated.
-make[1]: *** [CMakeFiles/cmTryCompileExec3219103520.dir/CheckIncludeFiles.c.o] Error 1
-make: *** [cmTryCompileExec3219103520/fast] Error 2
+make[1]: *** [CMakeFiles/cmTryCompileExec1723746188.dir/CheckIncludeFiles.c.o] Error 1
+make: *** [cmTryCompileExec1723746188/fast] Error 2
 
 Source:
 /* */
@@ -23,11 +85,11 @@ int main(void){return 0;}
 Performing C++ SOURCE FILE Test HAVE_FP_EXCEPTIONS failed with the following output:
 Change Dir: /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTryCompileExec3904627522/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec3904627522.dir/build.make CMakeFiles/cmTryCompileExec3904627522.dir/build
+Run Build Command:"/usr/bin/make" "cmTryCompileExec3410890394/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTryCompileExec3410890394.dir/build.make CMakeFiles/cmTryCompileExec3410890394.dir/build
 /Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building CXX object CMakeFiles/cmTryCompileExec3904627522.dir/src.cxx.o
-/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx    -g -O3 -std=c++11 -DHAVE_FP_EXCEPTIONS -I/Applications/deal.II.app/Contents/Resources/include -I/Applications/deal.II.app/Contents/Resources/include/deal.II -I/Applications/deal.II.app/Contents/Resources/include/deal.II/bundled -I/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/include -I/Applications/deal.II.app/Contents/Resources/opt/trilinos-70824c5/include -I/Applications/deal.II.app/Contents/Resources/opt/petsc-38ae631/include -I/Applications/deal.II.app/Contents/Resources/opt/oce-6d4ba0e/include/oce -I/Applications/deal.II.app/Contents/Resources/opt/p4est-fb278b3/include -I/Applications/deal.II.app/Contents/Resources/opt/slepc-c81b9e0/include    -o CMakeFiles/cmTryCompileExec3904627522.dir/src.cxx.o -c /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp/src.cxx
+Building CXX object CMakeFiles/cmTryCompileExec3410890394.dir/src.cxx.o
+/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx    -g -O3 -std=c++11 -DHAVE_FP_EXCEPTIONS -I/Applications/deal.II.app/Contents/Resources/include -I/Applications/deal.II.app/Contents/Resources/include/deal.II -I/Applications/deal.II.app/Contents/Resources/include/deal.II/bundled -I/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/include -I/Applications/deal.II.app/Contents/Resources/opt/trilinos-70824c5/include -I/Applications/deal.II.app/Contents/Resources/opt/petsc-38ae631/include -I/Applications/deal.II.app/Contents/Resources/opt/oce-6d4ba0e/include/oce -I/Applications/deal.II.app/Contents/Resources/opt/p4est-fb278b3/include -I/Applications/deal.II.app/Contents/Resources/opt/slepc-c81b9e0/include    -o CMakeFiles/cmTryCompileExec3410890394.dir/src.cxx.o -c /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp/src.cxx
 /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles/CMakeTmp/src.cxx:10:3: error: use of undeclared identifier 'feenableexcept'; did you mean 'feraiseexcept'?
   feenableexcept(FE_DIVBYZERO|FE_INVALID);
   ^~~~~~~~~~~~~~
@@ -36,8 +98,8 @@ Building CXX object CMakeFiles/cmTryCompileExec3904627522.dir/src.cxx.o
 extern int feraiseexcept(int /* excepts */);
            ^
 1 error generated.
-make[1]: *** [CMakeFiles/cmTryCompileExec3904627522.dir/src.cxx.o] Error 1
-make: *** [cmTryCompileExec3904627522/fast] Error 2
+make[1]: *** [CMakeFiles/cmTryCompileExec3410890394.dir/src.cxx.o] Error 1
+make: *** [cmTryCompileExec3410890394/fast] Error 2
 
 Return value: 1
 Source file was:

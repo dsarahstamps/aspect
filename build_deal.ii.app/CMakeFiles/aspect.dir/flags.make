@@ -10,6 +10,8 @@ CXX_DEFINES = -DDEBUG -DTBB_DO_ASSERT=1 -DTBB_USE_DEBUG
 
 # Custom defines: CMakeFiles/aspect.dir/source/adiabatic_conditions/interface.cc.o_DEFINES = ASPECT_SOURCE_DIR="/Users/q/Documents/aspect";ASPECT_USE_SHARED_LIBS=1
 
+# Custom defines: CMakeFiles/aspect.dir/source/africa_region.cc.o_DEFINES = ASPECT_SOURCE_DIR="/Users/q/Documents/aspect";ASPECT_USE_SHARED_LIBS=1
+
 # Custom defines: CMakeFiles/aspect.dir/source/boundary_composition/ascii_data.cc.o_DEFINES = ASPECT_SOURCE_DIR="/Users/q/Documents/aspect";ASPECT_USE_SHARED_LIBS=1
 
 # Custom defines: CMakeFiles/aspect.dir/source/boundary_composition/box.cc.o_DEFINES = ASPECT_SOURCE_DIR="/Users/q/Documents/aspect";ASPECT_USE_SHARED_LIBS=1
