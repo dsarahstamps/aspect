@@ -2,7 +2,7 @@ set Dimension                              = 3
 
 set Use years in output instead of seconds = true
 set End time                               = 0
-set Output directory                       = g3_test_side4
+set Output directory                       = g3_test_side0
 set Nonlinear solver scheme                = iterated Stokes
 set Nonlinear solver tolerance             = 1e-4
 set Linear solver tolerance                = 1e-4
@@ -46,9 +46,9 @@ end
 
 subsection Model settings
   set Fixed temperature boundary indicators   =
-  set Zero velocity boundary indicators       = 4 
+  set Zero velocity boundary indicators       = 0 
   set Prescribed velocity boundary indicators = 
-  set Tangential velocity boundary indicators = 0,1,2,3,5 
+  set Tangential velocity boundary indicators = 1,2,3,4,5 
 
   set Include adiabatic heating               = false
   set Include shear heating                   = false
