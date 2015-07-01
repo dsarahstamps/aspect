@@ -9,5 +9,5 @@
 # 9: Schur complement iterations in Stokes preconditioner
 # 10: Time step size (years)
 # 11: Visualization file name
-0 0.0000e+00 1024 29988 9537 0 395 4853 6823 0.0000e+00                           "" 
-0 0.0000e+00    0     0    0 0  46  634  797 1.4850e+06 g3_test_sides/solution-00000 
+0 0.0000e+00 1024 29988 9537 0 400 5158 6920 0.0000e+00                           "" 
+0 0.0000e+00    0     0    0 0  44  642  769 1.4871e+06 g3_test_sides/solution-00000 
