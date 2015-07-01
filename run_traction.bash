@@ -1,6 +1,6 @@
 #!/bin/bash
-#SBATCH -J run_tractions_g5_wStress_vtu
-#SBATCH -o g5_tractions_wStress_vtu.o%j
+#SBATCH -J run_tractions_g5_wShearStress_vtu
+#SBATCH -o g5_tractions_wShearStress_vtu.o%j
 #SBATCH -n 64 
 #SBATCH -p normal 
 #SBATCH -t 08:00:00
