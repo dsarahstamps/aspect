@@ -6,42 +6,10 @@
 --     . using Trilinos
 -----------------------------------------------------------------------------
 
-Number of active cells: 8,192 (on 5 levels)
-Number of degrees of freedom: 292,677 (212,355+9,537+70,785)
+Number of active cells: 65,536 (on 6 levels)
+Number of degrees of freedom: 2,250,885 (1,635,075+70,785+545,025)
 
 *** Timestep 0:  t=0 years
    Solving temperature system... 0 iterations.
    Rebuilding Stokes preconditioner...
-   Solving Stokes system... 0+293 iterations.
-   Residual after nonlinear iteration 1: 1
-
-   Solving Stokes system... 0+45 iterations.
-   Residual after nonlinear iteration 2: 9.15185e-05
-
-   Postprocessing:
-     Writing depth average         g5_CEAR/depth_average.gnuplot
-     Writing surface velocities... g5_CEAR/surface_velocities.0000
-     Writing graphical output:     g5_CEAR/solution-00000
-     Writing dynamic topography:   g5_CEAR/dynamic_topography.00000
-     Temperature min/avg/max:      120 K, 1596 K, 1905 K
-     RMS, max velocity:            0.000516 m/year, 0.00923 m/year
-
-Termination requested by criterion: end time
-
-
-+---------------------------------------------+------------+------------+
-| Total wallclock time elapsed since start    |       129s |            |
-|                                             |            |            |
-| Section                         | no. calls |  wall time | % of total |
-+---------------------------------+-----------+------------+------------+
-| Assemble Stokes system          |         2 |      7.18s |       5.6% |
-| Assemble temperature system     |         1 |      2.89s |       2.2% |
-| Build Stokes preconditioner     |         1 |      4.01s |       3.1% |
-| Build temperature preconditioner|         1 |    0.0423s |     0.033% |
-| Solve Stokes system             |         2 |        51s |        40% |
-| Solve temperature system        |         1 |      0.16s |      0.12% |
-| Initialization                  |         2 |      1.25s |      0.97% |
-| Postprocessing                  |         1 |        56s |        44% |
-| Setup dof systems               |         1 |      2.73s |       2.1% |
-+---------------------------------+-----------+------------+------------+
-
+   Solving Stokes system... 

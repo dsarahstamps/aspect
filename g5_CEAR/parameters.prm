@@ -2967,7 +2967,7 @@ subsection Mesh refinement
 
   # The number of global refinement steps performed on the initial coarse
   # mesh, before the problem is first solved there.
-  set Initial global refinement                = 4                      # default: 2
+  set Initial global refinement                = 5                      # default: 2
 
   # The minimum refinement level each cell should have, and that can not be
   # exceeded by coarsening. Should not be higher than the 'Initial global
