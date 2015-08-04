@@ -1,0 +1,2 @@
+ERROR: Do not run /usr/local/bin/ibrun on the login node!
+       It must be run on a compute node.
