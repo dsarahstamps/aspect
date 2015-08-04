@@ -1,6 +1,6 @@
 #!/bin/bash
-#SBATCH -J run_g5_uniVisc
-#SBATCH -o g5_uniVisc.o%j
+#SBATCH -J run_g5_uniform
+#SBATCH -o g5_uniform.o%j
 #SBATCH -n 64 
 #SBATCH -p normal 
 #SBATCH -t 28:00:00

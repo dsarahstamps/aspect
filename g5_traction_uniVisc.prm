@@ -2,7 +2,7 @@ set Dimension                              = 3
 
 set Use years in output instead of seconds = true
 set End time                               = 0
-set Output directory                       = g5_uniViscosity 
+set Output directory                       = g5_uniformALL
 set Nonlinear solver scheme                = iterated Stokes
 set Nonlinear solver tolerance             = 1e-4
 set Linear solver tolerance                = 1e-4
@@ -30,7 +30,7 @@ subsection Initial conditions
   set Model name = model regions
 
   subsection Model regions
-    set Isotherm filename = input_files/litho1.0_smooth_aspect.txt
+    set Isotherm filename = input_files/litho1.0_uniform.txt
   end
 end
 
@@ -66,7 +66,7 @@ subsection Material model
   set Material averaging = harmonic average
 
   subsection Stamps model
-    set Crustal thickness filename = input_files/crust1.0_smooth.txt   
+    set Crustal thickness filename = input_files/crust1.0_uniform.txt   
   end
   	
   subsection Simple model

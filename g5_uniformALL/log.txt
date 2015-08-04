@@ -1,0 +1,47 @@
+-----------------------------------------------------------------------------
+-- This is ASPECT, the Advanced Solver for Problems in Earth's ConvecTion.
+--     . version 1.4.pre
+--     . running in DEBUG mode
+--     . running with 64 MPI processes
+--     . using Trilinos
+-----------------------------------------------------------------------------
+
+Number of active cells: 65,536 (on 6 levels)
+Number of degrees of freedom: 2,250,885 (1,635,075+70,785+545,025)
+
+*** Timestep 0:  t=0 years
+   Solving temperature system... 0 iterations.
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+13 iterations.
+   Residual after nonlinear iteration 1: 1
+
+   Solving Stokes system... 0+1 iterations.
+   Residual after nonlinear iteration 2: 2.13907e-05
+
+   Postprocessing:
+     Writing depth average         g5_uniformALL/depth_average.gnuplot
+     Writing surface velocities... g5_uniformALL/surface_velocities.0000
+     Writing graphical output:     g5_uniformALL/solution-00000
+     Writing dynamic topography:   g5_uniformALL/dynamic_topography.00000
+     Temperature min/avg/max:      160.2 K, 1595 K, 1873 K
+     RMS, max velocity:            2.46e-05 m/year, 0.000266 m/year
+
+Termination requested by criterion: end time
+
+
++---------------------------------------------+------------+------------+
+| Total wallclock time elapsed since start    |       686s |            |
+|                                             |            |            |
+| Section                         | no. calls |  wall time | % of total |
++---------------------------------+-----------+------------+------------+
+| Assemble Stokes system          |         2 |      57.6s |       8.4% |
+| Assemble temperature system     |         1 |      22.9s |       3.3% |
+| Build Stokes preconditioner     |         1 |        28s |       4.1% |
+| Build temperature preconditioner|         1 |     0.135s |      0.02% |
+| Solve Stokes system             |         2 |      7.46s |       1.1% |
+| Solve temperature system        |         1 |      0.16s |     0.023% |
+| Initialization                  |         2 |      4.83s |       0.7% |
+| Postprocessing                  |         1 |       547s |        80% |
+| Setup dof systems               |         1 |      10.1s |       1.5% |
++---------------------------------+-----------+------------+------------+
+
