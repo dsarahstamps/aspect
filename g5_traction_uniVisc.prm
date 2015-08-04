@@ -2,7 +2,7 @@ set Dimension                              = 3
 
 set Use years in output instead of seconds = true
 set End time                               = 0
-set Output directory                       = g3_uniViscosity 
+set Output directory                       = g5_uniViscosity 
 set Nonlinear solver scheme                = iterated Stokes
 set Nonlinear solver tolerance             = 1e-4
 set Linear solver tolerance                = 1e-4
@@ -76,7 +76,7 @@ end
 
 
 subsection Mesh refinement
-  set Initial global refinement                = 3
+  set Initial global refinement                = 5
   set Initial adaptive refinement              = 0
   set Time steps between mesh refinement       = 0
 end

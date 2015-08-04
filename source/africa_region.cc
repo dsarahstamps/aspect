@@ -1487,25 +1487,26 @@ namespace aspect
 
       if (crustal_region(position) == true && temperature <= 1673.15)
         // return (Coulomb friction law) TBD
-        return 1e25;
+        return 1e22;
+       // return 1e25;
       if (crustal_region(position) == true && temperature > 1673.15)
         {
           std::cout << "Crust is thicker than lithosphere. Check input files. temperature values are: "<< temperature << std::endl; // nothing outputs here, so this condition doesn't happen.
-          return (strain_factor*exp_factor*exp_B_disl);
-//    return 1e22;
+//          return (strain_factor*exp_factor*exp_B_disl);
+    return 1e22;
         }
       if (crustal_region(position) == false && temperature < 1673.15)
         {
           // Use strain rate dependent dislocation creep flow law for mantle lithosphere
           //std::cout << "strain_factor*exp_factor*exp_B_disl value is: "<< strain_factor*exp_factor*exp_B_disl << std::endl;
-//    return 1e22;
-          return (strain_factor*exp_factor*exp_B_disl);
+    return 1e22;
+   //       return (strain_factor*exp_factor*exp_B_disl);
         }
       else
         // Use diffusion creep flow law below the lithosphere
         //    std::cout << "temperature value is: "<< temperature << std::endl;
-        //  return 1e22;
-        return (0.5 * B_diff * std::exp((E_diff+pressure*V_diff)/(R*temperature)));
+          return 1e22;
+        //return (0.5 * B_diff * std::exp((E_diff+pressure*V_diff)/(R*temperature)));
     }
 
 
