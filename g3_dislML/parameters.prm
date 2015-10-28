@@ -124,7 +124,7 @@ set Number of cheap Stokes solver steps    = 0               # default: 30
 
 # The name of the directory into which all output files should be placed. This
 # may be an absolute or a relative path.
-set Output directory                       = g3_lithoAllDisl # default: output
+set Output directory                       = g3_DislML       # default: output
 
 # If and how to normalize the pressure after the solution step. This is
 # necessary because depending on boundary conditions, in many cases the

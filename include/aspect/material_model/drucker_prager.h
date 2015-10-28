@@ -35,13 +35,13 @@ namespace aspect
      * described in Interface::is_compressible.
      *
      * The viscosity is computed according to the Drucker Prager frictional
-     * plasticity criterion based on a user-defined Internal angle of friction $\\phi$
+     * plasticity criterion based on a user-defined internal angle of friction $\phi$
      * and cohesion $C$. In 3D:
      * $\sigma_y = \frac{6 C \cos(\phi)}{\sqrt(3) (3+\sin(\phi))} +
      * \frac{2 P \sin(\phi)}{\sqrt(3) (3+\sin(\phi))}$,
-     * where P is the pressure.
+     * where $P$ is the pressure.
      * See for example Zienkiewicz, O. C., Humpheson, C. and Lewis, R. W. (1975),
-     * G\'{e}otechnique 25, No. 4, 671-689.
+     * G&eacute;otechnique 25, No. 4, 671-689.
      * With this formulation we circumscribe instead of inscribe the Mohr Coulomb
      * yield surface.
      * In 2D the Drucker Prager yield surface is the same
@@ -51,7 +51,9 @@ namespace aspect
      * revert to the von Mises criterion (no pressure dependence).
      * See for example Thieulot, C. (2011), PEPI 188, 47-68.
      *
-     * Note that we enforce the pressure to be positive to prevent negative
+     * Note that we enforce the pressure to be positive in the computation of
+     * the yield strength by replacing it with
+     * a zero value whenever it is negative to prevent negative
      * yield strengths and viscosities.
      * We then use the computed yield strength to scale back the viscosity on
      * to the yield surface using the Viscosity Rescaling Method described in
@@ -116,45 +118,6 @@ namespace aspect
          * @name Qualitative properties one can ask a material model
          * @{
          */
-
-        /**
-         * Return true if the viscosity() function returns something that may
-         * depend on the variable identifies by the argument.
-         */
-        virtual bool
-        viscosity_depends_on (const NonlinearDependence::Dependence dependence) const;
-
-        /**
-         * Return true if the density() function returns something that may
-         * depend on the variable identifies by the argument.
-         */
-        virtual bool
-        density_depends_on (const NonlinearDependence::Dependence dependence) const;
-
-        /**
-         * Return true if the compressibility() function returns something
-         * that may depend on the variable identifies by the argument.
-         *
-         * This function must return false for all possible arguments if the
-         * is_compressible() function returns false.
-         */
-        virtual bool
-        compressibility_depends_on (const NonlinearDependence::Dependence dependence) const;
-
-        /**
-         * Return true if the specific_heat() function returns something that
-         * may depend on the variable identifies by the argument.
-         */
-        virtual bool
-        specific_heat_depends_on (const NonlinearDependence::Dependence dependence) const;
-
-        /**
-         * Return true if the thermal_conductivity() function returns
-         * something that may depend on the variable identifies by the
-         * argument.
-         */
-        virtual bool
-        thermal_conductivity_depends_on (const NonlinearDependence::Dependence dependence) const;
 
         /**
          * Return whether the model is compressible or not.  Incompressibility
