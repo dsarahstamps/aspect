@@ -1,0 +1,47 @@
+-----------------------------------------------------------------------------
+-- This is ASPECT, the Advanced Solver for Problems in Earth's ConvecTion.
+--     . version 1.4.pre
+--     . running in DEBUG mode
+--     . running with 64 MPI processes
+--     . using Trilinos
+-----------------------------------------------------------------------------
+
+Number of active cells: 65,536 (on 6 levels)
+Number of degrees of freedom: 2,250,885 (1,635,075+70,785+545,025)
+
+*** Timestep 0:  t=0 years
+   Solving temperature system... 0 iterations.
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+68 iterations.
+   Residual after nonlinear iteration 1: 1
+
+   Solving Stokes system... 0+6 iterations.
+   Residual after nonlinear iteration 2: 8.84513e-05
+
+   Postprocessing:
+     Writing depth average         g5_traction_vector_rerun_gnuplot/depth_average.gnuplot
+     Writing surface velocities... g5_traction_vector_rerun_gnuplot/surface_velocities.0000
+     Writing graphical output:     g5_traction_vector_rerun_gnuplot/solution-00000
+     Writing dynamic topography:   g5_traction_vector_rerun_gnuplot/dynamic_topography.00000
+     Temperature min/avg/max:      158.4 K, 1497 K, 1899 K
+     RMS, max velocity:            0.000236 m/year, 0.00168 m/year
+
+Termination requested by criterion: end time
+
+
++---------------------------------------------+------------+------------+
+| Total wallclock time elapsed since start    |  1.02e+03s |            |
+|                                             |            |            |
+| Section                         | no. calls |  wall time | % of total |
++---------------------------------+-----------+------------+------------+
+| Assemble Stokes system          |         2 |      57.5s |       5.7% |
+| Assemble temperature system     |         1 |      22.6s |       2.2% |
+| Build Stokes preconditioner     |         1 |      30.7s |         3% |
+| Build temperature preconditioner|         1 |     0.136s |     0.013% |
+| Solve Stokes system             |         2 |       338s |        33% |
+| Solve temperature system        |         1 |     0.155s |     0.015% |
+| Initialization                  |         2 |      5.18s |      0.51% |
+| Postprocessing                  |         1 |       544s |        54% |
+| Setup dof systems               |         1 |        10s |      0.99% |
++---------------------------------+-----------+------------+------------+
+
