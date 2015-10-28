@@ -12,4 +12,36 @@ Number of degrees of freedom: 39,525 (28,611+1,377+9,537)
 *** Timestep 0:  t=0 years
    Solving temperature system... 0 iterations.
    Rebuilding Stokes preconditioner...
-   Solving Stokes system... 
+   Solving Stokes system... 0+33 iterations.
+   Residual after nonlinear iteration 1: 1
+
+   Solving Stokes system... 0+5 iterations.
+   Residual after nonlinear iteration 2: 7.02312e-05
+
+   Postprocessing:
+     Writing depth average         g3_DislML/depth_average.gnuplot
+     Writing surface velocities... g3_DislML/surface_velocities.0000
+     Writing graphical output:     g3_DislML/solution-00000
+     Writing dynamic topography:   g3_DislML/dynamic_topography.00000
+     Temperature min/avg/max:      158.4 K, 1497 K, 1899 K
+     RMS, max velocity:            5.04e-05 m/year, 0.000274 m/year
+
+Termination requested by criterion: end time
+
+
++---------------------------------------------+------------+------------+
+| Total wallclock time elapsed since start    |      84.2s |            |
+|                                             |            |            |
+| Section                         | no. calls |  wall time | % of total |
++---------------------------------+-----------+------------+------------+
+| Assemble Stokes system          |         2 |      1.85s |       2.2% |
+| Assemble temperature system     |         1 |     0.811s |      0.96% |
+| Build Stokes preconditioner     |         1 |      1.52s |       1.8% |
+| Build temperature preconditioner|         1 |   0.00878s |      0.01% |
+| Solve Stokes system             |         2 |      57.8s |        69% |
+| Solve temperature system        |         1 |    0.0174s |     0.021% |
+| Initialization                  |         2 |      2.28s |       2.7% |
+| Postprocessing                  |         1 |      17.6s |        21% |
+| Setup dof systems               |         1 |      1.04s |       1.2% |
++---------------------------------+-----------+------------+------------+
+
