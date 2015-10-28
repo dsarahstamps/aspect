@@ -1042,7 +1042,7 @@ subsection Geometry model
     set Topography     = input_files/CEAR_topography_aspect.txt # default: topography.txt
 
     # Bottom depth of model region.
-    set bottom depth   = 500000.0                               # default: 50000.0
+    set bottom depth   = 80000.0                                # default: 50000.0
 
     # Eastern longitude of model region
     set east longitude = 49.0                                   # default: 26.0
@@ -3944,7 +3944,7 @@ subsection Postprocess
     # 
     # `viscosity ratio': A visualization output object that generates output
     # for the ratio between dislocation viscosity and diffusion viscosity.
-    set List of output variables      = density, strain rate, viscosity, lab stress, stress, shear stress # default: 
+    set List of output variables      = density, strain rate, viscosity, lab stress, stress, shear stress, dynamic topography # default: 
 
     # VTU file output supports grouping files from several CPUs into a given
     # number of files using MPI I/O when writing on a parallel filesystem.
@@ -3962,7 +3962,7 @@ subsection Postprocess
     # value of zero indicates that output should be generated in each time
     # step. Units: years if the 'Use years in output instead of seconds'
     # parameter is set; seconds otherwise.
-    set Time between graphical output = 1.0                                                               # default: 1e8
+    set Time between graphical output = 1.0                                                                                   # default: 1e8
 
 
     subsection Dynamic Topography

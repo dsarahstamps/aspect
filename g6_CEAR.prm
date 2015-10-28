@@ -2,7 +2,7 @@ set Dimension                              = 3
 
 set Use years in output instead of seconds = true
 set End time                               = 0
-set Output directory                       = g6_CEAR_crust
+set Output directory                       = g6_CEAR_confirm
 set Nonlinear solver scheme                = iterated Stokes
 set Nonlinear solver tolerance             = 1e-4
 set Linear solver tolerance                = 1e-4
@@ -30,8 +30,7 @@ subsection Initial conditions
   set Model name = model regions
 
   subsection Model regions
-    #set Isotherm filename = input_files/CEAR_litho_aspect.txt
-    set Isotherm filename = input_files/CEAR_litho_55.txt
+    set Isotherm filename = input_files/CEAR_litho_aspect.txt
   end
 end
 
