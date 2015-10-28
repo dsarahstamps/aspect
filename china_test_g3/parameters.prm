@@ -49,14 +49,14 @@ set Composition solver tolerance               = 1e-12
 
 # The number of space dimensions you want to run this program in. ASPECT can
 # run in 2 and 3 space dimensions.
-set Dimension                                  = 3                  # default: 2
+set Dimension                                  = 3               # default: 2
 
 # The end time of the simulation. The default value is a number so that when
 # converted from years to seconds it is approximately equal to the largest
 # number representable in floating point arithmetic. For all practical
 # purposes, this equals infinity. Units: Years if the 'Use years in output
 # instead of seconds' parameter is set; seconds otherwise.
-set End time                                   = 0                  # default: 5.69e+300
+set End time                                   = 0               # default: 5.69e+300
 
 # A relative tolerance up to which the linear Stokes systems in each time or
 # nonlinear step should be solved. The absolute tolerance will then be $\| M
@@ -75,10 +75,10 @@ set End time                                   = 0                  # default: 5
 # (qualitatively) whereas if you make it larger, they do. For most cases, the
 # default value should be sufficient. In fact, a tolerance of 1e-4 might be
 # accurate enough.
-set Linear solver tolerance                    = 1e-4               # default: 1e-7
+set Linear solver tolerance                    = 1e-4            # default: 1e-7
 
 # The maximal number of nonlinear iterations to be performed.
-set Max nonlinear iterations                   = 6                  # default: 10
+set Max nonlinear iterations                   = 6               # default: 10
 
 # The maximal number of nonlinear iterations to be performed in the
 # pre-refinement steps. This does not include the last refinement step before
@@ -108,12 +108,12 @@ set Maximum time step                          = 5.69e+300
 # 'Advection only'scheme only solves the temperature and other advection
 # systems and instead of solving for the Stokes system, a prescribed velocity
 # and pressure is used
-set Nonlinear solver scheme                    = iterated Stokes    # default: IMPES
+set Nonlinear solver scheme                    = iterated Stokes # default: IMPES
 
 # A relative tolerance up to which the nonlinear solver will iterate. This
 # parameter is only relevant if Nonlinear solver scheme is set to 'iterated
 # Stokes' or 'iterated IMPES'.
-set Nonlinear solver tolerance                 = 1e-4               # default: 1e-5
+set Nonlinear solver tolerance                 = 1e-4            # default: 1e-5
 
 # As explained in the ASPECT paper (Kronbichler, Heister, and Bangerth, GJI
 # 2012) we first try to solve the Stokes system in every time step using a
@@ -126,11 +126,11 @@ set Nonlinear solver tolerance                 = 1e-4               # default: 1
 # iterations don't actually do very much good and one might skip this part
 # right away. In that case, this parameter can be set to zero, i.e., we
 # immediately start with the better but more expensive preconditioner.
-set Number of cheap Stokes solver steps        = 0                  # default: 30
+set Number of cheap Stokes solver steps        = 0               # default: 30
 
 # The name of the directory into which all output files should be placed. This
 # may be an absolute or a relative path.
-set Output directory                           = g6_traction_vector # default: output
+set Output directory                           = china_test_g3   # default: output
 
 # If and how to normalize the pressure after the solution step. This is
 # necessary because depending on boundary conditions, in many cases the
@@ -173,7 +173,7 @@ set Surface pressure                           = 0
 
 # The relative tolerance up to which the linear system for the temperature
 # system gets solved. See 'linear solver tolerance' for more details.
-set Temperature solver tolerance               = 1e-4               # default: 1e-12
+set Temperature solver tolerance               = 1e-4            # default: 1e-12
 
 # How frequently in timesteps to output timing information. This is generally
 # adjusted only for debugging and timing purposes. If the value is set to zero
@@ -1195,22 +1195,22 @@ subsection Geometry model
 
   subsection Africa
     # Surface coordinates and topography. Units: degrees and meters.
-    set Topography     = input_files/topography.txt # default: topography.txt
+    set Topography     = input_files/topography_china.txt # default: topography.txt
 
     # Bottom depth of model region.
-    set bottom depth   = 500000.0                   # default: 50000.0
+    set bottom depth   = 500000.0                         # default: 50000.0
 
     # Eastern longitude of model region
-    set east longitude = 35.0                       # default: 26.0
+    set east longitude = 108.0                            # default: 26.0
 
     # Northern latitude of model region.
-    set north latitude = 5.0
+    set north latitude = 34.0                             # default: 5.0
 
     # Southern latitude of model region.
-    set south latitude = -10.0
+    set south latitude = 26.0                             # default: -10.0
 
     # Western longitude of model region.
-    set west longitude = 26.0                       # default: 35.0
+    set west longitude = 98.0                             # default: 35.0
   end
 
   subsection Box
@@ -2031,7 +2031,7 @@ subsection Initial conditions
   subsection Model regions
     # Surface coordinates and depths to the 1673.15 K isotherm. Units: degrees
     # and kilometers.
-    set Isotherm filename = input_files/litho1.0_smooth_aspect.txt # default: thickness.txt
+    set Isotherm filename = input_files/lithosphere_china.txt # default: thickness.txt
   end
 
   subsection S40RTS perturbation
@@ -3284,7 +3284,7 @@ subsection Material model
 
     # Surface coordinates and depths to the Mohovoric discontinuity. Units:
     # degrees and kilometers.
-    set Crustal thickness filename                     = input_files/crust1.0_smooth.txt # default: crustal_thickness.txt
+    set Crustal thickness filename                     = input_files/crust_china.txt # default: crustal_thickness.txt
 
     # If compositional fields are used, then one would frequently want to make
     # the density depend on these fields. In this simple material model, we
@@ -3397,7 +3397,7 @@ subsection Mesh refinement
 
   # The number of global refinement steps performed on the initial coarse
   # mesh, before the problem is first solved there.
-  set Initial global refinement                = 6                      # default: 2
+  set Initial global refinement                = 3                      # default: 2
 
   # The minimum refinement level each cell should have, and that can not be
   # exceeded by coarsening. Should not be higher than the 'Initial global
