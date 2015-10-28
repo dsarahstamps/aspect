@@ -123,15 +123,19 @@ CONFIGURE_FILE(
 )
 
 ADD_CUSTOM_TARGET(setup_tests
-  COMMAND echo "Enabling all tests ..."
   COMMAND ${CMAKE_COMMAND} -D ASPECT_RUN_ALL_TESTS=ON -D PRINT_TEST_SUMMARY_AS_IMPORTANT=ON . >/dev/null
-  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+  COMMENT "Enabling all tests ...")
 
 IF(EXISTS ${CMAKE_SOURCE_DIR}/tests/CMakeLists.txt)
   ENABLE_TESTING()
   ADD_SUBDIRECTORY(tests)
 ENDIF()
 
+
+ADD_CUSTOM_TARGET(generate_reference_output
+  COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/cmake/generate_reference_output.sh 
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
 # Depending on whether we link statically or allow for shared libs,
 # we can or can not load plugins via external shared libs. Pass this
