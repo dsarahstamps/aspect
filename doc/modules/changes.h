@@ -6,6 +6,25 @@
  *
  *
  * <ol>
+ * <li> New: The tolerance of the preconditioners of the A and S block 
+ * are now available as parameters in the prm file. There is now also 
+ * a section added to the manual on how to use these parameters to 
+ * make ASPECT in certain situation faster.
+ * <br>
+ * (Menno Fraters, 2015/11/08)
+ *
+ * <li> Changed: The DynamicTopography postprocessor and visualization
+ * plugins now use the more accurate Gaussian quadrature rule for evaluating
+ * cell averages of the surface stress.
+ * <br>
+ * (Ian Rose, 2015/11/04)
+ *
+ * <li> New: Add depth postprocessor which visually outputs the 
+ * depth for all points inside the domain, as determined by the 
+ * geometry model.
+ * <br>
+ * (Menno Fraters, 2015/10/15)
+ *
  * <li> New: The "Stokes residual" postprocessor will output the convergence
  * of the Stokes residual of each linear solve.
  * <br>
