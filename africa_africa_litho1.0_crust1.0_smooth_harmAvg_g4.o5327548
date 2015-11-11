@@ -1,0 +1,63 @@
+TACC: Starting up job 5327548
+TACC: Setting up parallel environment for MVAPICH2+mpispawn.
+TACC: Starting parallel tasks...
+-----------------------------------------------------------------------------
+-- This is ASPECT, the Advanced Solver for Problems in Earth's ConvecTion.
+--     . version 1.4.pre
+--     . running in DEBUG mode
+--     . running with 24 MPI processes
+--     . using Trilinos
+-----------------------------------------------------------------------------
+
+Line <89> of file <input string>:
+    The entry value
+        density, strain rate, viscosity, lab stress
+    for the entry named
+        List of output variables
+    does not match the given pattern
+        [MultipleSelection Vp anomaly|Vs anomaly|artificial viscosity|density|dynamic topography|error indicator|friction heating|gravity|internal heating|material properties|melt fraction|nonadiabatic pressure|nonadiabatic temperature|partition|seismic vp|seismic vs|shear stress|specific heat|strain rate|stress|thermal expansivity|thermodynamic phase|viscosity|viscosity ratio ]
+
+
+----------------------------------------------------
+Exception on processing: 
+
+--------------------------------------------------------
+An error occurred in line <353> of file </home1/02668/gbg4dss/packages/aspect/source/main.cc> in function
+    void parse_parameters(const string&, dealii::ParameterHandler&)
+The violated condition was: 
+    false
+The name and call sequence of the exception was:
+    dealii::ExcMessage ("Invalid input parameter file.")
+Additional Information: 
+Invalid input parameter file.
+--------------------------------------------------------
+
+Aborting!
+----------------------------------------------------
+[c440-903.stampede.tacc.utexas.edu:mpispawn_1][child_handler] MPI process (rank: 20, pid: 118062) exited with status 1
+[c440-903.stampede.tacc.utexas.edu:mpispawn_1][child_handler] MPI process (rank: 12, pid: 118054) exited with status 1
+[c440-903.stampede.tacc.utexas.edu:mpispawn_1][child_handler] MPI process (rank: 13, pid: 118055) exited with status 1
+[c439-602.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 0, pid: 102541) exited with status 1
+[c440-903.stampede.tacc.utexas.edu:mpispawn_1][child_handler] MPI process (rank: 14, pid: 118056) exited with status 1
+[c439-602.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 2, pid: 102543) exited with status 1
+[c440-903.stampede.tacc.utexas.edu:mpispawn_1][child_handler] MPI process (rank: 15, pid: 118057) exited with status 1
+[c439-602.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 3, pid: 102544) exited with status 1
+[c440-903.stampede.tacc.utexas.edu:mpispawn_1][child_handler] MPI process (rank: 16, pid: 118058) exited with status 1
+[c439-602.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 1, pid: 102542) exited with status 1
+[c440-903.stampede.tacc.utexas.edu:mpispawn_1][child_handler] MPI process (rank: 17, pid: 118059) exited with status 1
+[c439-602.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 4, pid: 102545) exited with status 1
+[c440-903.stampede.tacc.utexas.edu:mpispawn_1][child_handler] MPI process (rank: 18, pid: 118060) exited with status 1
+[c439-602.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 5, pid: 102546) exited with status 1
+[c440-903.stampede.tacc.utexas.edu:mpispawn_1][child_handler] MPI process (rank: 19, pid: 118061) exited with status 1
+[c439-602.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 6, pid: 102547) exited with status 1
+[c440-903.stampede.tacc.utexas.edu:mpispawn_1][child_handler] MPI process (rank: 21, pid: 118063) exited with status 1
+[c439-602.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 7, pid: 102548) exited with status 1
+[c440-903.stampede.tacc.utexas.edu:mpispawn_1][child_handler] MPI process (rank: 22, pid: 118064) exited with status 1
+[c439-602.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 8, pid: 102549) exited with status 1
+[c440-903.stampede.tacc.utexas.edu:mpispawn_1][child_handler] MPI process (rank: 23, pid: 118065) exited with status 1
+[c439-602.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 9, pid: 102550) exited with status 1
+[c439-602.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 10, pid: 102551) exited with status 1
+[c439-602.stampede.tacc.utexas.edu:mpispawn_0][child_handler] MPI process (rank: 11, pid: 102552) exited with status 1
+TACC: MPI job exited with code: 1
+ 
+TACC: Shutdown complete. Exiting.

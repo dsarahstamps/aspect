@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/aspect.dir/source/adiabatic_conditions/initial_profile.cc.o"
   "CMakeFiles/aspect.dir/source/adiabatic_conditions/interface.cc.o"
+  "CMakeFiles/aspect.dir/source/africa_region.cc.o"
   "CMakeFiles/aspect.dir/source/boundary_composition/ascii_data.cc.o"
   "CMakeFiles/aspect.dir/source/boundary_composition/box.cc.o"
   "CMakeFiles/aspect.dir/source/boundary_composition/initial_composition.cc.o"

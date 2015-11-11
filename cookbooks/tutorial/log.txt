@@ -1,0 +1,36 @@
+-----------------------------------------------------------------------------
+-- This is ASPECT, the Advanced Solver for Problems in Earth's ConvecTion.
+--     . version 1.4.pre
+--     . running in DEBUG mode
+--     . running with 32 MPI processes
+--     . using Trilinos
+-----------------------------------------------------------------------------
+
+Number of active cells: 64 (on 4 levels)
+Number of degrees of freedom: 948 (578+81+289)
+
+*** Timestep 0:  t=0 years
+   Solving temperature system... 0 iterations.
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 10 iterations.
+
+   Postprocessing:
+
+     Reference density (kg/m^3):                    3300
+     Reference gravity (m/s^2):                     9.8
+     Reference thermal expansion (1/K):             2e-05
+     Temperature contrast across model domain (K):  3327
+     Model domain depth (m):                        3e+06
+     Reference thermal diffusivity (m^2/s):         1.13939e-06
+     Reference viscosity (Pas):                     1e+21
+     Ra number:                                     5.09932e+07
+     k_value:                                       4.7
+     reference_cp:                                  1250
+     reference_thermal_diffusivity:                 1.13939e-06
+
+     RMS, max velocity:                  0.112 m/year, 0.182 m/year
+     Temperature min/avg/max:            273 K, 1938 K, 3600 K
+     Heat fluxes through boundary parts: -0.2922 W, 55.89 W, -2.183e+04 W, 2.196e+04 W
+     Writing graphical output:           tutorial/solution-00000
+
+*** Timestep 1:  t=1.02991e+06 years

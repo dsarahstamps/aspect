@@ -95,9 +95,32 @@ CMakeFiles/aspect.dir/source/adiabatic_conditions/interface.cc.o.provides: CMake
 
 CMakeFiles/aspect.dir/source/adiabatic_conditions/interface.cc.o.provides.build: CMakeFiles/aspect.dir/source/adiabatic_conditions/interface.cc.o
 
+CMakeFiles/aspect.dir/source/africa_region.cc.o: CMakeFiles/aspect.dir/flags.make
+CMakeFiles/aspect.dir/source/africa_region.cc.o: ../source/africa_region.cc
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_3)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/africa_region.cc.o"
+	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/africa_region.cc.o -c /Users/q/Documents/aspect/source/africa_region.cc
+
+CMakeFiles/aspect.dir/source/africa_region.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aspect.dir/source/africa_region.cc.i"
+	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx  $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -E /Users/q/Documents/aspect/source/africa_region.cc > CMakeFiles/aspect.dir/source/africa_region.cc.i
+
+CMakeFiles/aspect.dir/source/africa_region.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aspect.dir/source/africa_region.cc.s"
+	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx  $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -S /Users/q/Documents/aspect/source/africa_region.cc -o CMakeFiles/aspect.dir/source/africa_region.cc.s
+
+CMakeFiles/aspect.dir/source/africa_region.cc.o.requires:
+.PHONY : CMakeFiles/aspect.dir/source/africa_region.cc.o.requires
+
+CMakeFiles/aspect.dir/source/africa_region.cc.o.provides: CMakeFiles/aspect.dir/source/africa_region.cc.o.requires
+	$(MAKE) -f CMakeFiles/aspect.dir/build.make CMakeFiles/aspect.dir/source/africa_region.cc.o.provides.build
+.PHONY : CMakeFiles/aspect.dir/source/africa_region.cc.o.provides
+
+CMakeFiles/aspect.dir/source/africa_region.cc.o.provides.build: CMakeFiles/aspect.dir/source/africa_region.cc.o
+
 CMakeFiles/aspect.dir/source/boundary_composition/ascii_data.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/boundary_composition/ascii_data.cc.o: ../source/boundary_composition/ascii_data.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/boundary_composition/ascii_data.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/boundary_composition/ascii_data.cc.o -c /Users/q/Documents/aspect/source/boundary_composition/ascii_data.cc
 
@@ -120,7 +143,7 @@ CMakeFiles/aspect.dir/source/boundary_composition/ascii_data.cc.o.provides.build
 
 CMakeFiles/aspect.dir/source/boundary_composition/box.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/boundary_composition/box.cc.o: ../source/boundary_composition/box.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_4)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_5)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/boundary_composition/box.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/boundary_composition/box.cc.o -c /Users/q/Documents/aspect/source/boundary_composition/box.cc
 
@@ -143,7 +166,7 @@ CMakeFiles/aspect.dir/source/boundary_composition/box.cc.o.provides.build: CMake
 
 CMakeFiles/aspect.dir/source/boundary_composition/initial_composition.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/boundary_composition/initial_composition.cc.o: ../source/boundary_composition/initial_composition.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_5)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_6)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/boundary_composition/initial_composition.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/boundary_composition/initial_composition.cc.o -c /Users/q/Documents/aspect/source/boundary_composition/initial_composition.cc
 
@@ -166,7 +189,7 @@ CMakeFiles/aspect.dir/source/boundary_composition/initial_composition.cc.o.provi
 
 CMakeFiles/aspect.dir/source/boundary_composition/interface.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/boundary_composition/interface.cc.o: ../source/boundary_composition/interface.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_6)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_7)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/boundary_composition/interface.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/boundary_composition/interface.cc.o -c /Users/q/Documents/aspect/source/boundary_composition/interface.cc
 
@@ -189,7 +212,7 @@ CMakeFiles/aspect.dir/source/boundary_composition/interface.cc.o.provides.build:
 
 CMakeFiles/aspect.dir/source/boundary_composition/spherical_constant.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/boundary_composition/spherical_constant.cc.o: ../source/boundary_composition/spherical_constant.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_7)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_8)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/boundary_composition/spherical_constant.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/boundary_composition/spherical_constant.cc.o -c /Users/q/Documents/aspect/source/boundary_composition/spherical_constant.cc
 
@@ -212,7 +235,7 @@ CMakeFiles/aspect.dir/source/boundary_composition/spherical_constant.cc.o.provid
 
 CMakeFiles/aspect.dir/source/boundary_temperature/ascii_data.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/boundary_temperature/ascii_data.cc.o: ../source/boundary_temperature/ascii_data.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_8)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_9)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/boundary_temperature/ascii_data.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/boundary_temperature/ascii_data.cc.o -c /Users/q/Documents/aspect/source/boundary_temperature/ascii_data.cc
 
@@ -235,7 +258,7 @@ CMakeFiles/aspect.dir/source/boundary_temperature/ascii_data.cc.o.provides.build
 
 CMakeFiles/aspect.dir/source/boundary_temperature/box.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/boundary_temperature/box.cc.o: ../source/boundary_temperature/box.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_9)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_10)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/boundary_temperature/box.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/boundary_temperature/box.cc.o -c /Users/q/Documents/aspect/source/boundary_temperature/box.cc
 
@@ -258,7 +281,7 @@ CMakeFiles/aspect.dir/source/boundary_temperature/box.cc.o.provides.build: CMake
 
 CMakeFiles/aspect.dir/source/boundary_temperature/constant.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/boundary_temperature/constant.cc.o: ../source/boundary_temperature/constant.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_10)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_11)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/boundary_temperature/constant.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/boundary_temperature/constant.cc.o -c /Users/q/Documents/aspect/source/boundary_temperature/constant.cc
 
@@ -281,7 +304,7 @@ CMakeFiles/aspect.dir/source/boundary_temperature/constant.cc.o.provides.build: 
 
 CMakeFiles/aspect.dir/source/boundary_temperature/function.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/boundary_temperature/function.cc.o: ../source/boundary_temperature/function.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_11)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_12)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/boundary_temperature/function.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/boundary_temperature/function.cc.o -c /Users/q/Documents/aspect/source/boundary_temperature/function.cc
 
@@ -304,7 +327,7 @@ CMakeFiles/aspect.dir/source/boundary_temperature/function.cc.o.provides.build: 
 
 CMakeFiles/aspect.dir/source/boundary_temperature/initial_temperature.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/boundary_temperature/initial_temperature.cc.o: ../source/boundary_temperature/initial_temperature.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_12)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_13)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/boundary_temperature/initial_temperature.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/boundary_temperature/initial_temperature.cc.o -c /Users/q/Documents/aspect/source/boundary_temperature/initial_temperature.cc
 
@@ -327,7 +350,7 @@ CMakeFiles/aspect.dir/source/boundary_temperature/initial_temperature.cc.o.provi
 
 CMakeFiles/aspect.dir/source/boundary_temperature/interface.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/boundary_temperature/interface.cc.o: ../source/boundary_temperature/interface.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_13)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_14)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/boundary_temperature/interface.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/boundary_temperature/interface.cc.o -c /Users/q/Documents/aspect/source/boundary_temperature/interface.cc
 
@@ -350,7 +373,7 @@ CMakeFiles/aspect.dir/source/boundary_temperature/interface.cc.o.provides.build:
 
 CMakeFiles/aspect.dir/source/boundary_temperature/spherical_constant.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/boundary_temperature/spherical_constant.cc.o: ../source/boundary_temperature/spherical_constant.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_14)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_15)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/boundary_temperature/spherical_constant.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/boundary_temperature/spherical_constant.cc.o -c /Users/q/Documents/aspect/source/boundary_temperature/spherical_constant.cc
 
@@ -373,7 +396,7 @@ CMakeFiles/aspect.dir/source/boundary_temperature/spherical_constant.cc.o.provid
 
 CMakeFiles/aspect.dir/source/compositional_initial_conditions/ascii_data.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/compositional_initial_conditions/ascii_data.cc.o: ../source/compositional_initial_conditions/ascii_data.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_15)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_16)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/compositional_initial_conditions/ascii_data.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/compositional_initial_conditions/ascii_data.cc.o -c /Users/q/Documents/aspect/source/compositional_initial_conditions/ascii_data.cc
 
@@ -396,7 +419,7 @@ CMakeFiles/aspect.dir/source/compositional_initial_conditions/ascii_data.cc.o.pr
 
 CMakeFiles/aspect.dir/source/compositional_initial_conditions/function.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/compositional_initial_conditions/function.cc.o: ../source/compositional_initial_conditions/function.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_16)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_17)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/compositional_initial_conditions/function.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/compositional_initial_conditions/function.cc.o -c /Users/q/Documents/aspect/source/compositional_initial_conditions/function.cc
 
@@ -419,7 +442,7 @@ CMakeFiles/aspect.dir/source/compositional_initial_conditions/function.cc.o.prov
 
 CMakeFiles/aspect.dir/source/compositional_initial_conditions/interface.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/compositional_initial_conditions/interface.cc.o: ../source/compositional_initial_conditions/interface.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_17)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_18)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/compositional_initial_conditions/interface.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/compositional_initial_conditions/interface.cc.o -c /Users/q/Documents/aspect/source/compositional_initial_conditions/interface.cc
 
@@ -442,7 +465,7 @@ CMakeFiles/aspect.dir/source/compositional_initial_conditions/interface.cc.o.pro
 
 CMakeFiles/aspect.dir/source/geometry_model/box.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/geometry_model/box.cc.o: ../source/geometry_model/box.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_18)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_19)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/geometry_model/box.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/geometry_model/box.cc.o -c /Users/q/Documents/aspect/source/geometry_model/box.cc
 
@@ -465,7 +488,7 @@ CMakeFiles/aspect.dir/source/geometry_model/box.cc.o.provides.build: CMakeFiles/
 
 CMakeFiles/aspect.dir/source/geometry_model/chunk.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/geometry_model/chunk.cc.o: ../source/geometry_model/chunk.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_19)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_20)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/geometry_model/chunk.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/geometry_model/chunk.cc.o -c /Users/q/Documents/aspect/source/geometry_model/chunk.cc
 
@@ -488,7 +511,7 @@ CMakeFiles/aspect.dir/source/geometry_model/chunk.cc.o.provides.build: CMakeFile
 
 CMakeFiles/aspect.dir/source/geometry_model/interface.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/geometry_model/interface.cc.o: ../source/geometry_model/interface.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_20)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_21)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/geometry_model/interface.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/geometry_model/interface.cc.o -c /Users/q/Documents/aspect/source/geometry_model/interface.cc
 
@@ -511,7 +534,7 @@ CMakeFiles/aspect.dir/source/geometry_model/interface.cc.o.provides.build: CMake
 
 CMakeFiles/aspect.dir/source/geometry_model/sphere.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/geometry_model/sphere.cc.o: ../source/geometry_model/sphere.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_21)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_22)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/geometry_model/sphere.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/geometry_model/sphere.cc.o -c /Users/q/Documents/aspect/source/geometry_model/sphere.cc
 
@@ -534,7 +557,7 @@ CMakeFiles/aspect.dir/source/geometry_model/sphere.cc.o.provides.build: CMakeFil
 
 CMakeFiles/aspect.dir/source/geometry_model/spherical_shell.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/geometry_model/spherical_shell.cc.o: ../source/geometry_model/spherical_shell.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_22)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_23)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/geometry_model/spherical_shell.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/geometry_model/spherical_shell.cc.o -c /Users/q/Documents/aspect/source/geometry_model/spherical_shell.cc
 
@@ -557,7 +580,7 @@ CMakeFiles/aspect.dir/source/geometry_model/spherical_shell.cc.o.provides.build:
 
 CMakeFiles/aspect.dir/source/global.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/global.cc.o: ../source/global.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_23)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_24)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/global.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/global.cc.o -c /Users/q/Documents/aspect/source/global.cc
 
@@ -580,7 +603,7 @@ CMakeFiles/aspect.dir/source/global.cc.o.provides.build: CMakeFiles/aspect.dir/s
 
 CMakeFiles/aspect.dir/source/gravity_model/function.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/gravity_model/function.cc.o: ../source/gravity_model/function.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_24)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_25)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/gravity_model/function.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/gravity_model/function.cc.o -c /Users/q/Documents/aspect/source/gravity_model/function.cc
 
@@ -603,7 +626,7 @@ CMakeFiles/aspect.dir/source/gravity_model/function.cc.o.provides.build: CMakeFi
 
 CMakeFiles/aspect.dir/source/gravity_model/interface.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/gravity_model/interface.cc.o: ../source/gravity_model/interface.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_25)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_26)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/gravity_model/interface.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/gravity_model/interface.cc.o -c /Users/q/Documents/aspect/source/gravity_model/interface.cc
 
@@ -626,7 +649,7 @@ CMakeFiles/aspect.dir/source/gravity_model/interface.cc.o.provides.build: CMakeF
 
 CMakeFiles/aspect.dir/source/gravity_model/radial.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/gravity_model/radial.cc.o: ../source/gravity_model/radial.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_26)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_27)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/gravity_model/radial.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/gravity_model/radial.cc.o -c /Users/q/Documents/aspect/source/gravity_model/radial.cc
 
@@ -649,7 +672,7 @@ CMakeFiles/aspect.dir/source/gravity_model/radial.cc.o.provides.build: CMakeFile
 
 CMakeFiles/aspect.dir/source/gravity_model/vertical.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/gravity_model/vertical.cc.o: ../source/gravity_model/vertical.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_27)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_28)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/gravity_model/vertical.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/gravity_model/vertical.cc.o -c /Users/q/Documents/aspect/source/gravity_model/vertical.cc
 
@@ -672,7 +695,7 @@ CMakeFiles/aspect.dir/source/gravity_model/vertical.cc.o.provides.build: CMakeFi
 
 CMakeFiles/aspect.dir/source/heating_model/adiabatic_heating.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/heating_model/adiabatic_heating.cc.o: ../source/heating_model/adiabatic_heating.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_28)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_29)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/heating_model/adiabatic_heating.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/heating_model/adiabatic_heating.cc.o -c /Users/q/Documents/aspect/source/heating_model/adiabatic_heating.cc
 
@@ -695,7 +718,7 @@ CMakeFiles/aspect.dir/source/heating_model/adiabatic_heating.cc.o.provides.build
 
 CMakeFiles/aspect.dir/source/heating_model/constant_heating.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/heating_model/constant_heating.cc.o: ../source/heating_model/constant_heating.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_29)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_30)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/heating_model/constant_heating.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/heating_model/constant_heating.cc.o -c /Users/q/Documents/aspect/source/heating_model/constant_heating.cc
 
@@ -718,7 +741,7 @@ CMakeFiles/aspect.dir/source/heating_model/constant_heating.cc.o.provides.build:
 
 CMakeFiles/aspect.dir/source/heating_model/function.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/heating_model/function.cc.o: ../source/heating_model/function.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_30)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_31)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/heating_model/function.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/heating_model/function.cc.o -c /Users/q/Documents/aspect/source/heating_model/function.cc
 
@@ -741,7 +764,7 @@ CMakeFiles/aspect.dir/source/heating_model/function.cc.o.provides.build: CMakeFi
 
 CMakeFiles/aspect.dir/source/heating_model/interface.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/heating_model/interface.cc.o: ../source/heating_model/interface.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_31)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_32)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/heating_model/interface.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/heating_model/interface.cc.o -c /Users/q/Documents/aspect/source/heating_model/interface.cc
 
@@ -764,7 +787,7 @@ CMakeFiles/aspect.dir/source/heating_model/interface.cc.o.provides.build: CMakeF
 
 CMakeFiles/aspect.dir/source/heating_model/latent_heat.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/heating_model/latent_heat.cc.o: ../source/heating_model/latent_heat.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_32)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_33)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/heating_model/latent_heat.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/heating_model/latent_heat.cc.o -c /Users/q/Documents/aspect/source/heating_model/latent_heat.cc
 
@@ -787,7 +810,7 @@ CMakeFiles/aspect.dir/source/heating_model/latent_heat.cc.o.provides.build: CMak
 
 CMakeFiles/aspect.dir/source/heating_model/radioactive_decay.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/heating_model/radioactive_decay.cc.o: ../source/heating_model/radioactive_decay.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_33)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_34)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/heating_model/radioactive_decay.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/heating_model/radioactive_decay.cc.o -c /Users/q/Documents/aspect/source/heating_model/radioactive_decay.cc
 
@@ -810,7 +833,7 @@ CMakeFiles/aspect.dir/source/heating_model/radioactive_decay.cc.o.provides.build
 
 CMakeFiles/aspect.dir/source/heating_model/shear_heating.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/heating_model/shear_heating.cc.o: ../source/heating_model/shear_heating.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_34)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_35)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/heating_model/shear_heating.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/heating_model/shear_heating.cc.o -c /Users/q/Documents/aspect/source/heating_model/shear_heating.cc
 
@@ -833,7 +856,7 @@ CMakeFiles/aspect.dir/source/heating_model/shear_heating.cc.o.provides.build: CM
 
 CMakeFiles/aspect.dir/source/initial_conditions/adiabatic.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/initial_conditions/adiabatic.cc.o: ../source/initial_conditions/adiabatic.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_35)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_36)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/initial_conditions/adiabatic.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/initial_conditions/adiabatic.cc.o -c /Users/q/Documents/aspect/source/initial_conditions/adiabatic.cc
 
@@ -856,7 +879,7 @@ CMakeFiles/aspect.dir/source/initial_conditions/adiabatic.cc.o.provides.build: C
 
 CMakeFiles/aspect.dir/source/initial_conditions/ascii_data.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/initial_conditions/ascii_data.cc.o: ../source/initial_conditions/ascii_data.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_36)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_37)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/initial_conditions/ascii_data.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/initial_conditions/ascii_data.cc.o -c /Users/q/Documents/aspect/source/initial_conditions/ascii_data.cc
 
@@ -879,7 +902,7 @@ CMakeFiles/aspect.dir/source/initial_conditions/ascii_data.cc.o.provides.build: 
 
 CMakeFiles/aspect.dir/source/initial_conditions/box.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/initial_conditions/box.cc.o: ../source/initial_conditions/box.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_37)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_38)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/initial_conditions/box.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/initial_conditions/box.cc.o -c /Users/q/Documents/aspect/source/initial_conditions/box.cc
 
@@ -902,7 +925,7 @@ CMakeFiles/aspect.dir/source/initial_conditions/box.cc.o.provides.build: CMakeFi
 
 CMakeFiles/aspect.dir/source/initial_conditions/function.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/initial_conditions/function.cc.o: ../source/initial_conditions/function.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_38)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_39)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/initial_conditions/function.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/initial_conditions/function.cc.o -c /Users/q/Documents/aspect/source/initial_conditions/function.cc
 
@@ -925,7 +948,7 @@ CMakeFiles/aspect.dir/source/initial_conditions/function.cc.o.provides.build: CM
 
 CMakeFiles/aspect.dir/source/initial_conditions/harmonic_perturbation.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/initial_conditions/harmonic_perturbation.cc.o: ../source/initial_conditions/harmonic_perturbation.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_39)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_40)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/initial_conditions/harmonic_perturbation.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/initial_conditions/harmonic_perturbation.cc.o -c /Users/q/Documents/aspect/source/initial_conditions/harmonic_perturbation.cc
 
@@ -948,7 +971,7 @@ CMakeFiles/aspect.dir/source/initial_conditions/harmonic_perturbation.cc.o.provi
 
 CMakeFiles/aspect.dir/source/initial_conditions/interface.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/initial_conditions/interface.cc.o: ../source/initial_conditions/interface.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_40)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_41)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/initial_conditions/interface.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/initial_conditions/interface.cc.o -c /Users/q/Documents/aspect/source/initial_conditions/interface.cc
 
@@ -971,7 +994,7 @@ CMakeFiles/aspect.dir/source/initial_conditions/interface.cc.o.provides.build: C
 
 CMakeFiles/aspect.dir/source/initial_conditions/S40RTS_perturbation.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/initial_conditions/S40RTS_perturbation.cc.o: ../source/initial_conditions/S40RTS_perturbation.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_41)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_42)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/initial_conditions/S40RTS_perturbation.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/initial_conditions/S40RTS_perturbation.cc.o -c /Users/q/Documents/aspect/source/initial_conditions/S40RTS_perturbation.cc
 
@@ -994,7 +1017,7 @@ CMakeFiles/aspect.dir/source/initial_conditions/S40RTS_perturbation.cc.o.provide
 
 CMakeFiles/aspect.dir/source/initial_conditions/solidus.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/initial_conditions/solidus.cc.o: ../source/initial_conditions/solidus.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_42)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_43)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/initial_conditions/solidus.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/initial_conditions/solidus.cc.o -c /Users/q/Documents/aspect/source/initial_conditions/solidus.cc
 
@@ -1017,7 +1040,7 @@ CMakeFiles/aspect.dir/source/initial_conditions/solidus.cc.o.provides.build: CMa
 
 CMakeFiles/aspect.dir/source/initial_conditions/spherical_shell.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/initial_conditions/spherical_shell.cc.o: ../source/initial_conditions/spherical_shell.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_43)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_44)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/initial_conditions/spherical_shell.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/initial_conditions/spherical_shell.cc.o -c /Users/q/Documents/aspect/source/initial_conditions/spherical_shell.cc
 
@@ -1040,7 +1063,7 @@ CMakeFiles/aspect.dir/source/initial_conditions/spherical_shell.cc.o.provides.bu
 
 CMakeFiles/aspect.dir/source/main.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/main.cc.o: ../source/main.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_44)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_45)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/main.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/main.cc.o -c /Users/q/Documents/aspect/source/main.cc
 
@@ -1063,7 +1086,7 @@ CMakeFiles/aspect.dir/source/main.cc.o.provides.build: CMakeFiles/aspect.dir/sou
 
 CMakeFiles/aspect.dir/source/material_model/averaging.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/material_model/averaging.cc.o: ../source/material_model/averaging.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_45)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_46)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/material_model/averaging.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/material_model/averaging.cc.o -c /Users/q/Documents/aspect/source/material_model/averaging.cc
 
@@ -1086,7 +1109,7 @@ CMakeFiles/aspect.dir/source/material_model/averaging.cc.o.provides.build: CMake
 
 CMakeFiles/aspect.dir/source/material_model/composition_reaction.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/material_model/composition_reaction.cc.o: ../source/material_model/composition_reaction.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_46)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_47)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/material_model/composition_reaction.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/material_model/composition_reaction.cc.o -c /Users/q/Documents/aspect/source/material_model/composition_reaction.cc
 
@@ -1109,7 +1132,7 @@ CMakeFiles/aspect.dir/source/material_model/composition_reaction.cc.o.provides.b
 
 CMakeFiles/aspect.dir/source/material_model/depth_dependent.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/material_model/depth_dependent.cc.o: ../source/material_model/depth_dependent.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_47)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_48)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/material_model/depth_dependent.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/material_model/depth_dependent.cc.o -c /Users/q/Documents/aspect/source/material_model/depth_dependent.cc
 
@@ -1132,7 +1155,7 @@ CMakeFiles/aspect.dir/source/material_model/depth_dependent.cc.o.provides.build:
 
 CMakeFiles/aspect.dir/source/material_model/diffusion_dislocation.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/material_model/diffusion_dislocation.cc.o: ../source/material_model/diffusion_dislocation.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_48)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_49)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/material_model/diffusion_dislocation.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/material_model/diffusion_dislocation.cc.o -c /Users/q/Documents/aspect/source/material_model/diffusion_dislocation.cc
 
@@ -1155,7 +1178,7 @@ CMakeFiles/aspect.dir/source/material_model/diffusion_dislocation.cc.o.provides.
 
 CMakeFiles/aspect.dir/source/material_model/interface.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/material_model/interface.cc.o: ../source/material_model/interface.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_49)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_50)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/material_model/interface.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/material_model/interface.cc.o -c /Users/q/Documents/aspect/source/material_model/interface.cc
 
@@ -1178,7 +1201,7 @@ CMakeFiles/aspect.dir/source/material_model/interface.cc.o.provides.build: CMake
 
 CMakeFiles/aspect.dir/source/material_model/latent_heat.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/material_model/latent_heat.cc.o: ../source/material_model/latent_heat.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_50)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_51)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/material_model/latent_heat.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/material_model/latent_heat.cc.o -c /Users/q/Documents/aspect/source/material_model/latent_heat.cc
 
@@ -1201,7 +1224,7 @@ CMakeFiles/aspect.dir/source/material_model/latent_heat.cc.o.provides.build: CMa
 
 CMakeFiles/aspect.dir/source/material_model/latent_heat_melt.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/material_model/latent_heat_melt.cc.o: ../source/material_model/latent_heat_melt.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_51)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_52)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/material_model/latent_heat_melt.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/material_model/latent_heat_melt.cc.o -c /Users/q/Documents/aspect/source/material_model/latent_heat_melt.cc
 
@@ -1224,7 +1247,7 @@ CMakeFiles/aspect.dir/source/material_model/latent_heat_melt.cc.o.provides.build
 
 CMakeFiles/aspect.dir/source/material_model/morency_doin.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/material_model/morency_doin.cc.o: ../source/material_model/morency_doin.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_52)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_53)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/material_model/morency_doin.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/material_model/morency_doin.cc.o -c /Users/q/Documents/aspect/source/material_model/morency_doin.cc
 
@@ -1247,7 +1270,7 @@ CMakeFiles/aspect.dir/source/material_model/morency_doin.cc.o.provides.build: CM
 
 CMakeFiles/aspect.dir/source/material_model/multicomponent.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/material_model/multicomponent.cc.o: ../source/material_model/multicomponent.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_53)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_54)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/material_model/multicomponent.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/material_model/multicomponent.cc.o -c /Users/q/Documents/aspect/source/material_model/multicomponent.cc
 
@@ -1270,7 +1293,7 @@ CMakeFiles/aspect.dir/source/material_model/multicomponent.cc.o.provides.build: 
 
 CMakeFiles/aspect.dir/source/material_model/simple.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/material_model/simple.cc.o: ../source/material_model/simple.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_54)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_55)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/material_model/simple.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/material_model/simple.cc.o -c /Users/q/Documents/aspect/source/material_model/simple.cc
 
@@ -1293,7 +1316,7 @@ CMakeFiles/aspect.dir/source/material_model/simple.cc.o.provides.build: CMakeFil
 
 CMakeFiles/aspect.dir/source/material_model/simple_compressible.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/material_model/simple_compressible.cc.o: ../source/material_model/simple_compressible.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_55)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_56)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/material_model/simple_compressible.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/material_model/simple_compressible.cc.o -c /Users/q/Documents/aspect/source/material_model/simple_compressible.cc
 
@@ -1316,7 +1339,7 @@ CMakeFiles/aspect.dir/source/material_model/simple_compressible.cc.o.provides.bu
 
 CMakeFiles/aspect.dir/source/material_model/simpler.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/material_model/simpler.cc.o: ../source/material_model/simpler.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_56)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_57)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/material_model/simpler.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/material_model/simpler.cc.o -c /Users/q/Documents/aspect/source/material_model/simpler.cc
 
@@ -1339,7 +1362,7 @@ CMakeFiles/aspect.dir/source/material_model/simpler.cc.o.provides.build: CMakeFi
 
 CMakeFiles/aspect.dir/source/material_model/steinberger.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/material_model/steinberger.cc.o: ../source/material_model/steinberger.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_57)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_58)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/material_model/steinberger.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/material_model/steinberger.cc.o -c /Users/q/Documents/aspect/source/material_model/steinberger.cc
 
@@ -1362,7 +1385,7 @@ CMakeFiles/aspect.dir/source/material_model/steinberger.cc.o.provides.build: CMa
 
 CMakeFiles/aspect.dir/source/mesh_refinement/boundary.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/mesh_refinement/boundary.cc.o: ../source/mesh_refinement/boundary.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_58)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_59)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/mesh_refinement/boundary.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/mesh_refinement/boundary.cc.o -c /Users/q/Documents/aspect/source/mesh_refinement/boundary.cc
 
@@ -1385,7 +1408,7 @@ CMakeFiles/aspect.dir/source/mesh_refinement/boundary.cc.o.provides.build: CMake
 
 CMakeFiles/aspect.dir/source/mesh_refinement/composition.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/mesh_refinement/composition.cc.o: ../source/mesh_refinement/composition.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_59)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_60)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/mesh_refinement/composition.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/mesh_refinement/composition.cc.o -c /Users/q/Documents/aspect/source/mesh_refinement/composition.cc
 
@@ -1408,7 +1431,7 @@ CMakeFiles/aspect.dir/source/mesh_refinement/composition.cc.o.provides.build: CM
 
 CMakeFiles/aspect.dir/source/mesh_refinement/density.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/mesh_refinement/density.cc.o: ../source/mesh_refinement/density.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_60)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_61)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/mesh_refinement/density.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/mesh_refinement/density.cc.o -c /Users/q/Documents/aspect/source/mesh_refinement/density.cc
 
@@ -1431,7 +1454,7 @@ CMakeFiles/aspect.dir/source/mesh_refinement/density.cc.o.provides.build: CMakeF
 
 CMakeFiles/aspect.dir/source/mesh_refinement/interface.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/mesh_refinement/interface.cc.o: ../source/mesh_refinement/interface.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_61)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_62)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/mesh_refinement/interface.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/mesh_refinement/interface.cc.o -c /Users/q/Documents/aspect/source/mesh_refinement/interface.cc
 
@@ -1454,7 +1477,7 @@ CMakeFiles/aspect.dir/source/mesh_refinement/interface.cc.o.provides.build: CMak
 
 CMakeFiles/aspect.dir/source/mesh_refinement/maximum_refinement_function.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/mesh_refinement/maximum_refinement_function.cc.o: ../source/mesh_refinement/maximum_refinement_function.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_62)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_63)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/mesh_refinement/maximum_refinement_function.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/mesh_refinement/maximum_refinement_function.cc.o -c /Users/q/Documents/aspect/source/mesh_refinement/maximum_refinement_function.cc
 
@@ -1477,7 +1500,7 @@ CMakeFiles/aspect.dir/source/mesh_refinement/maximum_refinement_function.cc.o.pr
 
 CMakeFiles/aspect.dir/source/mesh_refinement/minimum_refinement_function.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/mesh_refinement/minimum_refinement_function.cc.o: ../source/mesh_refinement/minimum_refinement_function.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_63)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_64)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/mesh_refinement/minimum_refinement_function.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/mesh_refinement/minimum_refinement_function.cc.o -c /Users/q/Documents/aspect/source/mesh_refinement/minimum_refinement_function.cc
 
@@ -1500,7 +1523,7 @@ CMakeFiles/aspect.dir/source/mesh_refinement/minimum_refinement_function.cc.o.pr
 
 CMakeFiles/aspect.dir/source/mesh_refinement/nonadiabatic_temperature.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/mesh_refinement/nonadiabatic_temperature.cc.o: ../source/mesh_refinement/nonadiabatic_temperature.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_64)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_65)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/mesh_refinement/nonadiabatic_temperature.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/mesh_refinement/nonadiabatic_temperature.cc.o -c /Users/q/Documents/aspect/source/mesh_refinement/nonadiabatic_temperature.cc
 
@@ -1523,7 +1546,7 @@ CMakeFiles/aspect.dir/source/mesh_refinement/nonadiabatic_temperature.cc.o.provi
 
 CMakeFiles/aspect.dir/source/mesh_refinement/slope.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/mesh_refinement/slope.cc.o: ../source/mesh_refinement/slope.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_65)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_66)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/mesh_refinement/slope.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/mesh_refinement/slope.cc.o -c /Users/q/Documents/aspect/source/mesh_refinement/slope.cc
 
@@ -1546,7 +1569,7 @@ CMakeFiles/aspect.dir/source/mesh_refinement/slope.cc.o.provides.build: CMakeFil
 
 CMakeFiles/aspect.dir/source/mesh_refinement/strain_rate.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/mesh_refinement/strain_rate.cc.o: ../source/mesh_refinement/strain_rate.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_66)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_67)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/mesh_refinement/strain_rate.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/mesh_refinement/strain_rate.cc.o -c /Users/q/Documents/aspect/source/mesh_refinement/strain_rate.cc
 
@@ -1569,7 +1592,7 @@ CMakeFiles/aspect.dir/source/mesh_refinement/strain_rate.cc.o.provides.build: CM
 
 CMakeFiles/aspect.dir/source/mesh_refinement/temperature.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/mesh_refinement/temperature.cc.o: ../source/mesh_refinement/temperature.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_67)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_68)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/mesh_refinement/temperature.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/mesh_refinement/temperature.cc.o -c /Users/q/Documents/aspect/source/mesh_refinement/temperature.cc
 
@@ -1592,7 +1615,7 @@ CMakeFiles/aspect.dir/source/mesh_refinement/temperature.cc.o.provides.build: CM
 
 CMakeFiles/aspect.dir/source/mesh_refinement/thermal_energy_density.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/mesh_refinement/thermal_energy_density.cc.o: ../source/mesh_refinement/thermal_energy_density.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_68)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_69)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/mesh_refinement/thermal_energy_density.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/mesh_refinement/thermal_energy_density.cc.o -c /Users/q/Documents/aspect/source/mesh_refinement/thermal_energy_density.cc
 
@@ -1615,7 +1638,7 @@ CMakeFiles/aspect.dir/source/mesh_refinement/thermal_energy_density.cc.o.provide
 
 CMakeFiles/aspect.dir/source/mesh_refinement/topography.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/mesh_refinement/topography.cc.o: ../source/mesh_refinement/topography.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_69)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_70)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/mesh_refinement/topography.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/mesh_refinement/topography.cc.o -c /Users/q/Documents/aspect/source/mesh_refinement/topography.cc
 
@@ -1638,7 +1661,7 @@ CMakeFiles/aspect.dir/source/mesh_refinement/topography.cc.o.provides.build: CMa
 
 CMakeFiles/aspect.dir/source/mesh_refinement/velocity.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/mesh_refinement/velocity.cc.o: ../source/mesh_refinement/velocity.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_70)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_71)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/mesh_refinement/velocity.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/mesh_refinement/velocity.cc.o -c /Users/q/Documents/aspect/source/mesh_refinement/velocity.cc
 
@@ -1661,7 +1684,7 @@ CMakeFiles/aspect.dir/source/mesh_refinement/velocity.cc.o.provides.build: CMake
 
 CMakeFiles/aspect.dir/source/mesh_refinement/viscosity.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/mesh_refinement/viscosity.cc.o: ../source/mesh_refinement/viscosity.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_71)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_72)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/mesh_refinement/viscosity.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/mesh_refinement/viscosity.cc.o -c /Users/q/Documents/aspect/source/mesh_refinement/viscosity.cc
 
@@ -1684,7 +1707,7 @@ CMakeFiles/aspect.dir/source/mesh_refinement/viscosity.cc.o.provides.build: CMak
 
 CMakeFiles/aspect.dir/source/particle/generator.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/particle/generator.cc.o: ../source/particle/generator.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_72)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_73)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/particle/generator.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/particle/generator.cc.o -c /Users/q/Documents/aspect/source/particle/generator.cc
 
@@ -1707,7 +1730,7 @@ CMakeFiles/aspect.dir/source/particle/generator.cc.o.provides.build: CMakeFiles/
 
 CMakeFiles/aspect.dir/source/particle/integrator.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/particle/integrator.cc.o: ../source/particle/integrator.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_73)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_74)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/particle/integrator.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/particle/integrator.cc.o -c /Users/q/Documents/aspect/source/particle/integrator.cc
 
@@ -1730,7 +1753,7 @@ CMakeFiles/aspect.dir/source/particle/integrator.cc.o.provides.build: CMakeFiles
 
 CMakeFiles/aspect.dir/source/particle/output.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/particle/output.cc.o: ../source/particle/output.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_74)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_75)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/particle/output.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/particle/output.cc.o -c /Users/q/Documents/aspect/source/particle/output.cc
 
@@ -1753,7 +1776,7 @@ CMakeFiles/aspect.dir/source/particle/output.cc.o.provides.build: CMakeFiles/asp
 
 CMakeFiles/aspect.dir/source/particle/particle.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/particle/particle.cc.o: ../source/particle/particle.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_75)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_76)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/particle/particle.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/particle/particle.cc.o -c /Users/q/Documents/aspect/source/particle/particle.cc
 
@@ -1776,7 +1799,7 @@ CMakeFiles/aspect.dir/source/particle/particle.cc.o.provides.build: CMakeFiles/a
 
 CMakeFiles/aspect.dir/source/postprocess/basic_statistics.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/basic_statistics.cc.o: ../source/postprocess/basic_statistics.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_76)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_77)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/basic_statistics.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/basic_statistics.cc.o -c /Users/q/Documents/aspect/source/postprocess/basic_statistics.cc
 
@@ -1799,7 +1822,7 @@ CMakeFiles/aspect.dir/source/postprocess/basic_statistics.cc.o.provides.build: C
 
 CMakeFiles/aspect.dir/source/postprocess/boundary_densities.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/boundary_densities.cc.o: ../source/postprocess/boundary_densities.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_77)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_78)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/boundary_densities.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/boundary_densities.cc.o -c /Users/q/Documents/aspect/source/postprocess/boundary_densities.cc
 
@@ -1822,7 +1845,7 @@ CMakeFiles/aspect.dir/source/postprocess/boundary_densities.cc.o.provides.build:
 
 CMakeFiles/aspect.dir/source/postprocess/boundary_pressures.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/boundary_pressures.cc.o: ../source/postprocess/boundary_pressures.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_78)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_79)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/boundary_pressures.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/boundary_pressures.cc.o -c /Users/q/Documents/aspect/source/postprocess/boundary_pressures.cc
 
@@ -1845,7 +1868,7 @@ CMakeFiles/aspect.dir/source/postprocess/boundary_pressures.cc.o.provides.build:
 
 CMakeFiles/aspect.dir/source/postprocess/composition_statistics.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/composition_statistics.cc.o: ../source/postprocess/composition_statistics.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_79)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_80)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/composition_statistics.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/composition_statistics.cc.o -c /Users/q/Documents/aspect/source/postprocess/composition_statistics.cc
 
@@ -1868,7 +1891,7 @@ CMakeFiles/aspect.dir/source/postprocess/composition_statistics.cc.o.provides.bu
 
 CMakeFiles/aspect.dir/source/postprocess/depth_average.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/depth_average.cc.o: ../source/postprocess/depth_average.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_80)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_81)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/depth_average.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/depth_average.cc.o -c /Users/q/Documents/aspect/source/postprocess/depth_average.cc
 
@@ -1891,7 +1914,7 @@ CMakeFiles/aspect.dir/source/postprocess/depth_average.cc.o.provides.build: CMak
 
 CMakeFiles/aspect.dir/source/postprocess/dynamic_topography.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/dynamic_topography.cc.o: ../source/postprocess/dynamic_topography.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_81)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_82)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/dynamic_topography.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/dynamic_topography.cc.o -c /Users/q/Documents/aspect/source/postprocess/dynamic_topography.cc
 
@@ -1914,7 +1937,7 @@ CMakeFiles/aspect.dir/source/postprocess/dynamic_topography.cc.o.provides.build:
 
 CMakeFiles/aspect.dir/source/postprocess/heat_flux_statistics.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/heat_flux_statistics.cc.o: ../source/postprocess/heat_flux_statistics.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_82)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_83)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/heat_flux_statistics.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/heat_flux_statistics.cc.o -c /Users/q/Documents/aspect/source/postprocess/heat_flux_statistics.cc
 
@@ -1937,7 +1960,7 @@ CMakeFiles/aspect.dir/source/postprocess/heat_flux_statistics.cc.o.provides.buil
 
 CMakeFiles/aspect.dir/source/postprocess/heating_statistics.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/heating_statistics.cc.o: ../source/postprocess/heating_statistics.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_83)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_84)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/heating_statistics.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/heating_statistics.cc.o -c /Users/q/Documents/aspect/source/postprocess/heating_statistics.cc
 
@@ -1960,7 +1983,7 @@ CMakeFiles/aspect.dir/source/postprocess/heating_statistics.cc.o.provides.build:
 
 CMakeFiles/aspect.dir/source/postprocess/interface.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/interface.cc.o: ../source/postprocess/interface.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_84)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_85)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/interface.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/interface.cc.o -c /Users/q/Documents/aspect/source/postprocess/interface.cc
 
@@ -1983,7 +2006,7 @@ CMakeFiles/aspect.dir/source/postprocess/interface.cc.o.provides.build: CMakeFil
 
 CMakeFiles/aspect.dir/source/postprocess/mass_flux_statistics.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/mass_flux_statistics.cc.o: ../source/postprocess/mass_flux_statistics.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_85)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_86)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/mass_flux_statistics.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/mass_flux_statistics.cc.o -c /Users/q/Documents/aspect/source/postprocess/mass_flux_statistics.cc
 
@@ -2006,7 +2029,7 @@ CMakeFiles/aspect.dir/source/postprocess/mass_flux_statistics.cc.o.provides.buil
 
 CMakeFiles/aspect.dir/source/postprocess/pressure_statistics.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/pressure_statistics.cc.o: ../source/postprocess/pressure_statistics.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_86)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_87)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/pressure_statistics.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/pressure_statistics.cc.o -c /Users/q/Documents/aspect/source/postprocess/pressure_statistics.cc
 
@@ -2029,7 +2052,7 @@ CMakeFiles/aspect.dir/source/postprocess/pressure_statistics.cc.o.provides.build
 
 CMakeFiles/aspect.dir/source/postprocess/spherical_velocity_statistics.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/spherical_velocity_statistics.cc.o: ../source/postprocess/spherical_velocity_statistics.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_87)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_88)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/spherical_velocity_statistics.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/spherical_velocity_statistics.cc.o -c /Users/q/Documents/aspect/source/postprocess/spherical_velocity_statistics.cc
 
@@ -2052,7 +2075,7 @@ CMakeFiles/aspect.dir/source/postprocess/spherical_velocity_statistics.cc.o.prov
 
 CMakeFiles/aspect.dir/source/postprocess/temperature_statistics.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/temperature_statistics.cc.o: ../source/postprocess/temperature_statistics.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_88)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_89)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/temperature_statistics.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/temperature_statistics.cc.o -c /Users/q/Documents/aspect/source/postprocess/temperature_statistics.cc
 
@@ -2075,7 +2098,7 @@ CMakeFiles/aspect.dir/source/postprocess/temperature_statistics.cc.o.provides.bu
 
 CMakeFiles/aspect.dir/source/postprocess/topography.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/topography.cc.o: ../source/postprocess/topography.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_89)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_90)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/topography.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/topography.cc.o -c /Users/q/Documents/aspect/source/postprocess/topography.cc
 
@@ -2098,7 +2121,7 @@ CMakeFiles/aspect.dir/source/postprocess/topography.cc.o.provides.build: CMakeFi
 
 CMakeFiles/aspect.dir/source/postprocess/tracer.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/tracer.cc.o: ../source/postprocess/tracer.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_90)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_91)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/tracer.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/tracer.cc.o -c /Users/q/Documents/aspect/source/postprocess/tracer.cc
 
@@ -2121,7 +2144,7 @@ CMakeFiles/aspect.dir/source/postprocess/tracer.cc.o.provides.build: CMakeFiles/
 
 CMakeFiles/aspect.dir/source/postprocess/velocity_boundary_statistics.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/velocity_boundary_statistics.cc.o: ../source/postprocess/velocity_boundary_statistics.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_91)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_92)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/velocity_boundary_statistics.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/velocity_boundary_statistics.cc.o -c /Users/q/Documents/aspect/source/postprocess/velocity_boundary_statistics.cc
 
@@ -2144,7 +2167,7 @@ CMakeFiles/aspect.dir/source/postprocess/velocity_boundary_statistics.cc.o.provi
 
 CMakeFiles/aspect.dir/source/postprocess/velocity_statistics.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/velocity_statistics.cc.o: ../source/postprocess/velocity_statistics.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_92)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_93)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/velocity_statistics.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/velocity_statistics.cc.o -c /Users/q/Documents/aspect/source/postprocess/velocity_statistics.cc
 
@@ -2167,7 +2190,7 @@ CMakeFiles/aspect.dir/source/postprocess/velocity_statistics.cc.o.provides.build
 
 CMakeFiles/aspect.dir/source/postprocess/viscous_dissipation_statistics.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/viscous_dissipation_statistics.cc.o: ../source/postprocess/viscous_dissipation_statistics.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_93)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_94)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/viscous_dissipation_statistics.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/viscous_dissipation_statistics.cc.o -c /Users/q/Documents/aspect/source/postprocess/viscous_dissipation_statistics.cc
 
@@ -2190,7 +2213,7 @@ CMakeFiles/aspect.dir/source/postprocess/viscous_dissipation_statistics.cc.o.pro
 
 CMakeFiles/aspect.dir/source/postprocess/visualization/artificial_viscosity.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/visualization/artificial_viscosity.cc.o: ../source/postprocess/visualization/artificial_viscosity.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_94)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_95)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/visualization/artificial_viscosity.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/visualization/artificial_viscosity.cc.o -c /Users/q/Documents/aspect/source/postprocess/visualization/artificial_viscosity.cc
 
@@ -2213,7 +2236,7 @@ CMakeFiles/aspect.dir/source/postprocess/visualization/artificial_viscosity.cc.o
 
 CMakeFiles/aspect.dir/source/postprocess/visualization/density.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/visualization/density.cc.o: ../source/postprocess/visualization/density.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_95)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_96)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/visualization/density.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/visualization/density.cc.o -c /Users/q/Documents/aspect/source/postprocess/visualization/density.cc
 
@@ -2236,7 +2259,7 @@ CMakeFiles/aspect.dir/source/postprocess/visualization/density.cc.o.provides.bui
 
 CMakeFiles/aspect.dir/source/postprocess/visualization/dynamic_topography.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/visualization/dynamic_topography.cc.o: ../source/postprocess/visualization/dynamic_topography.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_96)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_97)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/visualization/dynamic_topography.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/visualization/dynamic_topography.cc.o -c /Users/q/Documents/aspect/source/postprocess/visualization/dynamic_topography.cc
 
@@ -2259,7 +2282,7 @@ CMakeFiles/aspect.dir/source/postprocess/visualization/dynamic_topography.cc.o.p
 
 CMakeFiles/aspect.dir/source/postprocess/visualization/error_indicator.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/visualization/error_indicator.cc.o: ../source/postprocess/visualization/error_indicator.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_97)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_98)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/visualization/error_indicator.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/visualization/error_indicator.cc.o -c /Users/q/Documents/aspect/source/postprocess/visualization/error_indicator.cc
 
@@ -2282,7 +2305,7 @@ CMakeFiles/aspect.dir/source/postprocess/visualization/error_indicator.cc.o.prov
 
 CMakeFiles/aspect.dir/source/postprocess/visualization/friction_heating.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/visualization/friction_heating.cc.o: ../source/postprocess/visualization/friction_heating.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_98)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_99)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/visualization/friction_heating.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/visualization/friction_heating.cc.o -c /Users/q/Documents/aspect/source/postprocess/visualization/friction_heating.cc
 
@@ -2305,7 +2328,7 @@ CMakeFiles/aspect.dir/source/postprocess/visualization/friction_heating.cc.o.pro
 
 CMakeFiles/aspect.dir/source/postprocess/visualization/gravity.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/visualization/gravity.cc.o: ../source/postprocess/visualization/gravity.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_99)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_100)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/visualization/gravity.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/visualization/gravity.cc.o -c /Users/q/Documents/aspect/source/postprocess/visualization/gravity.cc
 
@@ -2328,7 +2351,7 @@ CMakeFiles/aspect.dir/source/postprocess/visualization/gravity.cc.o.provides.bui
 
 CMakeFiles/aspect.dir/source/postprocess/visualization/heating.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/visualization/heating.cc.o: ../source/postprocess/visualization/heating.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_100)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_101)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/visualization/heating.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/visualization/heating.cc.o -c /Users/q/Documents/aspect/source/postprocess/visualization/heating.cc
 
@@ -2351,7 +2374,7 @@ CMakeFiles/aspect.dir/source/postprocess/visualization/heating.cc.o.provides.bui
 
 CMakeFiles/aspect.dir/source/postprocess/visualization/material_properties.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/visualization/material_properties.cc.o: ../source/postprocess/visualization/material_properties.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_101)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_102)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/visualization/material_properties.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/visualization/material_properties.cc.o -c /Users/q/Documents/aspect/source/postprocess/visualization/material_properties.cc
 
@@ -2374,7 +2397,7 @@ CMakeFiles/aspect.dir/source/postprocess/visualization/material_properties.cc.o.
 
 CMakeFiles/aspect.dir/source/postprocess/visualization/melt_fraction.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/visualization/melt_fraction.cc.o: ../source/postprocess/visualization/melt_fraction.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_102)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_103)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/visualization/melt_fraction.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/visualization/melt_fraction.cc.o -c /Users/q/Documents/aspect/source/postprocess/visualization/melt_fraction.cc
 
@@ -2397,7 +2420,7 @@ CMakeFiles/aspect.dir/source/postprocess/visualization/melt_fraction.cc.o.provid
 
 CMakeFiles/aspect.dir/source/postprocess/visualization/nonadiabatic_pressure.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/visualization/nonadiabatic_pressure.cc.o: ../source/postprocess/visualization/nonadiabatic_pressure.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_103)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_104)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/visualization/nonadiabatic_pressure.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/visualization/nonadiabatic_pressure.cc.o -c /Users/q/Documents/aspect/source/postprocess/visualization/nonadiabatic_pressure.cc
 
@@ -2420,7 +2443,7 @@ CMakeFiles/aspect.dir/source/postprocess/visualization/nonadiabatic_pressure.cc.
 
 CMakeFiles/aspect.dir/source/postprocess/visualization/nonadiabatic_temperature.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/visualization/nonadiabatic_temperature.cc.o: ../source/postprocess/visualization/nonadiabatic_temperature.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_104)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_105)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/visualization/nonadiabatic_temperature.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/visualization/nonadiabatic_temperature.cc.o -c /Users/q/Documents/aspect/source/postprocess/visualization/nonadiabatic_temperature.cc
 
@@ -2443,7 +2466,7 @@ CMakeFiles/aspect.dir/source/postprocess/visualization/nonadiabatic_temperature.
 
 CMakeFiles/aspect.dir/source/postprocess/visualization/partition.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/visualization/partition.cc.o: ../source/postprocess/visualization/partition.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_105)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_106)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/visualization/partition.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/visualization/partition.cc.o -c /Users/q/Documents/aspect/source/postprocess/visualization/partition.cc
 
@@ -2466,7 +2489,7 @@ CMakeFiles/aspect.dir/source/postprocess/visualization/partition.cc.o.provides.b
 
 CMakeFiles/aspect.dir/source/postprocess/visualization/seismic_anomalies.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/visualization/seismic_anomalies.cc.o: ../source/postprocess/visualization/seismic_anomalies.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_106)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_107)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/visualization/seismic_anomalies.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/visualization/seismic_anomalies.cc.o -c /Users/q/Documents/aspect/source/postprocess/visualization/seismic_anomalies.cc
 
@@ -2489,7 +2512,7 @@ CMakeFiles/aspect.dir/source/postprocess/visualization/seismic_anomalies.cc.o.pr
 
 CMakeFiles/aspect.dir/source/postprocess/visualization/seismic_vp.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/visualization/seismic_vp.cc.o: ../source/postprocess/visualization/seismic_vp.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_107)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_108)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/visualization/seismic_vp.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/visualization/seismic_vp.cc.o -c /Users/q/Documents/aspect/source/postprocess/visualization/seismic_vp.cc
 
@@ -2512,7 +2535,7 @@ CMakeFiles/aspect.dir/source/postprocess/visualization/seismic_vp.cc.o.provides.
 
 CMakeFiles/aspect.dir/source/postprocess/visualization/seismic_vs.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/visualization/seismic_vs.cc.o: ../source/postprocess/visualization/seismic_vs.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_108)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_109)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/visualization/seismic_vs.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/visualization/seismic_vs.cc.o -c /Users/q/Documents/aspect/source/postprocess/visualization/seismic_vs.cc
 
@@ -2535,7 +2558,7 @@ CMakeFiles/aspect.dir/source/postprocess/visualization/seismic_vs.cc.o.provides.
 
 CMakeFiles/aspect.dir/source/postprocess/visualization/shear_stress.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/visualization/shear_stress.cc.o: ../source/postprocess/visualization/shear_stress.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_109)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_110)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/visualization/shear_stress.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/visualization/shear_stress.cc.o -c /Users/q/Documents/aspect/source/postprocess/visualization/shear_stress.cc
 
@@ -2558,7 +2581,7 @@ CMakeFiles/aspect.dir/source/postprocess/visualization/shear_stress.cc.o.provide
 
 CMakeFiles/aspect.dir/source/postprocess/visualization/specific_heat.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/visualization/specific_heat.cc.o: ../source/postprocess/visualization/specific_heat.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_110)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_111)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/visualization/specific_heat.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/visualization/specific_heat.cc.o -c /Users/q/Documents/aspect/source/postprocess/visualization/specific_heat.cc
 
@@ -2581,7 +2604,7 @@ CMakeFiles/aspect.dir/source/postprocess/visualization/specific_heat.cc.o.provid
 
 CMakeFiles/aspect.dir/source/postprocess/visualization/strain_rate.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/visualization/strain_rate.cc.o: ../source/postprocess/visualization/strain_rate.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_111)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_112)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/visualization/strain_rate.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/visualization/strain_rate.cc.o -c /Users/q/Documents/aspect/source/postprocess/visualization/strain_rate.cc
 
@@ -2604,7 +2627,7 @@ CMakeFiles/aspect.dir/source/postprocess/visualization/strain_rate.cc.o.provides
 
 CMakeFiles/aspect.dir/source/postprocess/visualization/stress.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/visualization/stress.cc.o: ../source/postprocess/visualization/stress.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_112)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_113)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/visualization/stress.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/visualization/stress.cc.o -c /Users/q/Documents/aspect/source/postprocess/visualization/stress.cc
 
@@ -2627,7 +2650,7 @@ CMakeFiles/aspect.dir/source/postprocess/visualization/stress.cc.o.provides.buil
 
 CMakeFiles/aspect.dir/source/postprocess/visualization/thermal_expansivity.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/visualization/thermal_expansivity.cc.o: ../source/postprocess/visualization/thermal_expansivity.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_113)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_114)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/visualization/thermal_expansivity.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/visualization/thermal_expansivity.cc.o -c /Users/q/Documents/aspect/source/postprocess/visualization/thermal_expansivity.cc
 
@@ -2650,7 +2673,7 @@ CMakeFiles/aspect.dir/source/postprocess/visualization/thermal_expansivity.cc.o.
 
 CMakeFiles/aspect.dir/source/postprocess/visualization/thermodynamic_phase.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/visualization/thermodynamic_phase.cc.o: ../source/postprocess/visualization/thermodynamic_phase.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_114)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_115)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/visualization/thermodynamic_phase.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/visualization/thermodynamic_phase.cc.o -c /Users/q/Documents/aspect/source/postprocess/visualization/thermodynamic_phase.cc
 
@@ -2673,7 +2696,7 @@ CMakeFiles/aspect.dir/source/postprocess/visualization/thermodynamic_phase.cc.o.
 
 CMakeFiles/aspect.dir/source/postprocess/visualization/viscosity.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/visualization/viscosity.cc.o: ../source/postprocess/visualization/viscosity.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_115)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_116)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/visualization/viscosity.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/visualization/viscosity.cc.o -c /Users/q/Documents/aspect/source/postprocess/visualization/viscosity.cc
 
@@ -2696,7 +2719,7 @@ CMakeFiles/aspect.dir/source/postprocess/visualization/viscosity.cc.o.provides.b
 
 CMakeFiles/aspect.dir/source/postprocess/visualization/viscosity_ratio.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/visualization/viscosity_ratio.cc.o: ../source/postprocess/visualization/viscosity_ratio.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_116)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_117)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/visualization/viscosity_ratio.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/visualization/viscosity_ratio.cc.o -c /Users/q/Documents/aspect/source/postprocess/visualization/viscosity_ratio.cc
 
@@ -2719,7 +2742,7 @@ CMakeFiles/aspect.dir/source/postprocess/visualization/viscosity_ratio.cc.o.prov
 
 CMakeFiles/aspect.dir/source/postprocess/visualization.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/postprocess/visualization.cc.o: ../source/postprocess/visualization.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_117)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_118)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/postprocess/visualization.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/postprocess/visualization.cc.o -c /Users/q/Documents/aspect/source/postprocess/visualization.cc
 
@@ -2742,7 +2765,7 @@ CMakeFiles/aspect.dir/source/postprocess/visualization.cc.o.provides.build: CMak
 
 CMakeFiles/aspect.dir/source/prescribed_stokes_solution/ascii_data.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/prescribed_stokes_solution/ascii_data.cc.o: ../source/prescribed_stokes_solution/ascii_data.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_118)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_119)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/prescribed_stokes_solution/ascii_data.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/prescribed_stokes_solution/ascii_data.cc.o -c /Users/q/Documents/aspect/source/prescribed_stokes_solution/ascii_data.cc
 
@@ -2765,7 +2788,7 @@ CMakeFiles/aspect.dir/source/prescribed_stokes_solution/ascii_data.cc.o.provides
 
 CMakeFiles/aspect.dir/source/prescribed_stokes_solution/circle.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/prescribed_stokes_solution/circle.cc.o: ../source/prescribed_stokes_solution/circle.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_119)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_120)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/prescribed_stokes_solution/circle.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/prescribed_stokes_solution/circle.cc.o -c /Users/q/Documents/aspect/source/prescribed_stokes_solution/circle.cc
 
@@ -2788,7 +2811,7 @@ CMakeFiles/aspect.dir/source/prescribed_stokes_solution/circle.cc.o.provides.bui
 
 CMakeFiles/aspect.dir/source/prescribed_stokes_solution/function.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/prescribed_stokes_solution/function.cc.o: ../source/prescribed_stokes_solution/function.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_120)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_121)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/prescribed_stokes_solution/function.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/prescribed_stokes_solution/function.cc.o -c /Users/q/Documents/aspect/source/prescribed_stokes_solution/function.cc
 
@@ -2811,7 +2834,7 @@ CMakeFiles/aspect.dir/source/prescribed_stokes_solution/function.cc.o.provides.b
 
 CMakeFiles/aspect.dir/source/prescribed_stokes_solution/interface.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/prescribed_stokes_solution/interface.cc.o: ../source/prescribed_stokes_solution/interface.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_121)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_122)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/prescribed_stokes_solution/interface.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/prescribed_stokes_solution/interface.cc.o -c /Users/q/Documents/aspect/source/prescribed_stokes_solution/interface.cc
 
@@ -2834,7 +2857,7 @@ CMakeFiles/aspect.dir/source/prescribed_stokes_solution/interface.cc.o.provides.
 
 CMakeFiles/aspect.dir/source/simulator/assembly.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/simulator/assembly.cc.o: ../source/simulator/assembly.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_122)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_123)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/simulator/assembly.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/simulator/assembly.cc.o -c /Users/q/Documents/aspect/source/simulator/assembly.cc
 
@@ -2857,7 +2880,7 @@ CMakeFiles/aspect.dir/source/simulator/assembly.cc.o.provides.build: CMakeFiles/
 
 CMakeFiles/aspect.dir/source/simulator/checkpoint_restart.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/simulator/checkpoint_restart.cc.o: ../source/simulator/checkpoint_restart.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_123)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_124)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/simulator/checkpoint_restart.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/simulator/checkpoint_restart.cc.o -c /Users/q/Documents/aspect/source/simulator/checkpoint_restart.cc
 
@@ -2880,7 +2903,7 @@ CMakeFiles/aspect.dir/source/simulator/checkpoint_restart.cc.o.provides.build: C
 
 CMakeFiles/aspect.dir/source/simulator/core.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/simulator/core.cc.o: ../source/simulator/core.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_124)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_125)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/simulator/core.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/simulator/core.cc.o -c /Users/q/Documents/aspect/source/simulator/core.cc
 
@@ -2903,7 +2926,7 @@ CMakeFiles/aspect.dir/source/simulator/core.cc.o.provides.build: CMakeFiles/aspe
 
 CMakeFiles/aspect.dir/source/simulator/freesurface.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/simulator/freesurface.cc.o: ../source/simulator/freesurface.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_125)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_126)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/simulator/freesurface.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/simulator/freesurface.cc.o -c /Users/q/Documents/aspect/source/simulator/freesurface.cc
 
@@ -2926,7 +2949,7 @@ CMakeFiles/aspect.dir/source/simulator/freesurface.cc.o.provides.build: CMakeFil
 
 CMakeFiles/aspect.dir/source/simulator/helper_functions.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/simulator/helper_functions.cc.o: ../source/simulator/helper_functions.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_126)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_127)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/simulator/helper_functions.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/simulator/helper_functions.cc.o -c /Users/q/Documents/aspect/source/simulator/helper_functions.cc
 
@@ -2949,7 +2972,7 @@ CMakeFiles/aspect.dir/source/simulator/helper_functions.cc.o.provides.build: CMa
 
 CMakeFiles/aspect.dir/source/simulator/initial_conditions.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/simulator/initial_conditions.cc.o: ../source/simulator/initial_conditions.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_127)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_128)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/simulator/initial_conditions.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/simulator/initial_conditions.cc.o -c /Users/q/Documents/aspect/source/simulator/initial_conditions.cc
 
@@ -2972,7 +2995,7 @@ CMakeFiles/aspect.dir/source/simulator/initial_conditions.cc.o.provides.build: C
 
 CMakeFiles/aspect.dir/source/simulator/introspection.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/simulator/introspection.cc.o: ../source/simulator/introspection.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_128)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_129)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/simulator/introspection.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/simulator/introspection.cc.o -c /Users/q/Documents/aspect/source/simulator/introspection.cc
 
@@ -2995,7 +3018,7 @@ CMakeFiles/aspect.dir/source/simulator/introspection.cc.o.provides.build: CMakeF
 
 CMakeFiles/aspect.dir/source/simulator/nullspace.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/simulator/nullspace.cc.o: ../source/simulator/nullspace.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_129)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_130)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/simulator/nullspace.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/simulator/nullspace.cc.o -c /Users/q/Documents/aspect/source/simulator/nullspace.cc
 
@@ -3018,7 +3041,7 @@ CMakeFiles/aspect.dir/source/simulator/nullspace.cc.o.provides.build: CMakeFiles
 
 CMakeFiles/aspect.dir/source/simulator/parameters.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/simulator/parameters.cc.o: ../source/simulator/parameters.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_130)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_131)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/simulator/parameters.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/simulator/parameters.cc.o -c /Users/q/Documents/aspect/source/simulator/parameters.cc
 
@@ -3041,7 +3064,7 @@ CMakeFiles/aspect.dir/source/simulator/parameters.cc.o.provides.build: CMakeFile
 
 CMakeFiles/aspect.dir/source/simulator/simulator_access.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/simulator/simulator_access.cc.o: ../source/simulator/simulator_access.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_131)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_132)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/simulator/simulator_access.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/simulator/simulator_access.cc.o -c /Users/q/Documents/aspect/source/simulator/simulator_access.cc
 
@@ -3064,7 +3087,7 @@ CMakeFiles/aspect.dir/source/simulator/simulator_access.cc.o.provides.build: CMa
 
 CMakeFiles/aspect.dir/source/simulator/simulator_signals.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/simulator/simulator_signals.cc.o: ../source/simulator/simulator_signals.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_132)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_133)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/simulator/simulator_signals.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/simulator/simulator_signals.cc.o -c /Users/q/Documents/aspect/source/simulator/simulator_signals.cc
 
@@ -3087,7 +3110,7 @@ CMakeFiles/aspect.dir/source/simulator/simulator_signals.cc.o.provides.build: CM
 
 CMakeFiles/aspect.dir/source/simulator/solver.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/simulator/solver.cc.o: ../source/simulator/solver.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_133)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_134)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/simulator/solver.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/simulator/solver.cc.o -c /Users/q/Documents/aspect/source/simulator/solver.cc
 
@@ -3110,7 +3133,7 @@ CMakeFiles/aspect.dir/source/simulator/solver.cc.o.provides.build: CMakeFiles/as
 
 CMakeFiles/aspect.dir/source/termination_criteria/end_step.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/termination_criteria/end_step.cc.o: ../source/termination_criteria/end_step.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_134)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_135)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/termination_criteria/end_step.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/termination_criteria/end_step.cc.o -c /Users/q/Documents/aspect/source/termination_criteria/end_step.cc
 
@@ -3133,7 +3156,7 @@ CMakeFiles/aspect.dir/source/termination_criteria/end_step.cc.o.provides.build: 
 
 CMakeFiles/aspect.dir/source/termination_criteria/end_time.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/termination_criteria/end_time.cc.o: ../source/termination_criteria/end_time.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_135)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_136)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/termination_criteria/end_time.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/termination_criteria/end_time.cc.o -c /Users/q/Documents/aspect/source/termination_criteria/end_time.cc
 
@@ -3156,7 +3179,7 @@ CMakeFiles/aspect.dir/source/termination_criteria/end_time.cc.o.provides.build: 
 
 CMakeFiles/aspect.dir/source/termination_criteria/interface.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/termination_criteria/interface.cc.o: ../source/termination_criteria/interface.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_136)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_137)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/termination_criteria/interface.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/termination_criteria/interface.cc.o -c /Users/q/Documents/aspect/source/termination_criteria/interface.cc
 
@@ -3179,7 +3202,7 @@ CMakeFiles/aspect.dir/source/termination_criteria/interface.cc.o.provides.build:
 
 CMakeFiles/aspect.dir/source/termination_criteria/steady_rms_velocity.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/termination_criteria/steady_rms_velocity.cc.o: ../source/termination_criteria/steady_rms_velocity.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_137)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_138)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/termination_criteria/steady_rms_velocity.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/termination_criteria/steady_rms_velocity.cc.o -c /Users/q/Documents/aspect/source/termination_criteria/steady_rms_velocity.cc
 
@@ -3202,7 +3225,7 @@ CMakeFiles/aspect.dir/source/termination_criteria/steady_rms_velocity.cc.o.provi
 
 CMakeFiles/aspect.dir/source/termination_criteria/user_request.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/termination_criteria/user_request.cc.o: ../source/termination_criteria/user_request.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_138)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_139)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/termination_criteria/user_request.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/termination_criteria/user_request.cc.o -c /Users/q/Documents/aspect/source/termination_criteria/user_request.cc
 
@@ -3225,7 +3248,7 @@ CMakeFiles/aspect.dir/source/termination_criteria/user_request.cc.o.provides.bui
 
 CMakeFiles/aspect.dir/source/traction_boundary_conditions/function.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/traction_boundary_conditions/function.cc.o: ../source/traction_boundary_conditions/function.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_139)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_140)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/traction_boundary_conditions/function.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/traction_boundary_conditions/function.cc.o -c /Users/q/Documents/aspect/source/traction_boundary_conditions/function.cc
 
@@ -3248,7 +3271,7 @@ CMakeFiles/aspect.dir/source/traction_boundary_conditions/function.cc.o.provides
 
 CMakeFiles/aspect.dir/source/traction_boundary_conditions/interface.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/traction_boundary_conditions/interface.cc.o: ../source/traction_boundary_conditions/interface.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_140)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_141)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/traction_boundary_conditions/interface.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/traction_boundary_conditions/interface.cc.o -c /Users/q/Documents/aspect/source/traction_boundary_conditions/interface.cc
 
@@ -3271,7 +3294,7 @@ CMakeFiles/aspect.dir/source/traction_boundary_conditions/interface.cc.o.provide
 
 CMakeFiles/aspect.dir/source/traction_boundary_conditions/zero_traction.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/traction_boundary_conditions/zero_traction.cc.o: ../source/traction_boundary_conditions/zero_traction.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_141)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_142)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/traction_boundary_conditions/zero_traction.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/traction_boundary_conditions/zero_traction.cc.o -c /Users/q/Documents/aspect/source/traction_boundary_conditions/zero_traction.cc
 
@@ -3294,7 +3317,7 @@ CMakeFiles/aspect.dir/source/traction_boundary_conditions/zero_traction.cc.o.pro
 
 CMakeFiles/aspect.dir/source/utilities.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/utilities.cc.o: ../source/utilities.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_142)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_143)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/utilities.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/utilities.cc.o -c /Users/q/Documents/aspect/source/utilities.cc
 
@@ -3317,7 +3340,7 @@ CMakeFiles/aspect.dir/source/utilities.cc.o.provides.build: CMakeFiles/aspect.di
 
 CMakeFiles/aspect.dir/source/velocity_boundary_conditions/ascii_data.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/velocity_boundary_conditions/ascii_data.cc.o: ../source/velocity_boundary_conditions/ascii_data.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_143)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_144)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/velocity_boundary_conditions/ascii_data.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/velocity_boundary_conditions/ascii_data.cc.o -c /Users/q/Documents/aspect/source/velocity_boundary_conditions/ascii_data.cc
 
@@ -3340,7 +3363,7 @@ CMakeFiles/aspect.dir/source/velocity_boundary_conditions/ascii_data.cc.o.provid
 
 CMakeFiles/aspect.dir/source/velocity_boundary_conditions/function.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/velocity_boundary_conditions/function.cc.o: ../source/velocity_boundary_conditions/function.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_144)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_145)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/velocity_boundary_conditions/function.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/velocity_boundary_conditions/function.cc.o -c /Users/q/Documents/aspect/source/velocity_boundary_conditions/function.cc
 
@@ -3363,7 +3386,7 @@ CMakeFiles/aspect.dir/source/velocity_boundary_conditions/function.cc.o.provides
 
 CMakeFiles/aspect.dir/source/velocity_boundary_conditions/gplates.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/velocity_boundary_conditions/gplates.cc.o: ../source/velocity_boundary_conditions/gplates.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_145)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_146)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/velocity_boundary_conditions/gplates.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/velocity_boundary_conditions/gplates.cc.o -c /Users/q/Documents/aspect/source/velocity_boundary_conditions/gplates.cc
 
@@ -3386,7 +3409,7 @@ CMakeFiles/aspect.dir/source/velocity_boundary_conditions/gplates.cc.o.provides.
 
 CMakeFiles/aspect.dir/source/velocity_boundary_conditions/interface.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/velocity_boundary_conditions/interface.cc.o: ../source/velocity_boundary_conditions/interface.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_146)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_147)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/velocity_boundary_conditions/interface.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/velocity_boundary_conditions/interface.cc.o -c /Users/q/Documents/aspect/source/velocity_boundary_conditions/interface.cc
 
@@ -3409,7 +3432,7 @@ CMakeFiles/aspect.dir/source/velocity_boundary_conditions/interface.cc.o.provide
 
 CMakeFiles/aspect.dir/source/velocity_boundary_conditions/zero_velocity.cc.o: CMakeFiles/aspect.dir/flags.make
 CMakeFiles/aspect.dir/source/velocity_boundary_conditions/zero_velocity.cc.o: ../source/velocity_boundary_conditions/zero_velocity.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_147)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/q/Documents/aspect/build_deal.ii.app/CMakeFiles $(CMAKE_PROGRESS_148)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/aspect.dir/source/velocity_boundary_conditions/zero_velocity.cc.o"
 	/Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx   $(CXX_DEFINES) -DASPECT_SOURCE_DIR=\"/Users/q/Documents/aspect\" -DASPECT_USE_SHARED_LIBS=1 $(CXX_FLAGS) -o CMakeFiles/aspect.dir/source/velocity_boundary_conditions/zero_velocity.cc.o -c /Users/q/Documents/aspect/source/velocity_boundary_conditions/zero_velocity.cc
 
@@ -3434,6 +3457,7 @@ CMakeFiles/aspect.dir/source/velocity_boundary_conditions/zero_velocity.cc.o.pro
 aspect_OBJECTS = \
 "CMakeFiles/aspect.dir/source/adiabatic_conditions/initial_profile.cc.o" \
 "CMakeFiles/aspect.dir/source/adiabatic_conditions/interface.cc.o" \
+"CMakeFiles/aspect.dir/source/africa_region.cc.o" \
 "CMakeFiles/aspect.dir/source/boundary_composition/ascii_data.cc.o" \
 "CMakeFiles/aspect.dir/source/boundary_composition/box.cc.o" \
 "CMakeFiles/aspect.dir/source/boundary_composition/initial_composition.cc.o" \
@@ -3585,6 +3609,7 @@ aspect_EXTERNAL_OBJECTS =
 
 aspect: CMakeFiles/aspect.dir/source/adiabatic_conditions/initial_profile.cc.o
 aspect: CMakeFiles/aspect.dir/source/adiabatic_conditions/interface.cc.o
+aspect: CMakeFiles/aspect.dir/source/africa_region.cc.o
 aspect: CMakeFiles/aspect.dir/source/boundary_composition/ascii_data.cc.o
 aspect: CMakeFiles/aspect.dir/source/boundary_composition/box.cc.o
 aspect: CMakeFiles/aspect.dir/source/boundary_composition/initial_composition.cc.o
@@ -3873,6 +3898,7 @@ CMakeFiles/aspect.dir/build: aspect
 
 CMakeFiles/aspect.dir/requires: CMakeFiles/aspect.dir/source/adiabatic_conditions/initial_profile.cc.o.requires
 CMakeFiles/aspect.dir/requires: CMakeFiles/aspect.dir/source/adiabatic_conditions/interface.cc.o.requires
+CMakeFiles/aspect.dir/requires: CMakeFiles/aspect.dir/source/africa_region.cc.o.requires
 CMakeFiles/aspect.dir/requires: CMakeFiles/aspect.dir/source/boundary_composition/ascii_data.cc.o.requires
 CMakeFiles/aspect.dir/requires: CMakeFiles/aspect.dir/source/boundary_composition/box.cc.o.requires
 CMakeFiles/aspect.dir/requires: CMakeFiles/aspect.dir/source/boundary_composition/initial_composition.cc.o.requires

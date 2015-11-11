@@ -1,0 +1,47 @@
+-----------------------------------------------------------------------------
+-- This is ASPECT, the Advanced Solver for Problems in Earth's ConvecTion.
+--     . version 1.4.pre
+--     . running in DEBUG mode
+--     . running with 20 MPI processes
+--     . using Trilinos
+-----------------------------------------------------------------------------
+
+Number of active cells: 1,024 (on 4 levels)
+Number of degrees of freedom: 39,525 (28,611+1,377+9,537)
+
+*** Timestep 0:  t=0 years
+   Solving temperature system... 0 iterations.
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+13 iterations.
+   Residual after nonlinear iteration 1: 1
+
+   Solving Stokes system... 0 iterations.
+   Residual after nonlinear iteration 2: 8.66667e-06
+
+   Postprocessing:
+     Writing depth average         g3_uniViscosity/depth_average.gnuplot
+     Writing surface velocities... g3_uniViscosity/surface_velocities.0000
+     Writing graphical output:     g3_uniViscosity/solution-00000
+     Writing dynamic topography:   g3_uniViscosity/dynamic_topography.00000
+     Temperature min/avg/max:      158.4 K, 1497 K, 1899 K
+     RMS, max velocity:            0.00126 m/year, 0.00369 m/year
+
+Termination requested by criterion: end time
+
+
++---------------------------------------------+------------+------------+
+| Total wallclock time elapsed since start    |      42.7s |            |
+|                                             |            |            |
+| Section                         | no. calls |  wall time | % of total |
++---------------------------------+-----------+------------+------------+
+| Assemble Stokes system          |         2 |      3.19s |       7.5% |
+| Assemble temperature system     |         1 |      1.31s |       3.1% |
+| Build Stokes preconditioner     |         1 |      2.01s |       4.7% |
+| Build temperature preconditioner|         1 |    0.0423s |     0.099% |
+| Solve Stokes system             |         2 |      0.51s |       1.2% |
+| Solve temperature system        |         1 |     0.134s |      0.31% |
+| Initialization                  |         2 |      2.99s |         7% |
+| Postprocessing                  |         1 |        29s |        68% |
+| Setup dof systems               |         1 |       1.5s |       3.5% |
++---------------------------------+-----------+------------+------------+
+
