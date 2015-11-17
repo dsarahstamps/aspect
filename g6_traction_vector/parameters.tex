@@ -103,6 +103,38 @@ For more information, see the section in the manual that discusses the general m
 
 
 {\it Possible values:} [Double -1.79769e+308...1.79769e+308 (inclusive)]
+\item {\it Parameter name:} {\tt Linear solver A block tolerance}
+\phantomsection\label{parameters:Linear solver A block tolerance}
+
+
+\index[prmindex]{Linear solver A block tolerance}
+\index[prmindexfull]{Linear solver A block tolerance}
+{\it Value:} 1e-2
+
+
+{\it Default:} 1e-2
+
+
+{\it Description:} A relative tolerance up to which the approximate inverse of the A block of the Stokes system is computed. This approximate A is used in the preconditioning used in the GMRES solver.
+
+
+{\it Possible values:} [Double 0...1 (inclusive)]
+\item {\it Parameter name:} {\tt Linear solver S block tolerance}
+\phantomsection\label{parameters:Linear solver S block tolerance}
+
+
+\index[prmindex]{Linear solver S block tolerance}
+\index[prmindexfull]{Linear solver S block tolerance}
+{\it Value:} 1e-6
+
+
+{\it Default:} 1e-6
+
+
+{\it Description:} A relative tolerance up to which the approximate inverse of the S block (Schur complement matrix, $S = BA^{-1}B^{T}$) of the Stokes system is computed. This approximate inverse of the S block is used in the preconditioning used in the GMRES solver.
+
+
+{\it Possible values:} [Double 0...1 (inclusive)]
 \item {\it Parameter name:} {\tt Linear solver tolerance}
 \phantomsection\label{parameters:Linear solver tolerance}
 
@@ -8939,6 +8971,8 @@ The following postprocessors are available:
 
 `density': A visualization output object that generates output for the density.
 
+`depth': A visualization output postprocessor that outputs the depth for all points inside the domain, as determined by the geometry model.
+
 `dynamic topography': A visualization output object that generates output for the dynamic topography. The approach to determine the dynamic topography requires us to compute the stress tensor and evaluate the component of it in the direction in which gravity acts. In other words, we compute $\sigma_{rr}={\hat g}^T(2 \eta \varepsilon(\mathbf u)-\frac 13 (\textrm{div}\;\mathbf u)I)\hat g - p_d$ where $\hat g = \mathbf g/\|\mathbf g\|$ is the direction of the gravity vector $\mathbf g$ and $p_d=p-p_a$ is the dynamic pressure computed by subtracting the adiabatic pressure $p_a$ from the total pressure $p$ computed as part of the Stokes solve. From this, the dynamic topography is computed using the formula $h=\frac{\sigma_{rr}}{\|\mathbf g\| \rho}$ where $\rho$ is the density at the cell center.
 
 Strictly speaking, the dynamic topography is of course a quantity that is only of interest at the surface. However, we compute it everywhere to make things fit into the framework within which we produce data for visualization. You probably only want to visualize whatever data this postprocessor generates at the surface of your domain and simply ignore the rest of the data generated.
@@ -8986,7 +9020,7 @@ Strictly speaking, the dynamic topography is of course a quantity that is only o
 `viscosity ratio': A visualization output object that generates output for the ratio between dislocation viscosity and diffusion viscosity.
 
 
-{\it Possible values:} [MultipleSelection Vp anomaly|Vs anomaly|artificial viscosity|boundary indicators|compositional vector|density|dynamic topography|error indicator|friction heating|gravity|heating|lab stress|material properties|melt fraction|nonadiabatic pressure|nonadiabatic temperature|partition|seismic vp|seismic vs|shear stress|specific heat|strain rate|stress|thermal expansivity|thermodynamic phase|vertical heat flux|viscosity|viscosity ratio ]
+{\it Possible values:} [MultipleSelection Vp anomaly|Vs anomaly|artificial viscosity|boundary indicators|compositional vector|density|depth|dynamic topography|error indicator|friction heating|gravity|heating|lab stress|material properties|melt fraction|nonadiabatic pressure|nonadiabatic temperature|partition|seismic vp|seismic vs|shear stress|specific heat|strain rate|stress|thermal expansivity|thermodynamic phase|vertical heat flux|viscosity|viscosity ratio ]
 \item {\it Parameter name:} {\tt Number of grouped files}
 \phantomsection\label{parameters:Postprocess/Visualization/Number of grouped files}
 

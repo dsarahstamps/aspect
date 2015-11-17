@@ -58,6 +58,17 @@ set Dimension                                  = 3                  # default: 2
 # instead of seconds' parameter is set; seconds otherwise.
 set End time                                   = 0                  # default: 5.69e+300
 
+# A relative tolerance up to which the approximate inverse of the A block of
+# the Stokes system is computed. This approximate A is used in the
+# preconditioning used in the GMRES solver.
+set Linear solver A block tolerance            = 1e-2
+
+# A relative tolerance up to which the approximate inverse of the S block
+# (Schur complement matrix, $S = BA^{-1}B^{T}$) of the Stokes system is
+# computed. This approximate inverse of the S block is used in the
+# preconditioning used in the GMRES solver.
+set Linear solver S block tolerance            = 1e-6
+
 # A relative tolerance up to which the linear Stokes systems in each time or
 # nonlinear step should be solved. The absolute tolerance will then be $\| M
 # x_0 - F \| \cdot \text{tol}$, where $x_0 = (0,p_0)$ is the initial guess of
@@ -4192,6 +4203,9 @@ subsection Postprocess
     # 
     # `density': A visualization output object that generates output for the
     # density.
+    # 
+    # `depth': A visualization output postprocessor that outputs the depth for
+    # all points inside the domain, as determined by the geometry model.
     # 
     # `dynamic topography': A visualization output object that generates
     # output for the dynamic topography. The approach to determine the dynamic
