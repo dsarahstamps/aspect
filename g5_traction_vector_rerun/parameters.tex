@@ -103,6 +103,38 @@ For more information, see the section in the manual that discusses the general m
 
 
 {\it Possible values:} [Double -1.79769e+308...1.79769e+308 (inclusive)]
+\item {\it Parameter name:} {\tt Linear solver A block tolerance}
+\phantomsection\label{parameters:Linear solver A block tolerance}
+
+
+\index[prmindex]{Linear solver A block tolerance}
+\index[prmindexfull]{Linear solver A block tolerance}
+{\it Value:} 1e-2
+
+
+{\it Default:} 1e-2
+
+
+{\it Description:} A relative tolerance up to which the approximate inverse of the A block of the Stokes system is computed. This approximate A is used in the preconditioning used in the GMRES solver.
+
+
+{\it Possible values:} [Double 0...1 (inclusive)]
+\item {\it Parameter name:} {\tt Linear solver S block tolerance}
+\phantomsection\label{parameters:Linear solver S block tolerance}
+
+
+\index[prmindex]{Linear solver S block tolerance}
+\index[prmindexfull]{Linear solver S block tolerance}
+{\it Value:} 1e-6
+
+
+{\it Default:} 1e-6
+
+
+{\it Description:} A relative tolerance up to which the approximate inverse of the S block (Schur complement matrix, $S = BA^{-1}B^{T}$) of the Stokes system is computed. This approximate inverse of the S block is used in the preconditioning used in the GMRES solver.
+
+
+{\it Possible values:} [Double 0...1 (inclusive)]
 \item {\it Parameter name:} {\tt Linear solver tolerance}
 \phantomsection\label{parameters:Linear solver tolerance}
 
@@ -134,6 +166,22 @@ In practice, you should choose the value of this parameter to be so that if you 
 
 
 {\it Description:} The maximal number of nonlinear iterations to be performed.
+
+
+{\it Possible values:} [Integer range 0...2147483647 (inclusive)]
+\item {\it Parameter name:} {\tt Max nonlinear iterations in pre-refinement}
+\phantomsection\label{parameters:Max nonlinear iterations in pre-refinement}
+
+
+\index[prmindex]{Max nonlinear iterations in pre-refinement}
+\index[prmindexfull]{Max nonlinear iterations in pre-refinement}
+{\it Value:} 2147483647
+
+
+{\it Default:} 2147483647
+
+
+{\it Description:} The maximal number of nonlinear iterations to be performed in the pre-refinement steps. This does not include the last refinement step before moving to timestep 1. When this parameter has a larger value than max nonlinear iterations, the latter is used.
 
 
 {\it Possible values:} [Integer range 0...2147483647 (inclusive)]
@@ -245,10 +293,10 @@ In practice, you should choose the value of this parameter to be so that if you 
 {\it Default:} false
 
 
-{\it Description:} A flag indicating whether the computation should be resumed from a previously saved state (if true) or start from scratch (if false).
+{\it Description:} A flag indicating whether the computation should be resumed from a previously saved state (if true) or start from scratch (if false). If auto is selected, models will be resumed if there is an existing checkpoint file, otherwise started from scratch.
 
 
-{\it Possible values:} [Bool]
+{\it Possible values:} [Selection true|false|auto ]
 \item {\it Parameter name:} {\tt Start time}
 \phantomsection\label{parameters:Start time}
 
@@ -401,10 +449,10 @@ For more information, see the section in the manual that discusses the general m
 
 \index[prmindex]{Model name}
 \index[prmindexfull]{Boundary composition model!Model name}
-{\it Value:} 
+{\it Value:} unspecified
 
 
-{\it Default:} 
+{\it Default:} unspecified
 
 
 {\it Description:} Select one of the following models:
@@ -413,6 +461,8 @@ For more information, see the section in the manual that discusses the general m
 
 `box': A model in which the composition is chosen constant on all the sides of a box.
 
+`box with lithosphere boundary indicators': A model in which the composition is chosen constant on all the sides of a box. Additional boundary indicators are added to the lithospheric parts of the vertical boundaries. This model is to be used with the 'Two Merged Boxes' Geometry Model.
+
 `initial composition': A model in which the composition at the boundary is chosen to be the same as given in the initial conditions.
 
 Because this class simply takes what the initial composition had described, this class can not know certain pieces of information such as the minimal and maximal composition on the boundary. For operations that require this, for example in postprocessing, this boundary composition model must therefore be told what the minimal and maximal values on the boundary are. This is done using parameters set in section ``Boundary composition model/Initial composition''.
@@ -420,7 +470,7 @@ Because this class simply takes what the initial composition had described, this
 `spherical constant': A model in which the composition is chosen constant on the inner and outer boundaries of a spherical shell or chunk. Parameters are read from subsection 'Spherical constant'.
 
 
-{\it Possible values:} [Selection ascii data|box|initial composition|spherical constant ]
+{\it Possible values:} [Selection ascii data|box|box with lithosphere boundary indicators|initial composition|spherical constant|unspecified ]
 \end{itemize}
 
 
@@ -645,6 +695,172 @@ Because this class simply takes what the initial composition had described, this
 {\it Possible values:} [List list of <[Double -1.79769e+308...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
 \end{itemize}
 
+\subsection{Parameters in section \tt Boundary composition model/Box with lithosphere boundary indicators}
+\label{parameters:Boundary_20composition_20model/Box_20with_20lithosphere_20boundary_20indicators}
+
+\begin{itemize}
+\item {\it Parameter name:} {\tt Back composition}
+\phantomsection\label{parameters:Boundary composition model/Box with lithosphere boundary indicators/Back composition}
+
+
+\index[prmindex]{Back composition}
+\index[prmindexfull]{Boundary composition model!Box with lithosphere boundary indicators!Back composition}
+{\it Value:} 
+
+
+{\it Default:} 
+
+
+{\it Description:} A comma separated list of composition boundary values at the back boundary (at maximal y-value). This list must have as many entries as there are compositional fields. Units: none.
+
+
+{\it Possible values:} [List list of <[Double -1.79769e+308...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
+\item {\it Parameter name:} {\tt Back composition lithosphere}
+\phantomsection\label{parameters:Boundary composition model/Box with lithosphere boundary indicators/Back composition lithosphere}
+
+
+\index[prmindex]{Back composition lithosphere}
+\index[prmindexfull]{Boundary composition model!Box with lithosphere boundary indicators!Back composition lithosphere}
+{\it Value:} 
+
+
+{\it Default:} 
+
+
+{\it Description:} A comma separated list of composition boundary values at the back lithosphere boundary (at maximal y-value). This list must have as many entries as there are compositional fields. Units: none.
+
+
+{\it Possible values:} [List list of <[Double -1.79769e+308...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
+\item {\it Parameter name:} {\tt Bottom composition}
+\phantomsection\label{parameters:Boundary composition model/Box with lithosphere boundary indicators/Bottom composition}
+
+
+\index[prmindex]{Bottom composition}
+\index[prmindexfull]{Boundary composition model!Box with lithosphere boundary indicators!Bottom composition}
+{\it Value:} 
+
+
+{\it Default:} 
+
+
+{\it Description:} A comma separated list of composition boundary values at the bottom boundary (at minimal y-value in 2d, or minimal z-value in 3d). This list must have as many entries as there are compositional fields. Units: none.
+
+
+{\it Possible values:} [List list of <[Double -1.79769e+308...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
+\item {\it Parameter name:} {\tt Front composition}
+\phantomsection\label{parameters:Boundary composition model/Box with lithosphere boundary indicators/Front composition}
+
+
+\index[prmindex]{Front composition}
+\index[prmindexfull]{Boundary composition model!Box with lithosphere boundary indicators!Front composition}
+{\it Value:} 
+
+
+{\it Default:} 
+
+
+{\it Description:} A comma separated list of composition boundary values at the front boundary (at minimal y-value). This list must have as many entries as there are compositional fields. Units: none.
+
+
+{\it Possible values:} [List list of <[Double -1.79769e+308...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
+\item {\it Parameter name:} {\tt Front composition lithosphere}
+\phantomsection\label{parameters:Boundary composition model/Box with lithosphere boundary indicators/Front composition lithosphere}
+
+
+\index[prmindex]{Front composition lithosphere}
+\index[prmindexfull]{Boundary composition model!Box with lithosphere boundary indicators!Front composition lithosphere}
+{\it Value:} 
+
+
+{\it Default:} 
+
+
+{\it Description:} A comma separated list of composition boundary values at the front lithosphere boundary (at momimal y-value). This list must have as many entries as there are compositional fields. Units: none.
+
+
+{\it Possible values:} [List list of <[Double -1.79769e+308...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
+\item {\it Parameter name:} {\tt Left composition}
+\phantomsection\label{parameters:Boundary composition model/Box with lithosphere boundary indicators/Left composition}
+
+
+\index[prmindex]{Left composition}
+\index[prmindexfull]{Boundary composition model!Box with lithosphere boundary indicators!Left composition}
+{\it Value:} 
+
+
+{\it Default:} 
+
+
+{\it Description:} A comma separated list of composition boundary values at the left boundary (at minimal x-value). This list must have as many entries as there are compositional fields. Units: none.
+
+
+{\it Possible values:} [List list of <[Double -1.79769e+308...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
+\item {\it Parameter name:} {\tt Left composition lithosphere}
+\phantomsection\label{parameters:Boundary composition model/Box with lithosphere boundary indicators/Left composition lithosphere}
+
+
+\index[prmindex]{Left composition lithosphere}
+\index[prmindexfull]{Boundary composition model!Box with lithosphere boundary indicators!Left composition lithosphere}
+{\it Value:} 
+
+
+{\it Default:} 
+
+
+{\it Description:} A comma separated list of composition boundary values at the left boundary (at minimal x-value). This list must have as many entries as there are compositional fields. Units: none.
+
+
+{\it Possible values:} [List list of <[Double -1.79769e+308...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
+\item {\it Parameter name:} {\tt Right composition}
+\phantomsection\label{parameters:Boundary composition model/Box with lithosphere boundary indicators/Right composition}
+
+
+\index[prmindex]{Right composition}
+\index[prmindexfull]{Boundary composition model!Box with lithosphere boundary indicators!Right composition}
+{\it Value:} 
+
+
+{\it Default:} 
+
+
+{\it Description:} A comma separated list of composition boundary values at the right boundary (at maximal x-value). This list must have as many entries as there are compositional fields. Units: none.
+
+
+{\it Possible values:} [List list of <[Double -1.79769e+308...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
+\item {\it Parameter name:} {\tt Right composition lithosphere}
+\phantomsection\label{parameters:Boundary composition model/Box with lithosphere boundary indicators/Right composition lithosphere}
+
+
+\index[prmindex]{Right composition lithosphere}
+\index[prmindexfull]{Boundary composition model!Box with lithosphere boundary indicators!Right composition lithosphere}
+{\it Value:} 
+
+
+{\it Default:} 
+
+
+{\it Description:} A comma separated list of composition boundary values at the right boundary (at maximal x-value). This list must have as many entries as there are compositional fields. Units: none.
+
+
+{\it Possible values:} [List list of <[Double -1.79769e+308...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
+\item {\it Parameter name:} {\tt Top composition}
+\phantomsection\label{parameters:Boundary composition model/Box with lithosphere boundary indicators/Top composition}
+
+
+\index[prmindex]{Top composition}
+\index[prmindexfull]{Boundary composition model!Box with lithosphere boundary indicators!Top composition}
+{\it Value:} 
+
+
+{\it Default:} 
+
+
+{\it Description:} A comma separated list of composition boundary values at the top boundary (at maximal y-value in 2d, or maximal z-value in 3d). This list must have as many entries as there are compositional fields. Units: none.
+
+
+{\it Possible values:} [List list of <[Double -1.79769e+308...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
+\end{itemize}
+
 \subsection{Parameters in section \tt Boundary composition model/Initial composition}
 \label{parameters:Boundary_20composition_20model/Initial_20composition}
 
@@ -734,7 +950,7 @@ Because this class simply takes what the initial composition had described, this
 {\it Value:} box
 
 
-{\it Default:} 
+{\it Default:} unspecified
 
 
 {\it Description:} Select one of the following models:
@@ -742,6 +958,8 @@ Because this class simply takes what the initial composition had described, this
 `ascii data': Implementation of a model in which the boundary data is derived from files containing data in ascii format. Note the required format of the input data: The first lines may contain any number of commentsif they begin with '#', but one of these lines needs tocontain the number of grid points in each dimension asfor example '# POINTS: 3 3'.The order of the data columns has to be 'x', 'Temperature [K]' in a 2d model and  'x', 'y', 'Temperature [K]' in a 3d model, which means that there has to be a single column containing the temperature. Note that the data in the input files need to be sorted in a specific order: the first coordinate needs to ascend first, followed by the second in order to assign the correct data to the prescribed coordinates.If you use a spherical model, then the data will still be handled as cartesian,however the assumed grid changes. 'x' will be replaced by the radial distance of the point to the bottom of the model, 'y' by the azimuth angle and 'z' by the polar angle measured positive from the north pole. The grid will be assumed to be a latitude-longitude grid. Note that the order of spherical coordinates is 'r', 'phi', 'theta' and not 'r', 'theta', 'phi', since this allows for dimension independent expressions. 
 
 `box': A model in which the temperature is chosen constant on all the sides of a box.
+
+`box with lithosphere boundary indicators': A model in which the temperature is chosen constant on all the sides of a box. Additional boundary indicators are added to the lithospheric parts of the vertical boundaries. This model is to be used with the 'Two Merged Boxes' Geometry Model.
 
 `constant': A model in which the temperature is chosen constant on a given boundary indicator.  Parameters are read from the subsection 'Constant'.
 
@@ -757,10 +975,10 @@ The format of these functions follows the syntax understood by the muparser libr
 
 Because this class simply takes what the initial temperature had described, this class can not know certain pieces of information such as the minimal and maximal temperature on the boundary. For operations that require this, for example in postprocessing, this boundary temperature model must therefore be told what the minimal and maximal values on the boundary are. This is done using parameters set in section ``Boundary temperature model/Initial temperature''.
 
-`spherical constant': A model in which the temperature is chosen constant on the inner and outer boundaries of a spherical shell or chunk. Parameters are read from subsection 'Spherical constant'.
+`spherical constant': A model in which the temperature is chosen constant on the inner and outer boundaries of a spherical shell, ellipsoidal chunk or chunk. Parameters are read from subsection 'Spherical constant'.
 
 
-{\it Possible values:} [Selection ascii data|box|constant|function|initial temperature|spherical constant ]
+{\it Possible values:} [Selection ascii data|box|box with lithosphere boundary indicators|constant|function|initial temperature|spherical constant|unspecified ]
 \end{itemize}
 
 
@@ -973,6 +1191,172 @@ Because this class simply takes what the initial temperature had described, this
 
 \index[prmindex]{Top temperature}
 \index[prmindexfull]{Boundary temperature model!Box!Top temperature}
+{\it Value:} 0
+
+
+{\it Default:} 0
+
+
+{\it Description:} Temperature at the top boundary (at maximal x-value). Units: K.
+
+
+{\it Possible values:} [Double -1.79769e+308...1.79769e+308 (inclusive)]
+\end{itemize}
+
+\subsection{Parameters in section \tt Boundary temperature model/Box with lithosphere boundary indicators}
+\label{parameters:Boundary_20temperature_20model/Box_20with_20lithosphere_20boundary_20indicators}
+
+\begin{itemize}
+\item {\it Parameter name:} {\tt Back temperature}
+\phantomsection\label{parameters:Boundary temperature model/Box with lithosphere boundary indicators/Back temperature}
+
+
+\index[prmindex]{Back temperature}
+\index[prmindexfull]{Boundary temperature model!Box with lithosphere boundary indicators!Back temperature}
+{\it Value:} 0
+
+
+{\it Default:} 0
+
+
+{\it Description:} Temperature at the back boundary (at maximal y-value). Units: K.
+
+
+{\it Possible values:} [Double -1.79769e+308...1.79769e+308 (inclusive)]
+\item {\it Parameter name:} {\tt Back temperature lithosphere}
+\phantomsection\label{parameters:Boundary temperature model/Box with lithosphere boundary indicators/Back temperature lithosphere}
+
+
+\index[prmindex]{Back temperature lithosphere}
+\index[prmindexfull]{Boundary temperature model!Box with lithosphere boundary indicators!Back temperature lithosphere}
+{\it Value:} 0
+
+
+{\it Default:} 0
+
+
+{\it Description:} Temperature at the additional back lithosphere boundary (at maximal y-value). Units: K.
+
+
+{\it Possible values:} [Double -1.79769e+308...1.79769e+308 (inclusive)]
+\item {\it Parameter name:} {\tt Bottom temperature}
+\phantomsection\label{parameters:Boundary temperature model/Box with lithosphere boundary indicators/Bottom temperature}
+
+
+\index[prmindex]{Bottom temperature}
+\index[prmindexfull]{Boundary temperature model!Box with lithosphere boundary indicators!Bottom temperature}
+{\it Value:} 0
+
+
+{\it Default:} 0
+
+
+{\it Description:} Temperature at the bottom boundary (at minimal z-value). Units: K.
+
+
+{\it Possible values:} [Double -1.79769e+308...1.79769e+308 (inclusive)]
+\item {\it Parameter name:} {\tt Front temperature}
+\phantomsection\label{parameters:Boundary temperature model/Box with lithosphere boundary indicators/Front temperature}
+
+
+\index[prmindex]{Front temperature}
+\index[prmindexfull]{Boundary temperature model!Box with lithosphere boundary indicators!Front temperature}
+{\it Value:} 0
+
+
+{\it Default:} 0
+
+
+{\it Description:} Temperature at the front boundary (at minimal y-value). Units: K.
+
+
+{\it Possible values:} [Double -1.79769e+308...1.79769e+308 (inclusive)]
+\item {\it Parameter name:} {\tt Front temperature lithosphere}
+\phantomsection\label{parameters:Boundary temperature model/Box with lithosphere boundary indicators/Front temperature lithosphere}
+
+
+\index[prmindex]{Front temperature lithosphere}
+\index[prmindexfull]{Boundary temperature model!Box with lithosphere boundary indicators!Front temperature lithosphere}
+{\it Value:} 0
+
+
+{\it Default:} 0
+
+
+{\it Description:} Temperature at the additional front lithosphere boundary (at minimal y-value). Units: K.
+
+
+{\it Possible values:} [Double -1.79769e+308...1.79769e+308 (inclusive)]
+\item {\it Parameter name:} {\tt Left temperature}
+\phantomsection\label{parameters:Boundary temperature model/Box with lithosphere boundary indicators/Left temperature}
+
+
+\index[prmindex]{Left temperature}
+\index[prmindexfull]{Boundary temperature model!Box with lithosphere boundary indicators!Left temperature}
+{\it Value:} 1
+
+
+{\it Default:} 1
+
+
+{\it Description:} Temperature at the left boundary (at minimal x-value). Units: K.
+
+
+{\it Possible values:} [Double -1.79769e+308...1.79769e+308 (inclusive)]
+\item {\it Parameter name:} {\tt Left temperature lithosphere}
+\phantomsection\label{parameters:Boundary temperature model/Box with lithosphere boundary indicators/Left temperature lithosphere}
+
+
+\index[prmindex]{Left temperature lithosphere}
+\index[prmindexfull]{Boundary temperature model!Box with lithosphere boundary indicators!Left temperature lithosphere}
+{\it Value:} 0
+
+
+{\it Default:} 0
+
+
+{\it Description:} Temperature at the additional left lithosphere boundary (specified by user in Geometry Model). Units: K.
+
+
+{\it Possible values:} [Double -1.79769e+308...1.79769e+308 (inclusive)]
+\item {\it Parameter name:} {\tt Right temperature}
+\phantomsection\label{parameters:Boundary temperature model/Box with lithosphere boundary indicators/Right temperature}
+
+
+\index[prmindex]{Right temperature}
+\index[prmindexfull]{Boundary temperature model!Box with lithosphere boundary indicators!Right temperature}
+{\it Value:} 0
+
+
+{\it Default:} 0
+
+
+{\it Description:} Temperature at the right boundary (at maximal x-value). Units: K.
+
+
+{\it Possible values:} [Double -1.79769e+308...1.79769e+308 (inclusive)]
+\item {\it Parameter name:} {\tt Right temperature lithosphere}
+\phantomsection\label{parameters:Boundary temperature model/Box with lithosphere boundary indicators/Right temperature lithosphere}
+
+
+\index[prmindex]{Right temperature lithosphere}
+\index[prmindexfull]{Boundary temperature model!Box with lithosphere boundary indicators!Right temperature lithosphere}
+{\it Value:} 0
+
+
+{\it Default:} 0
+
+
+{\it Description:} Temperature at the additional right lithosphere boundary (specified by user in Geometry Model). Units: K.
+
+
+{\it Possible values:} [Double -1.79769e+308...1.79769e+308 (inclusive)]
+\item {\it Parameter name:} {\tt Top temperature}
+\phantomsection\label{parameters:Boundary temperature model/Box with lithosphere boundary indicators/Top temperature}
+
+
+\index[prmindex]{Top temperature}
+\index[prmindexfull]{Boundary temperature model!Box with lithosphere boundary indicators!Top temperature}
 {\it Value:} 0
 
 
@@ -1933,6 +2317,22 @@ For an in-depth discussion of these issues and a quantitative evaluation of the 
 
 
 {\it Possible values:} [Double 0...1 (inclusive)]
+\item {\it Parameter name:} {\tt Surface velocity projection}
+\phantomsection\label{parameters:Free surface/Surface velocity projection}
+
+
+\index[prmindex]{Surface velocity projection}
+\index[prmindexfull]{Free surface!Surface velocity projection}
+{\it Value:} normal
+
+
+{\it Default:} normal
+
+
+{\it Description:} After each time step the free surface must be advected in the direction of the velocity field. Mass conservation requires that the mesh velocity is in the normal direction of the surface. However, for steep topography or large curvature, advection in the normal direction can become ill-conditioned, and instabilities in the mesh can form. Projection of the mesh velocity onto the local vertical direction can preserve the mesh quality better, but at the cost of slightly poorer mass conservation of the domain.
+
+
+{\it Possible values:} [Selection normal|vertical ]
 \end{itemize}
 
 \subsection{Parameters in section \tt Geometry model}
@@ -1948,7 +2348,7 @@ For an in-depth discussion of these issues and a quantitative evaluation of the 
 {\it Value:} africa
 
 
-{\it Default:} 
+{\it Default:} unspecified
 
 
 {\it Description:} Select one of the following models:
@@ -1957,7 +2357,15 @@ For an in-depth discussion of these issues and a quantitative evaluation of the 
 
 `box': A box geometry parallel to the coordinate directions. The extent of the box in each coordinate direction is set in the parameter file. The box geometry labels its 2*dim sides as follows: in 2d, boundary indicators 0 through 3 denote the left, right, bottom and top boundaries; in 3d, boundary indicators 0 through 5 indicate left, right, front, back, bottom and top boundaries (see also the documentation of the deal.II class ``GeometryInfo''). You can also use symbolic names ``left'', ``right'', etc., to refer to these boundaries in input files.
 
-`chunk': A geometry which can be described as a chunk of a spherical shell, bounded by lines of longitude, latitude and radius. The minimum and maximum longitude, (latitude) and depth of the box is set in the parameter file. The box geometry labels its 2*dim sides as follows: ``left'' and ``right'': minimum and maximum longitude, ``back'' and ``front'': minimum and maximum latitude, ``bottom'' and ``top'': minimum and maximum radii. Names in the parameter files are as follows: Chunk (minimum || maximum) (longitude || latitude): edges of geographical quadrangle (in degrees)Chunk (inner || outer) radius: Radii at bottom and top of box(Longitude || Latitude || Radius) repetitions: number of cells in each coordinate direction.
+`box with lithosphere boundary indicators': A box geometry parallel to the coordinate directions. The extent of the box in each coordinate direction is set in the parameter file. This geometry model labels its sides with 2*dim+2*(dim-1) boundary indicators: in 2d, boundary indicators 0 through 3 denote the left, right, bottom and top boundaries, while indicators4 and 5 denote the upper part of the left and right vertical boundary, respectively. In 3d, boundary indicators 0 through 5 indicate left, right, front, back, bottom and top boundaries (see also the documentation of the deal.II class ``GeometryInfo''), while indicators 6, 7, 8 and 9 denote the left, rigth, front and back upper parts of the vertical boundaries, respectively. You can also use symbolic names ``left'', ``right'', ``left lithosphere'', etc., to refer to these boundaries in input files.
+
+Note that for a given ``Global refinement level'' and no user-specified ``Repetitions'', the lithosphere part of the mesh will be more refined. 
+
+The additional boundary indicators for the lithosphere allow for selecting boundary conditions for the lithosphere different from those for the underlying mantle. An example application of this geometry is to prescribe a velocity on the lithospheric plates, but use open boundary conditions underneath. 
+
+`chunk': A geometry which can be described as a chunk of a spherical shell, bounded by lines of longitude, latitude and radius. The minimum and maximum longitude, (latitude) and depth of the chunk is set in the parameter file. The chunk geometry labels its 2*dim sides as follows: ``west'' and ``east'': minimum and maximum longitude, ``south'' and ``north'': minimum and maximum latitude, ``inner'' and ``outer'': minimum and maximum radii. Names in the parameter files are as follows: Chunk (minimum || maximum) (longitude || latitude): edges of geographical quadrangle (in degrees)Chunk (inner || outer) radius: Radii at bottom and top of chunk(Longitude || Latitude || Radius) repetitions: number of cells in each coordinate direction.
+
+`ellipsoidal chunk': A 3D chunk geometry that accounts for Earth's ellipticity (default assuming the WGS84 ellipsoid definition) which can be defined in non-coordinate directions. In the description of the ellipsoidal chunk, two of the ellipsoidal axes have the same length so that there is only a semi-major axis and a semi-minor axis. The user has two options for creating an ellipsoidal chunk geometry: 1) by defining two opposing points (SW and NE or NW and SE) a coordinate parallel ellipsoidal chunk geometry will be created. 2) by defining three points a non-coordinate parallel ellipsoidal chunk will be created. The points are defined in the input file by longitude:latitude. It is also possible to define additional subdivisions of the mesh in each direction. Faces of the model are defined as 0, west; 1,east; 2, south; 3, north; 4, inner; 5, outer. 
 
 `sphere': Geometry model for sphere with a user specified radius. This geometry has only a single boundary, so the only valid boundary indicator to specify in the input file is ``0''. It can also be referenced by the symbolic name ``surface'' in input files.
 
@@ -1968,7 +2376,7 @@ The model assigns boundary indicators as follows: In 2d, inner and outer boundar
 In 3d, inner and outer indicators are treated as in 2d. If the opening angle is chosen as 90 degrees, i.e., the domain is the intersection of a spherical shell and the first octant, then indicator 2 is at the face $x=0$, 3 at $y=0$, and 4 at $z=0$. These last three boundaries can then also be referred to as 'east', 'west' and 'south' symbolically in input files.
 
 
-{\it Possible values:} [Selection africa|box|chunk|sphere|spherical shell ]
+{\it Possible values:} [Selection africa|box|box with lithosphere boundary indicators|chunk|ellipsoidal chunk|sphere|spherical shell|unspecified ]
 \end{itemize}
 
 
@@ -2273,6 +2681,284 @@ In 3d, inner and outer indicators are treated as in 2d. If the opening angle is 
 {\it Possible values:} [Integer range 1...2147483647 (inclusive)]
 \end{itemize}
 
+\subsection{Parameters in section \tt Geometry model/Box with lithosphere boundary indicators}
+\label{parameters:Geometry_20model/Box_20with_20lithosphere_20boundary_20indicators}
+
+\begin{itemize}
+\item {\it Parameter name:} {\tt Box origin X coordinate}
+\phantomsection\label{parameters:Geometry model/Box with lithosphere boundary indicators/Box origin X coordinate}
+
+
+\index[prmindex]{Box origin X coordinate}
+\index[prmindexfull]{Geometry model!Box with lithosphere boundary indicators!Box origin X coordinate}
+{\it Value:} 0
+
+
+{\it Default:} 0
+
+
+{\it Description:} X coordinate of box origin. Units: m.
+
+
+{\it Possible values:} [Double -1.79769e+308...1.79769e+308 (inclusive)]
+\item {\it Parameter name:} {\tt Box origin Y coordinate}
+\phantomsection\label{parameters:Geometry model/Box with lithosphere boundary indicators/Box origin Y coordinate}
+
+
+\index[prmindex]{Box origin Y coordinate}
+\index[prmindexfull]{Geometry model!Box with lithosphere boundary indicators!Box origin Y coordinate}
+{\it Value:} 0
+
+
+{\it Default:} 0
+
+
+{\it Description:} Y coordinate of box origin. Units: m.
+
+
+{\it Possible values:} [Double -1.79769e+308...1.79769e+308 (inclusive)]
+\item {\it Parameter name:} {\tt Box origin Z coordinate}
+\phantomsection\label{parameters:Geometry model/Box with lithosphere boundary indicators/Box origin Z coordinate}
+
+
+\index[prmindex]{Box origin Z coordinate}
+\index[prmindexfull]{Geometry model!Box with lithosphere boundary indicators!Box origin Z coordinate}
+{\it Value:} 0
+
+
+{\it Default:} 0
+
+
+{\it Description:} Z coordinate of box origin. This value is ignored if the simulation is in 2d. Units: m.
+
+
+{\it Possible values:} [Double -1.79769e+308...1.79769e+308 (inclusive)]
+\item {\it Parameter name:} {\tt Lithospheric thickness}
+\phantomsection\label{parameters:Geometry model/Box with lithosphere boundary indicators/Lithospheric thickness}
+
+
+\index[prmindex]{Lithospheric thickness}
+\index[prmindexfull]{Geometry model!Box with lithosphere boundary indicators!Lithospheric thickness}
+{\it Value:} 0.2
+
+
+{\it Default:} 0.2
+
+
+{\it Description:} The thickness of the lithosphere used to create additional boundary indicators to set specific boundary conditions for the lithosphere. 
+
+
+{\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
+\item {\it Parameter name:} {\tt X extent}
+\phantomsection\label{parameters:Geometry model/Box with lithosphere boundary indicators/X extent}
+
+
+\index[prmindex]{X extent}
+\index[prmindexfull]{Geometry model!Box with lithosphere boundary indicators!X extent}
+{\it Value:} 1
+
+
+{\it Default:} 1
+
+
+{\it Description:} Extent of the box in x-direction. Units: m.
+
+
+{\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
+\item {\it Parameter name:} {\tt X periodic}
+\phantomsection\label{parameters:Geometry model/Box with lithosphere boundary indicators/X periodic}
+
+
+\index[prmindex]{X periodic}
+\index[prmindexfull]{Geometry model!Box with lithosphere boundary indicators!X periodic}
+{\it Value:} false
+
+
+{\it Default:} false
+
+
+{\it Description:} Whether the box should be periodic in X direction.
+
+
+{\it Possible values:} [Bool]
+\item {\it Parameter name:} {\tt X periodic lithosphere}
+\phantomsection\label{parameters:Geometry model/Box with lithosphere boundary indicators/X periodic lithosphere}
+
+
+\index[prmindex]{X periodic lithosphere}
+\index[prmindexfull]{Geometry model!Box with lithosphere boundary indicators!X periodic lithosphere}
+{\it Value:} false
+
+
+{\it Default:} false
+
+
+{\it Description:} Whether the box should be periodic in X direction in the lithosphere.
+
+
+{\it Possible values:} [Bool]
+\item {\it Parameter name:} {\tt X repetitions}
+\phantomsection\label{parameters:Geometry model/Box with lithosphere boundary indicators/X repetitions}
+
+
+\index[prmindex]{X repetitions}
+\index[prmindexfull]{Geometry model!Box with lithosphere boundary indicators!X repetitions}
+{\it Value:} 1
+
+
+{\it Default:} 1
+
+
+{\it Description:} Number of cells in X direction of the lower box. The same number of repetitions will be used in the upper box.
+
+
+{\it Possible values:} [Integer range 1...2147483647 (inclusive)]
+\item {\it Parameter name:} {\tt Y extent}
+\phantomsection\label{parameters:Geometry model/Box with lithosphere boundary indicators/Y extent}
+
+
+\index[prmindex]{Y extent}
+\index[prmindexfull]{Geometry model!Box with lithosphere boundary indicators!Y extent}
+{\it Value:} 1
+
+
+{\it Default:} 1
+
+
+{\it Description:} Extent of the box in y-direction. Units: m.
+
+
+{\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
+\item {\it Parameter name:} {\tt Y periodic}
+\phantomsection\label{parameters:Geometry model/Box with lithosphere boundary indicators/Y periodic}
+
+
+\index[prmindex]{Y periodic}
+\index[prmindexfull]{Geometry model!Box with lithosphere boundary indicators!Y periodic}
+{\it Value:} false
+
+
+{\it Default:} false
+
+
+{\it Description:} Whether the box should be periodic in Y direction.
+
+
+{\it Possible values:} [Bool]
+\item {\it Parameter name:} {\tt Y periodic lithosphere}
+\phantomsection\label{parameters:Geometry model/Box with lithosphere boundary indicators/Y periodic lithosphere}
+
+
+\index[prmindex]{Y periodic lithosphere}
+\index[prmindexfull]{Geometry model!Box with lithosphere boundary indicators!Y periodic lithosphere}
+{\it Value:} false
+
+
+{\it Default:} false
+
+
+{\it Description:} Whether the box should be periodic in Y direction in the lithosphere. This value is ignored if the simulation is in 2d. 
+
+
+{\it Possible values:} [Bool]
+\item {\it Parameter name:} {\tt Y repetitions}
+\phantomsection\label{parameters:Geometry model/Box with lithosphere boundary indicators/Y repetitions}
+
+
+\index[prmindex]{Y repetitions}
+\index[prmindexfull]{Geometry model!Box with lithosphere boundary indicators!Y repetitions}
+{\it Value:} 1
+
+
+{\it Default:} 1
+
+
+{\it Description:} Number of cells in Y direction of the lower box. If the simulation is in 3d, the same number of repetitions will be used in the upper box.
+
+
+{\it Possible values:} [Integer range 1...2147483647 (inclusive)]
+\item {\it Parameter name:} {\tt Y repetitions lithosphere}
+\phantomsection\label{parameters:Geometry model/Box with lithosphere boundary indicators/Y repetitions lithosphere}
+
+
+\index[prmindex]{Y repetitions lithosphere}
+\index[prmindexfull]{Geometry model!Box with lithosphere boundary indicators!Y repetitions lithosphere}
+{\it Value:} 1
+
+
+{\it Default:} 1
+
+
+{\it Description:} Number of cells in Y direction in the lithosphere. This value is ignored if the simulation is in 3d.
+
+
+{\it Possible values:} [Integer range 1...2147483647 (inclusive)]
+\item {\it Parameter name:} {\tt Z extent}
+\phantomsection\label{parameters:Geometry model/Box with lithosphere boundary indicators/Z extent}
+
+
+\index[prmindex]{Z extent}
+\index[prmindexfull]{Geometry model!Box with lithosphere boundary indicators!Z extent}
+{\it Value:} 1
+
+
+{\it Default:} 1
+
+
+{\it Description:} Extent of the box in z-direction. This value is ignored if the simulation is in 2d. Units: m.
+
+
+{\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
+\item {\it Parameter name:} {\tt Z periodic}
+\phantomsection\label{parameters:Geometry model/Box with lithosphere boundary indicators/Z periodic}
+
+
+\index[prmindex]{Z periodic}
+\index[prmindexfull]{Geometry model!Box with lithosphere boundary indicators!Z periodic}
+{\it Value:} false
+
+
+{\it Default:} false
+
+
+{\it Description:} Whether the box should be periodic in Z direction. This value is ignored if the simulation is in 2d.
+
+
+{\it Possible values:} [Bool]
+\item {\it Parameter name:} {\tt Z repetitions}
+\phantomsection\label{parameters:Geometry model/Box with lithosphere boundary indicators/Z repetitions}
+
+
+\index[prmindex]{Z repetitions}
+\index[prmindexfull]{Geometry model!Box with lithosphere boundary indicators!Z repetitions}
+{\it Value:} 1
+
+
+{\it Default:} 1
+
+
+{\it Description:} Number of cells in Z direction of the lower box. This value is ignored if the simulation is in 2d.
+
+
+{\it Possible values:} [Integer range 1...2147483647 (inclusive)]
+\item {\it Parameter name:} {\tt Z repetitions lithosphere}
+\phantomsection\label{parameters:Geometry model/Box with lithosphere boundary indicators/Z repetitions lithosphere}
+
+
+\index[prmindex]{Z repetitions lithosphere}
+\index[prmindexfull]{Geometry model!Box with lithosphere boundary indicators!Z repetitions lithosphere}
+{\it Value:} 1
+
+
+{\it Default:} 1
+
+
+{\it Description:} Number of cells in Z direction in the lithosphere. This value is ignored if the simulation is in 2d.
+
+
+{\it Possible values:} [Integer range 1...2147483647 (inclusive)]
+\end{itemize}
+
 \subsection{Parameters in section \tt Geometry model/Chunk}
 \label{parameters:Geometry_20model/Chunk}
 
@@ -2423,6 +3109,172 @@ In 3d, inner and outer indicators are treated as in 2d. If the opening angle is 
 {\it Possible values:} [Integer range 1...2147483647 (inclusive)]
 \end{itemize}
 
+\subsection{Parameters in section \tt Geometry model/Ellipsoidal chunk}
+\label{parameters:Geometry_20model/Ellipsoidal_20chunk}
+
+\begin{itemize}
+\item {\it Parameter name:} {\tt Depth}
+\phantomsection\label{parameters:Geometry model/Ellipsoidal chunk/Depth}
+
+
+\index[prmindex]{Depth}
+\index[prmindexfull]{Geometry model!Ellipsoidal chunk!Depth}
+{\it Value:} 500000.0
+
+
+{\it Default:} 500000.0
+
+
+{\it Description:} Bottom depth of model region.
+
+
+{\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
+\item {\it Parameter name:} {\tt Depth subdivisions}
+\phantomsection\label{parameters:Geometry model/Ellipsoidal chunk/Depth subdivisions}
+
+
+\index[prmindex]{Depth subdivisions}
+\index[prmindexfull]{Geometry model!Ellipsoidal chunk!Depth subdivisions}
+{\it Value:} 1
+
+
+{\it Default:} 1
+
+
+{\it Description:} The number of subdivisions of the coarse (initial) mesh in depth.
+
+
+{\it Possible values:} [Integer range 0...2147483647 (inclusive)]
+\item {\it Parameter name:} {\tt East-West subdivisions}
+\phantomsection\label{parameters:Geometry model/Ellipsoidal chunk/East-West subdivisions}
+
+
+\index[prmindex]{East-West subdivisions}
+\index[prmindexfull]{Geometry model!Ellipsoidal chunk!East-West subdivisions}
+{\it Value:} 1
+
+
+{\it Default:} 1
+
+
+{\it Description:} The number of subdivisions of the coarse (initial) mesh in the East-West direction.
+
+
+{\it Possible values:} [Integer range 0...2147483647 (inclusive)]
+\item {\it Parameter name:} {\tt Eccentricity}
+\phantomsection\label{parameters:Geometry model/Ellipsoidal chunk/Eccentricity}
+
+
+\index[prmindex]{Eccentricity}
+\index[prmindexfull]{Geometry model!Ellipsoidal chunk!Eccentricity}
+{\it Value:} 8.1819190842622e-2
+
+
+{\it Default:} 8.1819190842622e-2
+
+
+{\it Description:} Eccentricity of the ellipsoid. Zero is a perfect sphere, default (8.1819190842622e-2) is WGS84.
+
+
+{\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
+\item {\it Parameter name:} {\tt NE corner}
+\phantomsection\label{parameters:Geometry model/Ellipsoidal chunk/NE corner}
+
+
+\index[prmindex]{NE corner}
+\index[prmindexfull]{Geometry model!Ellipsoidal chunk!NE corner}
+{\it Value:} 
+
+
+{\it Default:} 
+
+
+{\it Description:} Longitude:latitude in degrees of the North-East corner point of model region.The North-East direction is positive. If one of the three corners is not providedthe missing corner value will be calculated so all faces are parallel.
+
+
+{\it Possible values:} [Anything]
+\item {\it Parameter name:} {\tt NW corner}
+\phantomsection\label{parameters:Geometry model/Ellipsoidal chunk/NW corner}
+
+
+\index[prmindex]{NW corner}
+\index[prmindexfull]{Geometry model!Ellipsoidal chunk!NW corner}
+{\it Value:} 
+
+
+{\it Default:} 
+
+
+{\it Description:} Longitude:latitude in degrees of the North-West corner point of model region. The North-East direction is positive. If one of the three corners is not providedthe missing corner value will be calculated so all faces are parallel.
+
+
+{\it Possible values:} [Anything]
+\item {\it Parameter name:} {\tt North-South subdivisions}
+\phantomsection\label{parameters:Geometry model/Ellipsoidal chunk/North-South subdivisions}
+
+
+\index[prmindex]{North-South subdivisions}
+\index[prmindexfull]{Geometry model!Ellipsoidal chunk!North-South subdivisions}
+{\it Value:} 1
+
+
+{\it Default:} 1
+
+
+{\it Description:} The number of subdivisions of the coarse (initial) mesh in the North-South direction.
+
+
+{\it Possible values:} [Integer range 0...2147483647 (inclusive)]
+\item {\it Parameter name:} {\tt SE corner}
+\phantomsection\label{parameters:Geometry model/Ellipsoidal chunk/SE corner}
+
+
+\index[prmindex]{SE corner}
+\index[prmindexfull]{Geometry model!Ellipsoidal chunk!SE corner}
+{\it Value:} 
+
+
+{\it Default:} 
+
+
+{\it Description:} Longitude:latitude in degrees of the South-East corner point of model region. The North-East direction is positive. If one of the three corners is not providedthe missing corner value will be calculated so all faces are parallel.
+
+
+{\it Possible values:} [Anything]
+\item {\it Parameter name:} {\tt SW corner}
+\phantomsection\label{parameters:Geometry model/Ellipsoidal chunk/SW corner}
+
+
+\index[prmindex]{SW corner}
+\index[prmindexfull]{Geometry model!Ellipsoidal chunk!SW corner}
+{\it Value:} 
+
+
+{\it Default:} 
+
+
+{\it Description:} Longitude:latitude in degrees of the South-West corner point of model region. The North-East direction is positive. If one of the three corners is not providedthe missing corner value will be calculated so all faces are parallel.
+
+
+{\it Possible values:} [Anything]
+\item {\it Parameter name:} {\tt Semi-major axis}
+\phantomsection\label{parameters:Geometry model/Ellipsoidal chunk/Semi-major axis}
+
+
+\index[prmindex]{Semi-major axis}
+\index[prmindexfull]{Geometry model!Ellipsoidal chunk!Semi-major axis}
+{\it Value:} 6378137.0
+
+
+{\it Default:} 6378137.0
+
+
+{\it Description:} The semi-major axis (a) of an ellipsoid. This is the radius for a sphere (eccentricity=0). Default WGS84 semi-major axis.
+
+
+{\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
+\end{itemize}
+
 \subsection{Parameters in section \tt Geometry model/Sphere}
 \label{parameters:Geometry_20model/Sphere}
 
@@ -2532,7 +3384,7 @@ In either case, this parameter is ignored unless the opening angle of the domain
 {\it Value:} radial earth-like
 
 
-{\it Default:} 
+{\it Default:} unspecified
 
 
 {\it Description:} Select one of the following models:
@@ -2548,7 +3400,7 @@ In either case, this parameter is ignored unless the opening angle of the domain
 `vertical': A gravity model in which the gravity direction is vertically downward and at a constant magnitude by default equal to one.
 
 
-{\it Possible values:} [Selection function|radial constant|radial earth-like|radial linear|vertical ]
+{\it Possible values:} [Selection function|radial constant|radial earth-like|radial linear|vertical|unspecified ]
 \end{itemize}
 
 
@@ -2724,10 +3576,10 @@ The formula is interpreted as having units W/kg.
 
 \index[prmindex]{Model name}
 \index[prmindexfull]{Heating model!Model name}
-{\it Value:} 
+{\it Value:} unspecified
 
 
-{\it Default:} 
+{\it Default:} unspecified
 
 
 {\it Description:} Select one of the following models:
@@ -2752,7 +3604,7 @@ The formula is interpreted as having units W/kg.
 `shear heating': Implementation of a standard model for shear heating.
 
 
-{\it Possible values:} [Selection adiabatic heating|constant heating|function|latent heat|radioactive decay|shear heating ]
+{\it Possible values:} [Selection adiabatic heating|constant heating|function|latent heat|radioactive decay|shear heating|unspecified ]
 \end{itemize}
 
 
@@ -3014,12 +3866,14 @@ If the function you are describing represents a vector-valued function with mult
 {\it Value:} model regions
 
 
-{\it Default:} 
+{\it Default:} unspecified
 
 
 {\it Description:} Select one of the following models:
 
 `S40RTS perturbation': An initial temperature field in which the temperature is perturbed following the S20RTS or S40RTS shear wave velocity model by Ritsema and others, which can be downloaded here \url{http://www.earth.lsa.umich.edu/~jritsema/research.html}. Information on the vs model can be found in Ritsema, J., Deuss, A., van Heijst, H.J. \& Woodhouse, J.H., 2011. S40RTS: a degree-40 shear-velocity model for the mantle from new Rayleigh wave dispersion, teleseismic traveltime and normal-mode splitting function measurements, Geophys. J. Int. 184, 1223-1236. The scaling between the shear wave perturbation and the temperature perturbation can be set by the user with the 'vs to density scaling' parameter and the 'Thermal expansion coefficient in initial temperature scaling' parameter. The scaling is as follows: $\delta ln \rho (r,\theta,\phi) = \xi \cdot \delta ln v_s(r,\theta, \phi)$ and $\delta T(r,\theta,\phi) = - \frac{1}{\alpha} \delta ln \rho(r,\theta,\phi)$. $\xi$ is the 'vs to density scaling' parameter and $\alpha$ is the 'Thermal expansion coefficient in initial temperature scaling' parameter. The temperature perturbation is added to an otherwise constant temperature (incompressible model) or adiabatic reference profile (compressible model). If a depth is specified in 'Remove temperature heterogeneity down to specified depth', there is no temperature perturbation prescribed down to that depth.
+
+`SAVANI perturbation': An initial temperature field in which the temperature is perturbed following the SAVANI shear wave velocity model by Auer and others, which can be downloaded here \url{http://n.ethz.ch/~auerl/savani.tar.bz2}. Information on the vs model can be found in Auer, L., Boschi, L., Becker, T.W., Nissen-Meyer, T. \& Giardini, D., 2014. Savani:A variable resolution whole‐mantle model of anisotropic shear velocityvariations based on multiple data sets. Journal of GeophysicalResearch: Solid Earth 119.4 (2014): 3006-3034. The scaling between the shear wave perturbation and the temperature perturbation can be set by the user with the 'vs to density scaling' parameter and the 'Thermal expansion coefficient in initial temperature scaling' parameter. The scaling is as follows: $\delta ln \rho (r,\theta,\phi) = \xi \cdot \delta ln v_s(r,\theta, \phi)$ and $\delta T(r,\theta,\phi) = - \frac{1}{\alpha} \delta ln \rho(r,\theta,\phi)$. $\xi$ is the 'vs to density scaling' parameter and $\alpha$ is the 'Thermal expansion coefficient in initial temperature scaling' parameter. The temperature perturbation is added to an otherwise constant temperature (incompressible model) or adiabatic reference profile (compressible model).
 
 `adiabatic': Temperature is prescribed as an adiabatic profile with upper and lower thermal boundary layers, whose ages are given as input parameters.
 
@@ -3046,7 +3900,7 @@ If the function you are describing represents a vector-valued function with mult
 `spherical hexagonal perturbation': An initial temperature field in which the temperature is perturbed following an $N$-fold pattern in a specified direction from an otherwise spherically symmetric state. The class's name comes from previous versions when the only option was $N=6$.
 
 
-{\it Possible values:} [Selection S40RTS perturbation|adiabatic|ascii data|function|harmonic perturbation|inclusion shape perturbation|mandelbox|model regions|perturbed box|polar box|solidus|spherical gaussian perturbation|spherical hexagonal perturbation ]
+{\it Possible values:} [Selection S40RTS perturbation|SAVANI perturbation|adiabatic|ascii data|function|harmonic perturbation|inclusion shape perturbation|mandelbox|model regions|perturbed box|polar box|solidus|spherical gaussian perturbation|spherical hexagonal perturbation|unspecified ]
 \end{itemize}
 
 
@@ -3703,6 +4557,140 @@ If the function you are describing represents a vector-valued function with mult
 {\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
 \end{itemize}
 
+\subsection{Parameters in section \tt Initial conditions/SAVANI perturbation}
+\label{parameters:Initial_20conditions/SAVANI_20perturbation}
+
+\begin{itemize}
+\item {\it Parameter name:} {\tt Data directory}
+\phantomsection\label{parameters:Initial conditions/SAVANI perturbation/Data directory}
+
+
+\index[prmindex]{Data directory}
+\index[prmindexfull]{Initial conditions!SAVANI perturbation!Data directory}
+{\it Value:} $ASPECT_SOURCE_DIR/data/initial-conditions/SAVANI/
+
+
+{\it Default:} $ASPECT_SOURCE_DIR/data/initial-conditions/SAVANI/
+
+
+{\it Description:} The path to the model data. 
+
+
+{\it Possible values:} [DirectoryName]
+\item {\it Parameter name:} {\tt Initial condition file name}
+\phantomsection\label{parameters:Initial conditions/SAVANI perturbation/Initial condition file name}
+
+
+\index[prmindex]{Initial condition file name}
+\index[prmindexfull]{Initial conditions!SAVANI perturbation!Initial condition file name}
+{\it Value:} savani.dlnvs.60.m.ab
+
+
+{\it Default:} savani.dlnvs.60.m.ab
+
+
+{\it Description:} The file name of the spherical harmonics coefficients from Auer et al.
+
+
+{\it Possible values:} [Anything]
+\item {\it Parameter name:} {\tt Reference temperature}
+\phantomsection\label{parameters:Initial conditions/SAVANI perturbation/Reference temperature}
+
+
+\index[prmindex]{Reference temperature}
+\index[prmindexfull]{Initial conditions!SAVANI perturbation!Reference temperature}
+{\it Value:} 1600.0
+
+
+{\it Default:} 1600.0
+
+
+{\it Description:} The reference temperature that is perturbed by the spherical harmonic functions. Only used in incompressible models.
+
+
+{\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
+\item {\it Parameter name:} {\tt Remove degree 0 from perturbation}
+\phantomsection\label{parameters:Initial conditions/SAVANI perturbation/Remove degree 0 from perturbation}
+
+
+\index[prmindex]{Remove degree 0 from perturbation}
+\index[prmindexfull]{Initial conditions!SAVANI perturbation!Remove degree 0 from perturbation}
+{\it Value:} true
+
+
+{\it Default:} true
+
+
+{\it Description:} Option to remove the degree zero component from the perturbation, which will ensure that the laterally averaged temperature for a fixed depth is equal to the background temperature.
+
+
+{\it Possible values:} [Bool]
+\item {\it Parameter name:} {\tt Remove temperature heterogeneity down to specified depth}
+\phantomsection\label{parameters:Initial conditions/SAVANI perturbation/Remove temperature heterogeneity down to specified depth}
+
+
+\index[prmindex]{Remove temperature heterogeneity down to specified depth}
+\index[prmindexfull]{Initial conditions!SAVANI perturbation!Remove temperature heterogeneity down to specified depth}
+{\it Value:} -1.7976931348623157e+308
+
+
+{\it Default:} -1.7976931348623157e+308
+
+
+{\it Description:} This will set the heterogeneity prescribed by SAVANI to zero down to the specified depth (in meters). Note that your resolution has to be adquate to capture this cutoff. For example if you specify a depth of 660km, but your closest spherical depth layers are only at 500km and 750km (due to a coarse resolution) it will only zero out heterogeneities down to 500km. Similar caution has to be taken when using adaptive meshing.
+
+
+{\it Possible values:} [Double -1.79769e+308...1.79769e+308 (inclusive)]
+\item {\it Parameter name:} {\tt Spline knots depth file name}
+\phantomsection\label{parameters:Initial conditions/SAVANI perturbation/Spline knots depth file name}
+
+
+\index[prmindex]{Spline knots depth file name}
+\index[prmindexfull]{Initial conditions!SAVANI perturbation!Spline knots depth file name}
+{\it Value:} Spline_knots.txt
+
+
+{\it Default:} Spline_knots.txt
+
+
+{\it Description:} The file name of the spline knots taken from the 28 spherical layersof SAVANI tomography model.
+
+
+{\it Possible values:} [Anything]
+\item {\it Parameter name:} {\tt Thermal expansion coefficient in initial temperature scaling}
+\phantomsection\label{parameters:Initial conditions/SAVANI perturbation/Thermal expansion coefficient in initial temperature scaling}
+
+
+\index[prmindex]{Thermal expansion coefficient in initial temperature scaling}
+\index[prmindexfull]{Initial conditions!SAVANI perturbation!Thermal expansion coefficient in initial temperature scaling}
+{\it Value:} 2e-5
+
+
+{\it Default:} 2e-5
+
+
+{\it Description:} The value of the thermal expansion coefficient $\beta$. Units: $1/K$.
+
+
+{\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
+\item {\it Parameter name:} {\tt vs to density scaling}
+\phantomsection\label{parameters:Initial conditions/SAVANI perturbation/vs to density scaling}
+
+
+\index[prmindex]{vs to density scaling}
+\index[prmindexfull]{Initial conditions!SAVANI perturbation!vs to density scaling}
+{\it Value:} 0.25
+
+
+{\it Default:} 0.25
+
+
+{\it Description:} This parameter specifies how the perturbation in shear wave velocity as prescribed by SAVANI is scaled into a density perturbation. See the general description of this model for more detailed information.
+
+
+{\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
+\end{itemize}
+
 \subsection{Parameters in section \tt Initial conditions/Solidus}
 \label{parameters:Initial_20conditions/Solidus}
 
@@ -3999,12 +4987,14 @@ In order to facilitate placing input files in locations relative to the ASPECT s
 
 {\it Description:} Whether or not (and in the first case, how) to do any averaging of material model output data when constructing the linear systems for velocity/pressure, temperature, and compositions in each time step, as well as their corresponding preconditioners.
 
+Possible choices: none|arithmetic average|harmonic average|geometric average|pick largest|project to Q1|log average
+
 The process of averaging, and where it may be used, is discussed in more detail in Section~\ref{sec:sinker-with-averaging}.
 
 More averaging schemes are available in the averaging material model. This material model is a ``compositing material model'' which can be used in combination with other material models.
 
 
-{\it Possible values:} [Selection none|arithmetic average|harmonic average|geometric average|pick largest|project to Q1 ]
+{\it Possible values:} [Selection none|arithmetic average|harmonic average|geometric average|pick largest|project to Q1|log average ]
 \item {\it Parameter name:} {\tt Model name}
 \phantomsection\label{parameters:Material model/Model name}
 
@@ -4014,20 +5004,18 @@ More averaging schemes are available in the averaging material model. This mater
 {\it Value:} stamps
 
 
-{\it Default:} 
+{\it Default:} unspecified
 
 
 {\it Description:} The name of the material model to be used in this simulation. There are many material models you can choose from, as listed below. They generally fall into two category: (i) models that implement a particular case of material behavior, (ii) models that modify other models in some way. We sometimes call the latter ``compositing models''. An example of a compositing model is the ``depth dependent'' model below in that it takes another, freely choosable model as its base and then modifies that model's output in some way.
 
 You can select one of the following models:
 
-`Morency and Doin': An implementation of the visco-plastic rheology described by (Morency and Doin, 2004). Compositional fields can each be assigned individual activation energies, reference densities, thermal expansivities, and stress exponents. The effective viscosity is defined as
+`Morency and Doin': An implementation of the visco-plastic rheology described by (Morency and Doin, 2004). Compositional fields can each be assigned individual activation energies, reference densities, thermal expansivities, and stress exponents. The effective viscosity is defined as \[v_{eff} = \left(\frac{1}{v_{eff}^v}+\frac{1}{v_{eff}^p}\right)^{-1}\] where \[v_{eff}^v = B \left(\frac{\dot{\epsilon}}{\dot{\epsilon}_{ref}} \right)^{-1+1/n_v} exp\left(\frac{E_a +V_a \rho_m g z}{n_v R T}\right) \] \[v_{eff}^p = (\tau_0 + \gamma \rho_m g z) \left( \frac{\dot{\epsilon}^{-1+1/n_p}} {\dot{\epsilon}_{ref}^{1/n_p}} \right) \] where $B$ is a scaling constant; $\dot{\epsilon}$ is defined as the quadratic sum of the second invariant of the strain rate tensor and a minimum strain rate, $\dot{\epsilon}_0$; $\dot{\epsilon}_{ref}$ is a reference strain rate; $n_v$, and $n_p$ are stress exponents; $E_a$ is the activation energy; $V_a$ is the activation volume; $\rho_m$ is the mantle density; $R$ is the gas constant; $T$ is temperature; $\tau_0$ is the cohestive strength of rocks at the surface; $\gamma$ is a coefficient of yield stress increase with depth; and $z$ is depth. 
 
- \[v_{eff} = \left(\frac{1}{v_{eff}^v}+\frac{1}{v_{eff}^p}\right)^{-1}\] where \[v_{eff}^v = B \left(\frac{\dot{\varepsilon}}{\dot{\varepsilon}_{ref}}\right)^{-1+1/n_v} exp\left(\frac{E_a +V_a \rho_m g z}{n_v R T}\right) \] \[v_{eff}^p = (\tau_0 + \gamma \rho_m g z) \left( \frac{\dot{\varepsilon}^{-1+1/n_p}} {\dot{\varepsilon}_{ref}^{1/n_p}} \right) \]
+ Note: (Morency and Doin, 2004) defines the second invariant of the strain rate in a nonstandard way. The formulation in the paper is given as $\epsilon_{II} = \sqrt{\frac{1}{2} (\epsilon_{11}^2 + \epsilon_{12}^2)}$ where $\epsilon$ is the strain rate tensor. For consistency, that is also the formulation implemented in this material model. 
 
- Where $B$ is a scaling constant, $\dot{\varepsilon}$ is related to the second invariant of the strain rate tensor, $\dot{\varepsilon}_{ref}$ is a reference strain rate, $n_v$ and $n_p$ are stress exponents, $E_a$ is the activation energy, $V_a$ is the activation volume, $\rho_m$ is the mantle density, $R$ is the gas constant, $T$ is temperature, $\tau_0$ is the cohestive strength of rocks at the surface, $\gamma$ is a coefficient of yield stress increase with depth, and $z$ is depth. 
-
- Morency, C., and M‐P. Doin. "Numerical simulations of the mantle lithosphere delamination." Journal of Geophysical Research: Solid Earth (1978–2012) 109.B3 (2004).
+ Morency, C., and M‐P. Doin. "Numerical simulations of the mantle lithosphere delamination." Journal of Geophysical Research: Solid Earth (1978–2012) 109.B3 (2004). 
 
  The value for the components of this formula and additional parameters are read from the parameter file in subsection 'Material model/Morency and Doin'.
 
@@ -4035,7 +5023,7 @@ You can select one of the following models:
 
 `averaging': The ``averaging'' Material model applies an averaging of the quadrature points within a cell. The values to average are supplied by any of the other available material models. In other words, it is a ``compositing material model''. Parameters related to the average model are read from a subsection ``Material model/Averaging''. 
 
-The user must specify a ``Base model'' from which material properties are derived. Furthermore an averaging operation must be selected, where the Choice should be from the list none|arithmetic average|harmonic average|geometric average|pick largest|NWD arithmetic average|NWD harmonic average|NWD geometric average. 
+The user must specify a ``Base model'' from which material properties are derived. Furthermore an averaging operation must be selected, where the Choice should be from the list none|arithmetic average|harmonic average|geometric average|pick largest|log average|NWD arithmetic average|NWD harmonic average|NWD geometric average. 
 
 NWD stands for Normalized Weighed Distance. The models with this in front of their name work with a weighed average, which means each quadrature point requires an individual weight. The weight is determined by the distance, where the exact relation is determined by a bell shaped curve. A bell shaped curve is a continuous function which is one at it's maximum and exactly zero at and beyond it's limit. This bell shaped curve is spanned around each quadrature point to determine the weighting map for each quadrature point. The used bell shape comes from Lucy (1977). The distance is normalized so the largest distance becomes one. This means that if variable ''Bell shape limit'' is exactly one, the farthest quadrature point is just on the limit and it's weight will be exactly zero. In this plugin it is not implemented as larger and equal than the limit, but larger than, to ensure the the quadrature point at distance zero is always included.
 
@@ -4055,17 +5043,17 @@ Viscosity is interpolated from this file using linear interpolation. ``None'': n
 
 ``List:'': read a comma-separated list of depth values corresponding to the maximum depths of layers having constant depth-dependence $\eta(z)$. The layers must be specified in order of increasing depth, and the last layer in the list must have a depth greater than or equal to the maximal depth of the model. The list of layer depths is specified as ``Material model/Depth dependent model/Depth list'' and the corresponding list of layer viscosities is specified as ``Material model/Depth dependent model/Viscosity list''
 
-`diffusion dislocation':  An implementation of a viscous rheology including diffusion and dislocation creep. Compositional fields can each be assigned individual activation energies, reference densities, thermal expansivities, and stress exponents. The effective viscosity is defined as
+`diffusion dislocation':  An implementation of a viscous rheology including diffusion and dislocation creep. Compositional fields can each be assigned individual activation energies, reference densities, thermal expansivities, and stress exponents. The effective viscosity is defined as 
 
- \[v_\text{eff} = \left(\frac{1}{v_\text{eff}^\text{diff}}+\frac{1}{v_\text{eff}^\text{dis}\right)^{-1}\] where \[v_\text{eff}^\text{diff} = A_\text{diff}^{-1} \exp\left(rac{E_\text{diff} + PV_\text{diff}}{RT}\right)\] \[v_\text{eff}^\text{dis} =  A_\text{dis}^{\frac{-1}{n_{dis}}} \dot{\varepsilon}^{rac{1-n}{n}}                                  \exp\left(rac{E_\text{diff} + PV_\text{diff}}{n_\text{dis}RT}\right)\]
+ \[v_\text{eff} = \left(\frac{1}{v_\text{eff}^\text{diff}}+ \frac{1}{v_\text{eff}^\text{dis}}\right)^{-1}\] where \[v_\text{i} = 0.5 * A^{-\frac{1}{n_i}} d^\frac{m_i}{n_i} \dot{\varepsilon_i}^{\frac{1-n_i}{n_i}} \exp\left(\frac{E_i^* + PV_i^*}{n_iRT}\right)\] 
 
- where $\dot{\varepsilon}$ is the second invariant of the strain rate tensor, $A_i$ are prefactors where $i$ corresponds to diffusion or dislocation creep, $E_i$ are the activation energies, $V_i$ are the activation volumes, $n_dislocation$ are stress exponents for dislocation creep, $\rho_m$ is the mantle density, $R$ is the gas constant, $T$ is temperature, and $P$ is pressure. 
+ where $d$ is grain size, $i$ corresponds to diffusion or dislocation creep, $\dot{\varepsilon}$ is the square root of the second invariant of the strain rate tensor, $R$ is the gas constant, $T$ is temperature,  and $P$ is pressure. $A_i$ are prefactors, $n_i$ and $m_i$ are stress and grain size exponents $E_i$ are the activation energies and $V_i$ are the activation volumes. 
 
- The value for the components of this formula and additional parameters are read from the parameter file in subsection 'Material model/DiffusionDislocation'.
+ The ratio of diffusion to dislocation strain rate is found by Newton's method, iterating to find the stress which satisfies the above equations. The value for the components of this formula and additional parameters are read from the parameter file in subsection 'Material model/DiffusionDislocation'.
 
 `drucker prager': A material model that has constant values for all coefficients but the density and viscosity. The defaults for all coefficients are chosen to be similar to what is believed to be correct for Earth's mantle. All of the values that define this model are read from a section ``Material model/Drucker Prager'' in the input file, see Section~\ref{parameters:Material_model/Drucker Prager}.Note that the model does not take into account any dependencies of material properties on compositional fields. 
 
-The viscosity is computed according to the Drucker Prager frictional plasticity criterion (non-associative) based on a user-defined Internal friction angle $\phi$ and cohesion C. In 3D:  $\sigma_y = \frac{6 C \cos(\phi)}{\sqrt(3) (3+\sin(\phi))} + \frac{2 P \sin(\phi)}{\sqrt(3) (3+\sin(\phi))}$, where P is the pressure. See for example Zienkiewicz, O. C., Humpheson, C. and Lewis, R. W. (1975), G'{e}otechnique 25, No. 4, 671-689. With this formulation we circumscribe instead of inscribe the Mohr Coulomb yield surface. In 2D the Drucker Prager yield surface is the same as the Mohr Coulomb surface:  $\sigma_y = P \sin(\phi) + C \cos(\phi)$. Note that in 2D for $\phi=0$, these criteria revert to the von Mises criterion (no pressure dependence). See for example Thieulot, C. (2011), PEPI 188, 47-68. 
+The viscosity is computed according to the Drucker Prager frictional plasticity criterion (non-associative) based on a user-defined internal friction angle $\phi$ and cohesion $C$. In 3D:  $\sigma_y = \frac{6 C \cos(\phi)}{\sqrt(3) (3+\sin(\phi))} + \frac{2 P \sin(\phi)}{\sqrt(3) (3+\sin(\phi))}$, where $P$ is the pressure. See for example Zienkiewicz, O. C., Humpheson, C. and Lewis, R. W. (1975), G\'{e}otechnique 25, No. 4, 671-689. With this formulation we circumscribe instead of inscribe the Mohr Coulomb yield surface. In 2D the Drucker Prager yield surface is the same as the Mohr Coulomb surface:  $\sigma_y = P \sin(\phi) + C \cos(\phi)$. Note that in 2D for $\phi=0$, these criteria revert to the von Mises criterion (no pressure dependence). See for example Thieulot, C. (2011), PEPI 188, 47-68. 
 
 Note that we enforce the pressure to be positive to prevent negative yield strengths and viscosities. 
 
@@ -4108,7 +5096,7 @@ This model uses the following equations for the density: \begin{align}  \rho(p,T
 `stamps': A material model that has constant values for all coefficients but the density and viscosity. This model uses the formulation that assumes an incompressible medium despite the fact that the density follows the law $\rho(T)=\rho_0(1-\beta(T-T_{\text{ref}})$. The temperature dependency of viscosity is  switched off by default and follows the formula$\eta(T)=\eta_0*e^{\eta_T*\Delta T / T_{\text{ref}})}$.The value for the components of this formula and additional parameters are read from the parameter file in subsection 'Stamps model'.
 
 
-{\it Possible values:} [Selection Morency and Doin|Steinberger|averaging|composition reaction|depth dependent|diffusion dislocation|drucker prager|latent heat|latent heat melt|multicomponent|simple|simple compressible|simpler|stamps ]
+{\it Possible values:} [Selection Morency and Doin|Steinberger|averaging|composition reaction|depth dependent|diffusion dislocation|drucker prager|latent heat|latent heat melt|multicomponent|simple|simple compressible|simpler|stamps|unspecified ]
 \end{itemize}
 
 
@@ -4132,7 +5120,7 @@ This model uses the following equations for the density: \begin{align}  \rho(p,T
 {\it Description:} Chose the averaging operation to use.
 
 
-{\it Possible values:} [Selection none|arithmetic average|harmonic average|geometric average|pick largest|nwd arithmetic average|nwd harmonic average|nwd geometric average ]
+{\it Possible values:} [Selection none|arithmetic average|harmonic average|geometric average|pick largest|log average|nwd arithmetic average|nwd harmonic average|nwd geometric average ]
 \item {\it Parameter name:} {\tt Base model}
 \phantomsection\label{parameters:Material model/Averaging/Base model}
 
@@ -4439,10 +5427,10 @@ This model uses the following equations for the density: \begin{align}  \rho(p,T
 
 \index[prmindex]{Viscosity depth file}
 \index[prmindexfull]{Material model!Depth dependent model!Viscosity depth file}
-{\it Value:} visc_depth.txt
+{\it Value:} visc-depth.txt
 
 
-{\it Default:} visc_depth.txt
+{\it Default:} visc-depth.txt
 
 
 {\it Description:} The name of the file containing depth-dependent viscosity data. 
@@ -4522,96 +5510,96 @@ A typical example would be to set this runtime parameter to `pi=3.1415926536' an
 {\it Possible values:} [Anything]
 \end{itemize}
 
-\subsection{Parameters in section \tt Material model/DiffusionDislocation}
-\label{parameters:Material_20model/DiffusionDislocation}
+\subsection{Parameters in section \tt Material model/Diffusion dislocation}
+\label{parameters:Material_20model/Diffusion_20dislocation}
 
 \begin{itemize}
 \item {\it Parameter name:} {\tt Activation energies for diffusion creep}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Activation energies for diffusion creep}
+\phantomsection\label{parameters:Material model/Diffusion dislocation/Activation energies for diffusion creep}
 
 
 \index[prmindex]{Activation energies for diffusion creep}
-\index[prmindexfull]{Material model!DiffusionDislocation!Activation energies for diffusion creep}
-{\it Value:} 335e3
+\index[prmindexfull]{Material model!Diffusion dislocation!Activation energies for diffusion creep}
+{\it Value:} 375e3
 
 
-{\it Default:} 335e3
+{\it Default:} 375e3
 
 
-{\it Description:} List of activation energies, $E_a$, for background mantle and compositional fields,for a total of N+1 values, where N is the number of compositional fields.If only one values is given, then all use the same value.  Units: $J / mol$
+{\it Description:} List of activation energies, $E_a$, for background mantle and compositional fields, for a total of N+1 values, where N is the number of compositional fields. If only one values is given, then all use the same value.  Units: $J / mol$
 
 
 {\it Possible values:} [List list of <[Double 0...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
 \item {\it Parameter name:} {\tt Activation energies for dislocation creep}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Activation energies for dislocation creep}
+\phantomsection\label{parameters:Material model/Diffusion dislocation/Activation energies for dislocation creep}
 
 
 \index[prmindex]{Activation energies for dislocation creep}
-\index[prmindexfull]{Material model!DiffusionDislocation!Activation energies for dislocation creep}
-{\it Value:} 540e3
+\index[prmindexfull]{Material model!Diffusion dislocation!Activation energies for dislocation creep}
+{\it Value:} 530e3
 
 
-{\it Default:} 540e3
+{\it Default:} 530e3
 
 
-{\it Description:} List of activation energies, $E_a$, for background mantle and compositional fields,for a total of N+1 values, where N is the number of compositional fields.If only one values is given, then all use the same value.  Units: $J / mol$
+{\it Description:} List of activation energies, $E_a$, for background mantle and compositional fields, for a total of N+1 values, where N is the number of compositional fields. If only one values is given, then all use the same value.  Units: $J / mol$
 
 
 {\it Possible values:} [List list of <[Double 0...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
 \item {\it Parameter name:} {\tt Activation volumes for diffusion creep}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Activation volumes for diffusion creep}
+\phantomsection\label{parameters:Material model/Diffusion dislocation/Activation volumes for diffusion creep}
 
 
 \index[prmindex]{Activation volumes for diffusion creep}
-\index[prmindexfull]{Material model!DiffusionDislocation!Activation volumes for diffusion creep}
-{\it Value:} 6.4e-6
+\index[prmindexfull]{Material model!Diffusion dislocation!Activation volumes for diffusion creep}
+{\it Value:} 6e-6
 
 
-{\it Default:} 6.4e-6
+{\it Default:} 6e-6
 
 
-{\it Description:} List of activation volumes, $V_a$, for background mantle and compositional fields,for a total of N+1 values, where N is the number of compositional fields.If only one value is given, then all use the same value.  Units: $m^3 / mol$
+{\it Description:} List of activation volumes, $V_a$, for background mantle and compositional fields, for a total of N+1 values, where N is the number of compositional fields. If only one value is given, then all use the same value.  Units: $m^3 / mol$
 
 
 {\it Possible values:} [List list of <[Double 0...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
 \item {\it Parameter name:} {\tt Activation volumes for dislocation creep}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Activation volumes for dislocation creep}
+\phantomsection\label{parameters:Material model/Diffusion dislocation/Activation volumes for dislocation creep}
 
 
 \index[prmindex]{Activation volumes for dislocation creep}
-\index[prmindexfull]{Material model!DiffusionDislocation!Activation volumes for dislocation creep}
-{\it Value:} 6.4e-6
+\index[prmindexfull]{Material model!Diffusion dislocation!Activation volumes for dislocation creep}
+{\it Value:} 1.4e-5
 
 
-{\it Default:} 6.4e-6
+{\it Default:} 1.4e-5
 
 
-{\it Description:} List of activation volumes, $V_a$, for background mantle and compositional fields,for a total of N+1 values, where N is the number of compositional fields.If only one value is given, then all use the same value.  Units: $m^3 / mol$
+{\it Description:} List of activation volumes, $V_a$, for background mantle and compositional fields, for a total of N+1 values, where N is the number of compositional fields. If only one value is given, then all use the same value.  Units: $m^3 / mol$
 
 
 {\it Possible values:} [List list of <[Double 0...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
 \item {\it Parameter name:} {\tt Densities}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Densities}
+\phantomsection\label{parameters:Material model/Diffusion dislocation/Densities}
 
 
 \index[prmindex]{Densities}
-\index[prmindexfull]{Material model!DiffusionDislocation!Densities}
+\index[prmindexfull]{Material model!Diffusion dislocation!Densities}
 {\it Value:} 3300.
 
 
 {\it Default:} 3300.
 
 
-{\it Description:} List of densities, $\rho$, for background mantle and compositional fields,for a total of N+1 values, where N is the number of compositional fields.If only one values is given, then all use the same value.  Units: $kg / m^3$
+{\it Description:} List of densities, $\rho$, for background mantle and compositional fields, for a total of N+1 values, where N is the number of compositional fields. If only one values is given, then all use the same value.  Units: $kg / m^3$
 
 
 {\it Possible values:} [List list of <[Double 0...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
 \item {\it Parameter name:} {\tt Effective viscosity coefficient}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Effective viscosity coefficient}
+\phantomsection\label{parameters:Material model/Diffusion dislocation/Effective viscosity coefficient}
 
 
 \index[prmindex]{Effective viscosity coefficient}
-\index[prmindexfull]{Material model!DiffusionDislocation!Effective viscosity coefficient}
+\index[prmindexfull]{Material model!Diffusion dislocation!Effective viscosity coefficient}
 {\it Value:} 1.0
 
 
@@ -4622,12 +5610,44 @@ A typical example would be to set this runtime parameter to `pi=3.1415926536' an
 
 
 {\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
+\item {\it Parameter name:} {\tt Grain size}
+\phantomsection\label{parameters:Material model/Diffusion dislocation/Grain size}
+
+
+\index[prmindex]{Grain size}
+\index[prmindexfull]{Material model!Diffusion dislocation!Grain size}
+{\it Value:} 1e-3
+
+
+{\it Default:} 1e-3
+
+
+{\it Description:} Units: $m$
+
+
+{\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
+\item {\it Parameter name:} {\tt Grain size exponents for diffusion creep}
+\phantomsection\label{parameters:Material model/Diffusion dislocation/Grain size exponents for diffusion creep}
+
+
+\index[prmindex]{Grain size exponents for diffusion creep}
+\index[prmindexfull]{Material model!Diffusion dislocation!Grain size exponents for diffusion creep}
+{\it Value:} 3
+
+
+{\it Default:} 3
+
+
+{\it Description:} List of grain size exponents, $m_diffusion$, for background mantle and compositional fields, for a total of N+1 values, where N is the number of compositional fields. If only one values is given, then all use the same value.  Units: None
+
+
+{\it Possible values:} [List list of <[Double 0...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
 \item {\it Parameter name:} {\tt Heat capacity}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Heat capacity}
+\phantomsection\label{parameters:Material model/Diffusion dislocation/Heat capacity}
 
 
 \index[prmindex]{Heat capacity}
-\index[prmindexfull]{Material model!DiffusionDislocation!Heat capacity}
+\index[prmindexfull]{Material model!Diffusion dislocation!Heat capacity}
 {\it Value:} 1.25e3
 
 
@@ -4638,12 +5658,28 @@ A typical example would be to set this runtime parameter to `pi=3.1415926536' an
 
 
 {\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
+\item {\it Parameter name:} {\tt Maximum strain rate ratio iterations}
+\phantomsection\label{parameters:Material model/Diffusion dislocation/Maximum strain rate ratio iterations}
+
+
+\index[prmindex]{Maximum strain rate ratio iterations}
+\index[prmindexfull]{Material model!Diffusion dislocation!Maximum strain rate ratio iterations}
+{\it Value:} 40
+
+
+{\it Default:} 40
+
+
+{\it Description:} Maximum number of iterations to find the correct diffusion/dislocation strain rate ratio.
+
+
+{\it Possible values:} [Integer range 0...2147483647 (inclusive)]
 \item {\it Parameter name:} {\tt Maximum viscosity}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Maximum viscosity}
+\phantomsection\label{parameters:Material model/Diffusion dislocation/Maximum viscosity}
 
 
 \index[prmindex]{Maximum viscosity}
-\index[prmindexfull]{Material model!DiffusionDislocation!Maximum viscosity}
+\index[prmindexfull]{Material model!Diffusion dislocation!Maximum viscosity}
 {\it Value:} 1e28
 
 
@@ -4655,11 +5691,11 @@ A typical example would be to set this runtime parameter to `pi=3.1415926536' an
 
 {\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
 \item {\it Parameter name:} {\tt Minimum strain rate}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Minimum strain rate}
+\phantomsection\label{parameters:Material model/Diffusion dislocation/Minimum strain rate}
 
 
 \index[prmindex]{Minimum strain rate}
-\index[prmindexfull]{Material model!DiffusionDislocation!Minimum strain rate}
+\index[prmindexfull]{Material model!Diffusion dislocation!Minimum strain rate}
 {\it Value:} 1.4e-20
 
 
@@ -4671,11 +5707,11 @@ A typical example would be to set this runtime parameter to `pi=3.1415926536' an
 
 {\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
 \item {\it Parameter name:} {\tt Minimum viscosity}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Minimum viscosity}
+\phantomsection\label{parameters:Material model/Diffusion dislocation/Minimum viscosity}
 
 
 \index[prmindex]{Minimum viscosity}
-\index[prmindexfull]{Material model!DiffusionDislocation!Minimum viscosity}
+\index[prmindexfull]{Material model!Diffusion dislocation!Minimum viscosity}
 {\it Value:} 1e17
 
 
@@ -4687,43 +5723,43 @@ A typical example would be to set this runtime parameter to `pi=3.1415926536' an
 
 {\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
 \item {\it Parameter name:} {\tt Prefactors for diffusion creep}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Prefactors for diffusion creep}
+\phantomsection\label{parameters:Material model/Diffusion dislocation/Prefactors for diffusion creep}
 
 
 \index[prmindex]{Prefactors for diffusion creep}
-\index[prmindexfull]{Material model!DiffusionDislocation!Prefactors for diffusion creep}
-{\it Value:} 1.92e-11
+\index[prmindexfull]{Material model!Diffusion dislocation!Prefactors for diffusion creep}
+{\it Value:} 1.5e-15
 
 
-{\it Default:} 1.92e-11
+{\it Default:} 1.5e-15
 
 
-{\it Description:} List of viscosity prefactors, $A$, for background mantle and compositional fields,for a total of N+1 values, where N is the number of compositional fields.If only one values is given, then all use the same value.  Units: $1 / s$
+{\it Description:} List of viscosity prefactors, $A$, for background mantle and compositional fields, for a total of N+1 values, where N is the number of compositional fields. If only one values is given, then all use the same value. Units: $Pa^{-n_{diffusion}} m^{n_{diffusion}/m_{diffusion}} s^{-1}$
 
 
 {\it Possible values:} [List list of <[Double 0...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
 \item {\it Parameter name:} {\tt Prefactors for dislocation creep}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Prefactors for dislocation creep}
+\phantomsection\label{parameters:Material model/Diffusion dislocation/Prefactors for dislocation creep}
 
 
 \index[prmindex]{Prefactors for dislocation creep}
-\index[prmindexfull]{Material model!DiffusionDislocation!Prefactors for dislocation creep}
-{\it Value:} 2.42e-10
+\index[prmindexfull]{Material model!Diffusion dislocation!Prefactors for dislocation creep}
+{\it Value:} 1.1e-16
 
 
-{\it Default:} 2.42e-10
+{\it Default:} 1.1e-16
 
 
-{\it Description:} List of viscosity prefactors, $A$, for background mantle and compositional fields,for a total of N+1 values, where N is the number of compositional fields.If only one values is given, then all use the same value.  Units: $Pa^{-n_dislocation} s^{-1}$
+{\it Description:} List of viscosity prefactors, $A$, for background mantle and compositional fields, for a total of N+1 values, where N is the number of compositional fields. If only one values is given, then all use the same value. Units: $Pa^{-n_{dislocation}} m^{n_{dislocation}/m_{dislocation}} s^{-1}$
 
 
 {\it Possible values:} [List list of <[Double 0...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
 \item {\it Parameter name:} {\tt Reference temperature}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Reference temperature}
+\phantomsection\label{parameters:Material model/Diffusion dislocation/Reference temperature}
 
 
 \index[prmindex]{Reference temperature}
-\index[prmindexfull]{Material model!DiffusionDislocation!Reference temperature}
+\index[prmindexfull]{Material model!Diffusion dislocation!Reference temperature}
 {\it Value:} 293
 
 
@@ -4735,11 +5771,11 @@ A typical example would be to set this runtime parameter to `pi=3.1415926536' an
 
 {\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
 \item {\it Parameter name:} {\tt Reference viscosity}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Reference viscosity}
+\phantomsection\label{parameters:Material model/Diffusion dislocation/Reference viscosity}
 
 
 \index[prmindex]{Reference viscosity}
-\index[prmindexfull]{Material model!DiffusionDislocation!Reference viscosity}
+\index[prmindexfull]{Material model!Diffusion dislocation!Reference viscosity}
 {\it Value:} 1e22
 
 
@@ -4750,28 +5786,60 @@ A typical example would be to set this runtime parameter to `pi=3.1415926536' an
 
 
 {\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
+\item {\it Parameter name:} {\tt Strain rate residual tolerance}
+\phantomsection\label{parameters:Material model/Diffusion dislocation/Strain rate residual tolerance}
+
+
+\index[prmindex]{Strain rate residual tolerance}
+\index[prmindexfull]{Material model!Diffusion dislocation!Strain rate residual tolerance}
+{\it Value:} 1e-22
+
+
+{\it Default:} 1e-22
+
+
+{\it Description:} Tolerance for correct diffusion/dislocation strain rate ratio.
+
+
+{\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
+\item {\it Parameter name:} {\tt Stress exponents for diffusion creep}
+\phantomsection\label{parameters:Material model/Diffusion dislocation/Stress exponents for diffusion creep}
+
+
+\index[prmindex]{Stress exponents for diffusion creep}
+\index[prmindexfull]{Material model!Diffusion dislocation!Stress exponents for diffusion creep}
+{\it Value:} 1
+
+
+{\it Default:} 1
+
+
+{\it Description:} List of stress exponents, $n_diffusion$, for background mantle and compositional fields, for a total of N+1 values, where N is the number of compositional fields. If only one values is given, then all use the same value.  Units: None
+
+
+{\it Possible values:} [List list of <[Double 0...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
 \item {\it Parameter name:} {\tt Stress exponents for dislocation creep}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Stress exponents for dislocation creep}
+\phantomsection\label{parameters:Material model/Diffusion dislocation/Stress exponents for dislocation creep}
 
 
 \index[prmindex]{Stress exponents for dislocation creep}
-\index[prmindexfull]{Material model!DiffusionDislocation!Stress exponents for dislocation creep}
-{\it Value:} 3
+\index[prmindexfull]{Material model!Diffusion dislocation!Stress exponents for dislocation creep}
+{\it Value:} 3.5
 
 
-{\it Default:} 3
+{\it Default:} 3.5
 
 
-{\it Description:} List of stress exponents, $n_dislocation$, for background mantle and compositional fields,for a total of N+1 values, where N is the number of compositional fields.If only one values is given, then all use the same value.  Units: None
+{\it Description:} List of stress exponents, $n_dislocation$, for background mantle and compositional fields, for a total of N+1 values, where N is the number of compositional fields. If only one values is given, then all use the same value.  Units: None
 
 
 {\it Possible values:} [List list of <[Double 0...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
 \item {\it Parameter name:} {\tt Thermal diffusivity}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Thermal diffusivity}
+\phantomsection\label{parameters:Material model/Diffusion dislocation/Thermal diffusivity}
 
 
 \index[prmindex]{Thermal diffusivity}
-\index[prmindexfull]{Material model!DiffusionDislocation!Thermal diffusivity}
+\index[prmindexfull]{Material model!Diffusion dislocation!Thermal diffusivity}
 {\it Value:} 0.8e-6
 
 
@@ -4783,27 +5851,27 @@ A typical example would be to set this runtime parameter to `pi=3.1415926536' an
 
 {\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
 \item {\it Parameter name:} {\tt Thermal expansivities}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Thermal expansivities}
+\phantomsection\label{parameters:Material model/Diffusion dislocation/Thermal expansivities}
 
 
 \index[prmindex]{Thermal expansivities}
-\index[prmindexfull]{Material model!DiffusionDislocation!Thermal expansivities}
+\index[prmindexfull]{Material model!Diffusion dislocation!Thermal expansivities}
 {\it Value:} 3.5e-5
 
 
 {\it Default:} 3.5e-5
 
 
-{\it Description:} List of thermal expansivities for background mantle and compositional fields,for a total of N+1 values, where N is the number of compositional fields.If only one values is given, then all use the same value.  Units: $1 / K$
+{\it Description:} List of thermal expansivities for background mantle and compositional fields, for a total of N+1 values, where N is the number of compositional fields. If only one values is given, then all use the same value.  Units: $1 / K$
 
 
 {\it Possible values:} [List list of <[Double 0...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
 \item {\it Parameter name:} {\tt Viscosity averaging scheme}
-\phantomsection\label{parameters:Material model/DiffusionDislocation/Viscosity averaging scheme}
+\phantomsection\label{parameters:Material model/Diffusion dislocation/Viscosity averaging scheme}
 
 
 \index[prmindex]{Viscosity averaging scheme}
-\index[prmindexfull]{Material model!DiffusionDislocation!Viscosity averaging scheme}
+\index[prmindexfull]{Material model!Diffusion dislocation!Viscosity averaging scheme}
 {\it Value:} harmonic
 
 
@@ -5950,22 +7018,6 @@ A typical example would be to set this runtime parameter to `pi=3.1415926536' an
 
 
 {\it Possible values:} [List list of <[Double 0...1.79769e+308 (inclusive)]> of length 0...4294967295 (inclusive)]
-\item {\it Parameter name:} {\tt Effective viscosity coefficient}
-\phantomsection\label{parameters:Material model/Morency and Doin/Effective viscosity coefficient}
-
-
-\index[prmindex]{Effective viscosity coefficient}
-\index[prmindexfull]{Material model!Morency and Doin!Effective viscosity coefficient}
-{\it Value:} 1.0
-
-
-{\it Default:} 1.0
-
-
-{\it Description:} Scaling coefficient for effective viscosity.
-
-
-{\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
 \item {\it Parameter name:} {\tt Heat capacity}
 \phantomsection\label{parameters:Material model/Morency and Doin/Heat capacity}
 
@@ -5982,22 +7034,6 @@ A typical example would be to set this runtime parameter to `pi=3.1415926536' an
 
 
 {\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
-\item {\it Parameter name:} {\tt Maximum viscosity}
-\phantomsection\label{parameters:Material model/Morency and Doin/Maximum viscosity}
-
-
-\index[prmindex]{Maximum viscosity}
-\index[prmindexfull]{Material model!Morency and Doin!Maximum viscosity}
-{\it Value:} 1e28
-
-
-{\it Default:} 1e28
-
-
-{\it Description:} Upper cutoff for effective viscosity. Units: $Pa s$
-
-
-{\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
 \item {\it Parameter name:} {\tt Minimum strain rate}
 \phantomsection\label{parameters:Material model/Morency and Doin/Minimum strain rate}
 
@@ -6011,22 +7047,6 @@ A typical example would be to set this runtime parameter to `pi=3.1415926536' an
 
 
 {\it Description:} Stabilizes strain dependent viscosity. Units: $1 / s$
-
-
-{\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
-\item {\it Parameter name:} {\tt Minimum viscosity}
-\phantomsection\label{parameters:Material model/Morency and Doin/Minimum viscosity}
-
-
-\index[prmindex]{Minimum viscosity}
-\index[prmindexfull]{Material model!Morency and Doin!Minimum viscosity}
-{\it Value:} 1e17
-
-
-{\it Default:} 1e17
-
-
-{\it Description:} Lower cutoff for effective viscosity. Units: $Pa s$
 
 
 {\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
@@ -6058,7 +7078,7 @@ A typical example would be to set this runtime parameter to `pi=3.1415926536' an
 {\it Default:} 6.4e-16
 
 
-{\it Description:} ($\dot{\varepsilon}_{ref}$). Units: $1 / s$
+{\it Description:} ($\dot{\epsilon}_{ref}$). Units: $1 / s$
 
 
 {\it Possible values:} [Double 0...1.79769e+308 (inclusive)]
@@ -7674,6 +8694,8 @@ The names of the boundaries listed here can either by numeric numbers (in which 
 
 The following postprocessors are available:
 
+`Stokes residual': A postprocessor that outputs the Stokes residuals during the iterative solver algorithm into a file stokes_residuals.txt in the output directory.
+
 `basic statistics': A postprocessor that computes some simplified statistics like the Rayleigh number and other quantities that only make sense in certain model setups.
 
 `boundary densities': A postprocessor that computes the laterally averaged density at the top and bottom of the domain.
@@ -7726,7 +8748,7 @@ The information produced by this postprocessor is a subset of what is generated 
 `visualization': A postprocessor that takes the solution and writes it into files that can be read by a graphical visualization program. Additional run time parameters are read from the parameter subsection 'Visualization'.
 
 
-{\it Possible values:} [MultipleSelection basic statistics|boundary densities|boundary pressures|composition statistics|depth average|dynamic topography|heat flux statistics|heating statistics|mass flux statistics|pressure statistics|spherical velocity statistics|surface velocities|temperature statistics|topography|tracers|velocity boundary statistics|velocity statistics|viscous dissipation statistics|visualization ]
+{\it Possible values:} [MultipleSelection Stokes residual|basic statistics|boundary densities|boundary pressures|composition statistics|depth average|dynamic topography|heat flux statistics|heating statistics|mass flux statistics|pressure statistics|spherical velocity statistics|surface velocities|temperature statistics|topography|tracers|velocity boundary statistics|velocity statistics|viscous dissipation statistics|visualization ]
 \end{itemize}
 
 
@@ -7735,6 +8757,22 @@ The information produced by this postprocessor is a subset of what is generated 
 \label{parameters:Postprocess/Depth_20average}
 
 \begin{itemize}
+\item {\it Parameter name:} {\tt List of output variables}
+\phantomsection\label{parameters:Postprocess/Depth average/List of output variables}
+
+
+\index[prmindex]{List of output variables}
+\index[prmindexfull]{Postprocess!Depth average!List of output variables}
+{\it Value:} all
+
+
+{\it Default:} all
+
+
+{\it Description:} A comma separated list which specifies which quantites to average in each depth slice. It defaults to averaging all availabe quantities, but this can be an expensive operation, so you may want to select only a few.
+
+
+{\it Possible values:} [MultipleSelection all|temperature|composition|adiabatic temperature|velocity magnitude|sinking velocity|Vs|Vp|viscosity|vertical heat flux ]
 \item {\it Parameter name:} {\tt Number of zones}
 \phantomsection\label{parameters:Postprocess/Depth average/Number of zones}
 
@@ -7766,7 +8804,7 @@ The information produced by this postprocessor is a subset of what is generated 
 {\it Description:} The format in which the output shall be produced. The format in which the output is generated also determines the extension of the file into which data is written.
 
 
-{\it Possible values:} [Selection none|dx|ucd|gnuplot|povray|eps|gmv|tecplot|tecplot_binary|vtk|vtu|hdf5|svg|deal.II intermediate ]
+{\it Possible values:} [Selection none|dx|ucd|gnuplot|povray|eps|gmv|tecplot|tecplot_binary|vtk|vtu|hdf5|svg|deal.II intermediate|txt ]
 \item {\it Parameter name:} {\tt Time between graphical output}
 \phantomsection\label{parameters:Postprocess/Depth average/Time between graphical output}
 
@@ -7927,7 +8965,13 @@ The following postprocessors are available:
 
 `artificial viscosity': A visualization output object that generates output showing the value of the artificial viscosity on each cell.
 
+`boundary indicators': A visualization output object that generates output about the used boundary indicators. In a loop over the active cells, if a cell lies at a domain boundary, the boundary indicator of the face along the boundary is requested. In case the cell does not lie along any domain boundary, the cell is assigned the value of the largest used boundary indicator plus one. When a cell is situated in one of the corners of the domain, multiple faces will have a boundary indicator. This postprocessor returns the value of the first face along a boundary that is encountered in a loop over all the faces. 
+
+`compositional vector': A visualization output object that outputs vectors whose components are derived from compositional fields. Input parameters for this postprocessor are defined in section Postprocess/Visualization/Compositional fields as vectors
+
 `density': A visualization output object that generates output for the density.
+
+`depth': A visualization output postprocessor that outputs the depth for all points inside the domain, as determined by the geometry model.
 
 `dynamic topography': A visualization output object that generates output for the dynamic topography. The approach to determine the dynamic topography requires us to compute the stress tensor and evaluate the component of it in the direction in which gravity acts. In other words, we compute $\sigma_{rr}={\hat g}^T(2 \eta \varepsilon(\mathbf u)-\frac 13 (\textrm{div}\;\mathbf u)I)\hat g - p_d$ where $\hat g = \mathbf g/\|\mathbf g\|$ is the direction of the gravity vector $\mathbf g$ and $p_d=p-p_a$ is the dynamic pressure computed by subtracting the adiabatic pressure $p_a$ from the total pressure $p$ computed as part of the Stokes solve. From this, the dynamic topography is computed using the formula $h=\frac{\sigma_{rr}}{\|\mathbf g\| \rho}$ where $\rho$ is the density at the cell center.
 
@@ -7969,12 +9013,14 @@ Strictly speaking, the dynamic topography is of course a quantity that is only o
 
 `thermodynamic phase': A visualization output object that generates output for the integer number of the phase that is thermodynamically stable at the temperature and pressure of the current point.
 
+`vertical heat flux': A visualization output object that generates output for the heat flux in the vertical direction, which is the sum of the advective and the conductive heat flux, with the sign convention of positive flux upwards.
+
 `viscosity': A visualization output object that generates output for the viscosity.
 
 `viscosity ratio': A visualization output object that generates output for the ratio between dislocation viscosity and diffusion viscosity.
 
 
-{\it Possible values:} [MultipleSelection Vp anomaly|Vs anomaly|artificial viscosity|density|dynamic topography|error indicator|friction heating|gravity|heating|lab stress|material properties|melt fraction|nonadiabatic pressure|nonadiabatic temperature|partition|seismic vp|seismic vs|shear stress|specific heat|strain rate|stress|thermal expansivity|thermodynamic phase|viscosity|viscosity ratio ]
+{\it Possible values:} [MultipleSelection Vp anomaly|Vs anomaly|artificial viscosity|boundary indicators|compositional vector|density|depth|dynamic topography|error indicator|friction heating|gravity|heating|lab stress|material properties|melt fraction|nonadiabatic pressure|nonadiabatic temperature|partition|seismic vp|seismic vs|shear stress|specific heat|strain rate|stress|thermal expansivity|thermodynamic phase|vertical heat flux|viscosity|viscosity ratio ]
 \item {\it Parameter name:} {\tt Number of grouped files}
 \phantomsection\label{parameters:Postprocess/Visualization/Number of grouped files}
 
@@ -8007,6 +9053,22 @@ Strictly speaking, the dynamic topography is of course a quantity that is only o
 
 
 {\it Possible values:} [Selection none|dx|ucd|gnuplot|povray|eps|gmv|tecplot|tecplot_binary|vtk|vtu|hdf5|svg|deal.II intermediate ]
+\item {\it Parameter name:} {\tt Output mesh velocity}
+\phantomsection\label{parameters:Postprocess/Visualization/Output mesh velocity}
+
+
+\index[prmindex]{Output mesh velocity}
+\index[prmindexfull]{Postprocess!Visualization!Output mesh velocity}
+{\it Value:} false
+
+
+{\it Default:} false
+
+
+{\it Description:} For free surface computations Aspect uses an Arbitrary-Lagrangian-Eulerian formulation to handle deforming the domain, so the mesh has its own velocity field.  This may be written as an output field by setting this parameter to true.
+
+
+{\it Possible values:} [Bool]
 \item {\it Parameter name:} {\tt Time between graphical output}
 \phantomsection\label{parameters:Postprocess/Visualization/Time between graphical output}
 
@@ -8026,6 +9088,44 @@ Strictly speaking, the dynamic topography is of course a quantity that is only o
 \end{itemize}
 
 
+
+\subsection{Parameters in section \tt Postprocess/Visualization/Compositional fields as vectors}
+\label{parameters:Postprocess/Visualization/Compositional_20fields_20as_20vectors}
+
+\begin{itemize}
+\item {\it Parameter name:} {\tt Names of fields}
+\phantomsection\label{parameters:Postprocess/Visualization/Compositional fields as vectors/Names of fields}
+
+
+\index[prmindex]{Names of fields}
+\index[prmindexfull]{Postprocess!Visualization!Compositional fields as vectors!Names of fields}
+{\it Value:} 
+
+
+{\it Default:} 
+
+
+{\it Description:} A list of sets of compositional fields which should be output as vectors. Sets are separated from each other by semicolons and vector components within each set are separated by commas (e.g. $vec1_x$, $vec1_y$ ; $vec2_x$, $vec2_y$) where each name must be a defined named compositional field. If only one name is given in a set, it is interpreted as the first in a sequence of dim consecutive compositional fields.
+
+
+{\it Possible values:} [Anything]
+\item {\it Parameter name:} {\tt Names of vectors}
+\phantomsection\label{parameters:Postprocess/Visualization/Compositional fields as vectors/Names of vectors}
+
+
+\index[prmindex]{Names of vectors}
+\index[prmindexfull]{Postprocess!Visualization!Compositional fields as vectors!Names of vectors}
+{\it Value:} 
+
+
+{\it Default:} 
+
+
+{\it Description:} Names of vectors as they will appear in the output.
+
+
+{\it Possible values:} [List list of <[Anything]> of length 0...4294967295 (inclusive)]
+\end{itemize}
 
 \subsection{Parameters in section \tt Postprocess/Visualization/Dynamic Topography}
 \label{parameters:Postprocess/Visualization/Dynamic_20Topography}
@@ -8377,22 +9477,22 @@ viscosity|density|thermal expansivity|specific heat|thermal conductivity|compres
 
 \index[prmindex]{Model name}
 \index[prmindexfull]{Prescribed Stokes solution!Model name}
-{\it Value:} 
+{\it Value:} unspecified
 
 
-{\it Default:} 
+{\it Default:} unspecified
 
 
 {\it Description:} Select one of the following models:
 
-`ascii data': Implementation of a model in which the velocityis derived from files containing data in ascii format. Note the required format of the input data: The first lines may contain any number of commentsif they begin with '#', but one of these lines needs tocontain the number of grid points in each dimension asfor example '# POINTS: 3 3'.The order of the data columns has to be 'x', 'y', 'v_x' , 'v_y' in a 2d model and  'x', 'y', 'z', 'v_x' , 'v_y' , 'v_z' in a 3d model.Note that the data in the input files need to be sorted in a specific order: the first coordinate needs to ascend first, followed by the second and the third at last in order to assign the correct data to the prescribed coordinates.If you use a spherical model, then the data will still be handled as cartesian,however the assumed grid changes. 'x' will be replaced by the radial distance of the point to the bottom of the model, 'y' by the azimuth angle and 'z' by the polar angle measured positive from the north pole. The grid will be assumed to be a latitude-longitude grid. Note that the order of spherical coordinates is 'r', 'phi', 'theta' and not 'r', 'theta', 'phi', since this allows for dimension independent expressions. 
+`ascii data': Implementation of a model in which the velocityis derived from files containing data in ascii format. Note the required format of the input data: The first lines may contain any number of commentsif they begin with '#', but one of these lines needs tocontain the number of grid points in each dimension asfor example '# POINTS: 3 3'.The order of the data columns has to be 'x', 'y', 'v$_x$' , 'v$_y$' in a 2d model and  'x', 'y', 'z', 'v$_x$' , 'v$_y$' , 'v$_z$' in a 3d model.Note that the data in the input files need to be sorted in a specific order: the first coordinate needs to ascend first, followed by the second and the third at last in order to assign the correct data to the prescribed coordinates.If you use a spherical model, then the data will still be handled as cartesian,however the assumed grid changes. 'x' will be replaced by the radial distance of the point to the bottom of the model, 'y' by the azimuth angle and 'z' by the polar angle measured positive from the north pole. The grid will be assumed to be a latitude-longitude grid. Note that the order of spherical coordinates is 'r', 'phi', 'theta' and not 'r', 'theta', 'phi', since this allows for dimension independent expressions. 
 
 `circle': This value describes a vector field that rotates around the z-axis with constant angular velocity (i.e., with a velocity that increases with distance from the axis). The pressure is set to zero.
 
 `function': This plugin allows to prescribe the Stokes solution for the velocity and pressure field in terms of an explicit formula. The format of these functions follows the syntax understood by the muparser library, see Section~\ref{sec:muparser-format}.
 
 
-{\it Possible values:} [Selection ascii data|circle|function ]
+{\it Possible values:} [Selection ascii data|circle|function|unspecified ]
 \end{itemize}
 
 

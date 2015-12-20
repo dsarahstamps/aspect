@@ -579,6 +579,7 @@ namespace aspect
          * assuming realistic parameters.
          *
          * We return 1/20th of the distance from the two endpoints (vertex_0 and vertex_7) of the cell.
+         * We return 1/200th of the distance from the two endpoints (vertex_0 and vertex_7) of the cell.
          */
         virtual
         double
@@ -823,7 +824,7 @@ namespace aspect
           DomainData::longitudes[4] = westLongitude;
           DomainData::longitudes[5] = eastLongitude;
 
-          // Print the longitudes to verif your input coordinates
+          // Print the longitudes to verify your input coordinates
           std::cout << ""<< std::endl;
           std::cout << "Eastern and western longitudes = "<< std::endl;
           for (int i = 0; i<6; i++)
@@ -849,11 +850,12 @@ namespace aspect
     Africa<dim>::length_scale() const
     {
       // diameter divided by 20
+      // diameter divided by 200
       return ((xyz_from_lat_long_height_in_wgs84(southLatitude,
                                                  eastLongitude,
                                                  -DomainData::bottom_depth)
                - xyz_from_lat_long_height_in_wgs84(northLatitude, westLongitude, 0)).norm()
-              / 20);
+              / 200);
     }
 
     template <int dim>
