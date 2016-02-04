@@ -2,7 +2,7 @@ set Dimension                              = 3
 
 set Use years in output instead of seconds = true
 set End time                               = 0
-set Output directory                       = g6_traction_vector_uniTopo
+set Output directory                       = g6_uniTopo_multiNode_test
 set Nonlinear solver scheme                = iterated Stokes
 set Nonlinear solver tolerance             = 1e-4
 set Linear solver tolerance                = 1e-4
