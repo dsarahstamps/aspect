@@ -1,1 +1,0 @@
-../../aspect/input_files/topography_plus10deg_uniform100.txt

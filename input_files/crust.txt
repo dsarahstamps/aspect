@@ -1,1 +1,1 @@
-input_files/crust_same.txt
+crust1.0.txt

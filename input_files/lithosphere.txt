@@ -1,1 +1,1 @@
-input_files/lithosphere_shells.txt
+litho1.0_smooth_aspect.txt
