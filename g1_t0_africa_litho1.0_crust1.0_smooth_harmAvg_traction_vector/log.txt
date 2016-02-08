@@ -1,0 +1,59 @@
+-----------------------------------------------------------------------------
+-- This is ASPECT, the Advanced Solver for Problems in Earth's ConvecTion.
+--     . version 1.4.0-pre
+--     . running in DEBUG mode
+--     . running with 2 MPI processes
+--     . using Trilinos
+-----------------------------------------------------------------------------
+
+Number of active cells: 128 (on 3 levels)
+Number of degrees of freedom: 5,733 (4,131+225+1,377)
+
+*** Timestep 0:  t=0 years
+   Solving temperature system... 0 iterations.
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+73 iterations.
+   Residual after nonlinear iteration 1: 1
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+48 iterations.
+   Residual after nonlinear iteration 2: 0.00742788
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0 iterations.
+   Residual after nonlinear iteration 3: 1.8997e-05
+
+   Postprocessing:
+     Writing depth average         g1_t0_africa_litho1.0_crust1.0_smooth_harmAvg_traction_vector/depth_average.gnuplot
+     Writing surface velocities... g1_t0_africa_litho1.0_crust1.0_smooth_harmAvg_traction_vector/surface_velocities.0000
+     Writing graphical output:     g1_t0_africa_litho1.0_crust1.0_smooth_harmAvg_traction_vector/solution-00000
+
+*** Timestep 1:  t=100 years
+   Solving temperature system... 0 iterations.
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0 iterations.
+   Residual after nonlinear iteration 1: 5.8075e-05
+
+   Postprocessing:
+     Writing surface velocities... g1_t0_africa_litho1.0_crust1.0_smooth_harmAvg_traction_vector/surface_velocities.0000
+     Writing graphical output:     g1_t0_africa_litho1.0_crust1.0_smooth_harmAvg_traction_vector/solution-00001
+
+Termination requested by criterion: end time
+
+
++---------------------------------------------+------------+------------+
+| Total wallclock time elapsed since start    |      15.1s |            |
+|                                             |            |            |
+| Section                         | no. calls |  wall time | % of total |
++---------------------------------+-----------+------------+------------+
+| Assemble Stokes system          |         4 |      2.28s |        15% |
+| Assemble temperature system     |         2 |     0.953s |       6.3% |
+| Build Stokes preconditioner     |         4 |      1.23s |       8.1% |
+| Build temperature preconditioner|         2 |     0.011s |     0.073% |
+| Solve Stokes system             |         4 |      1.61s |        11% |
+| Solve temperature system        |         2 |   0.00227s |     0.015% |
+| Initialization                  |         2 |      1.42s |       9.4% |
+| Postprocessing                  |         2 |       6.8s |        45% |
+| Setup dof systems               |         1 |     0.133s |      0.88% |
++---------------------------------+-----------+------------+------------+
+

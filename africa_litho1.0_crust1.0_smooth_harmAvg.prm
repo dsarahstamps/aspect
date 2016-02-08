@@ -1,8 +1,8 @@
 set Dimension                              = 3
 
 set Use years in output instead of seconds = true
-set End time                               = 0
-set Output directory                       = africa_litho1.0_crust1.0_smooth_harmAvg_g3_traction_vector
+set End time                               = 100
+set Output directory                       = g1_t0_africa_litho1.0_crust1.0_smooth_harmAvg_traction_vector
 set Nonlinear solver scheme                = iterated Stokes
 set Nonlinear solver tolerance             = 1e-4
 set Linear solver tolerance                = 1e-4
@@ -50,9 +50,6 @@ subsection Model settings
   set Zero velocity boundary indicators       =  
   set Prescribed velocity boundary indicators =
   set Tangential velocity boundary indicators = 0,1,2,3,4,5 
-
-  set Include adiabatic heating               = false
-  set Include shear heating                   = false
 end
 
 
@@ -69,14 +66,11 @@ subsection Material model
     set Crustal thickness filename = input_files/crust1.0_smooth.txt   
   end
   	
-  subsection Simple model
-    set Viscosity                     = 1e22
-  end
 end
 
 
 subsection Mesh refinement
-  set Initial global refinement                = 3
+  set Initial global refinement                = 2
   set Initial adaptive refinement              = 0
   set Time steps between mesh refinement       = 0
 end
@@ -86,7 +80,8 @@ subsection Postprocess
   set List of postprocessors = depth average, surface velocities, visualization
 
   subsection Visualization
-    set List of output variables = density, strain rate, viscosity, lab stress
+    #set List of output variables = density, strain rate, viscosity, lab stress
+    set List of output variables = density, strain rate, viscosity
     set Time between graphical output = 1.0
     set Output format = vtu    
   end
