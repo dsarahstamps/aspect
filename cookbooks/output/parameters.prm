@@ -15,7 +15,7 @@
 # without having to re-compile all of ASPECT. See the section of the manual
 # discussing writing extensions for more information on how to compile
 # additional files into a shared library.
-set Additional shared libraries            = 
+set Additional shared libraries                = 
 
 # In order to make the problem in the first time step easier to solve, we need
 # a reasonable guess for the temperature and pressure. To obtain it, we use an
@@ -28,7 +28,7 @@ set Additional shared libraries            =
 # 
 # For more information, see the section in the manual that discusses the
 # general mathematical model.
-set Adiabatic surface temperature          = 0
+set Adiabatic surface temperature              = 0
 
 # In computations, the time step $k$ is chosen according to $k = c \min_K
 # \frac {h_K} {\|u\|_{\infty,K} p_T}$ where $h_K$ is the diameter of cell $K$,
@@ -41,22 +41,33 @@ set Adiabatic surface temperature          = 0
 # the one chosen here, one can choose the time step as large as one wants (in
 # particular, one can choose $c>1$) though a CFL number significantly larger
 # than one will yield rather diffusive solutions. Units: None.
-set CFL number                             = 1.0
+set CFL number                                 = 1.0
 
 # The relative tolerance up to which the linear system for the composition
 # system gets solved. See 'linear solver tolerance' for more details.
-set Composition solver tolerance           = 1e-12
+set Composition solver tolerance               = 1e-12
 
 # The number of space dimensions you want to run this program in. ASPECT can
 # run in 2 and 3 space dimensions.
-set Dimension                              = 2
+set Dimension                                  = 2
 
 # The end time of the simulation. The default value is a number so that when
 # converted from years to seconds it is approximately equal to the largest
 # number representable in floating point arithmetic. For all practical
 # purposes, this equals infinity. Units: Years if the 'Use years in output
 # instead of seconds' parameter is set; seconds otherwise.
-set End time                               = 0.5       # default: 5.69e+300
+set End time                                   = 2000       # default: 5.69e+300
+
+# A relative tolerance up to which the approximate inverse of the A block of
+# the Stokes system is computed. This approximate A is used in the
+# preconditioning used in the GMRES solver.
+set Linear solver A block tolerance            = 1e-2
+
+# A relative tolerance up to which the approximate inverse of the S block
+# (Schur complement matrix, $S = BA^{-1}B^{T}$) of the Stokes system is
+# computed. This approximate inverse of the S block is used in the
+# preconditioning used in the GMRES solver.
+set Linear solver S block tolerance            = 1e-6
 
 # A relative tolerance up to which the linear Stokes systems in each time or
 # nonlinear step should be solved. The absolute tolerance will then be $\| M
@@ -75,10 +86,16 @@ set End time                               = 0.5       # default: 5.69e+300
 # (qualitatively) whereas if you make it larger, they do. For most cases, the
 # default value should be sufficient. In fact, a tolerance of 1e-4 might be
 # accurate enough.
-set Linear solver tolerance                = 1e-7
+set Linear solver tolerance                    = 1e-7
 
 # The maximal number of nonlinear iterations to be performed.
-set Max nonlinear iterations               = 10
+set Max nonlinear iterations                   = 10
+
+# The maximal number of nonlinear iterations to be performed in the
+# pre-refinement steps. This does not include the last refinement step before
+# moving to timestep 1. When this parameter has a larger value than max
+# nonlinear iterations, the latter is used.
+set Max nonlinear iterations in pre-refinement = 2147483647
 
 # Set a maximum time step size for the solver to use. Generally the time step
 # based on the CFL number should be sufficient, but for complicated models or
@@ -87,7 +104,7 @@ set Max nonlinear iterations               = 10
 # equals the largest number representable by a floating point number, implying
 # an unlimited time step.Units: Years or seconds, depending on the ``Use years
 # in output instead of seconds'' parameter.
-set Maximum time step                      = 5.69e+300
+set Maximum time step                          = 5.69e+300
 
 # The kind of scheme used to resolve the nonlinearity in the system. 'IMPES'
 # is the classical IMplicit Pressure Explicit Saturation scheme in which ones
@@ -102,12 +119,12 @@ set Maximum time step                      = 5.69e+300
 # 'Advection only'scheme only solves the temperature and other advection
 # systems and instead of solving for the Stokes system, a prescribed velocity
 # and pressure is used
-set Nonlinear solver scheme                = IMPES
+set Nonlinear solver scheme                    = IMPES
 
 # A relative tolerance up to which the nonlinear solver will iterate. This
 # parameter is only relevant if Nonlinear solver scheme is set to 'iterated
 # Stokes' or 'iterated IMPES'.
-set Nonlinear solver tolerance             = 1e-5
+set Nonlinear solver tolerance                 = 1e-5
 
 # As explained in the ASPECT paper (Kronbichler, Heister, and Bangerth, GJI
 # 2012) we first try to solve the Stokes system in every time step using a
@@ -120,11 +137,11 @@ set Nonlinear solver tolerance             = 1e-5
 # iterations don't actually do very much good and one might skip this part
 # right away. In that case, this parameter can be set to zero, i.e., we
 # immediately start with the better but more expensive preconditioner.
-set Number of cheap Stokes solver steps    = 30
+set Number of cheap Stokes solver steps        = 30
 
 # The name of the directory into which all output files should be placed. This
 # may be an absolute or a relative path.
-set Output directory                       = output
+set Output directory                           = output
 
 # If and how to normalize the pressure after the solution step. This is
 # necessary because depending on boundary conditions, in many cases the
@@ -138,15 +155,17 @@ set Output directory                       = output
 # of the geometry has a zero or small `depth'. If the value of this parameter
 # is `volume' then the pressure is normalized so that the domain average is
 # zero. If `no' is given, the no pressure normalization is performed.
-set Pressure normalization                 = surface
+set Pressure normalization                     = surface
 
 # A flag indicating whether the computation should be resumed from a
-# previously saved state (if true) or start from scratch (if false).
-set Resume computation                     = false
+# previously saved state (if true) or start from scratch (if false). If auto
+# is selected, models will be resumed if there is an existing checkpoint file,
+# otherwise started from scratch.
+set Resume computation                         = false
 
 # The start time of the simulation. Units: Years if the 'Use years in output
 # instead of seconds' parameter is set; seconds otherwise.
-set Start time                             = 0
+set Start time                                 = 0
 
 # The mathematical equations that describe thermal convection only determine
 # the pressure up to an arbitrary constant. On the other hand, for comparison
@@ -161,28 +180,28 @@ set Start time                             = 0
 # 
 # For more information, see the section in the manual that discusses the
 # general mathematical model.
-set Surface pressure                       = 0
+set Surface pressure                           = 0
 
 # The relative tolerance up to which the linear system for the temperature
 # system gets solved. See 'linear solver tolerance' for more details.
-set Temperature solver tolerance           = 1e-10     # default: 1e-12
+set Temperature solver tolerance               = 1e-12
 
 # How frequently in timesteps to output timing information. This is generally
 # adjusted only for debugging and timing purposes. If the value is set to zero
 # it will also output timing information at the initiation timesteps.
-set Timing output frequency                = 100
+set Timing output frequency                    = 100
 
 # Mantle convection simulations are often focused on convection dominated
 # systems. However, these codes can also be used to investigate systems where
 # heat conduction plays a dominant role. This parameter indicates whether the
 # simulator should also use heat conduction in determining the length of each
 # time step.
-set Use conduction timestep                = false
+set Use conduction timestep                    = false
 
 # If set to true the linear system for the Stokes equation will be solved
 # using Trilinos klu, otherwise an iterative Schur complement solver is used.
 # The direct solver is only efficient for small problems.
-set Use direct solver for Stokes system    = false
+set Use direct solver for Stokes system        = false
 
 # When computing results for mantle convection simulations, it is often
 # difficult to judge the order of magnitude of results when they are stated in
@@ -193,7 +212,7 @@ set Use direct solver for Stokes system    = false
 # this flag is set to 'true' conversion to years happens; if it is 'false', no
 # such conversion happens. Note that when 'true', some input such as
 # prescribed velocities should also use years instead of seconds.
-set Use years in output instead of seconds = false     # default: true
+set Use years in output instead of seconds     = false      # default: true
 
 
 subsection Adiabatic conditions model
@@ -235,6 +254,12 @@ subsection Boundary composition model
   # `box': A model in which the composition is chosen constant on all the
   # sides of a box.
   # 
+  # `box with lithosphere boundary indicators': A model in which the
+  # composition is chosen constant on all the sides of a box. Additional
+  # boundary indicators are added to the lithospheric parts of the vertical
+  # boundaries. This model is to be used with the 'Two Merged Boxes' Geometry
+  # Model.
+  # 
   # `initial composition': A model in which the composition at the boundary is
   # chosen to be the same as given in the initial conditions.
   # 
@@ -249,7 +274,7 @@ subsection Boundary composition model
   # `spherical constant': A model in which the composition is chosen constant
   # on the inner and outer boundaries of a spherical shell or chunk.
   # Parameters are read from subsection 'Spherical constant'.
-  set Model name = 
+  set Model name = unspecified
 
 
   subsection Ascii data model
@@ -327,6 +352,40 @@ subsection Boundary composition model
     set Top composition    = 
   end
 
+  subsection Box with lithosphere boundary indicators
+    # A comma separated list of composition boundary values at the bottom
+    # boundary (at minimal y-value in 2d, or minimal z-value in 3d). This list
+    # must have as many entries as there are compositional fields. Units:
+    # none.
+    set Bottom composition            = 
+
+    # A comma separated list of composition boundary values at the left
+    # boundary (at minimal x-value). This list must have as many entries as
+    # there are compositional fields. Units: none.
+    set Left composition              = 
+
+    # A comma separated list of composition boundary values at the left
+    # boundary (at minimal x-value). This list must have as many entries as
+    # there are compositional fields. Units: none.
+    set Left composition lithosphere  = 
+
+    # A comma separated list of composition boundary values at the right
+    # boundary (at maximal x-value). This list must have as many entries as
+    # there are compositional fields. Units: none.
+    set Right composition             = 
+
+    # A comma separated list of composition boundary values at the right
+    # boundary (at maximal x-value). This list must have as many entries as
+    # there are compositional fields. Units: none.
+    set Right composition lithosphere = 
+
+    # A comma separated list of composition boundary values at the top
+    # boundary (at maximal y-value in 2d, or maximal z-value in 3d). This list
+    # must have as many entries as there are compositional fields. Units:
+    # none.
+    set Top composition               = 
+  end
+
   subsection Initial composition
     # Maximal composition. Units: none.
     set Maximal composition = 1
@@ -371,6 +430,12 @@ subsection Boundary temperature model
   # `box': A model in which the temperature is chosen constant on all the
   # sides of a box.
   # 
+  # `box with lithosphere boundary indicators': A model in which the
+  # temperature is chosen constant on all the sides of a box. Additional
+  # boundary indicators are added to the lithospheric parts of the vertical
+  # boundaries. This model is to be used with the 'Two Merged Boxes' Geometry
+  # Model.
+  # 
   # `constant': A model in which the temperature is chosen constant on a given
   # boundary indicator.  Parameters are read from the subsection 'Constant'.
   # 
@@ -407,9 +472,9 @@ subsection Boundary temperature model
   # temperature model/Initial temperature''.
   # 
   # `spherical constant': A model in which the temperature is chosen constant
-  # on the inner and outer boundaries of a spherical shell or chunk.
-  # Parameters are read from subsection 'Spherical constant'.
-  set Model name = box # default: 
+  # on the inner and outer boundaries of a spherical shell, ellipsoidal chunk
+  # or chunk. Parameters are read from subsection 'Spherical constant'.
+  set Model name = box # default: unspecified
 
 
   subsection Ascii data model
@@ -465,16 +530,38 @@ subsection Boundary temperature model
 
   subsection Box
     # Temperature at the bottom boundary (at minimal z-value). Units: K.
-    set Bottom temperature = 1 # default: 0
+    set Bottom temperature = 0
 
     # Temperature at the left boundary (at minimal x-value). Units: K.
-    set Left temperature   = 0 # default: 1
+    set Left temperature   = 1
 
     # Temperature at the right boundary (at maximal x-value). Units: K.
     set Right temperature  = 0
 
     # Temperature at the top boundary (at maximal x-value). Units: K.
     set Top temperature    = 0
+  end
+
+  subsection Box with lithosphere boundary indicators
+    # Temperature at the bottom boundary (at minimal z-value). Units: K.
+    set Bottom temperature            = 0
+
+    # Temperature at the left boundary (at minimal x-value). Units: K.
+    set Left temperature              = 1
+
+    # Temperature at the additional left lithosphere boundary (specified by
+    # user in Geometry Model). Units: K.
+    set Left temperature lithosphere  = 0
+
+    # Temperature at the right boundary (at maximal x-value). Units: K.
+    set Right temperature             = 0
+
+    # Temperature at the additional right lithosphere boundary (specified by
+    # user in Geometry Model). Units: K.
+    set Right temperature lithosphere = 0
+
+    # Temperature at the top boundary (at maximal x-value). Units: K.
+    set Top temperature               = 0
   end
 
   subsection Constant
@@ -699,49 +786,55 @@ subsection Boundary velocity model
     # ASPECT source files were located when ASPECT was compiled. This
     # interpretation allows, for example, to reference files located in the
     # 'data/' subdirectory of ASPECT.
-    set Data directory           = $ASPECT_SOURCE_DIR/data/velocity-boundary-conditions/gplates/
-
-    # Determines the width of the velocity interpolation zone around the
-    # current point. Currently equals the arc distance between evaluation
-    # point and velocity data point that is still included in the
-    # interpolation. The weighting of the points currently only accounts for
-    # the surface area a single data point is covering ('moving window'
-    # interpolation without distance weighting).
-    set Interpolation width      = 0
-
-    # Point that determines the plane in which a 2D model lies in. Has to be
-    # in the format 'a,b' where a and b are theta (polar angle)  and phi in
-    # radians.
-    set Point one                = 1.570796,0.0
-
-    # Point that determines the plane in which a 2D model lies in. Has to be
-    # in the format 'a,b' where a and b are theta (polar angle)  and phi in
-    # radians.
-    set Point two                = 1.570796,1.570796
-
-    # Scalar factor, which is applied to the boundary velocity. You might want
-    # to use this to scale the velocities to a reference model (e.g. with
-    # free-slip boundary) or another plate reconstruction.
-    set Scale factor             = 1
+    set Data directory             = $ASPECT_SOURCE_DIR/data/velocity-boundary-conditions/gplates/
 
     # Time step between following velocity files. Depending on the setting of
     # the global 'Use years in output instead of seconds' flag in the input
     # file, this number is either interpreted as seconds or as years. The
     # default is one million, i.e., either one million seconds or one million
     # years.
-    set Time step                = 1e6
+    set Data file time step        = 1e6
+
+    # In some cases the boundary files are not numbered in increasing but in
+    # decreasing order (e.g. 'Ma BP'). If this flag is set to 'True' the
+    # plugin will first load the file with the number 'First velocity file
+    # number' and decrease the file number during the model run.
+    set Decreasing file order      = false
+
+    # Time from which on the velocity file with number 'First velocity file
+    # number' is used as boundary condition. Previous to this time, a no-slip
+    # boundary condition is assumed. Depending on the setting of the global
+    # 'Use years in output instead of seconds' flag in the input file, this
+    # number is either interpreted as seconds or as years.
+    set First data file model time = 0
+
+    # Number of the first velocity file to be loaded when the model time is
+    # larger than 'First velocity file model time'.
+    set First data file number     = 0
+
+    # Determines the depth of the lithosphere, so that the GPlates velocities
+    # can be applied at the sides of the model as well as at the surface.
+    set Lithosphere thickness      = 100000
+
+    # Point that determines the plane in which a 2D model lies in. Has to be
+    # in the format 'a,b' where a and b are theta (polar angle)  and phi in
+    # radians.
+    set Point one                  = 1.570796,0.0
+
+    # Point that determines the plane in which a 2D model lies in. Has to be
+    # in the format 'a,b' where a and b are theta (polar angle)  and phi in
+    # radians.
+    set Point two                  = 1.570796,1.570796
+
+    # Scalar factor, which is applied to the boundary velocity. You might want
+    # to use this to scale the velocities to a reference model (e.g. with
+    # free-slip boundary) or another plate reconstruction.
+    set Scale factor               = 1
 
     # The file name of the material data. Provide file in format: (Velocity
     # file name).\%d.gpml where \%d is any sprintf integer qualifier,
     # specifying the format of the current file number.
-    set Velocity file name       = phi.%d
-
-    # Time at which the velocity file with number 0 shall be loaded. Previous
-    # to this time, a no-slip boundary condition is assumed. Depending on the
-    # setting of the global 'Use years in output instead of seconds' flag in
-    # the input file, this number is either interpreted as seconds or as
-    # years.
-    set Velocity file start time = 0.0
+    set Velocity file name         = phi.%d
   end
 
 end
@@ -773,7 +866,7 @@ subsection Compositional fields
 
   # The number of fields that will be advected along with the flow field,
   # excluding velocity, pressure and temperature.
-  set Number of fields          = 0
+  set Number of fields          = 1 # default: 0
 end
 
 
@@ -922,13 +1015,19 @@ subsection Discretization
 
 
   subsection Stabilization parameters
+    # If set to false, the artificial viscosity of a cell is computed andis
+    # computed on every cell separately as discussed in \cite{KHB12}. If set
+    # to true, the maximum of the artificial viscosity in the cell as well as
+    # the neighbors of the cell is computed and used instead.
+    set Use artificial viscosity smoothing = false
+
     # The exponent $\alpha$ in the entropy viscosity stabilization. Valid
     # options are 1 or 2. The recommended setting is 2. (This parameter does
     # not correspond to any variable in the 2012 GJI paper by Kronbichler,
     # Heister and Bangerth that describes ASPECT. Rather, the paper always
     # uses 2 as the exponent in the definition of the entropy, following eq.
     # (15).).Units: None.
-    set alpha = 2
+    set alpha                              = 2
 
     # The $\beta$ factor in the artificial viscosity stabilization. An
     # appropriate value for 2d is 0.078 and 0.117 for 3d. (For historical
@@ -940,7 +1039,7 @@ subsection Discretization
     # there: It can be chosen as stated there for uniformly refined meshes,
     # but it needs to be chosen larger if the mesh has cells that are not
     # squares or cubes.) Units: None.
-    set beta  = 0.078
+    set beta                               = 0.078
 
     # The $c_R$ factor in the entropy viscosity stabilization. (For historical
     # reasons, the name used here is different from the one used in the 2012
@@ -949,20 +1048,45 @@ subsection Discretization
     # following equation (15) of the paper. After further experiments, we have
     # also chosen to use a different value than described there.) Units:
     # None.
-    set cR    = 0.33
+    set cR                                 = 0.33
   end
 
 end
 
 
 subsection Free surface
+  # A comma separated list of names denoting those boundaries where there the
+  # mesh is allowed to move tangential to the boundary. All tangential mesh
+  # movements along those boundaries that have tangential material velocity
+  # boundary conditions are allowed by default, this parameters allows to
+  # generate mesh movements along other boundaries that are open, or have
+  # prescribed material velocities or tractions.
+  # 
+  # The names of the boundaries listed here can either be numbers (in which
+  # case they correspond to the numerical boundary indicators assigned by the
+  # geometry object), or they can correspond to any of the symbolic names the
+  # geometry object may have provided for each part of the boundary. You may
+  # want to compare this with the documentation of the geometry model you use
+  # in your model.
+  set Additional tangential mesh velocity boundary indicators = 
+
   # Theta parameter described in Kaus et. al. 2010. An unstabilized free
   # surface can overshoot its equilibrium position quite easily and generate
   # unphysical results.  One solution is to use a quasi-implicit correction
   # term to the forces near the free surface.  This parameter describes how
   # much the free surface is stabilized with this term, where zero is no
   # stabilization, and one is fully implicit.
-  set Free surface stabilization theta = 0.5
+  set Free surface stabilization theta                        = 0.5
+
+  # After each time step the free surface must be advected in the direction of
+  # the velocity field. Mass conservation requires that the mesh velocity is
+  # in the normal direction of the surface. However, for steep topography or
+  # large curvature, advection in the normal direction can become
+  # ill-conditioned, and instabilities in the mesh can form. Projection of the
+  # mesh velocity onto the local vertical direction can preserve the mesh
+  # quality better, but at the cost of slightly poorer mass conservation of
+  # the domain.
+  set Surface velocity projection                             = normal
 end
 
 
@@ -984,17 +1108,53 @@ subsection Geometry model
   # ``GeometryInfo''). You can also use symbolic names ``left'', ``right'',
   # etc., to refer to these boundaries in input files.
   # 
+  # `box with lithosphere boundary indicators': A box geometry parallel to the
+  # coordinate directions. The extent of the box in each coordinate direction
+  # is set in the parameter file. This geometry model labels its sides with
+  # 2*dim+2*(dim-1) boundary indicators: in 2d, boundary indicators 0 through
+  # 3 denote the left, right, bottom and top boundaries, while indicators4 and
+  # 5 denote the upper part of the left and right vertical boundary,
+  # respectively. In 3d, boundary indicators 0 through 5 indicate left, right,
+  # front, back, bottom and top boundaries (see also the documentation of the
+  # deal.II class ``GeometryInfo''), while indicators 6, 7, 8 and 9 denote the
+  # left, rigth, front and back upper parts of the vertical boundaries,
+  # respectively. You can also use symbolic names ``left'', ``right'', ``left
+  # lithosphere'', etc., to refer to these boundaries in input files.
+  # 
+  # Note that for a given ``Global refinement level'' and no user-specified
+  # ``Repetitions'', the lithosphere part of the mesh will be more refined.
+  # 
+  # The additional boundary indicators for the lithosphere allow for selecting
+  # boundary conditions for the lithosphere different from those for the
+  # underlying mantle. An example application of this geometry is to prescribe
+  # a velocity on the lithospheric plates, but use open boundary conditions
+  # underneath.
+  # 
   # `chunk': A geometry which can be described as a chunk of a spherical
   # shell, bounded by lines of longitude, latitude and radius. The minimum and
-  # maximum longitude, (latitude) and depth of the box is set in the parameter
-  # file. The box geometry labels its 2*dim sides as follows: ``left'' and
-  # ``right'': minimum and maximum longitude, ``back'' and ``front'': minimum
-  # and maximum latitude, ``bottom'' and ``top'': minimum and maximum radii.
-  # Names in the parameter files are as follows: Chunk (minimum || maximum)
-  # (longitude || latitude): edges of geographical quadrangle (in
-  # degrees)Chunk (inner || outer) radius: Radii at bottom and top of
-  # box(Longitude || Latitude || Radius) repetitions: number of cells in each
-  # coordinate direction.
+  # maximum longitude, (latitude) and depth of the chunk is set in the
+  # parameter file. The chunk geometry labels its 2*dim sides as follows:
+  # ``west'' and ``east'': minimum and maximum longitude, ``south'' and
+  # ``north'': minimum and maximum latitude, ``inner'' and ``outer'': minimum
+  # and maximum radii. Names in the parameter files are as follows: Chunk
+  # (minimum || maximum) (longitude || latitude): edges of geographical
+  # quadrangle (in degrees)Chunk (inner || outer) radius: Radii at bottom and
+  # top of chunk(Longitude || Latitude || Radius) repetitions: number of cells
+  # in each coordinate direction.
+  # 
+  # `ellipsoidal chunk': A 3D chunk geometry that accounts for Earth's
+  # ellipticity (default assuming the WGS84 ellipsoid definition) which can be
+  # defined in non-coordinate directions. In the description of the
+  # ellipsoidal chunk, two of the ellipsoidal axes have the same length so
+  # that there is only a semi-major axis and a semi-minor axis. The user has
+  # two options for creating an ellipsoidal chunk geometry: 1) by defining two
+  # opposing points (SW and NE or NW and SE) a coordinate parallel ellipsoidal
+  # chunk geometry will be created. 2) by defining three points a
+  # non-coordinate parallel ellipsoidal chunk will be created. The points are
+  # defined in the input file by longitude:latitude. It is also possible to
+  # define additional subdivisions of the mesh in each direction. Faces of the
+  # model are defined as 0, west; 1,east; 2, south; 3, north; 4, inner; 5,
+  # outer.
   # 
   # `sphere': Geometry model for sphere with a user specified radius. This
   # geometry has only a single boundary, so the only valid boundary indicator
@@ -1018,7 +1178,7 @@ subsection Geometry model
   # $x=0$, 3 at $y=0$, and 4 at $z=0$. These last three boundaries can then
   # also be referred to as 'east', 'west' and 'south' symbolically in input
   # files.
-  set Model name = box # default: 
+  set Model name = box # default: unspecified
 
 
   subsection Africa
@@ -1053,7 +1213,7 @@ subsection Geometry model
     set Box origin Z coordinate = 0
 
     # Extent of the box in x-direction. Units: m.
-    set X extent                = 1
+    set X extent                = 0.9142 # default: 1
 
     # Whether the box should be periodic in X direction
     set X periodic              = false
@@ -1062,7 +1222,7 @@ subsection Geometry model
     set X repetitions           = 1
 
     # Extent of the box in y-direction. Units: m.
-    set Y extent                = 1
+    set Y extent                = 1.0000 # default: 1
 
     # Whether the box should be periodic in Y direction
     set Y periodic              = false
@@ -1079,6 +1239,69 @@ subsection Geometry model
 
     # Number of cells in Z direction.
     set Z repetitions           = 1
+  end
+
+  subsection Box with lithosphere boundary indicators
+    # X coordinate of box origin. Units: m.
+    set Box origin X coordinate   = 0
+
+    # Y coordinate of box origin. Units: m.
+    set Box origin Y coordinate   = 0
+
+    # Z coordinate of box origin. This value is ignored if the simulation is
+    # in 2d. Units: m.
+    set Box origin Z coordinate   = 0
+
+    # The thickness of the lithosphere used to create additional boundary
+    # indicators to set specific boundary conditions for the lithosphere.
+    set Lithospheric thickness    = 0.2
+
+    # Extent of the box in x-direction. Units: m.
+    set X extent                  = 1
+
+    # Whether the box should be periodic in X direction.
+    set X periodic                = false
+
+    # Whether the box should be periodic in X direction in the lithosphere.
+    set X periodic lithosphere    = false
+
+    # Number of cells in X direction of the lower box. The same number of
+    # repetitions will be used in the upper box.
+    set X repetitions             = 1
+
+    # Extent of the box in y-direction. Units: m.
+    set Y extent                  = 1
+
+    # Whether the box should be periodic in Y direction.
+    set Y periodic                = false
+
+    # Whether the box should be periodic in Y direction in the lithosphere.
+    # This value is ignored if the simulation is in 2d.
+    set Y periodic lithosphere    = false
+
+    # Number of cells in Y direction of the lower box. If the simulation is in
+    # 3d, the same number of repetitions will be used in the upper box.
+    set Y repetitions             = 1
+
+    # Number of cells in Y direction in the lithosphere. This value is ignored
+    # if the simulation is in 3d.
+    set Y repetitions lithosphere = 1
+
+    # Extent of the box in z-direction. This value is ignored if the
+    # simulation is in 2d. Units: m.
+    set Z extent                  = 1
+
+    # Whether the box should be periodic in Z direction. This value is ignored
+    # if the simulation is in 2d.
+    set Z periodic                = false
+
+    # Number of cells in Z direction of the lower box. This value is ignored
+    # if the simulation is in 2d.
+    set Z repetitions             = 1
+
+    # Number of cells in Z direction in the lithosphere. This value is ignored
+    # if the simulation is in 2d.
+    set Z repetitions lithosphere = 1
   end
 
   subsection Chunk
@@ -1111,6 +1334,54 @@ subsection Geometry model
 
     # Number of cells in radius.
     set Radius repetitions      = 1
+  end
+
+  subsection Ellipsoidal chunk
+    # Bottom depth of model region.
+    set Depth                    = 500000.0
+
+    # The number of subdivisions of the coarse (initial) mesh in depth.
+    set Depth subdivisions       = 1
+
+    # The number of subdivisions of the coarse (initial) mesh in the East-West
+    # direction.
+    set East-West subdivisions   = 1
+
+    # Eccentricity of the ellipsoid. Zero is a perfect sphere, default
+    # (8.1819190842622e-2) is WGS84.
+    set Eccentricity             = 8.1819190842622e-2
+
+    # Longitude:latitude in degrees of the North-East corner point of model
+    # region.The North-East direction is positive. If one of the three corners
+    # is not providedthe missing corner value will be calculated so all faces
+    # are parallel.
+    set NE corner                = 
+
+    # Longitude:latitude in degrees of the North-West corner point of model
+    # region. The North-East direction is positive. If one of the three
+    # corners is not providedthe missing corner value will be calculated so
+    # all faces are parallel.
+    set NW corner                = 
+
+    # The number of subdivisions of the coarse (initial) mesh in the
+    # North-South direction.
+    set North-South subdivisions = 1
+
+    # Longitude:latitude in degrees of the South-East corner point of model
+    # region. The North-East direction is positive. If one of the three
+    # corners is not providedthe missing corner value will be calculated so
+    # all faces are parallel.
+    set SE corner                = 
+
+    # Longitude:latitude in degrees of the South-West corner point of model
+    # region. The North-East direction is positive. If one of the three
+    # corners is not providedthe missing corner value will be calculated so
+    # all faces are parallel.
+    set SW corner                = 
+
+    # The semi-major axis (a) of an ellipsoid. This is the radius for a sphere
+    # (eccentricity=0). Default WGS84 semi-major axis.
+    set Semi-major axis          = 6378137.0
   end
 
   subsection Sphere
@@ -1177,7 +1448,7 @@ subsection Gravity model
   # 
   # `vertical': A gravity model in which the gravity direction is vertically
   # downward and at a constant magnitude by default equal to one.
-  set Model name = vertical # default: 
+  set Model name = vertical # default: unspecified
 
 
   subsection Function
@@ -1236,7 +1507,7 @@ subsection Gravity model
   subsection Vertical
     # Value of the gravity vector in $m/s^2$ directed along negative y (2D) or
     # z (3D) axis.
-    set Magnitude = 1e14 # default: 1
+    set Magnitude = 10 # default: 1
   end
 
 end
@@ -1314,7 +1585,7 @@ subsection Heating model
   # The formula is interpreted as having units W/kg.
   # 
   # `shear heating': Implementation of a standard model for shear heating.
-  set Model name          = 
+  set Model name          = unspecified
 
 
   subsection Adiabatic heating
@@ -1434,6 +1705,25 @@ subsection Initial conditions
   # to specified depth', there is no temperature perturbation prescribed down
   # to that depth.
   # 
+  # `SAVANI perturbation': An initial temperature field in which the
+  # temperature is perturbed following the SAVANI shear wave velocity model by
+  # Auer and others, which can be downloaded here
+  # \url{http://n.ethz.ch/~auerl/savani.tar.bz2}. Information on the vs model
+  # can be found in Auer, L., Boschi, L., Becker, T.W., Nissen-Meyer, T. \&
+  # Giardini, D., 2014. Savani:A variable resolution whole‐mantle model of
+  # anisotropic shear velocityvariations based on multiple data sets. Journal
+  # of GeophysicalResearch: Solid Earth 119.4 (2014): 3006-3034. The scaling
+  # between the shear wave perturbation and the temperature perturbation can
+  # be set by the user with the 'vs to density scaling' parameter and the
+  # 'Thermal expansion coefficient in initial temperature scaling' parameter.
+  # The scaling is as follows: $\delta ln \rho (r,\theta,\phi) = \xi \cdot
+  # \delta ln v_s(r,\theta, \phi)$ and $\delta T(r,\theta,\phi) = -
+  # \frac{1}{\alpha} \delta ln \rho(r,\theta,\phi)$. $\xi$ is the 'vs to
+  # density scaling' parameter and $\alpha$ is the 'Thermal expansion
+  # coefficient in initial temperature scaling' parameter. The temperature
+  # perturbation is added to an otherwise constant temperature (incompressible
+  # model) or adiabatic reference profile (compressible model).
+  # 
   # `adiabatic': Temperature is prescribed as an adiabatic profile with upper
   # and lower thermal boundary layers, whose ages are given as input
   # parameters.
@@ -1509,7 +1799,7 @@ subsection Initial conditions
   # the temperature is perturbed following an $N$-fold pattern in a specified
   # direction from an otherwise spherically symmetric state. The class's name
   # comes from previous versions when the only option was $N=6$.
-  set Model name = function # default: 
+  set Model name = function # default: unspecified
 
 
   subsection Adiabatic
@@ -1636,7 +1926,7 @@ subsection Initial conditions
     # `pi=3.1415926536' and then use `pi' in the expression of the actual
     # formula. (That said, for convenience this class actually defines both
     # `pi' and `Pi' by default, but you get the idea.)
-    set Function constants  = p=0.01, L=1, pi=3.1415926536, k=1   # default: 
+    set Function constants  = 
 
     # The formula that denotes the function you want to evaluate for
     # particular values of the independent variables. This expression may
@@ -1651,7 +1941,7 @@ subsection Initial conditions
     # If the function you are describing represents a vector-valued function
     # with multiple components, then separate the expressions for individual
     # components by a semicolon.
-    set Function expression = (1.0-z) - p*cos(k*pi*x/L)*sin(pi*z) # default: 0
+    set Function expression = 0
 
     # The name of the variables as they will be used in the function,
     # separated by commas. By default, the names of variables at which the
@@ -1664,7 +1954,7 @@ subsection Initial conditions
     # example, if you work in spherical coordinates, you may wish to set this
     # input parameter to `r,phi,theta,t' and then use these variable names in
     # your function expression.
-    set Variable names      = x,z                                 # default: x,y,t
+    set Variable names      = x,y,t
   end
 
   subsection Harmonic perturbation
@@ -1771,6 +2061,43 @@ subsection Initial conditions
     set vs to density scaling                                        = 0.25
   end
 
+  subsection SAVANI perturbation
+    # The path to the model data.
+    set Data directory                                               = $ASPECT_SOURCE_DIR/data/initial-conditions/SAVANI/
+
+    # The file name of the spherical harmonics coefficients from Auer et al.
+    set Initial condition file name                                  = savani.dlnvs.60.m.ab
+
+    # The reference temperature that is perturbed by the spherical harmonic
+    # functions. Only used in incompressible models.
+    set Reference temperature                                        = 1600.0
+
+    # Option to remove the degree zero component from the perturbation, which
+    # will ensure that the laterally averaged temperature for a fixed depth is
+    # equal to the background temperature.
+    set Remove degree 0 from perturbation                            = true
+
+    # This will set the heterogeneity prescribed by SAVANI to zero down to the
+    # specified depth (in meters). Note that your resolution has to be adquate
+    # to capture this cutoff. For example if you specify a depth of 660km, but
+    # your closest spherical depth layers are only at 500km and 750km (due to
+    # a coarse resolution) it will only zero out heterogeneities down to
+    # 500km. Similar caution has to be taken when using adaptive meshing.
+    set Remove temperature heterogeneity down to specified depth     = -1.7976931348623157e+308
+
+    # The file name of the spline knots taken from the 28 spherical layersof
+    # SAVANI tomography model.
+    set Spline knots depth file name                                 = Spline_knots.txt
+
+    # The value of the thermal expansion coefficient $\beta$. Units: $1/K$.
+    set Thermal expansion coefficient in initial temperature scaling = 2e-5
+
+    # This parameter specifies how the perturbation in shear wave velocity as
+    # prescribed by SAVANI is scaled into a density perturbation. See the
+    # general description of this model for more detailed information.
+    set vs to density scaling                                        = 0.25
+  end
+
   subsection Solidus
     # The thickness of lithosphere thickness. Units: m
     set Lithosphere thickness = 0
@@ -1867,6 +2194,9 @@ subsection Material model
   # velocity/pressure, temperature, and compositions in each time step, as
   # well as their corresponding preconditioners.
   # 
+  # Possible choices: none|arithmetic average|harmonic average|geometric
+  # average|pick largest|project to Q1|log average
+  # 
   # The process of averaging, and where it may be used, is discussed in more
   # detail in Section~\ref{sec:sinker-with-averaging}.
   # 
@@ -1890,21 +2220,25 @@ subsection Material model
   # described by (Morency and Doin, 2004). Compositional fields can each be
   # assigned individual activation energies, reference densities, thermal
   # expansivities, and stress exponents. The effective viscosity is defined as
-  # 
   # \[v_{eff} = \left(\frac{1}{v_{eff}^v}+\frac{1}{v_{eff}^p}\right)^{-1}\]
-  # where \[v_{eff}^v = B
-  # \left(\frac{\dot{\varepsilon}}{\dot{\varepsilon}_{ref}}\right)^{-1+1/n_v}
-  # exp\left(\frac{E_a +V_a \rho_m g z}{n_v R T}\right) \] \[v_{eff}^p =
-  # (\tau_0 + \gamma \rho_m g z) \left( \frac{\dot{\varepsilon}^{-1+1/n_p}}
-  # {\dot{\varepsilon}_{ref}^{1/n_p}} \right) \]
+  # where \[v_{eff}^v = B \left(\frac{\dot{\epsilon}}{\dot{\epsilon}_{ref}}
+  # \right)^{-1+1/n_v} exp\left(\frac{E_a +V_a \rho_m g z}{n_v R T}\right) \]
+  # \[v_{eff}^p = (\tau_0 + \gamma \rho_m g z) \left(
+  # \frac{\dot{\epsilon}^{-1+1/n_p}} {\dot{\epsilon}_{ref}^{1/n_p}} \right) \]
+  # where $B$ is a scaling constant; $\dot{\epsilon}$ is defined as the
+  # quadratic sum of the second invariant of the strain rate tensor and a
+  # minimum strain rate, $\dot{\epsilon}_0$; $\dot{\epsilon}_{ref}$ is a
+  # reference strain rate; $n_v$, and $n_p$ are stress exponents; $E_a$ is the
+  # activation energy; $V_a$ is the activation volume; $\rho_m$ is the mantle
+  # density; $R$ is the gas constant; $T$ is temperature; $\tau_0$ is the
+  # cohestive strength of rocks at the surface; $\gamma$ is a coefficient of
+  # yield stress increase with depth; and $z$ is depth.
   # 
-  # Where $B$ is a scaling constant, $\dot{\varepsilon}$ is related to the
-  # second invariant of the strain rate tensor, $\dot{\varepsilon}_{ref}$ is a
-  # reference strain rate, $n_v$ and $n_p$ are stress exponents, $E_a$ is the
-  # activation energy, $V_a$ is the activation volume, $\rho_m$ is the mantle
-  # density, $R$ is the gas constant, $T$ is temperature, $\tau_0$ is the
-  # cohestive strength of rocks at the surface, $\gamma$ is a coefficient of
-  # yield stress increase with depth, and $z$ is depth.
+  # Note: (Morency and Doin, 2004) defines the second invariant of the strain
+  # rate in a nonstandard way. The formulation in the paper is given as
+  # $\epsilon_{II} = \sqrt{\frac{1}{2} (\epsilon_{11}^2 + \epsilon_{12}^2)}$
+  # where $\epsilon$ is the strain rate tensor. For consistency, that is also
+  # the formulation implemented in this material model.
   # 
   # Morency, C., and M‐P. Doin. "Numerical simulations of the mantle
   # lithosphere delamination." Journal of Geophysical Research: Solid Earth
@@ -1934,8 +2268,8 @@ subsection Material model
   # The user must specify a ``Base model'' from which material properties are
   # derived. Furthermore an averaging operation must be selected, where the
   # Choice should be from the list none|arithmetic average|harmonic
-  # average|geometric average|pick largest|NWD arithmetic average|NWD harmonic
-  # average|NWD geometric average.
+  # average|geometric average|pick largest|log average|NWD arithmetic
+  # average|NWD harmonic average|NWD geometric average.
   # 
   # NWD stands for Normalized Weighed Distance. The models with this in front
   # of their name work with a weighed average, which means each quadrature
@@ -2011,21 +2345,22 @@ subsection Material model
   # be assigned individual activation energies, reference densities, thermal
   # expansivities, and stress exponents. The effective viscosity is defined as
   # 
-  # \[v_\text{eff} =
-  # \left(\frac{1}{v_\text{eff}^\text{diff}}+\frac{1}{v_\text{eff}^\text{dis}\right)^{-1}\]
-  # where \[v_\text{eff}^\text{diff} = A_\text{diff}^{-1}
-  # \exp\left(rac{E_\text{diff} + PV_\text{diff}}{RT}\right)\]
-  # \[v_\text{eff}^\text{dis} =  A_\text{dis}^{\frac{-1}{n_{dis}}}
-  # \dot{\varepsilon}^{rac{1-n}{n}}
-  # \exp\left(rac{E_\text{diff} + PV_\text{diff}}{n_\text{dis}RT}\right)\]
   # 
-  # where $\dot{\varepsilon}$ is the second invariant of the strain rate
-  # tensor, $A_i$ are prefactors where $i$ corresponds to diffusion or
-  # dislocation creep, $E_i$ are the activation energies, $V_i$ are the
-  # activation volumes, $n_dislocation$ are stress exponents for dislocation
-  # creep, $\rho_m$ is the mantle density, $R$ is the gas constant, $T$ is
-  # temperature, and $P$ is pressure.
+  # \[v_\text{eff} = \left(\frac{1}{v_\text{eff}^\text{diff}}+
+  # \frac{1}{v_\text{eff}^\text{dis}}\right)^{-1}\] where \[v_\text{i} = 0.5 *
+  # A^{-\frac{1}{n_i}} d^\frac{m_i}{n_i}
+  # \dot{\varepsilon_i}^{\frac{1-n_i}{n_i}} \exp\left(\frac{E_i^* +
+  # PV_i^*}{n_iRT}\right)\]
   # 
+  # where $d$ is grain size, $i$ corresponds to diffusion or dislocation
+  # creep, $\dot{\varepsilon}$ is the square root of the second invariant of
+  # the strain rate tensor, $R$ is the gas constant, $T$ is temperature,  and
+  # $P$ is pressure. $A_i$ are prefactors, $n_i$ and $m_i$ are stress and
+  # grain size exponents $E_i$ are the activation energies and $V_i$ are the
+  # activation volumes.
+  # 
+  # The ratio of diffusion to dislocation strain rate is found by Newton's
+  # method, iterating to find the stress which satisfies the above equations.
   # The value for the components of this formula and additional parameters are
   # read from the parameter file in subsection 'Material
   # model/DiffusionDislocation'.
@@ -2040,11 +2375,11 @@ subsection Material model
   # compositional fields.
   # 
   # The viscosity is computed according to the Drucker Prager frictional
-  # plasticity criterion (non-associative) based on a user-defined Internal
-  # friction angle $\phi$ and cohesion C. In 3D:  $\sigma_y = \frac{6 C
+  # plasticity criterion (non-associative) based on a user-defined internal
+  # friction angle $\phi$ and cohesion $C$. In 3D:  $\sigma_y = \frac{6 C
   # \cos(\phi)}{\sqrt(3) (3+\sin(\phi))} + \frac{2 P \sin(\phi)}{\sqrt(3)
-  # (3+\sin(\phi))}$, where P is the pressure. See for example Zienkiewicz, O.
-  # C., Humpheson, C. and Lewis, R. W. (1975), G'{e}otechnique 25, No. 4,
+  # (3+\sin(\phi))}$, where $P$ is the pressure. See for example Zienkiewicz,
+  # O. C., Humpheson, C. and Lewis, R. W. (1975), G\'{e}otechnique 25, No. 4,
   # 671-689. With this formulation we circumscribe instead of inscribe the
   # Mohr Coulomb yield surface. In 2D the Drucker Prager yield surface is the
   # same as the Mohr Coulomb surface:  $\sigma_y = P \sin(\phi) + C
@@ -2193,7 +2528,7 @@ subsection Material model
   # formula$\eta(T)=\eta_0*e^{\eta_T*\Delta T / T_{\text{ref}})}$.The value
   # for the components of this formula and additional parameters are read from
   # the parameter file in subsection 'Stamps model'.
-  set Model name         = simple # default: 
+  set Model name         = simple # default: unspecified
 
 
   subsection Averaging
@@ -2299,7 +2634,7 @@ subsection Material model
     set Depth list              = 
 
     # The name of the file containing depth-dependent viscosity data.
-    set Viscosity depth file    = visc_depth.txt
+    set Viscosity depth file    = visc-depth.txt
 
     # A comma-separated list of viscosity values, corresponding to the depth
     # values provided in ``Depth list''. The number of viscosity values
@@ -2337,42 +2672,55 @@ subsection Material model
 
   end
 
-  subsection DiffusionDislocation
+  subsection Diffusion dislocation
     # List of activation energies, $E_a$, for background mantle and
-    # compositional fields,for a total of N+1 values, where N is the number of
-    # compositional fields.If only one values is given, then all use the same
-    # value.  Units: $J / mol$
-    set Activation energies for diffusion creep   = 335e3
+    # compositional fields, for a total of N+1 values, where N is the number
+    # of compositional fields. If only one values is given, then all use the
+    # same value.  Units: $J / mol$
+    set Activation energies for diffusion creep   = 375e3
 
     # List of activation energies, $E_a$, for background mantle and
-    # compositional fields,for a total of N+1 values, where N is the number of
-    # compositional fields.If only one values is given, then all use the same
-    # value.  Units: $J / mol$
-    set Activation energies for dislocation creep = 540e3
+    # compositional fields, for a total of N+1 values, where N is the number
+    # of compositional fields. If only one values is given, then all use the
+    # same value.  Units: $J / mol$
+    set Activation energies for dislocation creep = 530e3
 
     # List of activation volumes, $V_a$, for background mantle and
-    # compositional fields,for a total of N+1 values, where N is the number of
-    # compositional fields.If only one value is given, then all use the same
-    # value.  Units: $m^3 / mol$
-    set Activation volumes for diffusion creep    = 6.4e-6
+    # compositional fields, for a total of N+1 values, where N is the number
+    # of compositional fields. If only one value is given, then all use the
+    # same value.  Units: $m^3 / mol$
+    set Activation volumes for diffusion creep    = 6e-6
 
     # List of activation volumes, $V_a$, for background mantle and
-    # compositional fields,for a total of N+1 values, where N is the number of
-    # compositional fields.If only one value is given, then all use the same
-    # value.  Units: $m^3 / mol$
-    set Activation volumes for dislocation creep  = 6.4e-6
+    # compositional fields, for a total of N+1 values, where N is the number
+    # of compositional fields. If only one value is given, then all use the
+    # same value.  Units: $m^3 / mol$
+    set Activation volumes for dislocation creep  = 1.4e-5
 
     # List of densities, $\rho$, for background mantle and compositional
-    # fields,for a total of N+1 values, where N is the number of compositional
-    # fields.If only one values is given, then all use the same value.  Units:
-    # $kg / m^3$
+    # fields, for a total of N+1 values, where N is the number of
+    # compositional fields. If only one values is given, then all use the same
+    # value.  Units: $kg / m^3$
     set Densities                                 = 3300.
 
     # Scaling coefficient for effective viscosity.
     set Effective viscosity coefficient           = 1.0
 
+    # Units: $m$
+    set Grain size                                = 1e-3
+
+    # List of grain size exponents, $m_diffusion$, for background mantle and
+    # compositional fields, for a total of N+1 values, where N is the number
+    # of compositional fields. If only one values is given, then all use the
+    # same value.  Units: None
+    set Grain size exponents for diffusion creep  = 3
+
     # Units: $J / (K * kg)$
     set Heat capacity                             = 1.25e3
+
+    # Maximum number of iterations to find the correct diffusion/dislocation
+    # strain rate ratio.
+    set Maximum strain rate ratio iterations      = 40
 
     # Upper cutoff for effective viscosity. Units: $Pa s$
     set Maximum viscosity                         = 1e28
@@ -2384,16 +2732,18 @@ subsection Material model
     set Minimum viscosity                         = 1e17
 
     # List of viscosity prefactors, $A$, for background mantle and
-    # compositional fields,for a total of N+1 values, where N is the number of
-    # compositional fields.If only one values is given, then all use the same
-    # value.  Units: $1 / s$
-    set Prefactors for diffusion creep            = 1.92e-11
+    # compositional fields, for a total of N+1 values, where N is the number
+    # of compositional fields. If only one values is given, then all use the
+    # same value. Units: $Pa^{-n_{diffusion}} m^{n_{diffusion}/m_{diffusion}}
+    # s^{-1}$
+    set Prefactors for diffusion creep            = 1.5e-15
 
     # List of viscosity prefactors, $A$, for background mantle and
-    # compositional fields,for a total of N+1 values, where N is the number of
-    # compositional fields.If only one values is given, then all use the same
-    # value.  Units: $Pa^{-n_dislocation} s^{-1}$
-    set Prefactors for dislocation creep          = 2.42e-10
+    # compositional fields, for a total of N+1 values, where N is the number
+    # of compositional fields. If only one values is given, then all use the
+    # same value. Units: $Pa^{-n_{dislocation}}
+    # m^{n_{dislocation}/m_{dislocation}} s^{-1}$
+    set Prefactors for dislocation creep          = 1.1e-16
 
     # For calculating density by thermal expansivity. Units: $K$
     set Reference temperature                     = 293
@@ -2401,19 +2751,28 @@ subsection Material model
     # Reference viscosity for nondimensionalization. Units $Pa s$
     set Reference viscosity                       = 1e22
 
+    # Tolerance for correct diffusion/dislocation strain rate ratio.
+    set Strain rate residual tolerance            = 1e-22
+
+    # List of stress exponents, $n_diffusion$, for background mantle and
+    # compositional fields, for a total of N+1 values, where N is the number
+    # of compositional fields. If only one values is given, then all use the
+    # same value.  Units: None
+    set Stress exponents for diffusion creep      = 1
+
     # List of stress exponents, $n_dislocation$, for background mantle and
-    # compositional fields,for a total of N+1 values, where N is the number of
-    # compositional fields.If only one values is given, then all use the same
-    # value.  Units: None
-    set Stress exponents for dislocation creep    = 3
+    # compositional fields, for a total of N+1 values, where N is the number
+    # of compositional fields. If only one values is given, then all use the
+    # same value.  Units: None
+    set Stress exponents for dislocation creep    = 3.5
 
     # Units: $m^2/s$
     set Thermal diffusivity                       = 0.8e-6
 
     # List of thermal expansivities for background mantle and compositional
-    # fields,for a total of N+1 values, where N is the number of compositional
-    # fields.If only one values is given, then all use the same value.  Units:
-    # $1 / K$
+    # fields, for a total of N+1 values, where N is the number of
+    # compositional fields. If only one values is given, then all use the same
+    # value.  Units: $1 / K$
     set Thermal expansivities                     = 3.5e-5
 
     # When more than one compositional field is present at a point with
@@ -2737,25 +3096,16 @@ subsection Material model
     # $kg / m^3$
     set Densities                                        = 3300.
 
-    # Scaling coefficient for effective viscosity.
-    set Effective viscosity coefficient                  = 1.0
-
     # Units: $J / (K * kg)$
     set Heat capacity                                    = 1.25e3
-
-    # Upper cutoff for effective viscosity. Units: $Pa s$
-    set Maximum viscosity                                = 1e28
 
     # Stabilizes strain dependent viscosity. Units: $1 / s$
     set Minimum strain rate                              = 1.4e-20
 
-    # Lower cutoff for effective viscosity. Units: $Pa s$
-    set Minimum viscosity                                = 1e17
-
     # ($B$). Units: None
     set Preexponential constant for viscous rheology law = 1.24e14
 
-    # ($\dot{\varepsilon}_{ref}$). Units: $1 / s$
+    # ($\dot{\epsilon}_{ref}$). Units: $1 / s$
     set Reference strain rate                            = 6.4e-16
 
     # For calculating density by thermal expansivity. Units: $K$
@@ -2863,23 +3213,23 @@ subsection Material model
     # that the density has an additional term of the kind $+\Delta \rho \;
     # c_1(\mathbf x)$. This parameter describes the value of $\Delta \rho$.
     # Units: $kg/m^3/\textrm{unit change in composition}$.
-    set Density differential for compositional field 1 = 0
+    set Density differential for compositional field 1 = -10  # default: 0
 
     # Reference density $\rho_0$. Units: $kg/m^3$.
-    set Reference density                              = 1     # default: 3300
+    set Reference density                              = 1010 # default: 3300
 
     # The value of the specific heat $cp$. Units: $J/kg/K$.
-    set Reference specific heat                        = 1     # default: 1250
+    set Reference specific heat                        = 1250
 
     # The reference temperature $T_0$. The reference temperature is used in
     # both the density and viscosity formulas. Units: $K$.
-    set Reference temperature                          = 0     # default: 293
+    set Reference temperature                          = 293
 
     # The value of the thermal conductivity $k$. Units: $W/m/K$.
-    set Thermal conductivity                           = 1     # default: 4.7
+    set Thermal conductivity                           = 4.7
 
     # The value of the thermal expansion coefficient $\alpha$. Units: $1/K$.
-    set Thermal expansion coefficient                  = 1e-10 # default: 2e-5
+    set Thermal expansion coefficient                  = 0    # default: 2e-5
 
     # The temperature dependence of viscosity. Dimensionless exponent. See the
     # general documentation of this model for a formula that states the
@@ -2890,7 +3240,7 @@ subsection Material model
     # The value of the constant viscosity $\eta_0$. This viscosity may be
     # modified by both temperature and compositional dependencies. Units:
     # $kg/m/s$.
-    set Viscosity                                      = 1     # default: 5e24
+    set Viscosity                                      = 1e2  # default: 5e24
   end
 
   subsection Simpler model
@@ -3031,11 +3381,11 @@ subsection Mesh refinement
 
   # The number of adaptive refinement steps performed after initial global
   # refinement but while still within the first time step.
-  set Initial adaptive refinement              = 0                      # default: 2
+  set Initial adaptive refinement              = 0           # default: 2
 
   # The number of global refinement steps performed on the initial coarse
   # mesh, before the problem is first solved there.
-  set Initial global refinement                = 4                      # default: 2
+  set Initial global refinement                = 7           # default: 2
 
   # The minimum refinement level each cell should have, and that can not be
   # exceeded by coarsening. Should not be higher than the 'Initial global
@@ -3183,6 +3533,15 @@ subsection Mesh refinement
   # refinement indicators from the excess temperature(difference between
   # temperature and adiabatic temperature.
   # 
+  # `particle density': A mesh refinement criterion that computes refinement
+  # indicators that equal the areal (in 2d) or volumetric (in 3d) density of
+  # particles in this cell. This plugin is useful for models with
+  # inhomogeneous particle density, e.g. when tracking an initial interface
+  # with a high particle density, or when the spatial particle density denotes
+  # the region of interest. Additionally, this plugin tends to balance the
+  # computational load between processes in parallel computations, because the
+  # particle number per cell is more similar.
+  # 
   # `slope': A class that implements a mesh refinement criterion intended for
   # use with a free surface. It calculates a local slope based on the angle
   # between the surface normal and the local gravity vector. Cells with larger
@@ -3237,11 +3596,11 @@ subsection Mesh refinement
   # indicators converge to zero as $h_K\rightarrow 0$ even if the energy
   # density is discontinuous, since the gradient of a discontinuous function
   # grows like $1/h_K$.
-  set Strategy                                 = thermal energy density
+  set Strategy                                 = composition # default: thermal energy density
 
   # The number of time steps after which the mesh is to be adapted again based
   # on computed error indicators. If 0 then the mesh will never be changed.
-  set Time steps between mesh refinement       = 0                      # default: 10
+  set Time steps between mesh refinement       = 0           # default: 10
 
 
   subsection Boundary
@@ -3379,12 +3738,12 @@ subsection Model settings
   # used by the geometry but not explicitly listed here will end up with
   # no-flux (insulating) boundary conditions.
   # 
-  # The names of the boundaries listed here can either by numeric numbers (in
-  # which case they correspond to the numerical boundary indicators assigned
-  # by the geometry object), or they can correspond to any of the symbolic
-  # names the geometry object may have provided for each part of the boundary.
-  # You may want to compare this with the documentation of the geometry model
-  # you use in your model.
+  # The names of the boundaries listed here can either by numbers (in which
+  # case they correspond to the numerical boundary indicators assigned by the
+  # geometry object), or they can correspond to any of the symbolic names the
+  # geometry object may have provided for each part of the boundary. You may
+  # want to compare this with the documentation of the geometry model you use
+  # in your model.
   # 
   # This parameter only describes which boundaries have a fixed composition,
   # but not what composition should hold on these boundaries. The latter piece
@@ -3399,29 +3758,29 @@ subsection Model settings
   # used by the geometry but not explicitly listed here will end up with
   # no-flux (insulating) boundary conditions.
   # 
-  # The names of the boundaries listed here can either by numeric numbers (in
-  # which case they correspond to the numerical boundary indicators assigned
-  # by the geometry object), or they can correspond to any of the symbolic
-  # names the geometry object may have provided for each part of the boundary.
-  # You may want to compare this with the documentation of the geometry model
-  # you use in your model.
+  # The names of the boundaries listed here can either by numbers (in which
+  # case they correspond to the numerical boundary indicators assigned by the
+  # geometry object), or they can correspond to any of the symbolic names the
+  # geometry object may have provided for each part of the boundary. You may
+  # want to compare this with the documentation of the geometry model you use
+  # in your model.
   # 
   # This parameter only describes which boundaries have a fixed temperature,
   # but not what temperature should hold on these boundaries. The latter piece
   # of information needs to be implemented in a plugin in the
   # BoundaryTemperature group, unless an existing implementation in this group
   # already provides what you want.
-  set Fixed temperature boundary indicators   = bottom, top              # default: 
+  set Fixed temperature boundary indicators   = 
 
   # A comma separated list of names denoting those boundaries where there is a
   # free surface. Set to nothing to disable all free surface computations.
   # 
-  # The names of the boundaries listed here can either by numeric numbers (in
-  # which case they correspond to the numerical boundary indicators assigned
-  # by the geometry object), or they can correspond to any of the symbolic
-  # names the geometry object may have provided for each part of the boundary.
-  # You may want to compare this with the documentation of the geometry model
-  # you use in your model.
+  # The names of the boundaries listed here can either by numbers (in which
+  # case they correspond to the numerical boundary indicators assigned by the
+  # geometry object), or they can correspond to any of the symbolic names the
+  # geometry object may have provided for each part of the boundary. You may
+  # want to compare this with the documentation of the geometry model you use
+  # in your model.
   set Free surface boundary indicators        = 
 
   # Whether to include adiabatic heating into the model or not. From a
@@ -3527,24 +3886,24 @@ subsection Model settings
   # forces act to prescribe a particular tangential velocity (although there
   # is a force that requires the flow to be tangential).
   # 
-  # The names of the boundaries listed here can either by numeric numbers (in
-  # which case they correspond to the numerical boundary indicators assigned
-  # by the geometry object), or they can correspond to any of the symbolic
-  # names the geometry object may have provided for each part of the boundary.
-  # You may want to compare this with the documentation of the geometry model
-  # you use in your model.
-  set Tangential velocity boundary indicators = left, right, bottom, top # default: 
+  # The names of the boundaries listed here can either by numbers (in which
+  # case they correspond to the numerical boundary indicators assigned by the
+  # geometry object), or they can correspond to any of the symbolic names the
+  # geometry object may have provided for each part of the boundary. You may
+  # want to compare this with the documentation of the geometry model you use
+  # in your model.
+  set Tangential velocity boundary indicators = left, right # default: 
 
   # A comma separated list of names denoting those boundaries on which the
   # velocity is zero.
   # 
-  # The names of the boundaries listed here can either by numeric numbers (in
-  # which case they correspond to the numerical boundary indicators assigned
-  # by the geometry object), or they can correspond to any of the symbolic
-  # names the geometry object may have provided for each part of the boundary.
-  # You may want to compare this with the documentation of the geometry model
-  # you use in your model.
-  set Zero velocity boundary indicators       = 
+  # The names of the boundaries listed here can either by numbers (in which
+  # case they correspond to the numerical boundary indicators assigned by the
+  # geometry object), or they can correspond to any of the symbolic names the
+  # geometry object may have provided for each part of the boundary. You may
+  # want to compare this with the documentation of the geometry model you use
+  # in your model.
+  set Zero velocity boundary indicators       = bottom, top # default: 
 end
 
 
@@ -3557,6 +3916,10 @@ subsection Postprocess
   # time step.
   # 
   # The following postprocessors are available:
+  # 
+  # `Stokes residual': A postprocessor that outputs the Stokes residuals
+  # during the iterative solver algorithm into a file stokes_residuals.txt in
+  # the output directory.
   # 
   # `basic statistics': A postprocessor that computes some simplified
   # statistics like the Rayleigh number and other quantities that only make
@@ -3662,8 +4025,13 @@ subsection Postprocess
   # datum (initial box height for a box geometry model or initial radius for a
   # sphere/spherical shell geometry model).  Outputs topography in meters
   # 
-  # `tracers': Postprocessor that propagates passive tracer particles based on
-  # the velocity field.
+  # `tracers': A Postprocessor that creates tracer particles that follow the
+  # velocity field of the simulation. The particles can be generated and
+  # propagated in various ways and they can carry a number of constant or
+  # time-varying properties. The postprocessor can write output positions and
+  # properties of all tracers at chosen intervals, although this is not
+  # mandatory. It also allows other parts of the code to query the tracers for
+  # information.
   # 
   # `velocity boundary statistics': A postprocessor that computes some
   # statistics about the velocity along the boundaries. For each boundary
@@ -3686,10 +4054,16 @@ subsection Postprocess
   # into files that can be read by a graphical visualization program.
   # Additional run time parameters are read from the parameter subsection
   # 'Visualization'.
-  set List of postprocessors = velocity statistics, temperature statistics, heat flux statistics, visualization # default: 
+  set List of postprocessors = visualization, velocity statistics, composition statistics # default: 
 
 
   subsection Depth average
+    # A comma separated list which specifies which quantites to average in
+    # each depth slice. It defaults to averaging all availabe quantities, but
+    # this can be an expensive operation, so you may want to select only a
+    # few.
+    set List of output variables      = all
+
     # The number of zones in depth direction within which we are to compute
     # averages. By default, we subdivide the entire domain into 10 depth zones
     # and compute temperature and other averages within each of these zones.
@@ -3720,24 +4094,318 @@ subsection Postprocess
   end
 
   subsection Tracers
-    # File format to output raw particle data in.
-    set Data output format       = vtu
+    # File format to output raw particle data in. If you select 'none' no
+    # output will be written.Select one of the following models:
+    # 
+    # `ascii': This particle output plugin writes particle positions and
+    # properties into space separated ascii files.
+    # 
+    # `hdf5': This particle output plugin writes particle positions and
+    # properties into hdf5 files.
+    # 
+    # `vtu': This particle output plugin writes particle positions and
+    # properties into vtu files.
+    set Data output format        = vtu
 
-    # Integration scheme to move particles.
-    set Integration scheme       = rk2
+    # Select one of the following models:
+    # 
+    # `euler': Explicit Euler scheme integrator, where $y_{n+1} = y_n + dt *
+    # v(y_n)$. This requires only one integration substep per timestep.
+    # 
+    # `rk2': Runge Kutta second order integrator, where $y_{n+1} = y_n +
+    # dt*v(0.5*k_1)$, $k_1 = dt*v(y_n)$.
+    # 
+    # `rk4': Runge Kutta fourth order integrator, where $y_{n+1} = y_n +
+    # (1/6)*k_1 + (1/3)*k_2 + (1/3)*k_3 + (1/6)*k_4$ and $k_1$, $k_2$, $k_3$,
+    # $k_4$ are defined as usual.
+    set Integration scheme        = rk2
+
+    # Select one of the following models:
+    # 
+    # `first particle': Return the properties of the first tracer in the given
+    # cell.
+    set Interpolation scheme      = first particle
+
+    # A comma separated list of tracer properties that should be tracked. By
+    # default none is selected, which means only position, velocity and id of
+    # the tracers are output.
+    # 
+    # The following properties are available:
+    # 
+    # `function': Implementation of a model in which the tracer property is
+    # set by evaluating an explicit function at the initial position of each
+    # particle. The function is defined in the parameters in section
+    # ``Tracers|Function''. The format of these functions follows the syntax
+    # understood by the muparser library, see
+    # Section~\ref{sec:muparser-format}.
+    # 
+    # 
+    # 
+    # `initial composition': Implementation of a plugin in which the tracer
+    # property is given as the initial composition at the particle's initial
+    # position. The tracer gets as many properties as there are compositional
+    # fields.
+    # 
+    # 
+    # 
+    # `initial position': Implementation of a plugin in which the tracer
+    # property is given as the initial position of the tracer.
+    # 
+    # 
+    # 
+    # `pT path': Implementation of a plugin in which the tracer property is
+    # defined as the current pressure and temperature at this position. This
+    # can be used to generate pressure-temperature paths of material points
+    # over time.
+    # 
+    # 
+    # 
+    # `position': Implementation of a plugin in which the tracer property is
+    # defined as the current position.
+    # 
+    # 
+    # 
+    # `velocity': Implementation of a plugin in which the tracer property is
+    # defined as the recent velocity at this position.
+    # 
+    set List of tracer properties = 
+
+    # Strategy that is used to balance the computationalload across processors
+    # for adaptive meshes.
+    set Load balancing strategy   = none
+
+    # Limit for how many particles are allowed per cell. This limit is useful
+    # to prevent coarse cells in adaptive meshes from slowing down the whole
+    # model. It will only be checked and enforced during mesh refinement and
+    # MPI transfer of tracers.
+    set Maximum tracers per cell  = 100
+
+    # Limit for how many particles are allowed per cell. This limit is useful
+    # to prevent coarse cells in adaptive meshes from slowing down the whole
+    # model. It will only be checked and enforced during mesh refinement and
+    # MPI transfer of tracers.
+    set Minimum tracers per cell  = 100
 
     # Total number of tracers to create (not per processor or per element).
     # The number is parsed as a floating point number (so that one can
     # specify, for example, '1e4' particles) but it is interpreted as an
     # integer, of course.
-    set Number of tracers        = 1000
+    set Number of tracers         = 1000
+
+    # Select one of the following models:
+    # 
+    # `ascii file': Generates a distribution of tracers from coordinates
+    # specified in an Ascii data file. The file format is a simple text file,
+    # with as many columns as spatial dimensions and as many lines as tracers
+    # to be generated. Initial comment lines starting with `#' will be
+    # discarded.All of the values that define this generator are read from a
+    # section ``Particle generator/Ascii file'' in the input file, see
+    # Section~\ref{parameters:Particle_20generator/Ascii_20file}.
+    # 
+    # `probability density function': Generate a random distribution of
+    # particles over the entire simulation domain. The probability density is
+    # prescribed in the form of a user-prescribed function. The format of this
+    # function follows the syntax understood by the muparser library, see
+    # Section~\ref{sec:muparser-format}. The return value of the function is
+    # always checked to be a non-negative probability density but it can be
+    # zero inparts of the domain.
+    # 
+    # `random uniform': Generates a random uniform distribution of particles
+    # over the entire simulation domain.
+    # 
+    # `uniform box': Generate a uniform distribution of particles over a
+    # rectangular domain in 2D or 3D. Uniform here means the particles will be
+    # generated with an equal spacing in each spatial dimension. Note that in
+    # order to produce a regular distribution the number of generated tracers
+    # might not exactly match the one specified in the input file.
+    # 
+    # `uniform radial': Generate a uniform distribution of particlesover a
+    # spherical domain in 2D or 3D. Uniform here means the particles will be
+    # generated with an equal spacing in each spherical spatial dimension,
+    # i.e., the particles are created at positions that increase linearly with
+    # equal spacing in radius, colatitude and longitude around a certain
+    # center point. Note that in order to produce a regular distribution the
+    # number of generated tracers might not exactly match the one specified in
+    # the input file.
+    set Particle generator name   = random uniform
 
     # The time interval between each generation of output files. A value of
     # zero indicates that output should be generated every time step.
     # 
     # Units: years if the 'Use years in output instead of seconds' parameter
     # is set; seconds otherwise.
-    set Time between data output = 1e8
+    set Time between data output  = 1e8
+
+    # Weight that is associated with the computational load of a single
+    # particle. The sum of tracer weights will be added to the sum of cell
+    # weights to determine the partitioning of the mesh. Every cell without
+    # tracers is associated with a weight of 1000.
+    set Tracer weight             = 10
+
+
+    subsection Function
+      # Sometimes it is convenient to use symbolic constants in the expression
+      # that describes the function, rather than having to use its numeric
+      # value everywhere the constant appears. These values can be defined
+      # using this parameter, in the form `var1=value1, var2=value2, ...'.
+      # 
+      # A typical example would be to set this runtime parameter to
+      # `pi=3.1415926536' and then use `pi' in the expression of the actual
+      # formula. (That said, for convenience this class actually defines both
+      # `pi' and `Pi' by default, but you get the idea.)
+      set Function constants  = 
+
+      # The formula that denotes the function you want to evaluate for
+      # particular values of the independent variables. This expression may
+      # contain any of the usual operations such as addition or
+      # multiplication, as well as all of the common functions such as `sin'
+      # or `cos'. In addition, it may contain expressions like `if(x>0, 1,
+      # -1)' where the expression evaluates to the second argument if the
+      # first argument is true, and to the third argument otherwise. For a
+      # full overview of possible expressions accepted see the documentation
+      # of the muparser library at http://muparser.beltoforion.de/.
+      # 
+      # If the function you are describing represents a vector-valued function
+      # with multiple components, then separate the expressions for individual
+      # components by a semicolon.
+      set Function expression = 0
+
+      # The name of the variables as they will be used in the function,
+      # separated by commas. By default, the names of variables at which the
+      # function will be evaluated is `x' (in 1d), `x,y' (in 2d) or `x,y,z'
+      # (in 3d) for spatial coordinates and `t' for time. You can then use
+      # these variable names in your function expression and they will be
+      # replaced by the values of these variables at which the function is
+      # currently evaluated. However, you can also choose a different set of
+      # names for the independent variables at which to evaluate your function
+      # expression. For example, if you work in spherical coordinates, you may
+      # wish to set this input parameter to `r,phi,theta,t' and then use these
+      # variable names in your function expression.
+      set Variable names      = x,y,t
+    end
+
+    subsection Generator
+      subsection Ascii file
+        # The name of a directory that contains the tracer data. This path may
+        # either be absolute (if starting with a '/') or relative to the
+        # current directory. The path may also include the special text
+        # '$ASPECT_SOURCE_DIR' which will be interpreted as the path in which
+        # the ASPECT source files were located when ASPECT was compiled. This
+        # interpretation allows, for example, to reference files located in
+        # the 'data/' subdirectory of ASPECT.
+        set Data directory = $ASPECT_SOURCE_DIR/data/particle/generator/ascii/
+
+        # The name of the tracer file.
+        set Data file name = tracer.dat
+      end
+
+      subsection Probability density function
+        # Sometimes it is convenient to use symbolic constants in the
+        # expression that describes the function, rather than having to use
+        # its numeric value everywhere the constant appears. These values can
+        # be defined using this parameter, in the form `var1=value1,
+        # var2=value2, ...'.
+        # 
+        # A typical example would be to set this runtime parameter to
+        # `pi=3.1415926536' and then use `pi' in the expression of the actual
+        # formula. (That said, for convenience this class actually defines
+        # both `pi' and `Pi' by default, but you get the idea.)
+        set Function constants  = 
+
+        # The formula that denotes the function you want to evaluate for
+        # particular values of the independent variables. This expression may
+        # contain any of the usual operations such as addition or
+        # multiplication, as well as all of the common functions such as `sin'
+        # or `cos'. In addition, it may contain expressions like `if(x>0, 1,
+        # -1)' where the expression evaluates to the second argument if the
+        # first argument is true, and to the third argument otherwise. For a
+        # full overview of possible expressions accepted see the documentation
+        # of the muparser library at http://muparser.beltoforion.de/.
+        # 
+        # If the function you are describing represents a vector-valued
+        # function with multiple components, then separate the expressions for
+        # individual components by a semicolon.
+        set Function expression = 0
+
+        # The name of the variables as they will be used in the function,
+        # separated by commas. By default, the names of variables at which the
+        # function will be evaluated is `x' (in 1d), `x,y' (in 2d) or `x,y,z'
+        # (in 3d) for spatial coordinates and `t' for time. You can then use
+        # these variable names in your function expression and they will be
+        # replaced by the values of these variables at which the function is
+        # currently evaluated. However, you can also choose a different set of
+        # names for the independent variables at which to evaluate your
+        # function expression. For example, if you work in spherical
+        # coordinates, you may wish to set this input parameter to
+        # `r,phi,theta,t' and then use these variable names in your function
+        # expression.
+        set Variable names      = x,y,t
+      end
+
+      subsection Uniform box
+        # Maximal x coordinate for the region of tracers.
+        set Maximal x = 1
+
+        # Maximal y coordinate for the region of tracers.
+        set Maximal y = 1
+
+        # Maximal z coordinate for the region of tracers.
+        set Maximal z = 1
+
+        # Minimal x coordinate for the region of tracers.
+        set Minimal x = 0
+
+        # Minimal y coordinate for the region of tracers.
+        set Minimal y = 0
+
+        # Minimal z coordinate for the region of tracers.
+        set Minimal z = 0
+      end
+
+      subsection Uniform radial
+        # x coordinate for the center of the spherical region, where tracers
+        # are generated.
+        set Center x          = 0
+
+        # y coordinate for the center of the spherical region, where tracers
+        # are generated.
+        set Center y          = 0
+
+        # z coordinate for the center of the spherical region, where tracers
+        # are generated.
+        set Center z          = 0
+
+        # Maximum latitude coordinate for the region of tracers in degrees.
+        # Measured from the center position.
+        set Maximum latitude  = 3.1415
+
+        # Maximum longitude coordinate for the region of tracers in degrees.
+        # Measured from the center position.
+        set Maximum longitude = 3.1415
+
+        # Maximum radial coordinate for the region of tracers. Measured from
+        # the center position.
+        set Maximum radius    = 1
+
+        # Minimum latitude coordinate for the region of tracers in degrees.
+        # Measured from the center position.
+        set Minimum latitude  = 0
+
+        # Minimum longitude coordinate for the region of tracers in degrees.
+        # Measured from the center position.
+        set Minimum longitude = 0
+
+        # Minimum radial coordinate for the region of tracers. Measured from
+        # the center position.
+        set Minimum radius    = 0
+
+        # The number of radial shells of particles that will be
+        # generatedaround the central point.
+        set Radial layers     = 1
+      end
+
+    end
+
   end
 
   subsection Visualization
@@ -3803,8 +4471,26 @@ subsection Postprocess
     # `artificial viscosity': A visualization output object that generates
     # output showing the value of the artificial viscosity on each cell.
     # 
+    # `boundary indicators': A visualization output object that generates
+    # output about the used boundary indicators. In a loop over the active
+    # cells, if a cell lies at a domain boundary, the boundary indicator of
+    # the face along the boundary is requested. In case the cell does not lie
+    # along any domain boundary, the cell is assigned the value of the largest
+    # used boundary indicator plus one. When a cell is situated in one of the
+    # corners of the domain, multiple faces will have a boundary indicator.
+    # This postprocessor returns the value of the first face along a boundary
+    # that is encountered in a loop over all the faces.
+    # 
+    # `compositional vector': A visualization output object that outputs
+    # vectors whose components are derived from compositional fields. Input
+    # parameters for this postprocessor are defined in section
+    # Postprocess/Visualization/Compositional fields as vectors
+    # 
     # `density': A visualization output object that generates output for the
     # density.
+    # 
+    # `depth': A visualization output postprocessor that outputs the depth for
+    # all points inside the domain, as determined by the geometry model.
     # 
     # `dynamic topography': A visualization output object that generates
     # output for the dynamic topography. The approach to determine the dynamic
@@ -3855,7 +4541,7 @@ subsection Postprocess
     # individual material properties. However, they all individually have to
     # evaluate the material model. This is inefficient if one wants to output
     # more than just one or two of the fields provided by the material model.
-    # The current postprocessor allows to output a (potentially large) subsets
+    # The current postprocessor allows to output a (potentially large) subset
     # of all of the information provided by material models at once, with just
     # a single material model evaluation per output point.
     # 
@@ -3916,12 +4602,24 @@ subsection Postprocess
     # 13(\textrm{tr}\;\varepsilon(\mathbf u))\mathbf I\right]+pI$ in the
     # compressible case.
     # 
+    # `thermal conductivity': A visualization output object that generates
+    # output for the thermal conductivity $k$.
+    # 
+    # `thermal diffusivity': A visualization output object that generates
+    # output for the thermal diffusivity $\kappa$=$\frac{k}{\rho c_p}$, with
+    # $k$ the thermal conductivity.
+    # 
     # `thermal expansivity': A visualization output object that generates
     # output for the thermal expansivity.
     # 
     # `thermodynamic phase': A visualization output object that generates
     # output for the integer number of the phase that is thermodynamically
     # stable at the temperature and pressure of the current point.
+    # 
+    # `vertical heat flux': A visualization output object that generates
+    # output for the heat flux in the vertical direction, which is the sum of
+    # the advective and the conductive heat flux, with the sign convention of
+    # positive flux upwards.
     # 
     # `viscosity': A visualization output object that generates output for the
     # viscosity.
@@ -3942,12 +4640,32 @@ subsection Postprocess
     # The file format to be used for graphical output.
     set Output format                 = vtu
 
+    # For free surface computations Aspect uses an
+    # Arbitrary-Lagrangian-Eulerian formulation to handle deforming the
+    # domain, so the mesh has its own velocity field.  This may be written as
+    # an output field by setting this parameter to true.
+    set Output mesh velocity          = false
+
     # The time interval between each generation of graphical output files. A
     # value of zero indicates that output should be generated in each time
     # step. Units: years if the 'Use years in output instead of seconds'
     # parameter is set; seconds otherwise.
-    set Time between graphical output = 0.01  # default: 1e8
+    set Time between graphical output = 100   # default: 1e8
 
+
+    subsection Compositional fields as vectors
+      # A list of sets of compositional fields which should be output as
+      # vectors. Sets are separated from each other by semicolons and vector
+      # components within each set are separated by commas (e.g. $vec1_x$,
+      # $vec1_y$ ; $vec2_x$, $vec2_y$) where each name must be a defined named
+      # compositional field. If only one name is given in a set, it is
+      # interpreted as the first in a sequence of dim consecutive
+      # compositional fields.
+      set Names of fields  = 
+
+      # Names of vectors as they will appear in the output.
+      set Names of vectors = 
+    end
 
     subsection Dynamic Topography
       # Option to remove the mean dynamic topography in the outputted data
@@ -3963,8 +4681,8 @@ subsection Postprocess
       # and viscosity. The following material properties are available:
       # 
       # viscosity|density|thermal expansivity|specific heat|thermal
-      # conductivity|compressibility|entropy derivative temperature|entropy
-      # derivative pressure|reaction terms
+      # conductivity|thermal diffusivity|compressibility|entropy derivative
+      # temperature|entropy derivative pressure|reaction terms
       set List of material properties = density,thermal expansivity,specific heat,viscosity
     end
 
@@ -4062,12 +4780,12 @@ subsection Prescribed Stokes solution
   # the input data: The first lines may contain any number of commentsif they
   # begin with '#', but one of these lines needs tocontain the number of grid
   # points in each dimension asfor example '# POINTS: 3 3'.The order of the
-  # data columns has to be 'x', 'y', 'v_x' , 'v_y' in a 2d model and  'x',
-  # 'y', 'z', 'v_x' , 'v_y' , 'v_z' in a 3d model.Note that the data in the
-  # input files need to be sorted in a specific order: the first coordinate
-  # needs to ascend first, followed by the second and the third at last in
-  # order to assign the correct data to the prescribed coordinates.If you use
-  # a spherical model, then the data will still be handled as
+  # data columns has to be 'x', 'y', 'v$_x$' , 'v$_y$' in a 2d model and  'x',
+  # 'y', 'z', 'v$_x$' , 'v$_y$' , 'v$_z$' in a 3d model.Note that the data in
+  # the input files need to be sorted in a specific order: the first
+  # coordinate needs to ascend first, followed by the second and the third at
+  # last in order to assign the correct data to the prescribed coordinates.If
+  # you use a spherical model, then the data will still be handled as
   # cartesian,however the assumed grid changes. 'x' will be replaced by the
   # radial distance of the point to the bottom of the model, 'y' by the
   # azimuth angle and 'z' by the polar angle measured positive from the north
@@ -4083,7 +4801,7 @@ subsection Prescribed Stokes solution
   # velocity and pressure field in terms of an explicit formula. The format of
   # these functions follows the syntax understood by the muparser library, see
   # Section~\ref{sec:muparser-format}.
-  set Model name = 
+  set Model name = unspecified
 
 
   subsection Ascii data model
