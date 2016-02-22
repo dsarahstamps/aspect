@@ -1,0 +1,633 @@
+[nr047:76598:0]  ud_channel.c:766  Fatal: UD timeout sending to nr064:26871 (after 600.02 seconds)
+[nr047:76605:0]  ud_channel.c:766  Fatal: UD timeout sending to nr064:26871 (after 600.06 seconds)
+==== backtrace ====
+ 2 0x00000000000670ac mxm_handle_error()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/util/debug/debug.c:641
+ 3 0x0000000000067de0 __mxm_abort()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/util/debug/log.c:257
+ 4 0x000000000006fb62 mxm_ud_channel_timer()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/tl/ud/ud_channel.c:764
+ 5 0x0000000000073e53 mxm_ud_ep_timer()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/tl/ud/ud_ep.c:144
+ 6 0x000000000006ca34 mxm_invoke_callback()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/datatype/callback.h:64
+ 7 0x000000000005291d mxm_timerq_sweep()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/time/timerq.h:71
+ 8 0x000000000004fb9e mxm_invoke_callback()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/datatype/callback.h:64
+ 9 0x000000000004fb9e __mxm_async_thread_unlock()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/async.h:144
+10 0x000000000004fb9e mxm_async_thread_func()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/async.c:364
+11 0x0000000000007df5 start_thread()  pthread_create.c:0
+12 0x00000000000f61ad __clone()  ??:0
+===================
+[nr047:76605] *** Process received signal ***
+[nr047:76605] Signal: Aborted (6)
+[nr047:76605] Signal code:  (-6)
+[nr047:76605] [ 0] /lib64/libpthread.so.0(+0xf130)[0x7f218af3e130]
+[nr047:76605] [ 1] /lib64/libc.so.6(gsignal+0x37)[0x7f218aba35d7]
+[nr047:76605] [ 2] /lib64/libc.so.6(abort+0x148)[0x7f218aba4cc8]
+[nr047:76605] [ 3] /opt/mellanox/mxm/lib/libmxm.so.2(+0x67de5)[0x7f218a434de5]
+[nr047:76605] [ 4] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_ud_channel_timer+0x412)[0x7f218a43cb62]
+[nr047:76605] [ 5] /opt/mellanox/mxm/lib/libmxm.so.2(+0x73e53)[0x7f218a440e53]
+[nr047:76605] [ 6] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_timerq_sweep_internal+0x74)[0x7f218a439a34]
+[nr047:76605] [ 7] /opt/mellanox/mxm/lib/libmxm.so.2(+0x5291d)[0x7f218a41f91d]
+[nr047:76605] [ 8] /opt/mellanox/mxm/lib/libmxm.so.2(+0x4fb9e)[0x7f218a41cb9e]
+[nr047:76605] [ 9] /lib64/libpthread.so.0(+0x7df5)[0x7f218af36df5]
+[nr047:76605] [10] /lib64/libc.so.6(clone+0x6d)[0x7f218ac641ad]
+[nr047:76605] *** End of error message ***
+[nr047:76602:0]  ud_channel.c:766  Fatal: UD timeout sending to nr064:26871 (after 600.09 seconds)
+[nr063:80722:0]  ud_channel.c:766  Fatal: UD timeout sending to nr064:26871 (after 600.03 seconds)
+[nr063:80729:0]  ud_channel.c:766  Fatal: UD timeout sending to nr064:26871 (after 600.03 seconds)
+==== backtrace ====
+ 2 0x00000000000670ac mxm_handle_error()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/util/debug/debug.c:641
+ 3 0x0000000000067de0 __mxm_abort()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/util/debug/log.c:257
+ 4 0x000000000006fb62 mxm_ud_channel_timer()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/tl/ud/ud_channel.c:764
+ 5 0x0000000000073e53 mxm_ud_ep_timer()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/tl/ud/ud_ep.c:144
+ 6 0x000000000006ca34 mxm_invoke_callback()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/datatype/callback.h:64
+ 7 0x000000000005291d mxm_timerq_sweep()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/time/timerq.h:71
+ 8 0x000000000004fb9e mxm_invoke_callback()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/datatype/callback.h:64
+ 9 0x000000000004fb9e __mxm_async_thread_unlock()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/async.h:144
+10 0x000000000004fb9e mxm_async_thread_func()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/async.c:364
+11 0x0000000000007df5 start_thread()  pthread_create.c:0
+12 0x00000000000f61ad __clone()  ??:0
+===================
+[nr063:80722] *** Process received signal ***
+[nr063:80722] Signal: Aborted (6)
+[nr063:80722] Signal code:  (-6)
+[nr063:80722] [ 0] /lib64/libpthread.so.0(+0xf130)[0x7f790fa4f130]
+[nr063:80722] [ 1] /lib64/libc.so.6(gsignal+0x37)[0x7f790f6b45d7]
+[nr063:80722] [ 2] /lib64/libc.so.6(abort+0x148)[0x7f790f6b5cc8]
+[nr063:80722] [ 3] /opt/mellanox/mxm/lib/libmxm.so.2(+0x67de5)[0x7f790ef45de5]
+[nr063:80722] [ 4] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_ud_channel_timer+0x412)[0x7f790ef4db62]
+[nr063:80722] [ 5] /opt/mellanox/mxm/lib/libmxm.so.2(+0x73e53)[0x7f790ef51e53]
+[nr063:80722] [ 6] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_timerq_sweep_internal+0x74)[0x7f790ef4aa34]
+[nr063:80722] [ 7] /opt/mellanox/mxm/lib/libmxm.so.2(+0x5291d)[0x7f790ef3091d]
+[nr063:80722] [ 8] /opt/mellanox/mxm/lib/libmxm.so.2(+0x4fb9e)[0x7f790ef2db9e]
+[nr063:80722] [ 9] /lib64/libpthread.so.0(+0x7df5)[0x7f790fa47df5]
+[nr063:80722] [10] /lib64/libc.so.6(clone+0x6d)[0x7f790f7751ad]
+[nr063:80722] *** End of error message ***
+[nr063:80734:0]  ud_channel.c:766  Fatal: UD timeout sending to nr064:26871 (after 600.06 seconds)
+[nr047:76599:0]  ud_channel.c:766  Fatal: UD timeout sending to nr064:26871 (after 600.16 seconds)
+[nr063:80720:0]  ud_channel.c:766  Fatal: UD timeout sending to nr064:26871 (after 600.11 seconds)
+[nr063:80740:0]  ud_channel.c:766  Fatal: UD timeout sending to nr064:26871 (after 600.12 seconds)
+==== backtrace ====
+ 2 0x00000000000670ac mxm_handle_error()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/util/debug/debug.c:641
+ 3 0x0000000000067de0 __mxm_abort()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/util/debug/log.c:257
+ 4 0x000000000006fb62 mxm_ud_channel_timer()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/tl/ud/ud_channel.c:764
+ 5 0x0000000000073e53 mxm_ud_ep_timer()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/tl/ud/ud_ep.c:144
+ 6 0x000000000006ca34 mxm_invoke_callback()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/datatype/callback.h:64
+ 7 0x000000000005291d mxm_timerq_sweep()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/time/timerq.h:71
+ 8 0x000000000004fb9e mxm_invoke_callback()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/datatype/callback.h:64
+ 9 0x000000000004fb9e __mxm_async_thread_unlock()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/async.h:144
+10 0x000000000004fb9e mxm_async_thread_func()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/async.c:364
+11 0x0000000000007df5 start_thread()  pthread_create.c:0
+12 0x00000000000f61ad __clone()  ??:0
+===================
+[nr047:76599] *** Process received signal ***
+[nr047:76599] Signal: Aborted (6)
+[nr047:76599] Signal code:  (-6)
+[nr047:76599] [ 0] /lib64/libpthread.so.0(+0xf130)[0x7f3c77af6130]
+[nr047:76599] [ 1] /lib64/libc.so.6(gsignal+0x37)[0x7f3c7775b5d7]
+[nr047:76599] [ 2] /lib64/libc.so.6(abort+0x148)[0x7f3c7775ccc8]
+[nr047:76599] [ 3] /opt/mellanox/mxm/lib/libmxm.so.2(+0x67de5)[0x7f3c76fecde5]
+[nr047:76599] [ 4] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_ud_channel_timer+0x412)[0x7f3c76ff4b62]
+[nr047:76599] [ 5] /opt/mellanox/mxm/lib/libmxm.so.2(+0x73e53)[0x7f3c76ff8e53]
+[nr047:76599] [ 6] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_timerq_sweep_internal+0x74)[0x7f3c76ff1a34]
+[nr047:76599] [ 7] /opt/mellanox/mxm/lib/libmxm.so.2(+0x5291d)[0x7f3c76fd791d]
+[nr047:76599] [ 8] /opt/mellanox/mxm/lib/libmxm.so.2(+0x4fb9e)[0x7f3c76fd4b9e]
+[nr047:76599] [ 9] /lib64/libpthread.so.0(+0x7df5)[0x7f3c77aeedf5]
+[nr047:76599] [10] /lib64/libc.so.6(clone+0x6d)[0x7f3c7781c1ad]
+[nr047:76599] *** End of error message ***
+[nr063:80725:0]  ud_channel.c:766  Fatal: UD timeout sending to nr064:26871 (after 600.12 seconds)
+==== backtrace ====
+ 2 0x00000000000670ac mxm_handle_error()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/util/debug/debug.c:641
+ 3 0x0000000000067de0 __mxm_abort()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/util/debug/log.c:257
+ 4 0x000000000006fb62 mxm_ud_channel_timer()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/tl/ud/ud_channel.c:764
+ 5 0x0000000000073e53 mxm_ud_ep_timer()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/tl/ud/ud_ep.c:144
+ 6 0x000000000006ca34 mxm_invoke_callback()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/datatype/callback.h:64
+ 7 0x000000000005291d mxm_timerq_sweep()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/time/timerq.h:71
+ 8 0x000000000004fb9e mxm_invoke_callback()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/datatype/callback.h:64
+ 9 0x000000000004fb9e __mxm_async_thread_unlock()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/async.h:144
+10 0x000000000004fb9e mxm_async_thread_func()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/async.c:364
+11 0x0000000000007df5 start_thread()  pthread_create.c:0
+12 0x00000000000f61ad __clone()  ??:0
+===================
+[nr063:80740] *** Process received signal ***
+[nr063:80740] Signal: Aborted (6)
+[nr063:80740] Signal code:  (-6)
+[nr063:80740] [ 0] /lib64/libpthread.so.0(+0xf130)[0x7ff6be0dd130]
+[nr063:80740] [ 1] /lib64/libc.so.6(gsignal+0x37)[0x7ff6bdd425d7]
+[nr063:80740] [ 2] /lib64/libc.so.6(abort+0x148)[0x7ff6bdd43cc8]
+[nr063:80740] [ 3] /opt/mellanox/mxm/lib/libmxm.so.2(+0x67de5)[0x7ff6bd5d3de5]
+[nr063:80740] [ 4] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_ud_channel_timer+0x412)[0x7ff6bd5dbb62]
+[nr063:80740] [ 5] /opt/mellanox/mxm/lib/libmxm.so.2(+0x73e53)[0x7ff6bd5dfe53]
+[nr063:80740] [ 6] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_timerq_sweep_internal+0x74)[0x7ff6bd5d8a34]
+[nr063:80740] [ 7] /opt/mellanox/mxm/lib/libmxm.so.2(+0x5291d)[0x7ff6bd5be91d]
+[nr063:80740] [ 8] /opt/mellanox/mxm/lib/libmxm.so.2(+0x4fb9e)[0x7ff6bd5bbb9e]
+[nr063:80740] [ 9] /lib64/libpthread.so.0(+0x7df5)[0x7ff6be0d5df5]
+[nr063:80740] [10] /lib64/libc.so.6(clone+0x6d)[0x7ff6bde031ad]
+[nr063:80740] *** End of error message ***
+[nr038:56474:0]  ud_channel.c:766  Fatal: UD timeout sending to nr064:26871 (after 600.18 seconds)
+[nr047:76603:0]  ud_channel.c:766  Fatal: UD timeout sending to nr064:26871 (after 600.26 seconds)
+[nr063:80736:0]  ud_channel.c:766  Fatal: UD timeout sending to nr064:26871 (after 600.19 seconds)
+[nr038:56490:0]  ud_channel.c:766  Fatal: UD timeout sending to nr064:26871 (after 600.20 seconds)
+[nr047:76607:0]  ud_channel.c:766  Fatal: UD timeout sending to nr064:26871 (after 600.26 seconds)
+[nr047:76601:0]  ud_channel.c:766  Fatal: UD timeout sending to nr064:26871 (after 600.25 seconds)
+[nr063:80743:0]  ud_channel.c:766  Fatal: UD timeout sending to nr064:26871 (after 600.17 seconds)
+[nr038:56469:0]  ud_channel.c:766  Fatal: UD timeout sending to nr064:26871 (after 600.23 seconds)
+[nr063:80741:0]  ud_channel.c:766  Fatal: UD timeout sending to nr064:26871 (after 600.22 seconds)
+[nr047:76600:0]  ud_channel.c:766  Fatal: UD timeout sending to nr064:26871 (after 600.27 seconds)
+[nr063:80721:0]  ud_channel.c:766  Fatal: UD timeout sending to nr064:26871 (after 600.23 seconds)
+[nr047:76604:0]  ud_channel.c:766  Fatal: UD timeout sending to nr064:26871 (after 600.28 seconds)
+[nr063:80735:0]  ud_channel.c:766  Fatal: UD timeout sending to nr064:26871 (after 600.28 seconds)
+==== backtrace ====
+ 2 0x00000000000670ac mxm_handle_error()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/util/debug/debug.c:641
+ 3 0x0000000000067de0 __mxm_abort()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/util/debug/log.c:257
+ 4 0x000000000006fb62 mxm_ud_channel_timer()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/tl/ud/ud_channel.c:764
+ 5 0x0000000000073e53 mxm_ud_ep_timer()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/tl/ud/ud_ep.c:144
+ 6 0x000000000006ca34 mxm_invoke_callback()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/datatype/callback.h:64
+ 7 0x000000000005291d mxm_timerq_sweep()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/time/timerq.h:71
+ 8 0x000000000004fb9e mxm_invoke_callback()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/datatype/callback.h:64
+ 9 0x000000000004fb9e __mxm_async_thread_unlock()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/async.h:144
+10 0x000000000004fb9e mxm_async_thread_func()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/async.c:364
+11 0x0000000000007df5 start_thread()  pthread_create.c:0
+12 0x00000000000f61ad __clone()  ??:0
+===================
+[nr047:76604] *** Process received signal ***
+[nr047:76604] Signal: Aborted (6)
+[nr047:76604] Signal code:  (-6)
+[nr047:76604] [ 0] /lib64/libpthread.so.0(+0xf130)[0x7fc06858d130]
+[nr047:76604] [ 1] /lib64/libc.so.6(gsignal+0x37)[0x7fc0681f25d7]
+[nr047:76604] [ 2] /lib64/libc.so.6(abort+0x148)[0x7fc0681f3cc8]
+[nr047:76604] [ 3] /opt/mellanox/mxm/lib/libmxm.so.2(+0x67de5)[0x7fc067a83de5]
+[nr047:76604] [ 4] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_ud_channel_timer+0x412)[0x7fc067a8bb62]
+[nr047:76604] [ 5] /opt/mellanox/mxm/lib/libmxm.so.2(+0x73e53)[0x7fc067a8fe53]
+[nr047:76604] [ 6] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_timerq_sweep_internal+0x74)[0x7fc067a88a34]
+[nr047:76604] [ 7] /opt/mellanox/mxm/lib/libmxm.so.2(+0x5291d)[0x7fc067a6e91d]
+[nr047:76604] [ 8] /opt/mellanox/mxm/lib/libmxm.so.2(+0x4fb9e)[0x7fc067a6bb9e]
+[nr047:76604] [ 9] /lib64/libpthread.so.0(+0x7df5)[0x7fc068585df5]
+[nr047:76604] [10] /lib64/libc.so.6(clone+0x6d)[0x7fc0682b31ad]
+[nr047:76604] *** End of error message ***
+==== backtrace ====
+ 2 0x00000000000670ac mxm_handle_error()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/util/debug/debug.c:641
+==== backtrace ====
+ 2 0x00000000000670ac mxm_handle_error()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/util/debug/debug.c:641
+ 3 0x0000000000067de0 __mxm_abort()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/util/debug/log.c:257
+ 4 0x000000000006fb62 mxm_ud_channel_timer()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/tl/ud/ud_channel.c:764
+ 5 0x0000000000073e53 mxm_ud_ep_timer()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/tl/ud/ud_ep.c:144
+ 6 0x000000000006ca34 mxm_invoke_callback()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/datatype/callback.h:64
+ 7 0x000000000005291d mxm_timerq_sweep()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/time/timerq.h:71
+ 8 0x000000000004fb9e mxm_invoke_callback()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/datatype/callback.h:64
+ 9 0x000000000004fb9e __mxm_async_thread_unlock()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/async.h:144
+10 0x000000000004fb9e mxm_async_thread_func()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/async.c:364
+11 0x0000000000007df5 start_thread()  pthread_create.c:0
+12 0x00000000000f61ad __clone()  ??:0
+===================
+ 3 0x0000000000067de0 __mxm_abort()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/util/debug/log.c:257
+[nr063:80721] *** Process received signal ***
+[nr063:80721] Signal: Aborted (6)
+[nr063:80721] Signal code:  (-6)
+ 4 0x000000000006fb62 mxm_ud_channel_timer()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/tl/ud/ud_channel.c:764
+[nr063:80721] [ 0] /lib64/libpthread.so.0(+0xf130)[0x7f3b05da7130]
+[nr063:80721] [ 1] /lib64/libc.so.6(gsignal+0x37)[0x7f3b05a0c5d7]
+[nr063:80721] [ 2] /lib64/libc.so.6(abort+0x148)[0x7f3b05a0dcc8]
+[nr063:80721] [ 3] /opt/mellanox/mxm/lib/libmxm.so.2(+0x67de5)[0x7f3b0529dde5]
+[nr063:80721] [ 4] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_ud_channel_timer+0x412)[0x7f3b052a5b62]
+[nr063:80721] [ 5] /opt/mellanox/mxm/lib/libmxm.so.2(+0x73e53)[0x7f3b052a9e53]
+[nr063:80721] [ 6] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_timerq_sweep_internal+0x74)[0x7f3b052a2a34]
+[nr063:80721] [ 7] /opt/mellanox/mxm/lib/libmxm.so.2(+0x5291d)[0x7f3b0528891d]
+[nr063:80721] [ 8] /opt/mellanox/mxm/lib/libmxm.so.2(+0x4fb9e)[0x7f3b05285b9e]
+[nr063:80721] [ 9] /lib64/libpthread.so.0(+0x7df5)[0x7f3b05d9fdf5]
+[nr063:80721] [10] /lib64/libc.so.6(clone+0x6d)[0x7f3b05acd1ad]
+[nr063:80721] *** End of error message ***
+ 5 0x0000000000073e53 mxm_ud_ep_timer()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/tl/ud/ud_ep.c:144
+ 6 0x000000000006ca34 mxm_invoke_callback()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/datatype/callback.h:64
+ 7 0x000000000005291d mxm_timerq_sweep()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/time/timerq.h:71
+ 8 0x000000000004fb9e mxm_invoke_callback()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/datatype/callback.h:64
+ 9 0x000000000004fb9e __mxm_async_thread_unlock()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/async.h:144
+10 0x000000000004fb9e mxm_async_thread_func()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/async.c:364
+11 0x0000000000007df5 start_thread()  pthread_create.c:0
+12 0x00000000000f61ad __clone()  ??:0
+===================
+[nr063:80741] *** Process received signal ***
+[nr063:80741] Signal: Aborted (6)
+[nr063:80741] Signal code:  (-6)
+[nr063:80741] [ 0] /lib64/libpthread.so.0(+0xf130)[0x7ffac9ce1130]
+[nr063:80741] [ 1] /lib64/libc.so.6(gsignal+0x37)[0x7ffac99465d7]
+[nr063:80741] [ 2] /lib64/libc.so.6(abort+0x148)[0x7ffac9947cc8]
+[nr063:80741] [ 3] /opt/mellanox/mxm/lib/libmxm.so.2(+0x67de5)[0x7ffac91d7de5]
+[nr063:80741] [ 4] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_ud_channel_timer+0x412)[0x7ffac91dfb62]
+[nr063:80741] [ 5] /opt/mellanox/mxm/lib/libmxm.so.2(+0x73e53)[0x7ffac91e3e53]
+[nr063:80741] [ 6] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_timerq_sweep_internal+0x74)[0x7ffac91dca34]
+[nr063:80741] [ 7] /opt/mellanox/mxm/lib/libmxm.so.2(+0x5291d)[0x7ffac91c291d]
+[nr063:80741] [ 8] /opt/mellanox/mxm/lib/libmxm.so.2(+0x4fb9e)[0x7ffac91bfb9e]
+[nr063:80741] [ 9] /lib64/libpthread.so.0(+0x7df5)[0x7ffac9cd9df5]
+[nr063:80741] [10] /lib64/libc.so.6(clone+0x6d)[0x7ffac9a071ad]
+[nr063:80741] *** End of error message ***
+==== backtrace ====
+==== backtrace ====
+ 2 0x00000000000670ac mxm_handle_error()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/util/debug/debug.c:641
+ 2 0x00000000000670ac mxm_handle_error()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/util/debug/debug.c:641
+ 3 0x0000000000067de0 __mxm_abort()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/util/debug/log.c:257
+ 4 0x000000000006fb62 mxm_ud_channel_timer()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/tl/ud/ud_channel.c:764
+ 5 0x0000000000073e53 mxm_ud_ep_timer()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/tl/ud/ud_ep.c:144
+ 6 0x000000000006ca34 mxm_invoke_callback()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/datatype/callback.h:64
+ 7 0x000000000005291d mxm_timerq_sweep()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/time/timerq.h:71
+ 8 0x0000000000050d08 mxm_invoke_callback()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/datatype/callback.h:64
+ 9 0x0000000000050d08 mxm_async_missed()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/async.c:818
+10 0x00000000000531e3 mxm_async_check_miss()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/async.h:222
+11 0x00000000000531e3 mxm_progress_internal()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/mxm.c:65
+12 0x00000000000531e3 mxm_progress()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/mxm.c:346
+13 0x00000000001ea847 mca_pml_yalla_progress()  ??:0
+14 0x000000000002a472 opal_progress()  ??:0
+15 0x000000000007b5f5 ompi_request_default_wait()  ??:0
+16 0x00000000000b19b9 PMPI_Wait()  ??:0
+17 0x000000000005d31e md_mpi_wait()  ??:0
+18 0x0000000000020d36 AZ_gdot_vec()  ??:0
+19 0x000000000006221c AZ_compute_global_scalars()  ??:0
+20 0x000000000005e93c AZ_pcg_f()  ??:0
+21 0x00000000000875d9 AZ_oldsolve()  ??:0
+22 0x0000000000087e7c AZ_iterate()  ??:0
+23 0x00000000000288ac _ZN7AztecOO7IterateExd()  ??:0
+24 0x0000000004d65b22 _ZN6dealii16TrilinosWrappers10SolverBase8do_solveERKNS0_16PreconditionBaseE()  /opt/build/BUILD/dealii-8.3.0/source/lac/trilinos_solver.cc:267
+25 0x0000000004d6645b _ZN6dealii16TrilinosWrappers10SolverBase5solveERKNS0_12SparseMatrixERNS0_10VectorBaseERKS5_RKNS0_16PreconditionBaseE()  /opt/build/BUILD/dealii-8.3.0/source/lac/trilinos_solver.cc:86
+26 0x0000000000a2be4f _ZNK6aspect8internal24BlockSchurPreconditionerIN6dealii16TrilinosWrappers15PreconditionAMGENS3_15PreconditionILUEE5vmultERNS3_3MPI11BlockVectorERKS8_()  /work/newriver/dstamps/aspect/source/simulator/solver.cc:345
+27 0x0000000000a2fb5d _ZN6dealii12SolverFGMRESINS_16TrilinosWrappers3MPI11BlockVectorEE5solveIN6aspect8internal11StokesBlockENS7_24BlockSchurPreconditionerINS1_15PreconditionAMGENS1_15PreconditionILUEEEEEvRKT_RS3_RKS3_RKT0_()  /opt/apps/gcc5_2/openmpi1_10/dealii/8.3.0/include/deal.II/lac/solver_gmres.h:1170
+28 0x0000000000a33c24 _ZN6aspect9SimulatorILi3EE12solve_stokesEv()  /work/newriver/dstamps/aspect/source/simulator/solver.cc:729
+29 0x0000000000a67675 _ZN6aspect9SimulatorILi3EE14solve_timestepEv()  /work/newriver/dstamps/aspect/source/simulator/core.cc:1910
+30 0x0000000000a6fa34 _ZN6aspect9SimulatorILi3EE3runEv()  /work/newriver/dstamps/aspect/source/simulator/core.cc:2067
+31 0x0000000000a6fa34 _ZN6aspect9SimulatorILi3EE3runEv()  /work/newriver/dstamps/aspect/source/simulator/core.cc:2069
+32 0x000000000095552d main()  /work/newriver/dstamps/aspect/source/main.cc:517
+33 0x0000000000021af5 __libc_start_main()  ??:0
+34 0x0000000000753059 _start()  ??:0
+===================
+ 3 0x0000000000067de0 __mxm_abort()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/util/debug/log.c:257
+ 4 0x000000000006fb62 mxm_ud_channel_timer()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/tl/ud/ud_channel.c:764
+ 5 0x0000000000073e53 mxm_ud_ep_timer()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/tl/ud/ud_ep.c:144
+ 6 0x000000000006ca34 mxm_invoke_callback()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/datatype/callback.h:64
+ 7 0x000000000005291d mxm_timerq_sweep()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/time/timerq.h:71
+ 8 0x0000000000050d08 mxm_invoke_callback()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/datatype/callback.h:64
+ 9 0x0000000000050d08 mxm_async_missed()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/async.c:818
+10 0x00000000000531e3 mxm_async_check_miss()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/async.h:222
+11 0x00000000000531e3 mxm_progress_internal()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/mxm.c:65
+12 0x00000000000531e3 mxm_progress()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/mxm.c:346
+13 0x00000000001ea847 mca_pml_yalla_progress()  ??:0
+14 0x000000000002a472 opal_progress()  ??:0
+15 0x000000000007b5f5 ompi_request_default_wait()  ??:0
+16 0x00000000000b19b9 PMPI_Wait()  ??:0
+17 0x000000000005d31e md_mpi_wait()  ??:0
+18 0x0000000000020d36 AZ_gdot_vec()  ??:0
+19 0x000000000006221c AZ_compute_global_scalars()  ??:0
+20 0x000000000005e93c AZ_pcg_f()  ??:0
+21 0x00000000000875d9 AZ_oldsolve()  ??:0
+22 0x0000000000087e7c AZ_iterate()  ??:0
+23 0x00000000000288ac _ZN7AztecOO7IterateExd()  ??:0
+24 0x0000000004d65b22 _ZN6dealii16TrilinosWrappers10SolverBase8do_solveERKNS0_16PreconditionBaseE()  /opt/build/BUILD/dealii-8.3.0/source/lac/trilinos_solver.cc:267
+25 0x0000000004d6645b _ZN6dealii16TrilinosWrappers10SolverBase5solveERKNS0_12SparseMatrixERNS0_10VectorBaseERKS5_RKNS0_16PreconditionBaseE()  /opt/build/BUILD/dealii-8.3.0/source/lac/trilinos_solver.cc:86
+26 0x0000000000a2be4f _ZNK6aspect8internal24BlockSchurPreconditionerIN6dealii16TrilinosWrappers15PreconditionAMGENS3_15PreconditionILUEE5vmultERNS3_3MPI11BlockVectorERKS8_()  /work/newriver/dstamps/aspect/source/simulator/solver.cc:345
+27 0x0000000000a2fb5d _ZN6dealii12SolverFGMRESINS_16TrilinosWrappers3MPI11BlockVectorEE5solveIN6aspect8internal11StokesBlockENS7_24BlockSchurPreconditionerINS1_15PreconditionAMGENS1_15PreconditionILUEEEEEvRKT_RS3_RKS3_RKT0_()  /opt/apps/gcc5_2/openmpi1_10/dealii/8.3.0/include/deal.II/lac/solver_gmres.h:1170
+28 0x0000000000a33c24 _ZN6aspect9SimulatorILi3EE12solve_stokesEv()  /work/newriver/dstamps/aspect/source/simulator/solver.cc:729
+29 0x0000000000a67675 _ZN6aspect9SimulatorILi3EE14solve_timestepEv()  /work/newriver/dstamps/aspect/source/simulator/core.cc:1910
+30 0x0000000000a6fa34 _ZN6aspect9SimulatorILi3EE3runEv()  /work/newriver/dstamps/aspect/source/simulator/core.cc:2067
+31 0x0000000000a6fa34 _ZN6aspect9SimulatorILi3EE3runEv()  /work/newriver/dstamps/aspect/source/simulator/core.cc:2069
+32 0x000000000095552d main()  /work/newriver/dstamps/aspect/source/main.cc:517
+33 0x0000000000021af5 __libc_start_main()  ??:0
+34 0x0000000000753059 _start()  ??:0
+===================
+[nr038:56469] *** Process received signal ***
+[nr038:56474] *** Process received signal ***
+[nr038:56469] Signal: Aborted (6)
+[nr038:56469] Signal code:  (-6)
+[nr038:56474] Signal: Aborted (6)
+[nr038:56474] Signal code:  (-6)
+==== backtrace ====
+ 2 0x00000000000670ac mxm_handle_error()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/util/debug/debug.c:641
+ 3 0x0000000000067de0 __mxm_abort()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/util/debug/log.c:257
+ 4 0x000000000006fb62 mxm_ud_channel_timer()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/tl/ud/ud_channel.c:764
+ 5 0x0000000000073e53 mxm_ud_ep_timer()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/tl/ud/ud_ep.c:144
+ 6 0x000000000006ca34 mxm_invoke_callback()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/datatype/callback.h:64
+ 7 0x000000000005291d mxm_timerq_sweep()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/time/timerq.h:71
+ 8 0x0000000000050d08 mxm_invoke_callback()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/datatype/callback.h:64
+ 9 0x0000000000050d08 mxm_async_missed()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/async.c:818
+10 0x00000000000531e3 mxm_async_check_miss()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/async.h:222
+11 0x00000000000531e3 mxm_progress_internal()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/mxm.c:65
+12 0x00000000000531e3 mxm_progress()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/mxm.c:346
+13 0x00000000001ea847 mca_pml_yalla_progress()  ??:0
+14 0x000000000002a472 opal_progress()  ??:0
+15 0x000000000007b5f5 ompi_request_default_wait()  ??:0
+16 0x00000000000b19b9 PMPI_Wait()  ??:0
+17 0x000000000005d31e md_mpi_wait()  ??:0
+18 0x0000000000020d36 AZ_gdot_vec()  ??:0
+19 0x000000000006221c AZ_compute_global_scalars()  ??:0
+20 0x000000000005e93c AZ_pcg_f()  ??:0
+21 0x00000000000875d9 AZ_oldsolve()  ??:0
+22 0x0000000000087e7c AZ_iterate()  ??:0
+23 0x00000000000288ac _ZN7AztecOO7IterateExd()  ??:0
+24 0x0000000004d65b22 _ZN6dealii16TrilinosWrappers10SolverBase8do_solveERKNS0_16PreconditionBaseE()  /opt/build/BUILD/dealii-8.3.0/source/lac/trilinos_solver.cc:267
+25 0x0000000004d6645b _ZN6dealii16TrilinosWrappers10SolverBase5solveERKNS0_12SparseMatrixERNS0_10VectorBaseERKS5_RKNS0_16PreconditionBaseE()  /opt/build/BUILD/dealii-8.3.0/source/lac/trilinos_solver.cc:86
+26 0x0000000000a2be4f _ZNK6aspect8internal24BlockSchurPreconditionerIN6dealii16TrilinosWrappers15PreconditionAMGENS3_15PreconditionILUEE5vmultERNS3_3MPI11BlockVectorERKS8_()  /work/newriver/dstamps/aspect/source/simulator/solver.cc:345
+27 0x0000000000a2fb5d _ZN6dealii12SolverFGMRESINS_16TrilinosWrappers3MPI11BlockVectorEE5solveIN6aspect8internal11StokesBlockENS7_24BlockSchurPreconditionerINS1_15PreconditionAMGENS1_15PreconditionILUEEEEEvRKT_RS3_RKS3_RKT0_()  /opt/apps/gcc5_2/openmpi1_10/dealii/8.3.0/include/deal.II/lac/solver_gmres.h:1170
+28 0x0000000000a33c24 _ZN6aspect9SimulatorILi3EE12solve_stokesEv()  /work/newriver/dstamps/aspect/source/simulator/solver.cc:729
+29 0x0000000000a67675 _ZN6aspect9SimulatorILi3EE14solve_timestepEv()  /work/newriver/dstamps/aspect/source/simulator/core.cc:1910
+30 0x0000000000a6fa34 _ZN6aspect9SimulatorILi3EE3runEv()  /work/newriver/dstamps/aspect/source/simulator/core.cc:2067
+31 0x0000000000a6fa34 _ZN6aspect9SimulatorILi3EE3runEv()  /work/newriver/dstamps/aspect/source/simulator/core.cc:2069
+32 0x000000000095552d main()  /work/newriver/dstamps/aspect/source/main.cc:517
+33 0x0000000000021af5 __libc_start_main()  ??:0
+34 0x0000000000753059 _start()  ??:0
+===================
+[nr038:56490] *** Process received signal ***
+[nr038:56490] Signal: Aborted (6)
+[nr038:56490] Signal code:  (-6)
+[nr038:56469] [ 0] [nr038:56490] [nr038:56474] [ 0] /lib64/libpthread.so.0(+0xf130)[0x7fe4ffc4e130]
+[nr038:56474] [ 1] /lib64/libpthread.so.0(+0xf130)[0x7f801c81a130]
+[nr038:56469] [ 1] /lib64/libc.so.6(gsignal+0x37)[0x7f801c47f5d7]
+[nr038:56469] [ 2] /lib64/libc.so.6(abort+0x148)[0x7f801c480cc8]
+[nr038:56469] [ 3] /lib64/libc.so.6(gsignal+0x37)[0x7fe4ff8b35d7]
+[nr038:56474] [ 2] /lib64/libc.so.6(abort+0x148)[0x7fe4ff8b4cc8]
+[nr038:56474] [ 3] /opt/mellanox/mxm/lib/libmxm.so.2(+0x67de5)[0x7f801bd10de5]
+[nr038:56469] [ 4] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_ud_channel_timer+0x412)[0x7f801bd18b62]
+[nr038:56469] [ 5] /opt/mellanox/mxm/lib/libmxm.so.2(+0x73e53)[0x7f801bd1ce53]
+[nr038:56469] [ 6] /opt/mellanox/mxm/lib/libmxm.so.2(+0x67de5)[0x7fe4ff144de5]
+[nr038:56474] [ 4] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_ud_channel_timer+0x412)[0x7fe4ff14cb62]
+[nr038:56474] [ 5] /opt/mellanox/mxm/lib/libmxm.so.2(+0x73e53)[0x7fe4ff150e53]
+[nr038:56474] [ 6] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_timerq_sweep_internal+0x74)[0x7f801bd15a34]
+[nr038:56469] [ 7] /opt/mellanox/mxm/lib/libmxm.so.2(+0x5291d)[0x7f801bcfb91d]
+[nr038:56469] [ 8] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_async_missed+0xa8)[0x7f801bcf9d08]
+[nr038:56469] [ 9] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_progress+0x123)[0x7f801bcfc1e3]
+[nr038:56469] [10] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_timerq_sweep_internal+0x74)[0x7fe4ff149a34]
+[nr038:56474] [ 7] /opt/mellanox/mxm/lib/libmxm.so.2(+0x5291d)[0x7fe4ff12f91d]
+[nr038:56474] [ 8] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_async_missed+0xa8)[0x7fe4ff12dd08]
+[nr038:56474] [ 9] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_progress+0x123)[0x7fe4ff1301e3]
+[nr038:56474] [10] /opt/apps/gcc5_2/openmpi/1.10.0/lib/libmpi.so.12(mca_pml_yalla_progress+0x17)[0x7fe5008db847]
+[nr038:56474] /opt/apps/gcc5_2/openmpi/1.10.0/lib/libmpi.so.12(mca_pml_yalla_progress+0x17)[0x7f801d4a7847]
+[nr038:56469] [11] /opt/apps/gcc5_2/openmpi/1.10.0/lib/libopen-pal.so.13(opal_progress+0x52)[0x7f801a24e472]
+[nr038:56469] [12] [11] /opt/apps/gcc5_2/openmpi/1.10.0/lib/libopen-pal.so.13(opal_progress+0x52)[0x7fe4fd682472]
+[nr038:56474] [12] /opt/apps/gcc5_2/openmpi/1.10.0/lib/libmpi.so.12(ompi_request_default_wait+0x55)[0x7f801d3385f5]
+[nr038:56469] [13] /opt/apps/gcc5_2/openmpi/1.10.0/lib/libmpi.so.12(PMPI_Wait+0x59)[0x7f801d36e9b9]
+[nr038:56469] [14] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(md_mpi_wait+0x1e)[0x7f8025abb31e]
+/opt/apps/gcc5_2/openmpi/1.10.0/lib/libmpi.so.12(ompi_request_default_wait+0x55)[0x7fe50076c5f5]
+[nr038:56474] [13] /opt/apps/gcc5_2/openmpi/1.10.0/lib/libmpi.so.12(PMPI_Wait+0x59)[0x7fe5007a29b9]
+[nr038:56474] [14] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(md_mpi_wait+0x1e)[0x7fe508eef31e]
+[nr038:56474] [15] [nr038:56469] [15] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_gdot_vec+0x616)[0x7f8025a7ed36]
+[nr038:56469] [16] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_compute_global_scalars+0x86c)[0x7f8025ac021c]
+[nr038:56469] [17] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_pcg_f+0x98c)[0x7f8025abc93c]
+[nr038:56469] [18] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_oldsolve+0xb59)[0x7f8025ae55d9]
+[nr038:56469] [19] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_gdot_vec+0x616)[0x7fe508eb2d36]
+[nr038:56474] [16] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_compute_global_scalars+0x86c)[0x7fe508ef421c]
+[nr038:56474] [17] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_pcg_f+0x98c)[0x7fe508ef093c]
+[nr038:56474] [18] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_oldsolve+0xb59)[0x7fe508f195d9]
+[nr038:56474] [19] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_iterate+0x12c)[0x7fe508f19e7c]
+[nr038:56474] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_iterate+0x12c)[0x7f8025ae5e7c]
+[nr038:56469] [20] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(_ZN7AztecOO7IterateExd+0xcc)[0x7f8025a868ac]
+[nr038:56469] [21] [20] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(_ZN7AztecOO7IterateExd+0xcc)[0x7fe508eba8ac]
+[nr038:56474] [21] [ 0] /lib64/libpthread.so.0(+0xf130)[0x7f5767383130]
+[nr038:56490] [ 1] /lib64/libc.so.6(gsignal+0x37)[0x7f5766fe85d7]
+[nr038:56490] [ 2] /lib64/libc.so.6(abort+0x148)[0x7f5766fe9cc8]
+[nr038:56490] [ 3] /opt/mellanox/mxm/lib/libmxm.so.2(+0x67de5)[0x7f5766879de5]
+[nr038:56490] [ 4] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_ud_channel_timer+0x412)[0x7f5766881b62]
+[nr038:56490] [ 5] /opt/mellanox/mxm/lib/libmxm.so.2(+0x73e53)[0x7f5766885e53]
+/opt/apps/gcc5_2/openmpi1_10/dealii/8.3.0/lib/libdeal_II.g.so.8.3.0(_ZN6dealii16TrilinosWrappers10SolverBase8do_solveERKNS0_16PreconditionBaseE+0x2ca)[0x7f803286eb22]
+[nr038:56469] [22] /opt/apps/gcc5_2/openmpi1_10/dealii/8.3.0/lib/libdeal_II.g.so.8.3.0(_ZN6dealii16TrilinosWrappers10SolverBase8do_solveERKNS0_16PreconditionBaseE+0x2ca)[0x7fe515ca2b22]
+[nr038:56474] [22] [nr038:56490] [ 6] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_timerq_sweep_internal+0x74)[0x7f576687ea34]
+[nr038:56490] [ 7] /opt/mellanox/mxm/lib/libmxm.so.2(+0x5291d)[0x7f576686491d]
+[nr038:56490] [ 8] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_async_missed+0xa8)[0x7f5766862d08]
+[nr038:56490] [ 9] /opt/apps/gcc5_2/openmpi1_10/dealii/8.3.0/lib/libdeal_II.g.so.8.3.0(_ZN6dealii16TrilinosWrappers10SolverBase5solveERKNS0_12SparseMatrixERNS0_10VectorBaseERKS5_RKNS0_16PreconditionBaseE+0x1c3)[0x7f803286f45b]
+[nr038:56469] [23] /opt/apps/gcc5_2/openmpi1_10/dealii/8.3.0/lib/libdeal_II.g.so.8.3.0(_ZN6dealii16TrilinosWrappers10SolverBase5solveERKNS0_12SparseMatrixERNS0_10VectorBaseERKS5_RKNS0_16PreconditionBaseE+0x1c3)[0x7fe515ca345b]
+[nr038:56474] [23] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_progress+0x123)[0x7f57668651e3]
+./build/aspect(_ZNK6aspect8internal24BlockSchurPreconditionerIN6dealii16TrilinosWrappers15PreconditionAMGENS3_15PreconditionILUEE5vmultERNS3_3MPI11BlockVectorERKS8_+0x29f)[0xa2be4f]
+[nr038:56469] [24] ./build/aspect(_ZNK6aspect8internal24BlockSchurPreconditionerIN6dealii16TrilinosWrappers15PreconditionAMGENS3_15PreconditionILUEE5vmultERNS3_3MPI11BlockVectorERKS8_+0x29f)[0xa2be4f]
+[nr038:56474] [24] [nr038:56490] ./build/aspect(_ZN6dealii12SolverFGMRESINS_16TrilinosWrappers3MPI11BlockVectorEE5solveIN6aspect8internal11StokesBlockENS7_24BlockSchurPreconditionerINS1_15PreconditionAMGENS1_15PreconditionILUEEEEEvRKT_RS3_RKS3_RKT0_+0x7a5)[0xa2fb5d]
+[nr038:56469] [25] ./build/aspect(_ZN6dealii12SolverFGMRESINS_16TrilinosWrappers3MPI11BlockVectorEE5solveIN6aspect8internal11StokesBlockENS7_24BlockSchurPreconditionerINS1_15PreconditionAMGENS1_15PreconditionILUEEEEEvRKT_RS3_RKS3_RKT0_+0x7a5)[0xa2fb5d]
+[nr038:56474] [25] [10] ./build/aspect(_ZN6aspect9SimulatorILi3EE12solve_stokesEv+0x19e2)[0xa33c24]
+[nr038:56469] [26] ./build/aspect(_ZN6aspect9SimulatorILi3EE12solve_stokesEv+0x19e2)[0xa33c24]
+[nr038:56474] [26] /opt/apps/gcc5_2/openmpi/1.10.0/lib/libmpi.so.12(mca_pml_yalla_progress+0x17)[0x7f5768010847]
+./build/aspect(_ZN6aspect9SimulatorILi3EE14solve_timestepEv+0xc09)[0xa67675]
+[nr038:56474] [27] ./build/aspect(_ZN6aspect9SimulatorILi3EE14solve_timestepEv+0xc09)[0xa67675]
+[nr038:56469] [27] [nr038:56490] ./build/aspect(_ZN6aspect9SimulatorILi3EE3runEv+0x9ec)[0xa6fa34]
+[nr038:56469] [28] ./build/aspect(_ZN6aspect9SimulatorILi3EE3runEv+0x9ec)[0xa6fa34]
+[nr038:56474] [28] [11] ./build/aspect(main+0x4ee)[0x95552d]
+[nr038:56474] [29] ./build/aspect(main+0x4ee)[0x95552d]
+[nr038:56469] [29] /lib64/libc.so.6(__libc_start_main+0xf5)[0x7f801c46baf5]
+[nr038:56469] *** End of error message ***
+/lib64/libc.so.6(__libc_start_main+0xf5)[0x7fe4ff89faf5]
+[nr038:56474] *** End of error message ***
+/opt/apps/gcc5_2/openmpi/1.10.0/lib/libopen-pal.so.13(opal_progress+0x52)[0x7f5764db7472]
+[nr038:56490] [12] /opt/apps/gcc5_2/openmpi/1.10.0/lib/libmpi.so.12(ompi_request_default_wait+0x55)[0x7f5767ea15f5]
+[nr038:56490] [13] /opt/apps/gcc5_2/openmpi/1.10.0/lib/libmpi.so.12(PMPI_Wait+0x59)[0x7f5767ed79b9]
+[nr038:56490] [14] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(md_mpi_wait+0x1e)[0x7f577062431e]
+[nr038:56490] [15] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_gdot_vec+0x616)[0x7f57705e7d36]
+[nr038:56490] [16] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_compute_global_scalars+0x86c)[0x7f577062921c]
+[nr038:56490] [17] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_pcg_f+0x98c)[0x7f577062593c]
+[nr038:56490] [18] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_oldsolve+0xb59)[0x7f577064e5d9]
+[nr038:56490] [19] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_iterate+0x12c)[0x7f577064ee7c]
+[nr038:56490] [20] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(_ZN7AztecOO7IterateExd+0xcc)[0x7f57705ef8ac]
+[nr038:56490] [21] /opt/apps/gcc5_2/openmpi1_10/dealii/8.3.0/lib/libdeal_II.g.so.8.3.0(_ZN6dealii16TrilinosWrappers10SolverBase8do_solveERKNS0_16PreconditionBaseE+0x2ca)[0x7f577d3d7b22]
+[nr038:56490] [22] /opt/apps/gcc5_2/openmpi1_10/dealii/8.3.0/lib/libdeal_II.g.so.8.3.0(_ZN6dealii16TrilinosWrappers10SolverBase5solveERKNS0_12SparseMatrixERNS0_10VectorBaseERKS5_RKNS0_16PreconditionBaseE+0x1c3)[0x7f577d3d845b]
+[nr038:56490] [23] ./build/aspect(_ZNK6aspect8internal24BlockSchurPreconditionerIN6dealii16TrilinosWrappers15PreconditionAMGENS3_15PreconditionILUEE5vmultERNS3_3MPI11BlockVectorERKS8_+0x29f)[0xa2be4f]
+[nr038:56490] [24] ./build/aspect(_ZN6dealii12SolverFGMRESINS_16TrilinosWrappers3MPI11BlockVectorEE5solveIN6aspect8internal11StokesBlockENS7_24BlockSchurPreconditionerINS1_15PreconditionAMGENS1_15PreconditionILUEEEEEvRKT_RS3_RKS3_RKT0_+0x7a5)[0xa2fb5d]
+[nr038:56490] [25] ./build/aspect(_ZN6aspect9SimulatorILi3EE12solve_stokesEv+0x19e2)[0xa33c24]
+[nr038:56490] [26] ./build/aspect(_ZN6aspect9SimulatorILi3EE14solve_timestepEv+0xc09)[0xa67675]
+[nr038:56490] [27] ./build/aspect(_ZN6aspect9SimulatorILi3EE3runEv+0x9ec)[0xa6fa34]
+[nr038:56490] [28] ./build/aspect(main+0x4ee)[0x95552d]
+[nr038:56490] [29] /lib64/libc.so.6(__libc_start_main+0xf5)[0x7f5766fd4af5]
+[nr038:56490] *** End of error message ***
+==== backtrace ====
+ 2 0x00000000000670ac mxm_handle_error()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/util/debug/debug.c:641
+ 3 0x0000000000067de0 __mxm_abort()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/util/debug/log.c:257
+ 4 0x000000000006fb62 mxm_ud_channel_timer()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/tl/ud/ud_channel.c:764
+ 5 0x0000000000073e53 mxm_ud_ep_timer()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/tl/ud/ud_ep.c:144
+ 6 0x000000000006ca34 mxm_invoke_callback()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/datatype/callback.h:64
+ 7 0x000000000005291d mxm_timerq_sweep()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/time/timerq.h:71
+ 8 0x0000000000050d08 mxm_invoke_callback()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/datatype/callback.h:64
+ 9 0x0000000000050d08 mxm_async_missed()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/async.c:818
+10 0x00000000000531e3 mxm_async_check_miss()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/async.h:222
+11 0x00000000000531e3 mxm_progress_internal()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/mxm.c:65
+12 0x00000000000531e3 mxm_progress()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/mxm.c:346
+13 0x00000000001ea847 mca_pml_yalla_progress()  ??:0
+14 0x000000000002a472 opal_progress()  ??:0
+15 0x000000000007b5f5 ompi_request_default_wait()  ??:0
+16 0x00000000000b19b9 PMPI_Wait()  ??:0
+17 0x000000000005d31e md_mpi_wait()  ??:0
+18 0x0000000000020a4d AZ_gdot_vec()  ??:0
+19 0x000000000006221c AZ_compute_global_scalars()  ??:0
+20 0x000000000005e93c AZ_pcg_f()  ??:0
+21 0x00000000000875d9 AZ_oldsolve()  ??:0
+22 0x0000000000087e7c AZ_iterate()  ??:0
+23 0x00000000000288ac _ZN7AztecOO7IterateExd()  ??:0
+24 0x0000000004d65b22 _ZN6dealii16TrilinosWrappers10SolverBase8do_solveERKNS0_16PreconditionBaseE()  /opt/build/BUILD/dealii-8.3.0/source/lac/trilinos_solver.cc:267
+25 0x0000000004d6645b _ZN6dealii16TrilinosWrappers10SolverBase5solveERKNS0_12SparseMatrixERNS0_10VectorBaseERKS5_RKNS0_16PreconditionBaseE()  /opt/build/BUILD/dealii-8.3.0/source/lac/trilinos_solver.cc:86
+26 0x0000000000a2be4f _ZNK6aspect8internal24BlockSchurPreconditionerIN6dealii16TrilinosWrappers15PreconditionAMGENS3_15PreconditionILUEE5vmultERNS3_3MPI11BlockVectorERKS8_()  /work/newriver/dstamps/aspect/source/simulator/solver.cc:345
+27 0x0000000000a2fb5d _ZN6dealii12SolverFGMRESINS_16TrilinosWrappers3MPI11BlockVectorEE5solveIN6aspect8internal11StokesBlockENS7_24BlockSchurPreconditionerINS1_15PreconditionAMGENS1_15PreconditionILUEEEEEvRKT_RS3_RKS3_RKT0_()  /opt/apps/gcc5_2/openmpi1_10/dealii/8.3.0/include/deal.II/lac/solver_gmres.h:1170
+28 0x0000000000a33c24 _ZN6aspect9SimulatorILi3EE12solve_stokesEv()  /work/newriver/dstamps/aspect/source/simulator/solver.cc:729
+29 0x0000000000a67675 _ZN6aspect9SimulatorILi3EE14solve_timestepEv()  /work/newriver/dstamps/aspect/source/simulator/core.cc:1910
+30 0x0000000000a6fa34 _ZN6aspect9SimulatorILi3EE3runEv()  /work/newriver/dstamps/aspect/source/simulator/core.cc:2067
+31 0x0000000000a6fa34 _ZN6aspect9SimulatorILi3EE3runEv()  /work/newriver/dstamps/aspect/source/simulator/core.cc:2069
+32 0x000000000095552d main()  /work/newriver/dstamps/aspect/source/main.cc:517
+33 0x0000000000021af5 __libc_start_main()  ??:0
+34 0x0000000000753059 _start()  ??:0
+===================
+[nr063:80743] *** Process received signal ***
+[nr063:80743] Signal: Aborted (6)
+[nr063:80743] Signal code:  (-6)
+[nr063:80743] [ 0] /lib64/libpthread.so.0(+0xf130)[0x7f631ead1130]
+[nr063:80743] [ 1] /lib64/libc.so.6(gsignal+0x37)[0x7f631e7365d7]
+[nr063:80743] [ 2] /lib64/libc.so.6(abort+0x148)[0x7f631e737cc8]
+[nr063:80743] [ 3] /opt/mellanox/mxm/lib/libmxm.so.2(+0x67de5)[0x7f631dfc7de5]
+[nr063:80743] [ 4] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_ud_channel_timer+0x412)[0x7f631dfcfb62]
+[nr063:80743] [ 5] /opt/mellanox/mxm/lib/libmxm.so.2(+0x73e53)[0x7f631dfd3e53]
+[nr063:80743] [ 6] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_timerq_sweep_internal+0x74)[0x7f631dfcca34]
+[nr063:80743] [ 7] /opt/mellanox/mxm/lib/libmxm.so.2(+0x5291d)[0x7f631dfb291==== backtrace ====
+ 2 0x00000000000670ac mxm_handle_error()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/util/debug/debug.c:641
+ 3 0x0000000000067de0 __mxm_abort()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/util/debug/log.c:257
+ 4 0x000000000006fb62 mxm_ud_channel_timer()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/tl/ud/ud_channel.c:764
+ 5 0x0000000000073e53 mxm_ud_ep_timer()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/tl/ud/ud_ep.c:144
+ 6 0x000000000006ca34 mxm_invoke_callback()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/datatype/callback.h:64
+ 7 0x000000000005291d mxm_timerq_sweep()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/time/timerq.h:71
+ 8 0x0000000000050d08 mxm_invoke_callback()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/datatype/callback.h:64
+ 9 0x0000000000050d08 mxm_async_missed()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/async.c:818
+10 0x00000000000531e3 mxm_async_check_miss()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/async.h:222
+11 0x00000000000531e3 mxm_progress_internal()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/mxm.c:65
+12 0x00000000000531e3 mxm_progress()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/mxm.c:346
+13 0x00000000001ea847 mca_pml_yalla_progress()  ??:0
+14 0x000000000002a472 opal_progress()  ??:0
+15 0x000000000007b5f5 ompi_request_default_wait()  ??:0
+16 0x00000000000b19b9 PMPI_Wait()  ??:0
+17 0x000000000005d31e md_mpi_wait()  ??:0
+18 0x0000000000020a4d AZ_gdot_vec()  ??:0
+19 0x000000000006221c AZ_compute_global_scalars()  ??:0
+20 0x000000000005e93c AZ_pcg_f()  ??:0
+21 0x00000000000875d9 AZ_oldsolve()  ??:0
+22 0x0000000000087e7c AZ_iterate()  ??:0
+23 0x00000000000288ac _ZN7AztecOO7IterateExd()  ??:0
+24 0x0000000004d65b22 _ZN6dealii16TrilinosWrappers10SolverBase8do_solveERKNS0_16PreconditionBaseE()  /opt/build/BUILD/dealii-8.3.0/source/lac/trilinos_solver.cc:267
+25 0x0000000004d6645b _ZN6dealii16TrilinosWrappers10SolverBase5solveERKNS0_12SparseMatrixERNS0_10VectorBaseERKS5_RKNS0_16PreconditionBaseE()  /opt/build/BUILD/dealii-8.3.0/source/lac/trilinos_solver.cc:86
+26 0x0000000000a2be4f _ZNK6aspect8internal24BlockSchurPreconditionerIN6dealii16TrilinosWrappers15PreconditionAMGENS3_15PreconditionILUEE5vmultERNS3_3MPI11BlockVectorERKS8_()  /work/newriver/dstamps/aspect/source/simulator/solver.cc:345
+27 0x0000000000a2fb5d _ZN6dealii12SolverFGMRESINS_16TrilinosWrappers3MPI11BlockVectorEE5solveIN6aspect8internal11StokesBlockENS7_24BlockSchurPreconditionerINS1_15PreconditionAMGENS1_15PreconditionILUEEEEEvRKT_RS3_RKS3_RKT0_()  /opt/apps/gcc5_2/openmpi1_10/dealii/8.3.0/include/deal.II/lac/solver_gmres.h:1170
+28 0x0000000000a33c24 _ZN6aspect9SimulatorILi3EE12solve_stokesEv()  /work/newriver/dstamps/aspect/source/simulator/solver.cc:729
+29 0x0000000000a67675 _ZN6aspect9SimulatorILi3EE14solve_timestepEv()  /work/newriver/dstamps/aspect/source/simulator/core.cc:1910
+30 0x0000000000a6fa34 _ZN6aspect9SimulatorILi3EE3runEv()  /work/newriver/dstamps/aspect/source/simulator/core.cc:2067
+31 0x0000000000a6fa34 _ZN6aspect9SimulatorILi3EE3runEv()  /work/newriver/dstamps/aspect/source/simulator/core.cc:2069
+32 0x000000000095552d main()  /work/newriver/dstamps/aspect/source/main.cc:517
+33 0x0000000000021af5 __libc_start_main()  ??:0
+34 0x0000000000753059 _start()  ??:0
+===================
+[nr063:80736] *** Process received signal ***
+[nr063:80736] Signal: Aborted (6)
+[nr063:80736] Signal code:  (-6)
+[nr063:80736] [ 0] /lib64/libpthread.so.0(+0xf130)[0x7fc625169130]
+[nr063:80736] [ 1] /lib64/libc.so.6(gsignal+0x37)[0x7fc624dce5d7]
+[nr063:80736] [ 2] /lib64/libc.so.6(abort+0x148)[0x7fc624dcfcc8]
+[nr063:80736] [ 3] /opt/mellanox/mxm/lib/libmxm.so.2(+0x67de5)[0x7fc62465fde5]
+[nr063:80736] [ 4] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_ud_channel_timer+0x412)[0x7fc624667b62]
+[nr063:80736] [ 5] /opt/mellanox/mxm/lib/libmxm.so.2(+0x73e53)[0x7fc62466be53]
+[nr063:80736] [ 6] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_timerq_sweep_internal+0x74)[0x7fc624664a34]
+[nr063:80736] [ 7] /opt/mellanox/mxm/lib/libmxm.so.2(+0x5291d)[0x7fc62464a91==== backtrace ====
+ 2 0x00000000000670ac mxm_handle_error()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/util/debug/debug.c:641
+ 3 0x0000000000067de0 __mxm_abort()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/util/debug/log.c:257
+ 4 0x000000000006fb62 mxm_ud_channel_timer()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/tl/ud/ud_channel.c:764
+ 5 0x0000000000073e53 mxm_ud_ep_timer()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/tl/ud/ud_ep.c:144
+ 6 0x000000000006ca34 mxm_invoke_callback()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/datatype/callback.h:64
+ 7 0x000000000005291d mxm_timerq_sweep()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/time/timerq.h:71
+ 8 0x0000000000050d08 mxm_invoke_callback()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/./mxm/util/datatype/callback.h:64
+ 9 0x0000000000050d08 mxm_async_missed()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/async.c:818
+10 0x00000000000531e3 mxm_async_check_miss()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/async.h:222
+11 0x00000000000531e3 mxm_progress_internal()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/mxm.c:65
+12 0x00000000000531e3 mxm_progress()  /var/tmp/OFED_topdir/BUILD/mxm-3.4.3065/src/mxm/core/mxm.c:346
+13 0x00000000001ea847 mca_pml_yalla_progress()  ??:0
+14 0x000000000002a472 opal_progress()  ??:0
+15 0x000000000007b5f5 ompi_request_default_wait()  ??:0
+16 0x00000000000b19b9 PMPI_Wait()  ??:0
+17 0x000000000005d31e md_mpi_wait()  ??:0
+18 0x0000000000020a4d AZ_gdot_vec()  ??:0
+19 0x000000000006221c AZ_compute_global_scalars()  ??:0
+20 0x000000000005e93c AZ_pcg_f()  ??:0
+21 0x00000000000875d9 AZ_oldsolve()  ??:0
+22 0x0000000000087e7c AZ_iterate()  ??:0
+23 0x00000000000288ac _ZN7AztecOO7IterateExd()  ??:0
+24 0x0000000004d65b22 _ZN6dealii16TrilinosWrappers10SolverBase8do_solveERKNS0_16PreconditionBaseE()  /opt/build/BUILD/dealii-8.3.0/source/lac/trilinos_solver.cc:267
+25 0x0000000004d6645b _ZN6dealii16TrilinosWrappers10SolverBase5solveERKNS0_12SparseMatrixERNS0_10VectorBaseERKS5_RKNS0_16PreconditionBaseE()  /opt/build/BUILD/dealii-8.3.0/source/lac/trilinos_solver.cc:86
+26 0x0000000000a2be4f _ZNK6aspect8internal24BlockSchurPreconditionerIN6dealii16TrilinosWrappers15PreconditionAMGENS3_15PreconditionILUEE5vmultERNS3_3MPI11BlockVectorERKS8_()  /work/newriver/dstamps/aspect/source/simulator/solver.cc:345
+27 0x0000000000a2fb5d _ZN6dealii12SolverFGMRESINS_16TrilinosWrappers3MPI11BlockVectorEE5solveIN6aspect8internal11StokesBlockENS7_24BlockSchurPreconditionerINS1_15PreconditionAMGENS1_15PreconditionILUEEEEEvRKT_RS3_RKS3_RKT0_()  /opt/apps/gcc5_2/openmpi1_10/dealii/8.3.0/include/deal.II/lac/solver_gmres.h:1170
+28 0x0000000000a33c24 _ZN6aspect9SimulatorILi3EE12solve_stokesEv()  /work/newriver/dstamps/aspect/source/simulator/solver.cc:729
+29 0x0000000000a67675 _ZN6aspect9SimulatorILi3EE14solve_timestepEv()  /work/newriver/dstamps/aspect/source/simulator/core.cc:1910
+30 0x0000000000a6fa34 _ZN6aspect9SimulatorILi3EE3runEv()  /work/newriver/dstamps/aspect/source/simulator/core.cc:2067
+31 0x0000000000a6fa34 _ZN6aspect9SimulatorILi3EE3runEv()  /work/newriver/dstamps/aspect/source/simulator/core.cc:2069
+32 0x000000000095552d main()  /work/newriver/dstamps/aspect/source/main.cc:517
+33 0x0000000000021af5 __libc_start_main()  ??:0
+34 0x0000000000753059 _start()  ??:0
+===================
+[nr063:80735] *** Process received signal ***
+[nr063:80735] Signal: Aborted (6)
+[nr063:80735] Signal code:  (-6)
+[nr063:80735] [ 0] /lib64/libpthread.so.0(+0xf130)[0x7fbf3e525130]
+[nr063:80735] [ 1] /lib64/libc.so.6(gsignal+0x37)[0x7fbf3e18a5d7]
+[nr063:80735] [ 2] /lib64/libc.so.6(abort+0x148)[0x7fbf3e18bcc8]
+[nr063:80735] [ 3] /opt/mellanox/mxm/lib/libmxm.so.2(+0x67de5)[0x7fbf3da1bde5]
+[nr063:80735] [ 4] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_ud_channel_timer+0x412)[0x7fbf3da23b62]
+[nr063:80735] [ 5] /opt/mellanox/mxm/lib/libmxm.so.2(+0x73e53)[0x7fbf3da27e53]
+[nr063:80735] [ 6] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_timerq_sweep_internal+0x74)[0x7fbf3da20a34]
+[nr063:80735] [ 7] /opt/mellanox/mxm/lib/libmxm.so.2(+0x5291d)[0x7fbf3da0691d]
+[nr063:80743] [ 8] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_async_missed+0xa8)[0x7f631dfb0d08]
+[nr063:80743] [ 9] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_progress+0x123)[0x7f631dfb31e3]
+[nr063:80743] [10] /opt/apps/gcc5_2/openmpi/1.10.0/lib/libmpi.so.12(mca_pml_yalla_progress+0x17)[0x7f631f75e847]
+[nr063:80743] [11] /opt/apps/gcc5_2/openmpi/1.10.0/lib/libopen-pal.so.13(opal_progress+0x52)[0x7f631c505472]
+[nr063:80743] [12] /opt/apps/gcc5_2/openmpi/1.10.0/lib/libmpi.so.12(ompi_request_default_wait+0x55)[0x7f631f5ef5f5]
+[nr063:80743] [13] /opt/apps/gcc5_2/openmpi/1.10.0/lib/libmpi.so.12(PMPI_Wait+0x59)[0x7f631f6259b9]
+[nr063:80743] [14] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(md_mpi_wait+0x1e)[0x7f6327d7231e]
+[nr063:80743] [15] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_gdot_vec+0x32d)[0x7f6327d35a4d]
+[nr063:80743] [16] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_compute_global_scalars+0x86c)[0x7f6327d7721c]
+[nr063:80743] [17] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_pcg_f+0x98c)[0x7f6327d7393c]
+[nr063:80743] [18] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_oldsolve+0xb59)[0x7f6327d9c5d9]
+[nr063:80743] [19] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_iterate+0x12c)[0x7f6327d9ce7c]
+[nr063:80743] [20] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(_ZN7AztecOO7IterateExd+0xcc)[0x7f6327d3d8ac]
+[nr063:80743] [21] /opt/apps/gcc5_2/openmpi1_10/dealii/8.3.0/lib/libdeal_II.g.so.8.3.0(_ZN6dealii16TrilinosWrappers10SolverBase8do_solveERKNS0_16PreconditionBaseE+0x2ca)[0x7f6334b25b22]
+[nr063:80743] [22] /opt/apps/gcc5_2/openmpi1_10/dealii/8.3.0/lib/libdeal_II.g.so.8.3.0(_ZN6dealii16TrilinosWrappers10SolverBase5solveERKNS0_12SparseMatrixERNS0_10VectorBaseERKS5_RKNS0_16PreconditionBaseE+0x1c3)[0x7f6334b2645b]
+[nr063:80743] [23] ./build/aspect(_ZNK6aspect8internal24BlockSchurPreconditionerIN6dealii16TrilinosWrappers15PreconditionAMGENS3_15PreconditionILUEE5vmultERNS3_3MPI11BlockVectorERKS8_+0x29f)[0xa2be4f]
+[nr063:80743] [24] ./build/aspect(_ZN6dealii12SolverFGMRESINS_16TrilinosWrappers3MPI11BlockVectorEE5solveIN6aspect8internal11StokesBlockENS7_24BlockSchurPreconditionerINS1_15PreconditionAMGENS1_15PreconditionILUEEEEEvRKT_RS3_RKS3_RKT0_+0x7a5)[0xa2fb5d]
+[nr063:80743] [25] ./build/aspect(_ZN6aspect9SimulatorILi3EE12solve_stokesEv+0x19e2)[0xa33c24]
+[nr063:80743] [26] ./build/aspect(_ZN6aspect9SimulatorILi3EE14solve_timestepEv+0xc09)[0xa67675]
+[nr063:80743] [27] ./build/aspect(_ZN6aspect9SimulatorILi3EE3runEv+0x9ec)[0xa6fa34]
+[nr063:80743] [28] ./build/aspect(main+0x4ee)[0x95552d]
+[nr063:80743] [29] /lib64/libc.so.6(__libc_start_main+0xf5)[0x7f631e722af5]
+[nr063:80743] *** End of error message ***
+d]
+[nr063:80735] [ 8] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_async_missed+0xa8)[0x7fbf3da04d08]
+[nr063:80735] [ 9] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_progress+0x123)[0x7fbf3da071e3]
+[nr063:80735] [10] /opt/apps/gcc5_2/openmpi/1.10.0/lib/libmpi.so.12(mca_pml_yalla_progress+0x17)[0x7fbf3f1b2847]
+[nr063:80735] [11] /opt/apps/gcc5_2/openmpi/1.10.0/lib/libopen-pal.so.13(opal_progress+0x52)[0x7fbf3bf59472]
+[nr063:80735] [12] /opt/apps/gcc5_2/openmpi/1.10.0/lib/libmpi.so.12(ompi_request_default_wait+0x55)[0x7fbf3f0435f5]
+[nr063:80735] [13] /opt/apps/gcc5_2/openmpi/1.10.0/lib/libmpi.so.12(PMPI_Wait+0x59)[0x7fbf3f0799b9]
+[nr063:80735] [14] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(md_mpi_wait+0x1e)[0x7fbf477c631e]
+[nr063:80735] [15] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_gdot_vec+0x32d)[0x7fbf47789a4d]
+[nr063:80735] [16] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_compute_global_scalars+0x86c)[0x7fbf477cb21c]
+[nr063:80735] [17] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_pcg_f+0x98c)[0x7fbf477c793c]
+[nr063:80735] [18] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_oldsolve+0xb59)[0x7fbf477f05d9]
+[nr063:80735] [19] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_iterate+0x12c)[0x7fbf477f0e7c]
+[nr063:80735] [20] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(_ZN7AztecOO7IterateExd+0xcc)[0x7fbf477918ac]
+[nr063:80735] [21] /opt/apps/gcc5_2/openmpi1_10/dealii/8.3.0/lib/libdeal_II.g.so.8.3.0(_ZN6dealii16TrilinosWrappers10SolverBase8do_solveERKNS0_16PreconditionBaseE+0x2ca)[0x7fbf54579b22]
+[nr063:80735] [22] /opt/apps/gcc5_2/openmpi1_10/dealii/8.3.0/lib/libdeal_II.g.so.8.3.0(_ZN6dealii16TrilinosWrappers10SolverBase5solveERKNS0_12SparseMatrixERNS0_10VectorBaseERKS5_RKNS0_16PreconditionBaseE+0x1c3)[0x7fbf5457a45b]
+[nr063:80735] [23] ./build/aspect(_ZNK6aspect8internal24BlockSchurPreconditionerIN6dealii16TrilinosWrappers15PreconditionAMGENS3_15PreconditionILUEE5vmultERNS3_3MPI11BlockVectorERKS8_+0x29f)[0xa2be4f]
+[nr063:80735] [24] ./build/aspect(_ZN6dealii12SolverFGMRESINS_16TrilinosWrappers3MPI11BlockVectorEE5solveIN6aspect8internal11StokesBlockENS7_24BlockSchurPreconditionerINS1_15PreconditionAMGENS1_15PreconditionILUEEEEEvRKT_RS3_RKS3_RKT0_+0x7a5)[0xa2fb5d]
+[nr063:80735] [25] ./build/aspect(_ZN6aspect9SimulatorILi3EE12solve_stokesEv+0x19e2)[0xa33c24]
+[nr063:80735] [26] ./build/aspect(_ZN6aspect9SimulatorILi3EE14solve_timestepEv+0xc09)[0xa67675]
+[nr063:80735] [27] ./build/aspect(_ZN6aspect9SimulatorILi3EE3runEv+0x9ec)[0xa6fa34]
+[nr063:80735] [28] ./build/aspect(main+0x4ee)[0x95552d]
+[nr063:80735] [29] /lib64/libc.so.6(__libc_start_main+0xf5)[0x7fbf3e176af5]
+[nr063:80735] *** End of error message ***
+d]
+[nr063:80736] [ 8] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_async_missed+0xa8)[0x7fc624648d08]
+[nr063:80736] [ 9] /opt/mellanox/mxm/lib/libmxm.so.2(mxm_progress+0x123)[0x7fc62464b1e3]
+[nr063:80736] [10] /opt/apps/gcc5_2/openmpi/1.10.0/lib/libmpi.so.12(mca_pml_yalla_progress+0x17)[0x7fc625df6847]
+[nr063:80736] [11] /opt/apps/gcc5_2/openmpi/1.10.0/lib/libopen-pal.so.13(opal_progress+0x52)[0x7fc622b9d472]
+[nr063:80736] [12] /opt/apps/gcc5_2/openmpi/1.10.0/lib/libmpi.so.12(ompi_request_default_wait+0x55)[0x7fc625c875f5]
+[nr063:80736] [13] /opt/apps/gcc5_2/openmpi/1.10.0/lib/libmpi.so.12(PMPI_Wait+0x59)[0x7fc625cbd9b9]
+[nr063:80736] [14] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(md_mpi_wait+0x1e)[0x7fc62e40a31e]
+[nr063:80736] [15] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_gdot_vec+0x32d)[0x7fc62e3cda4d]
+[nr063:80736] [16] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_compute_global_scalars+0x86c)[0x7fc62e40f21c]
+[nr063:80736] [17] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_pcg_f+0x98c)[0x7fc62e40b93c]
+[nr063:80736] [18] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_oldsolve+0xb59)[0x7fc62e4345d9]
+[nr063:80736] [19] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(AZ_iterate+0x12c)[0x7fc62e434e7c]
+[nr063:80736] [20] /opt/apps/gcc5_2/openmpi1_10/trilinos/11.12.1/lib/libaztecoo.so.11(_ZN7AztecOO7IterateExd+0xcc)[0x7fc62e3d58ac]
+[nr063:80736] [21] /opt/apps/gcc5_2/openmpi1_10/dealii/8.3.0/lib/libdeal_II.g.so.8.3.0(_ZN6dealii16TrilinosWrappers10SolverBase8do_solveERKNS0_16PreconditionBaseE+0x2ca)[0x7fc63b1bdb22]
+[nr063:80736] [22] /opt/apps/gcc5_2/openmpi1_10/dealii/8.3.0/lib/libdeal_II.g.so.8.3.0(_ZN6dealii16TrilinosWrappers10SolverBase5solveERKNS0_12SparseMatrixERNS0_10VectorBaseERKS5_RKNS0_16PreconditionBaseE+0x1c3)[0x7fc63b1be45b]
+[nr063:80736] [23] ./build/aspect(_ZNK6aspect8internal24BlockSchurPreconditionerIN6dealii16TrilinosWrappers15PreconditionAMGENS3_15PreconditionILUEE5vmultERNS3_3MPI11BlockVectorERKS8_+0x29f)[0xa2be4f]
+[nr063:80736] [24] ./build/aspect(_ZN6dealii12SolverFGMRESINS_16TrilinosWrappers3MPI11BlockVectorEE5solveIN6aspect8internal11StokesBlockENS7_24BlockSchurPreconditionerINS1_15PreconditionAMGENS1_15PreconditionILUEEEEEvRKT_RS3_RKS3_RKT0_+0x7a5)[0xa2fb5d]
+[nr063:80736] [25] ./build/aspect(_ZN6aspect9SimulatorILi3EE12solve_stokesEv+0x19e2)[0xa33c24]
+[nr063:80736] [26] ./build/aspect(_ZN6aspect9SimulatorILi3EE14solve_timestepEv+0xc09)[0xa67675]
+[nr063:80736] [27] ./build/aspect(_ZN6aspect9SimulatorILi3EE3runEv+0x9ec)[0xa6fa34]
+[nr063:80736] [28] ./build/aspect(main+0x4ee)[0x95552d]
+[nr063:80736] [29] /lib64/libc.so.6(__libc_start_main+0xf5)[0x7fc624dbaaf5]
+[nr063:80736] *** End of error message ***
