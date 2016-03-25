@@ -5,6 +5,71 @@
  * 1.3. All entries are signed with the names of the author. </p>
  *
  * <ol>
+ *
+ * <li> New: There is now a postprocessor "point values" that allows evaluating
+ * the solution at a number of user-defined evaluation points.
+ * <br>
+ * (Wolfgang Bangerth, 2016/03/24)
+ *
+ * <li> Fixed: Combining particles with initial adaptive refinement steps
+ * used to create a multiple of the selected number of particles.
+ * This is fixed now.
+ * <br>
+ * (Rene Gassmoeller, 2016/03/18)
+ *
+ * <li> Improved: The Introspection class has now a new base class
+ * FEVariableCollection that allows flexible modification of the finite
+ * element variables involved in a computation, even inside a plugin.
+ * <br>
+ * (Timo Heister, 2016/03/08)
+ *
+ * <li> Fixed: The uniform radial and uniform box particle generators now
+ * produce globally unique particle IDs.
+ * <br>
+ * (Harsha Lokavarapu, Gerry Puckett, 2016/03/04)
+ *
+ * <li> Fixed: The 'Simpler' material model produced floating point exceptions
+ * in models with compositional fields. This is fixed now.
+ * <br>
+ * (Lev Karatun, Rene Gassmoeller, 2016/02/26)
+ *
+ * <li> New: The advection systems (for temperature and compositions) can now 
+ * be discretized using the symmetric interior penalty discontinuous Galerkin 
+ * method. This can be useful to explore solution without adding artificial 
+ * smoothing. This is controlled by two new input parameters in 
+ * 'Discretization': use_discontinuous_temperature_discretization and 
+ * use_discontinuous_composition_discretization.
+ * <br>
+ * (Sam Cox, 2016/02/22)
+ *
+ * <li> Changed: ASPECT by default wrote one output file per MPI process that
+ * was written in a background thread to a temporary location first and then
+ * moved to its final location. If any of the steps failed it tried again by
+ * writing directly to the output location. This approach needed complicated
+ * logic and did not succeed on all systems. In order to increase stability
+ * the new default behaviour is to write straight to the output folder. This
+ * might decrease performance on clusters with slow network file systems.
+ * The old behaviour can be recovered by setting 'Write in background thread'
+ * to true and set a temporary storage location by 'set Temporary output
+ * location'. Note that this functionality was and is only available if
+ * 'Number of grouped files' is set to its default value of 0, and therefore
+ * MPI-IO is not used for parallel output. For larger models with hundreds of
+ * parallel processes using MPI-IO is recommended.
+ * <br>
+ * (Rene Gassmoeller, 2016/02/14)
+ *
+ * <li> New: Added 'command' postprocessor for executing arbitrary commands.
+ * <br>
+ * (Jonathan Perry-Houts, 2016/02/11)
+ *
+ * <li> Improved: The option to increase the output resolution by linear
+ * interpolation of the quadratic elements now correctly uses the mapping of
+ * curved geometries to interpolate cells. This increases output accuracy for
+ * models that use curved geometries and use 'Set Interpolate output = true'.
+ * The simulation itself is not affected.
+ * <br>
+ * (Rene Gassmoeller, 2016/02/08)
+ *
  * <li> Changed: The GPlates plugin is restructured in the style of the
  * AsciiData Plugin. The major difference is that the interpolation is now
  * performed in spherical coordinates instead of Cartesian coordinates. Note

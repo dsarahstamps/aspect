@@ -144,22 +144,17 @@ namespace aspect
 
       template <int dim>
       void
-      GPlatesLookup<dim>::load_file(const std::string &filename)
+      GPlatesLookup<dim>::load_file(const std::string &filename,
+                                    const MPI_Comm &comm)
       {
+        // Read data from disk and distribute among processes
+        std::istringstream filecontent(
+          Utilities::read_and_distribute_file_content(filename, comm));
+
         boost::property_tree::ptree pt;
 
-        // Check whether file exists, we do not want to throw
-        // an exception in case it does not, because it could be by purpose
-        // (i.e. the end of the boundary condition is reached)
-        AssertThrow (Utilities::fexists(filename),
-                     ExcMessage (std::string("GPlates file <")
-                                 +
-                                 filename
-                                 +
-                                 "> not found!"));
-
         // populate tree structure pt
-        read_xml(filename, pt);
+        read_xml(filecontent, pt);
 
         const unsigned int n_points = pt.get_child("gpml:FeatureCollection.gml:featureMember.gpml:VelocityField.gml:domainSet.gml:MultiPoint").size();
 
@@ -581,17 +576,18 @@ namespace aspect
       current_file_number = first_data_file_number;
 
       const int next_file_number =
-        (decreasing_file_order) ?
-        current_file_number - 1
+        (decreasing_file_order)
+        ?
+        (current_file_number - 1)
         :
-        current_file_number + 1;
+        (current_file_number + 1);
 
       this->get_pcout() << std::endl << "   Loading GPlates data boundary file "
                         << create_filename (current_file_number) << "." << std::endl << std::endl;
 
       const std::string filename (create_filename (current_file_number));
       if (Utilities::fexists(filename))
-        lookup->load_file(filename);
+        lookup->load_file(filename,this->get_mpi_communicator());
       else
         AssertThrow(false,
                     ExcMessage (std::string("GPlates data file <")
@@ -616,7 +612,7 @@ namespace aspect
           if (Utilities::fexists(filename))
             {
               lookup.swap(old_lookup);
-              lookup->load_file(filename);
+              lookup->load_file(filename,this->get_mpi_communicator());
             }
           else
             end_time_dependence ();
@@ -642,16 +638,17 @@ namespace aspect
     void
     GPlates<dim>::update ()
     {
-      if (time_dependent && (this->get_time() - first_data_file_model_time >= 0.0))
+      const double time_since_start = this->get_time() - first_data_file_model_time;
+
+      if (time_dependent && (time_since_start >= 0.0))
         {
-          const double time_steps_since_start = (this->get_time() - first_data_file_model_time)
-                                                / data_file_time_step;
+          const int time_steps_since_start = static_cast<int> (time_since_start / data_file_time_step);
+
           // whether we need to update our data files. This looks so complicated
           // because we need to catch increasing and decreasing file orders and all
           // possible first_data_file_model_times and first_data_file_numbers.
-          const bool need_update =
-            static_cast<int> (time_steps_since_start)
-            > std::abs(current_file_number - first_data_file_number);
+          const bool need_update = time_steps_since_start
+                                   > std::abs(current_file_number - first_data_file_number);
 
           if (need_update)
             {
@@ -659,26 +656,26 @@ namespace aspect
               // number current_file_number +/- 1, because current_file_number
               // is the file older than the current model time
               const int old_file_number =
-                (decreasing_file_order) ?
-                current_file_number - 1
+                (decreasing_file_order)
+                ?
+                (current_file_number - 1)
                 :
-                current_file_number + 1;
+                (current_file_number + 1);
 
               //Calculate new file_number
               current_file_number =
-                (decreasing_file_order) ?
-                first_data_file_number
-                - static_cast<unsigned int> (time_steps_since_start)
+                (decreasing_file_order)
+                ?
+                (first_data_file_number - time_steps_since_start)
                 :
-                first_data_file_number
-                + static_cast<unsigned int> (time_steps_since_start);
+                (first_data_file_number + time_steps_since_start);
 
               const bool load_both_files = std::abs(current_file_number - old_file_number) >= 1;
 
               update_data(load_both_files);
             }
 
-          time_weight = time_steps_since_start
+          time_weight = (time_since_start / data_file_time_step)
                         - std::abs(current_file_number - first_data_file_number);
 
           Assert ((0 <= time_weight) && (time_weight <= 1),
@@ -702,7 +699,7 @@ namespace aspect
           if (Utilities::fexists(filename))
             {
               lookup.swap(old_lookup);
-              lookup->load_file(filename);
+              lookup->load_file(filename,this->get_mpi_communicator());
             }
 
           // If loading current_time_step failed, end time dependent part with old_file_number.
@@ -723,7 +720,7 @@ namespace aspect
       if (Utilities::fexists(filename))
         {
           lookup.swap(old_lookup);
-          lookup->load_file(filename);
+          lookup->load_file(filename,this->get_mpi_communicator());
         }
 
       // If next file does not exist, end time dependent part with current_time_step.
