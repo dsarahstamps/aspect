@@ -49,14 +49,14 @@ set Composition solver tolerance               = 1e-12
 
 # The number of space dimensions you want to run this program in. ASPECT can
 # run in 2 and 3 space dimensions.
-set Dimension                                  = 3               # default: 2
+set Dimension                                  = 3                       # default: 2
 
 # The end time of the simulation. The default value is a number so that when
 # converted from years to seconds it is approximately equal to the largest
 # number representable in floating point arithmetic. For all practical
 # purposes, this equals infinity. Units: Years if the 'Use years in output
 # instead of seconds' parameter is set; seconds otherwise.
-set End time                                   = 0               # default: 5.69e+300
+set End time                                   = 0                       # default: 5.69e+300
 
 # A relative tolerance up to which the approximate inverse of the A block of
 # the Stokes system is computed. This approximate A is used in the
@@ -86,10 +86,10 @@ set Linear solver S block tolerance            = 1e-6
 # (qualitatively) whereas if you make it larger, they do. For most cases, the
 # default value should be sufficient. In fact, a tolerance of 1e-4 might be
 # accurate enough.
-set Linear solver tolerance                    = 1e-4            # default: 1e-7
+set Linear solver tolerance                    = 1e-4                    # default: 1e-7
 
 # The maximal number of nonlinear iterations to be performed.
-set Max nonlinear iterations                   = 6               # default: 10
+set Max nonlinear iterations                   = 6                       # default: 10
 
 # The maximal number of nonlinear iterations to be performed in the
 # pre-refinement steps. This does not include the last refinement step before
@@ -119,12 +119,12 @@ set Maximum time step                          = 5.69e+300
 # 'Advection only'scheme only solves the temperature and other advection
 # systems and instead of solving for the Stokes system, a prescribed velocity
 # and pressure is used
-set Nonlinear solver scheme                    = iterated Stokes # default: IMPES
+set Nonlinear solver scheme                    = iterated Stokes         # default: IMPES
 
 # A relative tolerance up to which the nonlinear solver will iterate. This
 # parameter is only relevant if Nonlinear solver scheme is set to 'iterated
 # Stokes' or 'iterated IMPES'.
-set Nonlinear solver tolerance                 = 1e-4            # default: 1e-5
+set Nonlinear solver tolerance                 = 1e-4                    # default: 1e-5
 
 # As explained in the ASPECT paper (Kronbichler, Heister, and Bangerth, GJI
 # 2012) we first try to solve the Stokes system in every time step using a
@@ -137,11 +137,11 @@ set Nonlinear solver tolerance                 = 1e-4            # default: 1e-5
 # iterations don't actually do very much good and one might skip this part
 # right away. In that case, this parameter can be set to zero, i.e., we
 # immediately start with the better but more expensive preconditioner.
-set Number of cheap Stokes solver steps        = 0               # default: 30
+set Number of cheap Stokes solver steps        = 0                       # default: 30
 
 # The name of the directory into which all output files should be placed. This
 # may be an absolute or a relative path.
-set Output directory                           = g2_point_values # default: output
+set Output directory                           = g2_point_values_confirm # default: output
 
 # If and how to normalize the pressure after the solution step. This is
 # necessary because depending on boundary conditions, in many cases the
@@ -184,7 +184,7 @@ set Surface pressure                           = 0
 
 # The relative tolerance up to which the linear system for the temperature
 # system gets solved. See 'linear solver tolerance' for more details.
-set Temperature solver tolerance               = 1e-4            # default: 1e-12
+set Temperature solver tolerance               = 1e-4                    # default: 1e-12
 
 # How frequently in timesteps to output timing information. This is generally
 # adjusted only for debugging and timing purposes. If the value is set to zero

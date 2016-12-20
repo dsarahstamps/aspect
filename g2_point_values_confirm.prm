@@ -2,7 +2,7 @@ set Dimension                              = 3
 
 set Use years in output instead of seconds = true
 set End time                               = 0
-set Output directory                       = g2_point_values
+set Output directory                       = g2_PtVal_nlReol
 set Nonlinear solver scheme                = iterated Stokes
 set Nonlinear solver tolerance             = 1e-4
 set Linear solver tolerance                = 1e-4

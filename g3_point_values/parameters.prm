@@ -141,7 +141,7 @@ set Number of cheap Stokes solver steps        = 0               # default: 30
 
 # The name of the directory into which all output files should be placed. This
 # may be an absolute or a relative path.
-set Output directory                           = g2_point_values # default: output
+set Output directory                           = g3_point_values # default: output
 
 # If and how to normalize the pressure after the solution step. This is
 # necessary because depending on boundary conditions, in many cases the
@@ -3455,7 +3455,7 @@ subsection Mesh refinement
 
   # The number of global refinement steps performed on the initial coarse
   # mesh, before the problem is first solved there.
-  set Initial global refinement                = 2
+  set Initial global refinement                = 3                      # default: 2
 
   # The minimum refinement level each cell should have, and that can not be
   # exceeded by coarsening. Should not be higher than the 'Initial global

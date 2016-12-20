@@ -24,30 +24,30 @@ Number of degrees of freedom: 5733 (4131+225+1377)
    Residual after nonlinear iteration 3: 2.06074e-05
 
    Postprocessing:
-     Writing depth average:        g2_point_values/depth_average.gnuplot
-     Writing surface velocities... g2_point_values/surface_velocities.0000
-     Writing graphical output:     g2_point_values/solution-00000
-     Writing dynamic topography:   g2_point_values/dynamic_topography.00000
+     Writing depth average:        g2_point_values_confirm/depth_average.gnuplot
+     Writing surface velocities... g2_point_values_confirm/surface_velocities.0000
+     Writing graphical output:     g2_point_values_confirm/solution-00000
+     Writing dynamic topography:   g2_point_values_confirm/dynamic_topography.00000
      Temperature min/avg/max:      195.3 K, 1497 K, 1899 K
      RMS, max velocity:            0.00719 m/year, 0.0718 m/year
-     Writing point values:         g2_point_values/point_values.txt
+     Writing point values:         g2_point_values_confirm/point_values.txt
 
 Termination requested by criterion: end time
 
 
 +---------------------------------------------+------------+------------+
-| Total wallclock time elapsed since start    |      7.25s |            |
+| Total wallclock time elapsed since start    |      7.63s |            |
 |                                             |            |            |
 | Section                         | no. calls |  wall time | % of total |
 +---------------------------------+-----------+------------+------------+
-| Assemble Stokes system          |         3 |      0.54s |       7.4% |
-| Assemble temperature system     |         1 |     0.166s |       2.3% |
-| Build Stokes preconditioner     |         3 |     0.334s |       4.6% |
-| Build temperature preconditioner|         1 |   0.00375s |     0.052% |
-| Solve Stokes system             |         3 |      1.09s |        15% |
-| Solve temperature system        |         1 |   0.00552s |     0.076% |
-| Initialization                  |         2 |      1.67s |        23% |
-| Postprocessing                  |         1 |      2.46s |        34% |
-| Setup dof systems               |         1 |     0.132s |       1.8% |
+| Assemble Stokes system          |         3 |     0.508s |       6.7% |
+| Assemble temperature system     |         1 |     0.155s |         2% |
+| Build Stokes preconditioner     |         3 |     0.307s |         4% |
+| Build temperature preconditioner|         1 |   0.00348s |     0.046% |
+| Solve Stokes system             |         3 |     0.913s |        12% |
+| Solve temperature system        |         1 |   0.00768s |       0.1% |
+| Initialization                  |         2 |      1.89s |        25% |
+| Postprocessing                  |         1 |      2.67s |        35% |
+| Setup dof systems               |         1 |     0.123s |       1.6% |
 +---------------------------------+-----------+------------+------------+
 
