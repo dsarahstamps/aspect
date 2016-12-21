@@ -18,10 +18,8 @@
   <http://www.gnu.org/licenses/>.
 */
 
-
-
-#ifndef __aspect__model_depth_dependent_h
-#define __aspect__model_depth_dependent_h
+#ifndef _aspect_material_model_depth_dependent_h
+#define _aspect_material_model_depth_dependent_h
 
 #include <deal.II/base/function_lib.h>
 #include <aspect/material_model/interface.h>
@@ -110,7 +108,8 @@ namespace aspect
          * for File depth dependence method
          */
         void
-        read_viscosity_file(const std::string &filename);
+        read_viscosity_file(const std::string &filename,
+                            const MPI_Comm &comm);
 
         /**
          * Data structures to store depth and viscosity lookup tables as well as interpolating

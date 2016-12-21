@@ -21,7 +21,6 @@
 
 #include <aspect/postprocess/basic_statistics.h>
 #include <aspect/material_model/simple.h>
-#include <aspect/simulator_access.h>
 #include <aspect/global.h>
 
 #include <deal.II/base/quadrature_lib.h>
@@ -70,7 +69,11 @@ namespace aspect
               material_model.evaluate(in, out);
 
               const double gravity = this->get_gravity_model().gravity_vector(representative_point).norm();
-              const double Ra = material_model.reference_density()*
+
+              // check whether diffusivity is set to 0 (in case of backward advection)
+              const double Ra = (material_model.reference_thermal_diffusivity() == 0) ?
+                                std::numeric_limits<double>::infinity() :
+                                material_model.reference_density()*
                                 gravity*
                                 material_model.reference_thermal_expansion_coefficient()*
                                 dT*std::pow(h,3)/

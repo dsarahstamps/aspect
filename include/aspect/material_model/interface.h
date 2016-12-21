@@ -18,9 +18,8 @@
   <http://www.gnu.org/licenses/>.
 */
 
-
-#ifndef __aspect__material_model_interface_h
-#define __aspect__material_model_interface_h
+#ifndef _aspect_material_model_interface_h
+#define _aspect_material_model_interface_h
 
 #include <aspect/plugins.h>
 #include <deal.II/base/point.h>
@@ -246,20 +245,9 @@ namespace aspect
     };
 
 
-    /**
-     * A base class for additional output fields to be added to the
-     * MaterialModel::MaterialModelOutputs structure and filled in the
-     * MaterialModel::Interface::evaluate() function. The format of the
-     * additional quantities defined in derived classes should be the
-     * same as for MaterialModel::MaterialModelOutputs.
-     */
-    template<int dim>
-    class AdditionalMaterialOutputs
-    {
-      public:
-        virtual ~AdditionalMaterialOutputs()
-        {}
-    };
+    template <int dim>     class AdditionalMaterialOutputs;
+
+
     /**
      * A data structure with the output field of the
      * MaterialModel::Interface::evaluate() function. The vectors are the
@@ -492,8 +480,39 @@ namespace aspect
                     const typename DoFHandler<dim>::active_cell_iterator &cell,
                     const Quadrature<dim>         &quadrature_formula,
                     const Mapping<dim>            &mapping,
-                    MaterialModelOutputs<dim>          &values_out);
+                    MaterialModelOutputs<dim>     &values_out);
+
+      /**
+       * Do the requested averaging operation for one array. The
+       * projection matrix argument is only used if the operation
+       * chosen is project_to_Q1
+       */
+      void average_property (const AveragingOperation  operation,
+                             const FullMatrix<double>      &projection_matrix,
+                             const FullMatrix<double>      &expansion_matrix,
+                             std::vector<double>           &values_out);
     }
+
+
+    /**
+     * A base class for additional output fields to be added to the
+     * MaterialModel::MaterialModelOutputs structure and filled in the
+     * MaterialModel::Interface::evaluate() function. The format of the
+     * additional quantities defined in derived classes should be the
+     * same as for MaterialModel::MaterialModelOutputs.
+     */
+    template<int dim>
+    class AdditionalMaterialOutputs
+    {
+      public:
+        virtual ~AdditionalMaterialOutputs()
+        {}
+
+        virtual void average (const MaterialAveraging::AveragingOperation /*operation*/,
+                              const FullMatrix<double>  &/*projection_matrix*/,
+                              const FullMatrix<double>  &/*expansion_matrix*/)
+        {}
+    };
 
 
 
@@ -1025,7 +1044,6 @@ namespace aspect
         }
       return NULL;
     }
-
 
 
     template <int dim>

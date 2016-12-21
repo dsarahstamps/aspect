@@ -19,8 +19,8 @@
 */
 
 
-#ifndef __aspect__velocity_boundary_conditions_gplates_h
-#define __aspect__velocity_boundary_conditions_gplates_h
+#ifndef _aspect_velocity_boundary_conditions_gplates_h
+#define _aspect_velocity_boundary_conditions_gplates_h
 
 #include <aspect/velocity_boundary_conditions/interface.h>
 #include <aspect/simulator_access.h>
@@ -65,7 +65,8 @@ namespace aspect
            * Loads a gplates .gpml velocity file. Throws an exception if the
            * file does not exist.
            */
-          void load_file(const std::string &filename);
+          void load_file(const std::string &filename,
+                         const MPI_Comm &comm);
 
           /**
            * Returns the computed surface velocity in cartesian coordinates.
@@ -187,7 +188,12 @@ namespace aspect
          * current class, this function returns value from gplates.
          */
         Tensor<1,dim>
-        boundary_velocity (const Point<dim> &position) const;
+        boundary_velocity (const types::boundary_id boundary_indicator,
+                           const Point<dim> &position) const;
+
+        // avoid -Woverloaded-virtual warning until the deprecated function
+        // is removed from the interface:
+        using Interface<dim>::boundary_velocity;
 
         /**
          * Initialization function. This function is called once at the
@@ -225,7 +231,7 @@ namespace aspect
          * A variable that stores the currently used data file of a series. It
          * gets updated if necessary by update().
          */
-        unsigned int current_file_number;
+        int current_file_number;
 
         /**
          * Time from which on the data file with number 'First data file
@@ -240,7 +246,7 @@ namespace aspect
          * Number of the first data file to be loaded when the model time is
          * larger than 'First data file model time'.
          */
-        unsigned int first_data_file_number;
+        int first_data_file_number;
 
         /**
          * In some cases the boundary files are not numbered in increasing but
