@@ -19,8 +19,8 @@
 */
 
 
-#ifndef __aspect__velocity_boundary_conditions_zero_velocity_h
-#define __aspect__velocity_boundary_conditions_zero_velocity_h
+#ifndef _aspect_velocity_boundary_conditions_zero_velocity_h
+#define _aspect_velocity_boundary_conditions_zero_velocity_h
 
 #include <aspect/velocity_boundary_conditions/interface.h>
 
@@ -48,6 +48,10 @@ namespace aspect
         Tensor<1,dim>
         boundary_velocity (const types::boundary_id boundary_indicator,
                            const Point<dim> &position) const;
+
+        // avoid -Woverloaded-virtual warning until the deprecated function
+        // is removed from the interface:
+        using Interface<dim>::boundary_velocity;
     };
   }
 }

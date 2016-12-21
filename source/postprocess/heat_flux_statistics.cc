@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2015 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2016 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -20,7 +20,6 @@
 
 
 #include <aspect/postprocess/heat_flux_statistics.h>
-#include <aspect/simulator_access.h>
 
 #include <deal.II/base/quadrature_lib.h>
 #include <deal.II/fe/fe_values.h>
@@ -134,11 +133,7 @@ namespace aspect
                   }
 
                 const types::boundary_id boundary_indicator
-#if DEAL_II_VERSION_GTE(8,3,0)
                   = cell->face(f)->boundary_id();
-#else
-                  = cell->face(f)->boundary_indicator();
-#endif
                 local_boundary_fluxes[boundary_indicator] += local_normal_flux;
               }
 
@@ -157,7 +152,7 @@ namespace aspect
           local_values.push_back (local_boundary_fluxes[*p]);
 
         // then collect contributions from all processors
-        std::vector<double> global_values;
+        std::vector<double> global_values (local_values.size());
         Utilities::MPI::sum (local_values, this->get_mpi_communicator(), global_values);
 
         // and now take them apart into the global map again
@@ -213,18 +208,29 @@ namespace aspect
                                   "indicator (see your geometry description for which boundary "
                                   "indicators are used), the heat flux is computed in outward "
                                   "direction, i.e., from the domain to the outside, using the "
-                                  "formula $\\int_{\\Gamma_i} k \\nabla T \\cdot \\mathbf n$ "
+                                  "formula $\\int_{\\Gamma_i} -k \\nabla T \\cdot \\mathbf n$ "
                                   "where $\\Gamma_i$ is the part of the boundary with indicator $i$, "
                                   "$k$ is the thermal conductivity as reported by the material model, "
                                   "$T$ is the temperature, and $\\mathbf n$ is the outward normal. "
                                   "Note that the quantity so computed does not include any energy "
                                   "transported across the boundary by material transport in cases "
-                                  "where $\\mathbf u \\cdot \\mathbf n \\neq 0$."
+                                  "where $\\mathbf u \\cdot \\mathbf n \\neq 0$. The pointwise "
+                                  "heatflux can be obtained from the heat flux map postprocessor, "
+                                  "which outputs the heatflux to a file, or the heat flux map "
+                                  "visualization postprocessor, which outputs the heat flux for "
+                                  "visualization. "
                                   "\n\n"
                                   "As stated, this postprocessor computes the \\textit{outbound} heat "
                                   "flux. If you "
                                   "are interested in the opposite direction, for example from "
                                   "the core into the mantle when the domain describes the "
-                                  "mantle, then you need to multiply the result by -1.")
+                                  "mantle, then you need to multiply the result by -1."
+                                  "\n\n"
+                                  "\\note{In geodynamics, the term ``heat flux'' is often understand "
+                                  "to be the quantity $- k \\nabla T$, which is really a heat "
+                                  "flux \\textit{density}, i.e., a vector-valued field. In contrast "
+                                  "to this, the current postprocessor only computes the integrated "
+                                  "flux over each part of the boundary. Consequently, the units of "
+                                  "the quantity computed here are $W=\\frac{J}{s}$.}")
   }
 }
