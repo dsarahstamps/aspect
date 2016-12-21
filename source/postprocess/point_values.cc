@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2015 by the authors of the ASPECT code.
+  Copyright (C) 2016 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -20,7 +20,6 @@
 
 
 #include <aspect/postprocess/point_values.h>
-#include <aspect/simulator_access.h>
 #include <aspect/global.h>
 #include <deal.II/numerics/vector_tools.h>
 
@@ -48,7 +47,8 @@ namespace aspect
           bool point_found = false;
           try
             {
-              VectorTools::point_value(this->get_dof_handler(),
+              VectorTools::point_value(this->get_mapping(),
+                                       this->get_dof_handler(),
                                        this->get_solution(),
                                        evaluation_points[p],
                                        current_point_values[p]);
@@ -59,36 +59,52 @@ namespace aspect
               // ignore
             }
 
-          // ensure that exactly one processor found things
-          Assert (Utilities::MPI::sum (point_found ? 1 : 0, this->get_mpi_communicator()) > 0,
-                  ExcMessage ("While trying to evaluate the values of the solution at "
-                              "evaluation point " + Utilities::int_to_string(p) +
-                              ", no processor reported that that point lies inside the "
-                              "set of cells it owns. Are you trying to evaluate the "
-                              "solution at a point that lies outside the domain?"));
+          // ensure that at least one processor found things
+          const int n_procs = Utilities::MPI::sum (point_found ? 1 : 0, this->get_mpi_communicator());
+          AssertThrow (n_procs > 0,
+                       ExcMessage ("While trying to evaluate the solution at point " +
+                                   Utilities::to_string(evaluation_points[p][0]) + ", " +
+                                   Utilities::to_string(evaluation_points[p][1]) +
+                                   (dim == 3
+                                    ?
+                                    ", " + Utilities::to_string(evaluation_points[p][2])
+                                    :
+                                    "") + "), " +
+                                   "no processors reported that the point lies inside the " +
+                                   "set of cells they own. Are you trying to evaluate the " +
+                                   "solution at a point that lies outside of the domain?"
+                                  ));
 
-          // now exchange things. because we have exactly one processor that found
-          // the point, we can just add up that value plus all of the zero
-          // vectors from the other processors
-          //
-          // at the time of writing this (where we require deal.II 8.2) the
-          // Utilities::MPI::sum function can't sum Vector<double> arguments, so
-          // convert everything into a std::vector and back
-          std::vector<double> v (current_point_values[p].begin(),
-                                 current_point_values[p].end());
-          Utilities::MPI::sum (v, this->get_mpi_communicator(),
-                               v);
-          std::copy (v.begin(), v.end(), current_point_values[p].begin());
+          // Reduce all collected values into local Vector
+          Utilities::MPI::sum (current_point_values[p], this->get_mpi_communicator(),
+                               current_point_values[p]);
+
+          // Normalize in cases where points are claimed by multiple processors
+          if (n_procs > 1)
+            current_point_values[p] /= n_procs;
         }
 
       // finally push these point values all onto the list we keep
       point_values.push_back (std::make_pair (this->get_time(),
                                               current_point_values));
 
-      // now write all of the data to the file of choice
+      // now write all of the data to the file of choice. start with a pre-amble that
+      // explains the meaning of the various fields
       const std::string filename = (this->get_output_directory() +
                                     "point_values.txt");
       std::ofstream f (filename.c_str());
+      f << ("# <time> "
+            "<evaluation_point_x> "
+            "<evaluation_point_y> ")
+        << (dim == 3 ? "<evaluation_point_z> " : "")
+        << ("<velocity_x> "
+            "<velocity_y> ")
+        << (dim == 3 ? "<velocity_z> " : "")
+        << "<pressure> <temperature>";
+      for (unsigned int c=0; c<this->n_compositional_fields(); ++c)
+        f << " <" << this->introspection().name_for_compositional_index(c) << ">";
+      f << '\n';
+
       for (std::vector<std::pair<double, std::vector<Vector<double> > > >::iterator
            time_point = point_values.begin();
            time_point != point_values.end();
@@ -123,6 +139,10 @@ namespace aspect
           f << '\n';
         }
 
+      AssertThrow (f, ExcMessage("Writing data to <" + filename +
+                                 "> did not succeed in the 'point values' "
+                                 "postprocessor."));
+
       // return what should be printed to the screen. note that we had
       // just incremented the number, so use the previous value
       return std::make_pair (std::string ("Writing point values:"),
@@ -139,8 +159,8 @@ namespace aspect
         prm.enter_subsection("Point values");
         {
           prm.declare_entry("Evaluation points", "",
-                            // a list of points, separated by commas; each point has
-                            // exactly 'dim' components/coordinates, separated by spaces
+                            // a list of points, separated by semicolons; each point has
+                            // exactly 'dim' components/coordinates, separated by commas
                             Patterns::List (Patterns::List (Patterns::Double(), dim, dim, ","),
                                             0, Patterns::List::max_int_value, ";"),
                             "The list of points at which the solution should be evaluated. "
@@ -234,7 +254,7 @@ namespace aspect
                                   "temperature, and compositional fields along with other fields that "
                                   "are treated as primary variables) at the end of every time step "
                                   "at a given set of points and then writes this data into the file "
-                                  "<point_values.txt> in the output directory. The points at which "
+                                  "<point\\_values.txt> in the output directory. The points at which "
                                   "the solution should be evaluated are specified in the section "
                                   "\\texttt{Postprocess/Point values} in the input file."
                                   "\n\n"
