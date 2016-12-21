@@ -19,8 +19,8 @@
 */
 
 
-#ifndef __aspect__velocity_boundary_conditions_function_h
-#define __aspect__velocity_boundary_conditions_function_h
+#ifndef _aspect_velocity_boundary_conditions_function_h
+#define _aspect_velocity_boundary_conditions_function_h
 
 #include <aspect/velocity_boundary_conditions/interface.h>
 #include <aspect/simulator_access.h>
@@ -57,6 +57,10 @@ namespace aspect
         Tensor<1,dim>
         boundary_velocity (const types::boundary_id boundary_indicator,
                            const Point<dim> &position) const;
+
+        // avoid -Woverloaded-virtual warning until the deprecated function
+        // is removed from the interface:
+        using Interface<dim>::boundary_velocity;
 
         /**
          * A function that is called at the beginning of each time step to
