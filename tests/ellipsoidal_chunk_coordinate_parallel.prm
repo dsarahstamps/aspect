@@ -36,7 +36,6 @@ subsection Model settings
 
   set Fixed temperature boundary indicators   = inner, outer,north,south,east,west
 
-  set Include shear heating                   = false
 end
 
 
@@ -79,7 +78,7 @@ end
 
 ############### Parameters describing what to do with the solution
 subsection Postprocess
-  set List of postprocessors = visualization, velocity statistics, temperature statistics, velocity statistics, basic statistics
+  set List of postprocessors = visualization, velocity statistics, temperature statistics, basic statistics
 
   subsection Visualization
     set List of output variables          = density

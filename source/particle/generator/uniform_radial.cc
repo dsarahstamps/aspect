@@ -79,17 +79,17 @@ namespace aspect
                 for (unsigned int j = 0; j < particles_per_layer[i]; ++j)
                   {
                     spherical_coordinates[1] = P_min[1] + j * phi_spacing;
-                    const Point<dim> particle_position = Utilities::cartesian_coordinates<dim>(spherical_coordinates) + P_center;
+                    const Point<dim> particle_position = Utilities::Coordinates::spherical_to_cartesian_coordinates<dim>(spherical_coordinates) + P_center;
 
                     // Try to add the particle. If it is not in this domain, do not
                     // worry about it and move on to next point.
                     try
                       {
                         particles.insert(this->generate_particle(particle_position,particle_index));
-                        particle_index++;
                       }
                     catch (ExcParticlePointNotInDomain &)
                       {}
+                    particle_index++;
                   }
               }
             else if (dim == 3)
@@ -108,17 +108,17 @@ namespace aspect
                     for (unsigned int k = 0; k < adjusted_phi_particles; ++k)
                       {
                         spherical_coordinates[1] = P_min[1] + k * phi_spacing;
-                        const Point<dim> particle_position = Utilities::cartesian_coordinates<dim>(spherical_coordinates) + P_center;
+                        const Point<dim> particle_position = Utilities::Coordinates::spherical_to_cartesian_coordinates<dim>(spherical_coordinates) + P_center;
 
                         // Try to add the particle. If it is not in this domain, do not
                         // worry about it and move on to next point.
                         try
                           {
                             particles.insert(this->generate_particle(particle_position,particle_index));
-                            particle_index++;
                           }
                         catch (ExcParticlePointNotInDomain &)
                           {}
+                        particle_index++;
                       }
                   }
               }

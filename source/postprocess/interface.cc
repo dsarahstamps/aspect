@@ -20,7 +20,7 @@
 
 
 #include <aspect/postprocess/interface.h>
-#include <aspect/simulator_access.h>
+#include <aspect/utilities.h>
 
 #include <typeinfo>
 
@@ -77,7 +77,6 @@ namespace aspect
 
 
 // ------------------------------ Manager -----------------------------
-
 
 
     template <int dim>
@@ -210,6 +209,10 @@ namespace aspect
       {
         postprocessor_names
           = Utilities::split_string_list(prm.get("List of postprocessors"));
+        AssertThrow(Utilities::has_unique_entries(postprocessor_names),
+                    ExcMessage("The list of strings for the parameter "
+                               "'Postprocess/List of postprocessors' contains entries more than once. "
+                               "This is not allowed. Please check your parameter file."));
       }
       prm.leave_subsection();
 
