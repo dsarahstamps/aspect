@@ -152,7 +152,7 @@ namespace
                                            * std::cos(th)))));
     //const double N = radius
     //                 / (std::sqrt(1
-     //                             - ellipticity * ellipticity * std::sin(lat) * std::sin(lat)));
+    //                             - ellipticity * ellipticity * std::sin(lat) * std::sin(lat)));
 //    const double alt = p / std::cos(lat) - N;
 
     /* convert to degrees */
@@ -283,7 +283,7 @@ namespace aspect
 
           //Calculate the number of unique longitudes or latitudes
           double a,b;
-          int count2;
+          int count2 = 0;
 
           if ( topo_flag == 1 )
             {
@@ -311,7 +311,7 @@ namespace aspect
                   count2++;
                 }
             }
-          std::cout<<"number of unique latitudes or longitudes = "<< count2 - 1 << std::endl;
+          std::cout << "number of unique latitudes or longitudes = " << count2 - 1 << std::endl;
           number_coords = count2-1;
         }
 
@@ -489,10 +489,12 @@ namespace aspect
          * and the documentation of the
          * base class.
          */
-        virtual Tensor<1, 3>
-        normal_vector(const Point<3> &p) const
+        Tensor<1,3>
+        normal_vector (const typename Triangulation<3,3>::face_iterator &,
+                       const Point<3> &p) const
         {
-          // assume radial normal vectors
+          // tacitely assume here that the given face is actually at the outer
+          // boundary, and that we need a vector that points radially outward
           return p / p.norm();
         }
 
@@ -609,6 +611,14 @@ namespace aspect
         get_used_boundary_indicators() const;
 
         /**
+         * If true, the queried point (in Cartesian coordinates)
+         * lies in the domain specified by the geometry.
+         */
+        virtual
+        bool
+        point_is_in_domain(const Point<dim> &p) const;
+
+        /**
          * Declare the parameters this class takes through input files.
          */
         static
@@ -629,6 +639,15 @@ namespace aspect
          */
         std_cxx1x::shared_ptr<const Topography> topography;
     };
+
+
+    template <int dim>
+    bool
+    Africa<dim>::point_is_in_domain(const Point<dim> &) const
+    {
+      Assert (false, ExcNotImplemented());
+      return true;
+    }
 
     template <>
     void
@@ -973,12 +992,13 @@ namespace aspect
     };
 
     template <>
-        double
-        ModelRegions<2>::get_lithosphere_isotherm(const double,
-                                                  const double) const
-        { abort();
-    	return 0;
-        }
+    double
+    ModelRegions<2>::get_lithosphere_isotherm(const double,
+                                              const double) const
+    {
+      abort();
+      return 0;
+    }
 
 
     template <>
@@ -1014,7 +1034,7 @@ namespace aspect
     {
       Assert (false, ExcNotImplemented());
       return 0;
-     }
+    }
 
     template <>
     double
@@ -1469,16 +1489,16 @@ namespace aspect
       const double R = 8.3144;                  // gas constant J/K.mol
       const double V_diff = 0.000006;           // Activation volume m^3/mol (Schubert 2001 and ref. therein)
       const double E_diff = 300000;             // Activation energy J/mol (Schubert 2001 and ref. therein)
-//      const double Biot = 0.01;         		// Biot's pore pressure (Kong and Bird, 1995 and ref. therein)
-      const double n_disl = 3.5;          		// n for dislocation creep (Freed et al., 2012 and ref. therein)
-      const double E_disl = 480000;       		// Activation energy J/mol (Freed et al., 2012 and ref. therein)
-      const double V_disl = 0.00000000001;    	// Activation volume m^3/mol (Freed et al., 2012 and ref. therein)
-      const double A_disl = 30000000;       	// Material parameter Pa^-n s^-1
-      const double d = 0.003;           		// Grain size m
-      const double p_disl = 0;          		// Dislocation creep grain size exponent
-      const double C_OH = 1000;         		// Olivine water content H/10^6Si (Freed et al., 2012 and ref. therein)
-      const double r_disl = 1.2;          		// Dislocation creep water exponent (Freed et al., 2012 and ref. therein)
-      const double strain_o = 1e-18;        	// Set small strain rate for which limit viscosity calculation
+//      const double Biot = 0.01;             // Biot's pore pressure (Kong and Bird, 1995 and ref. therein)
+      const double n_disl = 3.5;              // n for dislocation creep (Freed et al., 2012 and ref. therein)
+      const double E_disl = 480000;           // Activation energy J/mol (Freed et al., 2012 and ref. therein)
+      const double V_disl = 0.00000000001;      // Activation volume m^3/mol (Freed et al., 2012 and ref. therein)
+      const double A_disl = 30000000;         // Material parameter Pa^-n s^-1
+      const double d = 0.003;               // Grain size m
+      const double p_disl = 0;              // Dislocation creep grain size exponent
+      const double C_OH = 1000;             // Olivine water content H/10^6Si (Freed et al., 2012 and ref. therein)
+      const double r_disl = 1.2;              // Dislocation creep water exponent (Freed et al., 2012 and ref. therein)
+      const double strain_o = 1e-18;          // Set small strain rate for which limit viscosity calculation
 
       const double B_disl = A_disl * (std::pow(d,(-1.0*p_disl))) * (std::pow(C_OH,(r_disl)));
       const double exp_factor = std::exp((E_disl + pressure*V_disl)/(n_disl*R*temperature));
@@ -1489,7 +1509,7 @@ namespace aspect
 
       if (crustal_region(position) == true && temperature <= 1673.15)
         // return (Coulomb friction law) TBD
-       // return 1e22;
+        // return 1e22;
         return 1e25;
       if (crustal_region(position) == true && temperature > 1673.15)
         {
@@ -1501,13 +1521,13 @@ namespace aspect
         {
           // Use strain rate dependent dislocation creep flow law for mantle lithosphere
           //std::cout << "strain_factor*exp_factor*exp_B_disl value is: "<< strain_factor*exp_factor*exp_B_disl << std::endl;
-   // return 1e22;
+          // return 1e22;
           return (strain_factor*exp_factor*exp_B_disl);
         }
       else
         // Use diffusion creep flow law below the lithosphere
         //    std::cout << "temperature value is: "<< temperature << std::endl;
-     //     return 1e22;
+        //     return 1e22;
         return (0.5 * B_diff * std::exp((E_diff+pressure*V_diff)/(R*temperature)));
     }
 
@@ -2077,91 +2097,91 @@ namespace aspect
         Assert (uh[0].size() == this->introspection().n_components,   ExcInternalError());
         Assert (duh[0].size() == this->introspection().n_components,  ExcInternalError());
 
-	const aspect::InitialConditions::ModelRegions<dim> &
-	  initial_conditions = dynamic_cast<const aspect::InitialConditions::ModelRegions<dim>&>(this->get_initial_conditions());
+        const aspect::InitialConditions::ModelRegions<dim> &
+        initial_conditions = dynamic_cast<const aspect::InitialConditions::ModelRegions<dim>&>(this->get_initial_conditions());
 
-	// find min and max depth of the evaluation points of this cell
-	double min_depth = 1e300;
-	double max_depth = -1e300;
+        // find min and max depth of the evaluation points of this cell
+        double min_depth = 1e300;
+        double max_depth = -1e300;
         for (unsigned int q=0; q<n_quadrature_points; ++q)
-	  {
-	    const double depth = this->get_geometry_model().depth(evaluation_points[q]);
-	    min_depth = std::min (min_depth, depth);
-	    max_depth = std::max (max_depth, depth);
-	  }
+          {
+            const double depth = this->get_geometry_model().depth(evaluation_points[q]);
+            min_depth = std::min (min_depth, depth);
+            max_depth = std::max (max_depth, depth);
+          }
 
-	// find center point of this cell, and evaluate how deep the
-	// lithosphere isotherm is for the corresponding lat/long
-	// values there
-	Point<dim> center_point;
+        // find center point of this cell, and evaluate how deep the
+        // lithosphere isotherm is for the corresponding lat/long
+        // values there
+        Point<dim> center_point = Point<dim>();
         for (unsigned int q=0; q<n_quadrature_points; ++q)
-	  center_point += evaluation_points[q];
-	center_point /= n_quadrature_points;
+          center_point += evaluation_points[q];
+        center_point /= n_quadrature_points;
 
-	const std::pair<double,double> center_point_lat_long
-	  = lat_long_from_xyz_wgs84(Point<3>(center_point[0], center_point[1], center_point[2]));
-	const double local_isotherm_depth
-	  = -1*initial_conditions.get_lithosphere_isotherm (center_point_lat_long.first,
-							 center_point_lat_long.second);
+        const std::pair<double,double> center_point_lat_long
+          = lat_long_from_xyz_wgs84(Point<3>(center_point[0], center_point[1], center_point[2]));
+        const double local_isotherm_depth
+          = -1*initial_conditions.get_lithosphere_isotherm (center_point_lat_long.first,
+                                                            center_point_lat_long.second);
 
-	if ((min_depth <= local_isotherm_depth)
-	    &&
-	    (local_isotherm_depth <= max_depth))
-	  {
-	    MaterialModel::MaterialModelInputs<dim> in(n_quadrature_points,
-						       this->n_compositional_fields());
-	    MaterialModel::MaterialModelOutputs<dim> out(n_quadrature_points,
-							 this->n_compositional_fields());
+        if ((min_depth <= local_isotherm_depth)
+            &&
+            (local_isotherm_depth <= max_depth))
+          {
+            MaterialModel::MaterialModelInputs<dim> in(n_quadrature_points,
+                                                       this->n_compositional_fields());
+            MaterialModel::MaterialModelOutputs<dim> out(n_quadrature_points,
+                                                         this->n_compositional_fields());
 
-	    // collect input information to compute the viscosity at every evaluation point
-	    in.position = evaluation_points;
-	    for (unsigned int q=0; q<n_quadrature_points; ++q)
-	      {
-		Tensor<2,dim> grad_u;
-		for (unsigned int d=0; d<dim; ++d)
-		  grad_u[d] = duh[q][d];
-		in.strain_rate[q] = symmetrize (grad_u);
+            // collect input information to compute the viscosity at every evaluation point
+            in.position = evaluation_points;
+            for (unsigned int q=0; q<n_quadrature_points; ++q)
+              {
+                Tensor<2,dim> grad_u;
+                for (unsigned int d=0; d<dim; ++d)
+                  grad_u[d] = duh[q][d];
+                in.strain_rate[q] = symmetrize (grad_u);
 
-		in.pressure[q]=uh[q][this->introspection().component_indices.pressure];
-		in.temperature[q]=uh[q][this->introspection().component_indices.temperature];
+                in.pressure[q]=uh[q][this->introspection().component_indices.pressure];
+                in.temperature[q]=uh[q][this->introspection().component_indices.temperature];
 
-		for (unsigned int c=0; c<this->n_compositional_fields(); ++c)
-		  in.composition[q][c] = uh[q][this->introspection().component_indices.compositional_fields[c]];
-	      }
+                for (unsigned int c=0; c<this->n_compositional_fields(); ++c)
+                  in.composition[q][c] = uh[q][this->introspection().component_indices.compositional_fields[c]];
+              }
 
-	    // then do compute the viscosity...
-	    this->get_material_model().evaluate(in, out);
+            // then do compute the viscosity...
+            this->get_material_model().evaluate(in, out);
 
-	    // ...and use it to compute the stresses
-	    for (unsigned int q=0; q<n_quadrature_points; ++q)
-	      {
-		const SymmetricTensor<2,dim> strain_rate = in.strain_rate[q];
-		const SymmetricTensor<2,dim> compressible_strain_rate
-		  = (this->get_material_model().is_compressible()
-		     ?
-		     strain_rate - 1./3 * trace(strain_rate) * unit_symmetric_tensor<dim>()
-		     :
-		     strain_rate);
+            // ...and use it to compute the stresses
+            for (unsigned int q=0; q<n_quadrature_points; ++q)
+              {
+                const SymmetricTensor<2,dim> strain_rate = in.strain_rate[q];
+                const SymmetricTensor<2,dim> compressible_strain_rate
+                  = (this->get_material_model().is_compressible()
+                     ?
+                     strain_rate - 1./3 * trace(strain_rate) * unit_symmetric_tensor<dim>()
+                     :
+                     strain_rate);
 
-		const double eta = out.viscosities[q];
+                const double eta = out.viscosities[q];
 
-		const SymmetricTensor<2,dim> stress = 2*eta*compressible_strain_rate +
-		  in.pressure[q] * unit_symmetric_tensor<dim>();
+                const SymmetricTensor<2,dim> stress = 2*eta*compressible_strain_rate +
+                                                      in.pressure[q] * unit_symmetric_tensor<dim>();
 
-		const Tensor<1,dim> normal_vector = Point<dim>::unit_vector(dim-1);
+                const Tensor<1,dim> normal_vector = Point<dim>::unit_vector(dim-1);
 
-		const Tensor<1,dim> normal_stress = stress * normal_vector;
+                const Tensor<1,dim> normal_stress = stress * normal_vector;
 
-		for (unsigned int i=0; i<dim; ++i)
-		  computed_quantities[q](i) = normal_stress[i];
-	      }
-	  }
-	else
-	  {
-	    for (unsigned int q=0; q<n_quadrature_points; ++q)
-	      for (unsigned int i=0; i<dim; ++i)
-		computed_quantities[q](i) = 1e30;
-	  }
+                for (unsigned int i=0; i<dim; ++i)
+                  computed_quantities[q](i) = normal_stress[i];
+              }
+          }
+        else
+          {
+            for (unsigned int q=0; q<n_quadrature_points; ++q)
+              for (unsigned int i=0; i<dim; ++i)
+                computed_quantities[q](i) = 1e30;
+          }
       }
 
       template <int dim>
