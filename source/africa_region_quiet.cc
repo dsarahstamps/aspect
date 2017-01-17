@@ -1,5 +1,5 @@
 /*
- Copyright (C) 2011, 2012 by the authors of the ASPECT code.
+ Copyright (C) 2011, 2012, 2017 by the authors of the ASPECT code.
 
  This file is part of ASPECT.
 
@@ -231,26 +231,15 @@ namespace aspect
                     }
                   if (count == 2)
                     {
-                      //  std::cout << "latitudes_alt[0]: "<< latitudes_alt[0] << std::endl;
-                      //  std::cout << "latitudes_alt[1]: "<< latitudes_alt[1] << std::endl;
-                      //  std::cout << "longitudes_alt[0]: "<< longitudes_alt[0] << std::endl;
-                      //  std::cout << "longitudes_alt[1]: "<< longitudes_alt[1] << std::endl;
-                      //  std::cout << "latitude_alt: "<< latitude_alt << std::endl;
-                      //  std::cout << "longitude_alt: "<< longitude_alt << std::endl;
-
                       if ((std::fabs(latitudes_alt[0] - latitudes_alt[1]) > 1e-9) && (std::fabs(longitudes_alt[0] - longitudes_alt[1]) > 1e-9))
                         {
                           // If file not formatted correctly stop program
-                          std::cout << ""<< std::endl;
                           throw std::ios_base::failure("Topography file not formatted correctly. " + filename + "Either longitude or latitudes must be increasing.");
-                          std::cout << ""<< std::endl;
                         }
                       if ((std::fabs(latitudes_alt[0] - latitudes_alt[1]) < 1e-9) && (std::fabs(longitudes_alt[0] - longitudes_alt[1]) < 1e-9))
                         {
                           // If file not formatted correctly stop program
-                          std::cout << ""<< std::endl;
                           throw std::ios_base::failure("Topography file not formatted correctly. " + filename + "Either longitude or latitudes must be increasing.");
-                          std::cout << ""<< std::endl;
                         }
 
                       if (std::fabs(latitudes_alt[0] - latitudes_alt[1]) > 1e-9)
@@ -269,10 +258,6 @@ namespace aspect
                           // If flag is 1 then latitudes are grouped and we calculate delta from longitudes
                           topo_flag = 1;
                         }
-                      std::cout << ""<< std::endl;
-                      std::cout<<"Topography file delta = "<< delta << std::endl;
-                      std::cout<<"Resolution of input topography in meters is approximately "<< delta*111*2 << std::endl;
-                      std::cout << ""<< std::endl;
                       count++;
                     }
                   //end of section on calculating delta
@@ -311,7 +296,6 @@ namespace aspect
                   count2++;
                 }
             }
-          std::cout << "number of unique latitudes or longitudes = " << count2 - 1 << std::endl;
           number_coords = count2-1;
         }
 
@@ -347,7 +331,6 @@ namespace aspect
               }
             else
               i += number_coords;
-          std::cout<<"Is your topography file ordered latitude, longitude, value? " << std::endl;
           AssertThrow(false, ExcInternalError());
           return 0;
         }
@@ -826,15 +809,6 @@ namespace aspect
           DomainData::latitudes[4] = northLatitude;
           DomainData::latitudes[5] = northLatitude;
 
-          // Print the latitudes to verify your input coordinates
-          std::cout << ""<< std::endl;
-          std::cout << "Southern, middle, and northern latitudes = "<< std::endl;
-          for (int i = 0; i<6; i++)
-            {
-              std::string String = static_cast<std::ostringstream *>( &(std::ostringstream() << i))->str();
-              std::cout << "latitudes["+ String +"]: " << DomainData::latitudes[i] << std::endl;
-            }
-
           // For each vertex assign the input value
           DomainData::longitudes[0] = westLongitude;
           DomainData::longitudes[1] = eastLongitude;
@@ -843,21 +817,8 @@ namespace aspect
           DomainData::longitudes[4] = westLongitude;
           DomainData::longitudes[5] = eastLongitude;
 
-          // Print the longitudes to verify your input coordinates
-          std::cout << ""<< std::endl;
-          std::cout << "Eastern and western longitudes = "<< std::endl;
-          for (int i = 0; i<6; i++)
-            {
-              std::string String = static_cast<std::ostringstream *>( &(std::ostringstream() << i))->str();
-              std::cout << "longitudes["+ String +"]: " << DomainData::longitudes[i] << std::endl;
-            }
-
           // Assign user input bottom depth of model
           DomainData::bottom_depth = bottomDepth;
-
-          // Print to screen to verify input is read in correctly.
-          std::cout << ""<< std::endl;
-          std::cout << "Depth of region in kilometers = " << (DomainData::bottom_depth)/1000 << std::endl;
         }
         prm.leave_subsection();
       }
@@ -1124,13 +1085,11 @@ namespace aspect
               if ((std::fabs(latitudes_iso[0] - latitudes_iso[1]) > 1e-9) && (std::fabs(longitudes_iso[0] - longitudes_iso[1]) > 1e-9))
                 {
                   // Stop program if file formatted incorrectly.
-                  std::cout << ""<< std::endl;
                   throw std::ios_base::failure("Lithospheric thickness file not formatted correctly. " + isotherm_file + "Make sure you have lat, lon, value with lat. or lon. varying.");
                 }
               if ((std::fabs(latitudes_iso[0] - latitudes_iso[1]) < 1e-9) && (std::fabs(longitudes_iso[0] - longitudes_iso[1]) < 1e-9))
                 {
                   // Stop program if file formatted incorrectly.
-                  std::cout << ""<< std::endl;
                   throw std::ios_base::failure("Lithospheric thickness file not formatted correctly. " + isotherm_file + "Make sure you have lat, lon, value with lat. or lon. varying.");
                 }
 
@@ -1148,11 +1107,6 @@ namespace aspect
                   // If flag is 1 then latitudes are grouped and we calculate delta from longitudes
                   litho_flag = 1;
                 }
-              std::cout << ""<< std::endl;
-              std::cout<<"Lithosphere thickness delta = "<< delta << std::endl;
-              std::cout << ""<< std::endl;
-              std::cout<<"Resolution of input lithosphere thickness in meters is approximately = "<< delta*111*2 << std::endl;
-              std::cout << ""<< std::endl;
               count++;
             }
         } // End of loop for calculating delta for the lithosphere thickness file
@@ -1192,10 +1146,7 @@ namespace aspect
             }
         }
 
-      std::cout << ""<< std::endl;
-      std::cout<<"number of unique latitudes or longitudes in lithosphere thickness file= "<< count3 - 1 << std::endl;
       number_coords_litho = count3-1;
-      std::cout << ""<< std::endl;
     }
   }
 }
@@ -1520,7 +1471,6 @@ namespace aspect
       if (crustal_region(position) == false && temperature < 1673.15)
         {
           // Use strain rate dependent dislocation creep flow law for mantle lithosphere
-          //std::cout << "strain_factor*exp_factor*exp_B_disl value is: "<< strain_factor*exp_factor*exp_B_disl << std::endl;
           // return 1e22;
           return (strain_factor*exp_factor*exp_B_disl);
         }
@@ -1819,14 +1769,12 @@ namespace aspect
               if ((std::fabs(latitudes_crust[0] - latitudes_crust[1]) > 1e-9) && (std::fabs(longitudes_crust[0] - longitudes_crust[1]) > 1e-9))
                 {
                   // Stop program if file formatted incorrectly.
-                  std::cout << ""<< std::endl;
                   throw std::ios_base::failure("Crustal thickness file not formatted correctly. " + crustal_file + "Make sure you have lat, lon, value with lat. or lon. varying.");
                 }
 
               if ((std::fabs(latitudes_crust[0] - latitudes_crust[1]) < 1e-9) && (std::fabs(longitudes_crust[0] - longitudes_crust[1]) < 1e-9))
                 {
                   // Stop program if file formatted incorrectly.
-                  std::cout << ""<< std::endl;
                   throw std::ios_base::failure("Crustal thickness file not formatted correctly. " + crustal_file + "Make sure you have lat, lon, value with lat. or lon. varying.");
                 }
 
@@ -1844,11 +1792,6 @@ namespace aspect
                   // If flag is 1 then latitudes are grouped and we calculate delta_crust from longitudes
                   crust_flag = 1;
                 }
-
-              std::cout << ""<< std::endl;
-              std::cout<<"Crustal thickness delta_crust = "<< delta_crust << std::endl;
-              std::cout<<"Resolution of input Crustal thickness in meters is approximately = "<< delta_crust*111*2 << std::endl;
-              std::cout << ""<< std::endl;
 
               countc++;
             }
@@ -1889,8 +1832,6 @@ namespace aspect
             }
         }
 
-      std::cout << ""<< std::endl;
-      std::cout<<"Number of unique latitudes or longitudes in crustal thickness file= "<< count5 - 1 << std::endl;
       number_coords_crust = count5-1;
     }
   }
