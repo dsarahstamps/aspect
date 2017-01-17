@@ -1,0 +1,6 @@
+0 = west boundary
+1 = east boundary
+2 = south boundary
+3 = north boundary
+4 = bottom boundary
+5 = top boundary

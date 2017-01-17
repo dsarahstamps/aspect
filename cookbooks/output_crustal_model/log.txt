@@ -1,0 +1,420 @@
+-----------------------------------------------------------------------------
+-- This is ASPECT, the Advanced Solver for Problems in Earth's ConvecTion.
+--     . version 1.4.pre
+--     . running in DEBUG mode
+--     . running with 32 MPI processes
+--     . using Trilinos
+-----------------------------------------------------------------------------
+
+Number of active cells: 320 (on 4 levels)
+Number of degrees of freedom: 4,500 (2,754+369+1,377)
+
+Number of free surface degrees of freedom: 738
+*** Timestep 0:  t=0 years
+   Solving mesh velocity system... 0 iterations.
+   Solving temperature system... 0 iterations.
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+24 iterations.
+   Residual after nonlinear iteration 1: 1
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+27 iterations.
+   Residual after nonlinear iteration 2: 0.120462
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+14 iterations.
+   Residual after nonlinear iteration 3: 2.28469e-06
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+12 iterations.
+   Residual after nonlinear iteration 4: 1.58028e-06
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+11 iterations.
+   Residual after nonlinear iteration 5: 1.41363e-06
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+10 iterations.
+   Residual after nonlinear iteration 6: 1.28909e-06
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+10 iterations.
+   Residual after nonlinear iteration 7: 1.19059e-06
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+10 iterations.
+   Residual after nonlinear iteration 8: 1.11041e-06
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+10 iterations.
+   Residual after nonlinear iteration 9: 1.04609e-06
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+10 iterations.
+   Residual after nonlinear iteration 10: 9.93343e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+10 iterations.
+   Residual after nonlinear iteration 11: 9.48509e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+10 iterations.
+   Residual after nonlinear iteration 12: 9.09711e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+10 iterations.
+   Residual after nonlinear iteration 13: 8.75839e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+10 iterations.
+   Residual after nonlinear iteration 14: 8.45089e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+10 iterations.
+   Residual after nonlinear iteration 15: 8.15894e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+11 iterations.
+   Residual after nonlinear iteration 16: 7.88476e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+10 iterations.
+   Residual after nonlinear iteration 17: 7.56797e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+10 iterations.
+   Residual after nonlinear iteration 18: 7.03068e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+10 iterations.
+   Residual after nonlinear iteration 19: 6.40599e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+10 iterations.
+   Residual after nonlinear iteration 20: 5.9164e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+10 iterations.
+   Residual after nonlinear iteration 21: 5.5159e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+10 iterations.
+   Residual after nonlinear iteration 22: 5.18221e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+10 iterations.
+   Residual after nonlinear iteration 23: 4.88967e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+10 iterations.
+   Residual after nonlinear iteration 24: 4.62219e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+9 iterations.
+   Residual after nonlinear iteration 25: 4.37537e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+9 iterations.
+   Residual after nonlinear iteration 26: 4.14883e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+9 iterations.
+   Residual after nonlinear iteration 27: 3.94218e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+9 iterations.
+   Residual after nonlinear iteration 28: 3.7539e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+9 iterations.
+   Residual after nonlinear iteration 29: 3.58237e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+9 iterations.
+   Residual after nonlinear iteration 30: 3.42643e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+9 iterations.
+   Residual after nonlinear iteration 31: 3.28483e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+9 iterations.
+   Residual after nonlinear iteration 32: 3.15592e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+9 iterations.
+   Residual after nonlinear iteration 33: 3.03782e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+9 iterations.
+   Residual after nonlinear iteration 34: 2.92842e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 35: 2.82539e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 36: 2.72595e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 37: 2.62737e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 38: 2.526e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 39: 2.4195e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 40: 2.30822e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 41: 2.19645e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 42: 2.09121e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 43: 1.99759e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 44: 1.91619e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 45: 1.84468e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 46: 1.78036e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 47: 1.72137e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 48: 1.66669e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 49: 1.61573e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 50: 1.56809e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 51: 1.52342e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 52: 1.48128e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 53: 1.44124e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 54: 1.40278e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 55: 1.36531e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 56: 1.32831e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 57: 1.29133e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 58: 1.25415e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 59: 1.21675e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 60: 1.17921e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 61: 1.14154e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 62: 1.10355e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 63: 1.06491e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+8 iterations.
+   Residual after nonlinear iteration 64: 1.02541e-07
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+7 iterations.
+   Residual after nonlinear iteration 65: 9.85187e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+7 iterations.
+   Residual after nonlinear iteration 66: 9.44947e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+7 iterations.
+   Residual after nonlinear iteration 67: 9.05561e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+7 iterations.
+   Residual after nonlinear iteration 68: 8.68395e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+7 iterations.
+   Residual after nonlinear iteration 69: 8.3407e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+7 iterations.
+   Residual after nonlinear iteration 70: 8.02899e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+7 iterations.
+   Residual after nonlinear iteration 71: 7.7468e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+7 iterations.
+   Residual after nonlinear iteration 72: 7.48957e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+7 iterations.
+   Residual after nonlinear iteration 73: 7.25236e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+7 iterations.
+   Residual after nonlinear iteration 74: 7.03111e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+7 iterations.
+   Residual after nonlinear iteration 75: 6.82208e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+7 iterations.
+   Residual after nonlinear iteration 76: 6.62343e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+7 iterations.
+   Residual after nonlinear iteration 77: 6.43354e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+7 iterations.
+   Residual after nonlinear iteration 78: 6.25134e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+7 iterations.
+   Residual after nonlinear iteration 79: 6.07611e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+7 iterations.
+   Residual after nonlinear iteration 80: 5.90744e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+7 iterations.
+   Residual after nonlinear iteration 81: 5.74482e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+7 iterations.
+   Residual after nonlinear iteration 82: 5.58801e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+6 iterations.
+   Residual after nonlinear iteration 83: 5.43664e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+6 iterations.
+   Residual after nonlinear iteration 84: 5.29143e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+6 iterations.
+   Residual after nonlinear iteration 85: 5.1498e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+6 iterations.
+   Residual after nonlinear iteration 86: 5.01356e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+6 iterations.
+   Residual after nonlinear iteration 87: 4.88196e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+6 iterations.
+   Residual after nonlinear iteration 88: 4.75481e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+6 iterations.
+   Residual after nonlinear iteration 89: 4.63192e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+6 iterations.
+   Residual after nonlinear iteration 90: 4.51313e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+6 iterations.
+   Residual after nonlinear iteration 91: 4.39835e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+6 iterations.
+   Residual after nonlinear iteration 92: 4.28732e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+6 iterations.
+   Residual after nonlinear iteration 93: 4.17995e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+6 iterations.
+   Residual after nonlinear iteration 94: 4.07615e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+6 iterations.
+   Residual after nonlinear iteration 95: 3.97575e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+6 iterations.
+   Residual after nonlinear iteration 96: 3.87866e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+6 iterations.
+   Residual after nonlinear iteration 97: 3.78468e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+6 iterations.
+   Residual after nonlinear iteration 98: 3.69376e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+6 iterations.
+   Residual after nonlinear iteration 99: 3.60571e-08
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+6 iterations.
+   Residual after nonlinear iteration 100: 3.52061e-08
+
+
+   Postprocessing:
+     Writing graphical output: output_crustal_model/solution-00000
+     RMS, max velocity:        0.00972 m/year, 0.0103 m/year
+

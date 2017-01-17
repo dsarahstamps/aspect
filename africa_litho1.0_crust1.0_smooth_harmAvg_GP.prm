@@ -1,0 +1,72 @@
+set Dimension                              = 3
+
+# Test for time-stepping
+set Start time                             = 0
+set End time                               = 10000000
+set Use years in output instead of seconds = true 
+set CFL number                             = 1.0
+set Output directory                       = g2_10ma_vtu
+set Nonlinear solver scheme                = iterated Stokes
+set Nonlinear solver tolerance             = 1e-4
+set Linear solver tolerance                = 1e-4
+set Max nonlinear iterations               = 6 
+set Temperature solver tolerance           = 1e-4
+set Number of cheap Stokes solver steps    = 0
+set Pressure normalization                 = surface
+set Surface pressure                       = 0
+
+subsection Geometry model
+  set Model name = africa
+
+  subsection Africa
+    set Topography = input_files/topography.txt
+    set west longitude = 26.0
+    set east longitude = 35.0
+    set north latitude = 5.0
+    set south latitude = -10.0
+    set bottom depth = 500000.0
+  end
+end   
+   
+subsection Initial conditions
+  set Model name = model regions
+  subsection Model regions
+    set Isotherm filename = input_files/litho1.0_smooth_aspect.txt
+  end
+end
+
+subsection Model settings
+  set Zero velocity boundary indicators       =  
+  set Prescribed velocity boundary indicators =
+  set Tangential velocity boundary indicators = 0,1,2,3,4,5 
+end
+
+subsection Gravity model
+  set Model name = radial earth-like
+end
+
+subsection Material model
+  set Model name = stamps  
+  set Material averaging = harmonic average
+  subsection Stamps model
+    set Crustal thickness filename = input_files/crust1.0_smooth.txt   
+  end
+end
+
+subsection Mesh refinement
+  set Initial adaptive refinement        = 0
+  set Initial global refinement          = 2
+  set Time steps between mesh refinement = 1
+  set Coarsening fraction                = 0.05
+  set Refinement fraction                = 0.3
+end
+
+subsection Postprocess
+  set List of postprocessors = depth average, surface velocities, visualization
+
+  subsection Visualization
+    set List of output variables = density, strain rate, viscosity, stress
+    set Time between graphical output = 0.05
+    set Output format = vtu
+  end
+end

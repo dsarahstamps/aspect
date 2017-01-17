@@ -1,0 +1,20 @@
+# 1: Time step number
+# 2: Time (years)
+# 3: Number of mesh cells
+# 4: Number of Stokes degrees of freedom
+# 5: Number of temperature degrees of freedom
+# 6: Iterations for temperature solver
+# 7: Iterations for Stokes solver
+# 8: Time step size (years)
+# 9: Visualization file name
+# 10: RMS velocity (m/year)
+# 11: Max. velocity (m/year)
+# 12: Minimal temperature (K)
+# 13: Average temperature (K)
+# 14: Maximal temperature (K)
+0 0.0000e+00 1024 29988 9537 0 194 0.0000e+00                                   "" 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 
+0 0.0000e+00    0     0    0 0   0 0.0000e+00                                   "" 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 
+0 0.0000e+00    0     0    0 0   0 0.0000e+00                                   "" 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 
+0 0.0000e+00    0     0    0 0   0 0.0000e+00                                   "" 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 
+0 0.0000e+00    0     0    0 0   0 0.0000e+00                                   "" 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 
+0 0.0000e+00    0     0    0 0   0 4.4254e+07 africa_region_iStokes/solution-00000 1.17143877e-04 5.21945482e-04 1.57227150e+02 1.53362043e+03 1.90512835e+03 

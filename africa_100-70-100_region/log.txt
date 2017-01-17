@@ -1,0 +1,8 @@
+-----------------------------------------------------------------------------
+-- This is ASPECT, the Advanced Solver for Problems in Earth's ConvecTion.
+--     . version 1.4.pre
+--     . running in DEBUG mode
+--     . running with 15 MPI processes
+--     . using Trilinos
+-----------------------------------------------------------------------------
+

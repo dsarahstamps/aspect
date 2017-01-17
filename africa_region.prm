@@ -1,0 +1,94 @@
+set Dimension                              = 3
+
+set Use years in output instead of seconds = true
+set End time                               = 0
+set Output directory                       = africa_change_density
+set Nonlinear solver scheme                = iterated Stokes
+set Nonlinear solver tolerance             = 1e-5
+set Linear solver tolerance                = 1e-4
+set Max nonlinear iterations               = 6
+set Temperature solver tolerance           = 1e-7
+set Number of cheap Stokes solver steps    = 0
+
+set Pressure normalization                 = surface
+set Surface pressure                       = 0
+
+subsection Geometry model
+  set Model name = africa
+
+  subsection Africa
+    set Topography = topography.txt
+    set west longitude = 26.0
+    set east longitude = 35.0
+    set north latitude = 5.0
+    set south latitude = -10.0
+    set bottom depth = 500000.0
+  end
+end   
+   
+subsection Initial conditions
+  set Model name = model regions
+
+  subsection Model regions
+    set Isotherm filename = lithosphere.txt
+  end
+end
+
+
+subsection Boundary temperature model
+  set Model name = box
+
+  subsection Spherical constant
+    set Inner temperature = 4273 # default: 6000
+    set Outer temperature = 973  # default: 0
+  end
+end
+
+
+subsection Model settings
+  set Fixed temperature boundary indicators   =
+
+  set Zero velocity boundary indicators       =
+  set Prescribed velocity boundary indicators =
+  set Tangential velocity boundary indicators = 0,1,2,3,4,5
+
+  set Include adiabatic heating               = false
+  set Include shear heating                   = false
+  set Radiogenic heating rate                 = 0
+end
+
+
+subsection Gravity model
+  set Model name = radial earth-like
+end
+
+
+subsection Material model
+  set Model name = stamps   # previously: simple
+
+  subsection Stamps model
+    set Crustal thickness filename = crust.txt
+  end
+  	
+  subsection Simple model
+    set Viscosity                     = 1e22
+  end
+end
+
+
+subsection Mesh refinement
+  set Initial global refinement                = 4
+  set Initial adaptive refinement              = 0
+  set Time steps between mesh refinement       = 0
+end
+
+
+subsection Postprocess
+  set List of postprocessors = visualization, velocity statistics, surface velocities, temperature statistics, depth average
+
+  subsection Visualization
+    set List of output variables = viscosity, density, melt fraction, strain rate, dynamic topography
+    set Time between graphical output = 1.0
+  end
+end
+

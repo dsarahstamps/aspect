@@ -1,0 +1,18 @@
+# 1: Time step number
+# 2: Time (years)
+# 3: Number of mesh cells
+# 4: Number of Stokes degrees of freedom
+# 5: Number of temperature degrees of freedom
+# 6: Iterations for temperature solver
+# 7: Iterations for Stokes solver
+# 8: Velocity iterations in Stokes preconditioner
+# 9: Schur complement iterations in Stokes preconditioner
+# 10: Time step size (years)
+# 11: Visualization file name
+# 12: Minimal temperature (K)
+# 13: Average temperature (K)
+# 14: Maximal temperature (K)
+# 15: RMS velocity (m/year)
+# 16: Max. velocity (m/year)
+0 0.0000e+00 524288 13375236 4276737 0 77 10344 985 0.0000e+00                                        "" 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00 
+0 0.0000e+00      0        0       0 0  0     0   0 2.5515e+06 g6_traction_vector_uniTopo/solution-00000 2.73098362e+02 1.50213756e+03 1.89889326e+03 2.11011521e-04 1.58968278e-03 

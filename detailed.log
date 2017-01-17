@@ -1,0 +1,16 @@
+###
+#
+#  ASPECT configuration:
+#        DEAL_II_DIR:            /Applications/deal.II.app/Contents/Resources/lib/cmake/deal.II
+#        DEAL_II VERSION:        8.2.1
+#        CMAKE_BUILD_TYPE:       Debug
+#        CMAKE_INSTALL_PREFIX:   /usr/local
+#        CMAKE_SOURCE_DIR:       /usr/local/src/aspect_clone 
+#        CMAKE_BINARY_DIR:       /usr/local/src/aspect_clone
+#        CMAKE_CXX_COMPILER:     Clang 6.0.0.6000051 on platform Darwin x86_64
+#                                /Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicxx
+#        CMAKE_C_COMPILER:       /Applications/deal.II.app/Contents/Resources/opt/openmpi-1.6.5/bin/mpicc
+#
+#        LINKAGE:                DYNAMIC
+#
+###

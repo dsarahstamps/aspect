@@ -1,0 +1,67 @@
+-----------------------------------------------------------------------------
+-- This is ASPECT, the Advanced Solver for Problems in Earth's ConvecTion.
+--     . version 1.4.0-pre
+--     . running in DEBUG mode
+--     . running with 10 MPI processes
+--     . using Trilinos
+-----------------------------------------------------------------------------
+
+Number of active cells: 128 (on 3 levels)
+Number of degrees of freedom: 5733 (4131+225+1377)
+
+*** Timestep 0:  t=0 seconds
+   Solving temperature system... 0 iterations.
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+92 iterations.
+   Residual after nonlinear iteration 1: 1
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+48 iterations.
+   Residual after nonlinear iteration 2: 0.00742768
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0 iterations.
+   Residual after nonlinear iteration 3: 2.06074e-05
+
+   Postprocessing:
+     Writing depth average         time1/depth_average.gnuplot
+     Writing surface velocities... time1/surface_velocities.0000
+     Writing graphical output:     time1/solution-00000
+
+Number of active cells: 128 (on 3 levels)
+Number of degrees of freedom: 5733 (4131+225+1377)
+
+*** Timestep 1:  t=200000 seconds
+   Solving temperature system... 0 iterations.
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0 iterations.
+   Residual after nonlinear iteration 1: 6.29982e-05
+
+   Postprocessing:
+     Writing surface velocities... time1/surface_velocities.0000
+     Writing graphical output:     time1/solution-00001
+
+Number of active cells: 128 (on 3 levels)
+Number of degrees of freedom: 5733 (4131+225+1377)
+
+Termination requested by criterion: end time
+
+
++---------------------------------------------+------------+------------+
+| Total wallclock time elapsed since start    |      7.52s |            |
+|                                             |            |            |
+| Section                         | no. calls |  wall time | % of total |
++---------------------------------+-----------+------------+------------+
+| Assemble Stokes system          |         4 |     0.678s |         9% |
+| Assemble temperature system     |         2 |     0.309s |       4.1% |
+| Build Stokes preconditioner     |         4 |     0.414s |       5.5% |
+| Build temperature preconditioner|         2 |   0.00491s |     0.065% |
+| Solve Stokes system             |         4 |         1s |        13% |
+| Solve temperature system        |         2 |   0.00696s |     0.092% |
+| Initialization                  |         2 |      1.63s |        22% |
+| Postprocessing                  |         2 |      2.21s |        29% |
+| Refine mesh structure, part 1   |         2 |      0.09s |       1.2% |
+| Refine mesh structure, part 2   |         2 |    0.0175s |      0.23% |
+| Setup dof systems               |         3 |     0.352s |       4.7% |
++---------------------------------+-----------+------------+------------+
+

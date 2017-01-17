@@ -1,0 +1,25 @@
+Line <68> of file <input string>:
+    The entry value
+        density, strain rate, viscosity, stress, lab_stress
+    for the entry named
+        List of output variables
+    does not match the given pattern
+        [MultipleSelection Vp anomaly|Vs anomaly|artificial viscosity|boundary indicators|compositional vector|density|depth|dynamic topography|error indicator|friction heating|gravity|heating|lab stress|material properties|melt fraction|nonadiabatic pressure|nonadiabatic temperature|partition|seismic vp|seismic vs|shear stress|specific heat|strain rate|stress|thermal conductivity|thermal diffusivity|thermal expansivity|thermodynamic phase|vertical heat flux|viscosity|viscosity ratio ]
+
+
+----------------------------------------------------
+Exception on processing: 
+
+--------------------------------------------------------
+An error occurred in line <366> of file </work/newriver/dstamps/aspect/source/main.cc> in function
+    void parse_parameters(const string&, dealii::ParameterHandler&)
+The violated condition was: 
+    false
+The name and call sequence of the exception was:
+    dealii::ExcMessage ("Invalid input parameter file.")
+Additional Information: 
+Invalid input parameter file.
+--------------------------------------------------------
+
+Aborting!
+----------------------------------------------------

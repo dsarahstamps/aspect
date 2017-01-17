@@ -1,0 +1,20 @@
+-----------------------------------------------------------------------------
+-- This is ASPECT, the Advanced Solver for Problems in Earth's ConvecTion.
+--     . version 1.4.pre
+--     . running in DEBUG mode
+--     . running with 64 MPI processes
+--     . using Trilinos
+-----------------------------------------------------------------------------
+
+Number of active cells: 524,288 (on 7 levels)
+Number of degrees of freedom: 17,651,973 (12,830,211+545,025+4,276,737)
+
+*** Timestep 0:  t=0 years
+   Solving temperature system... 0 iterations.
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+75 iterations.
+   Residual after nonlinear iteration 1: 1
+
+   Solving Stokes system... 0 iterations.
+   Residual after nonlinear iteration 2: 6.90805e-05
+

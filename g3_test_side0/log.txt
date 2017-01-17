@@ -1,0 +1,44 @@
+-----------------------------------------------------------------------------
+-- This is ASPECT, the Advanced Solver for Problems in Earth's ConvecTion.
+--     . version 1.4.pre
+--     . running in DEBUG mode
+--     . running with 32 MPI processes
+--     . using Trilinos
+-----------------------------------------------------------------------------
+
+Number of active cells: 1,024 (on 4 levels)
+Number of degrees of freedom: 39,525 (28,611+1,377+9,537)
+
+*** Timestep 0:  t=0 years
+   Solving temperature system... 0 iterations.
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 0+392 iterations.
+   Residual after nonlinear iteration 1: 1
+
+   Solving Stokes system... 0+7 iterations.
+   Residual after nonlinear iteration 2: 8.70067e-05
+
+   Postprocessing:
+     Writing depth average         g3_test_side0/depth_average.gnuplot
+     Writing surface velocities... g3_test_side0/surface_velocities.0000
+     Writing graphical output:     g3_test_side0/solution-00000
+
+Termination requested by criterion: end time
+
+
++---------------------------------------------+------------+------------+
+| Total wallclock time elapsed since start    |      43.1s |            |
+|                                             |            |            |
+| Section                         | no. calls |  wall time | % of total |
++---------------------------------+-----------+------------+------------+
+| Assemble Stokes system          |         2 |      1.85s |       4.3% |
+| Assemble temperature system     |         1 |     0.821s |       1.9% |
+| Build Stokes preconditioner     |         1 |      1.25s |       2.9% |
+| Build temperature preconditioner|         1 |   0.00758s |     0.018% |
+| Solve Stokes system             |         2 |      16.9s |        39% |
+| Solve temperature system        |         1 |     0.014s |     0.033% |
+| Initialization                  |         2 |      2.27s |       5.3% |
+| Postprocessing                  |         1 |      17.6s |        41% |
+| Setup dof systems               |         1 |      1.06s |       2.5% |
++---------------------------------+-----------+------------+------------+
+
