@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2016 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2017 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -348,7 +348,10 @@ namespace aspect
     fexists(const std::string &filename)
     {
       std::ifstream ifile(filename.c_str());
-      return static_cast<bool>(ifile); // only in c++11 you can convert to bool directly
+
+      // return whether construction of the input file has succeeded;
+      // success requires the file to exist and to be readable
+      return static_cast<bool>(ifile);
     }
 
 
@@ -850,6 +853,20 @@ namespace aspect
                                           ASPECT_SOURCE_DIR);
     }
 
+    std::string parenthesize_if_nonempty (const std::string &s)
+    {
+      if (s.size() > 0)
+        return " (\"" + s + "\")";
+      else
+        return "";
+    }
+
+    bool
+    has_unique_entries (const std::vector<std::string> &strings)
+    {
+      const std::set<std::string> set_of_strings(strings.begin(),strings.end());
+      return (set_of_strings.size() == strings.size());
+    }
 
     template <int dim>
     AsciiDataLookup<dim>::AsciiDataLookup(const unsigned int components,

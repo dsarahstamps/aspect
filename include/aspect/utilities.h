@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2014, 2015, 2016 by the authors of the ASPECT code.
+  Copyright (C) 2014, 2015, 2016, 2017 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -209,7 +209,7 @@ namespace aspect
     };
 
     /**
-     * Checks whether a file named filename exists.
+     * Checks whether a file named @p filename exists and is readable.
      *
      * @param filename File to check existence
      */
@@ -362,6 +362,17 @@ namespace aspect
     std::string
     expand_ASPECT_SOURCE_DIR (const std::string &location);
 
+    /**
+     * Given a string @p s, return it in the form ' ("s")' if nonempty.
+     * Otherwise just return the empty string itself.
+     */
+    std::string parenthesize_if_nonempty (const std::string &s);
+
+    /**
+     * Returns if a vector of strings @p strings only contains unique
+     * entries.
+     */
+    bool has_unique_entries (const std::vector<std::string> &strings);
 
     /**
      * AsciiDataLookup reads in files containing input data in ascii format.
