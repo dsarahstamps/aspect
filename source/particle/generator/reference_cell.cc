@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2016 by the authors of the ASPECT code.
+  Copyright (C) 2016 - 2020 by the authors of the ASPECT code.
 
  This file is part of ASPECT.
 
@@ -14,7 +14,7 @@
  GNU General Public License for more details.
 
  You should have received a copy of the GNU General Public License
- along with ASPECT; see the file doc/COPYING.  If not see
+ along with ASPECT; see the file LICENSE.  If not see
  <http://www.gnu.org/licenses/>.
  */
 
@@ -30,37 +30,35 @@ namespace aspect
     {
       template <int dim>
       void
-      ReferenceCell<dim>::generate_particles(std::multimap<types::LevelInd, Particle<dim> > &particles)
+      ReferenceCell<dim>::generate_particles(std::multimap<Particles::internal::LevelInd, Particle<dim> > &particles)
       {
         const std::vector<Point<dim> > particles_in_unit_cell = generate_particle_positions_in_unit_cell();
 
         types::particle_index n_particles_to_generate = this->get_triangulation().n_locally_owned_active_cells() * particles_in_unit_cell.size();
         types::particle_index prefix_sum = 0;
 
-        MPI_Scan(&n_particles_to_generate, &prefix_sum, 1, ASPECT_TRACER_INDEX_MPI_TYPE, MPI_SUM, this->get_mpi_communicator());
+#if DEAL_II_VERSION_GTE(9,1,0)
+        const int ierr = MPI_Scan(&n_particles_to_generate, &prefix_sum, 1, DEAL_II_PARTICLE_INDEX_MPI_TYPE, MPI_SUM, this->get_mpi_communicator());
+#else
+        const int ierr = MPI_Scan(&n_particles_to_generate, &prefix_sum, 1, PARTICLE_INDEX_MPI_TYPE, MPI_SUM, this->get_mpi_communicator());
+#endif
+        AssertThrowMPI(ierr);
 
         types::particle_index particle_index = prefix_sum - n_particles_to_generate;
 
-        typename Triangulation<dim>::active_cell_iterator
-        cell = this->get_triangulation().begin_active(), endc = this->get_triangulation().end();
-
-        for (; cell != endc; cell++)
-          {
-            if (cell->is_locally_owned())
-              {
-                for (typename std::vector<Point<dim> >::const_iterator itr_particles_in_unit_cell = particles_in_unit_cell.begin();
-                     itr_particles_in_unit_cell != particles_in_unit_cell.end();
-                     itr_particles_in_unit_cell++)
-                  {
-                    const Point<dim> position_real = this->get_mapping().transform_unit_to_real_cell(cell,
-                                                     *itr_particles_in_unit_cell);
-                    const Particle<dim> particle(position_real, *itr_particles_in_unit_cell, particle_index);
-                    const types::LevelInd cell_index(cell->level(), cell->index());
-                    particles.insert(std::make_pair(cell_index, particle));
-                    ++particle_index;
-                  }
-              }
-          }
+        for (const auto &cell : this->get_triangulation().active_cell_iterators())
+          if (cell->is_locally_owned())
+            {
+              for (const auto &itr_particles_in_unit_cell : particles_in_unit_cell)
+                {
+                  const Point<dim> position_real = this->get_mapping().transform_unit_to_real_cell(cell,
+                                                   itr_particles_in_unit_cell);
+                  const Particle<dim> particle(position_real, itr_particles_in_unit_cell, particle_index);
+                  const Particles::internal::LevelInd cell_index(cell->level(), cell->index());
+                  particles.insert(std::make_pair(cell_index, particle));
+                  ++particle_index;
+                }
+            }
       }
 
 
@@ -69,7 +67,7 @@ namespace aspect
       ReferenceCell<dim>::generate_particle_positions_in_unit_cell()
       {
         std::vector<Point<dim> > particle_positions;
-        std_cxx11::array<double, dim> spacing;
+        std::array<double, dim> spacing;
 
         // Calculate separation of particles
         for (unsigned int i = 0; i < dim; ++i)
@@ -110,15 +108,15 @@ namespace aspect
       {
         prm.enter_subsection("Postprocess");
         {
-          prm.enter_subsection("Tracers");
+          prm.enter_subsection("Particles");
           {
             prm.enter_subsection("Generator");
             {
               prm.enter_subsection("Reference cell");
               {
-                prm.declare_entry ("Number of tracers per cell per direction", "2",
-                                   Patterns::List(Patterns::Double(0)),
-                                   "List of number of tracers to create per cell and spatial dimension. "
+                prm.declare_entry ("Number of particles per cell per direction", "2",
+                                   Patterns::List(Patterns::Double (0.)),
+                                   "List of number of particles to create per cell and spatial dimension. "
                                    "The size of the list is the number of spatial dimensions. If only "
                                    "one value is given, then each spatial dimension is set to the same value. "
                                    "The list of numbers are parsed as a floating point number (so that one can "
@@ -141,17 +139,17 @@ namespace aspect
       {
         prm.enter_subsection("Postprocess");
         {
-          prm.enter_subsection("Tracers");
+          prm.enter_subsection("Particles");
           {
             prm.enter_subsection("Generator");
             {
               prm.enter_subsection("Reference cell");
               {
-                std::vector<double> n_particles_tmp = Utilities::possibly_extend_from_1_to_N (Utilities::string_to_double(Utilities::split_string_list(prm.get("Number of tracers per cell per direction"))),
+                std::vector<double> n_particles_tmp = Utilities::possibly_extend_from_1_to_N (Utilities::string_to_double(Utilities::split_string_list(prm.get("Number of particles per cell per direction"))),
                                                                                               dim,
-                                                                                              "Number of tracers per cell per direction");
+                                                                                              "Number of particles per cell per direction");
                 for (std::vector<double>::const_iterator itr = n_particles_tmp.begin(); itr != n_particles_tmp.end(); itr++)
-                  number_of_particles.push_back((unsigned int) *itr);
+                  number_of_particles.push_back(static_cast<unsigned int>(*itr));
               }
               prm.leave_subsection();
             }
@@ -175,7 +173,7 @@ namespace aspect
     {
       ASPECT_REGISTER_PARTICLE_GENERATOR(ReferenceCell,
                                          "reference cell",
-                                         "Generate a uniform distribution of particles per cell and spatial direction in "
+                                         "Generates a uniform distribution of particles per cell and spatial direction in "
                                          "the unit cell and transforms each of the particles back to real region in the model "
                                          "domain. Uniform here means the particles will be generated with an equal spacing in "
                                          "each spatial dimension")

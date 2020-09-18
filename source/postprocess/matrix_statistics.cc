@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2016 by the authors of the ASPECT code.
+  Copyright (C) 2016 - 2019 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,7 +14,7 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
@@ -31,14 +31,14 @@ namespace
 {
   const std::string
   get_stats(const aspect::LinearAlgebra::BlockSparseMatrix &matrix,
-            const std::string matrix_name,
+            const std::string &matrix_name,
             const MPI_Comm &comm)
   {
     std::ostringstream output;
 
-    // convert from bytes intto mb
+    // convert from bytes into Mb
     const double mb = 1024*1024;
-    //sum up local matrix memory usage
+    // sum up local matrix memory usage
     double global_matrix_memory_consumption = dealii::Utilities::MPI::sum(matrix.memory_consumption(),
                                                                           comm);
     output << "\nTotal " << matrix_name << " memory consumption: "
@@ -48,13 +48,18 @@ namespace
     // output number of nonzero elements in matrix. Do so with 1000s separator
     // since they are frequently large; this was previously done by using the empty
     // string locale, but creating std::locale with an empty string caused problems
-    // on some platforms, so the functionaltity yo catch the exception and ignore
+    // on some platforms, so the functionality to catch the exception and ignore
     // is kept here, even though explicitly setting a facet should always work.
     try
       {
-        output.imbue(std::locale(std::locale(), new aspect::Utilities::ThousandSep));
+        // Imbue the stream with a locale that does the right thing. The
+        // locale is responsible for later deleting the object pointed
+        // to by the last argument (the "facet"), see
+        // https://en.cppreference.com/w/cpp/locale/locale/locale
+        output.imbue(std::locale(std::locale(),
+                                 new aspect::Utilities::ThousandSep));
       }
-    catch (std::runtime_error e)
+    catch (const std::runtime_error &e)
       {
         // If the locale doesn't work, just give up
       }

@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2015 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2019 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,7 +14,7 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
@@ -45,19 +45,16 @@ namespace aspect
 
       std::vector<SymmetricTensor<2,dim> > strain_rates (quadrature.size());
 
-      typename DoFHandler<dim>::active_cell_iterator
-      cell = this->get_dof_handler().begin_active(),
-      endc = this->get_dof_handler().end();
-      unsigned int j=0;
-      for (; cell!=endc; ++cell, ++j)
+      for (const auto &cell : this->get_dof_handler().active_cell_iterators())
         if (cell->is_locally_owned())
           {
+            const unsigned int idx = cell->active_cell_index();
             fe_values.reinit(cell);
 
             fe_values[this->introspection().extractors.velocities].get_function_symmetric_gradients (this->get_solution(),
                 strain_rates);
 
-            indicators(j) = strain_rates[0].norm();
+            indicators(idx) = strain_rates[0].norm();
           }
 
     }
@@ -71,7 +68,7 @@ namespace aspect
   {
     ASPECT_REGISTER_MESH_REFINEMENT_CRITERION(StrainRate,
                                               "strain rate",
-                                              "A mesh refinement criterion that computes the"
+                                              "A mesh refinement criterion that computes the "
                                               "refinement indicators equal to the strain rate "
                                               "norm computed at the center of the elements.")
   }

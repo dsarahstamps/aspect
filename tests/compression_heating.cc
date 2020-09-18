@@ -1,4 +1,3 @@
-#include <aspect/fluid_pressure_boundary_conditions/interface.h>
 #include <aspect/material_model/melt_global.h>
 #include <aspect/simulator_access.h>
 #include <aspect/global.h>
@@ -28,7 +27,7 @@ namespace aspect
     {
       MeltGlobal<dim>::evaluate(in, out);
       const unsigned int porosity_idx = this->introspection().compositional_index_for_name("porosity");
-      for (unsigned int i=0; i < in.position.size(); ++i)
+      for (unsigned int i=0; i < in.n_evaluation_points(); ++i)
         {
           out.reaction_terms[i][porosity_idx] = 0.2;
         }

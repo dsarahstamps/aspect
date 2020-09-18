@@ -1,5 +1,5 @@
 # This test checks if the postprocessor 'melt fraction' works as 
-# intended. The visulaization output is then a p-T-diagramme of
+# intended. The visualization output is then a p-T-diagram of
 # the melt fraction of pyroxenite using the melting model of 
 # Sobolev et. al, 2010 (Nature)
 # with the temperature ranging from 1000°C to 1900°C on the x axis 
@@ -57,7 +57,7 @@ end
 # constants. We choose a linear temperature profile that
 # matches the boundary conditions defined below plus
 # a small perturbation:
-subsection Initial conditions
+subsection Initial temperature model
   set Model name = function
 
   subsection Function
@@ -66,7 +66,7 @@ subsection Initial conditions
   end
 end
 
-subsection Compositional initial conditions
+subsection Initial composition model
   set Model name = function
 
   subsection Function
@@ -76,21 +76,18 @@ subsection Compositional initial conditions
 end
 
 subsection Boundary temperature model
-  set Model name = box
+  set List of model names = box
 end
 
 subsection Boundary composition model
-  set Model name = box
+  set List of model names = box
 end
 
-subsection Model settings
-  # The next parameters then describe on which parts of the
-  # boundary we prescribe a zero or nonzero velocity and
-  # on which parts the flow is allowed to be tangential.
-  # Here, all four sides of the box allow tangential
-  # unrestricted flow but with a zero normal component:
-  set Zero velocity boundary indicators       =
-  set Prescribed velocity boundary indicators =
+# The parameters below this comment were created by the update script
+# as replacement for the old 'Model settings' subsection. They can be
+# safely merged with any existing subsections with the same name.
+
+subsection Boundary velocity model
   set Tangential velocity boundary indicators = 0,1,2,3
 end
 
@@ -150,6 +147,7 @@ subsection Postprocess
   set List of postprocessors = visualization
 
   subsection Visualization
+    set Interpolate output = false
     set Output format = gnuplot
     set Time between graphical output = 0.01
     set List of output variables = melt fraction

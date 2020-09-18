@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2016 by the authors of the ASPECT code.
+  Copyright (C) 2016 - 2019 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,13 +14,13 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
 
-#ifndef _aspect_geometry_model__initial_topography_model_ascii_data_h
-#define _aspect_geometry_model__initial_topography_model_ascii_data_h
+#ifndef _aspect_geometry_model_initial_topography_model_ascii_data_h
+#define _aspect_geometry_model_initial_topography_model_ascii_data_h
 
 #include <aspect/geometry_model/initial_topography_model/interface.h>
 #include <aspect/simulator_access.h>
@@ -53,7 +53,7 @@ namespace aspect
          * beginning of the program. Sets the boundary id of the surface boundary.
          */
         void
-        initialize ();
+        initialize () override;
 
         // avoid -Woverloaded-virtual:
         using Utilities::AsciiDataBoundary<dim>::initialize;
@@ -66,8 +66,19 @@ namespace aspect
          * @copydoc aspect::InitialTopographyModel::Interface::value()
          */
         double
-        value (const Point<dim-1> &p) const;
+        value (const Point<dim-1> &surface_point) const override;
 
+        /**
+         * Return the maximum value of the elevation.
+         */
+        double max_topography () const override;
+
+        /**
+         * Return the gradient of the surface topography for a given position
+         * along the surface.
+         */
+        Tensor<1,dim-1>
+        vector_gradient(const Point<dim> &p) const;
 
         /**
          * Declare the parameters this class takes through input files.
@@ -80,7 +91,7 @@ namespace aspect
          * Read the parameters this class declares from the parameter file.
          */
         void
-        parse_parameters (ParameterHandler &prm);
+        parse_parameters (ParameterHandler &prm) override;
 
       private:
         types::boundary_id surface_boundary_id;

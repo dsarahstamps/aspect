@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2016 by the authors of the ASPECT code.
+  Copyright (C) 2016 - 2019 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,7 +14,7 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
@@ -32,7 +32,7 @@ namespace aspect
     using namespace dealii;
 
     /**
-     * A material model for incompressible (using the boussinesq approximation)
+     * A material model for incompressible (using the Boussinesq approximation)
      * and compressible computations (with ALA or TALA) for a nondimensionalized
      * problem. The viscosity is (optionally) depth and temperature dependent.
      *
@@ -46,14 +46,13 @@ namespace aspect
         /**
          * Initialize.
          */
-        virtual
-        void initialize ();
+        void initialize () override;
 
         /**
          * Evaluate the material model.
          */
-        virtual void evaluate(const MaterialModel::MaterialModelInputs<dim> &in,
-                              MaterialModel::MaterialModelOutputs<dim> &out) const;
+        void evaluate(const MaterialModel::MaterialModelInputs<dim> &in,
+                      MaterialModel::MaterialModelOutputs<dim> &out) const override;
 
         /**
          * @name Qualitative properties one can ask a material model
@@ -63,7 +62,7 @@ namespace aspect
         /**
          * Return whether the model is compressible or not.
          */
-        virtual bool is_compressible () const;
+        bool is_compressible () const override;
         /**
          * @}
          */
@@ -72,11 +71,7 @@ namespace aspect
          * @name Reference quantities
          * @{
          */
-        virtual double reference_viscosity () const;
-
-        virtual double reference_density () const;
-
-        double reference_cp () const;
+        double reference_viscosity () const override;
         /**
          * @}
          */
@@ -95,9 +90,8 @@ namespace aspect
         /**
          * Read the parameters this class declares from the parameter file.
          */
-        virtual
         void
-        parse_parameters (ParameterHandler &prm);
+        parse_parameters (ParameterHandler &prm) override;
         /**
          * @}
          */

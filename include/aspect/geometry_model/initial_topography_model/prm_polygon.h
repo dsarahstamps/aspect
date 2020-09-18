@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2016 by the authors of the ASPECT code.
+  Copyright (C) 2016 - 2019 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,13 +14,13 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
 
-#ifndef _aspect_geometry_model__initial_topography_prm_polygon_h
-#define _aspect_geometry_model__initial_topography_prm_polygon_h
+#ifndef _aspect_geometry_model_initial_topography_prm_polygon_h
+#define _aspect_geometry_model_initial_topography_prm_polygon_h
 
 #include <aspect/geometry_model/initial_topography_model/interface.h>
 
@@ -43,9 +43,12 @@ namespace aspect
         /**
          * Return the value of the topography for a point.
          */
-        virtual
-        double value (const Point<dim-1> &p) const;
+        double value (const Point<dim-1> &p) const override;
 
+        /**
+         * Return the maximum value of the elevation.
+         */
+        double max_topography () const override;
 
         /**
          * Declare the parameters this class takes through input files.
@@ -57,15 +60,19 @@ namespace aspect
         /**
          * Read the parameters this class declares from the parameter file.
          */
-        virtual
         void
-        parse_parameters (ParameterHandler &prm);
+        parse_parameters (ParameterHandler &prm) override;
 
       private:
         /**
          * The values of the topography are stored in a vector.
          */
         std::vector<double> topography_values;
+
+        /**
+         * The maximum topography in this model
+         */
+        double maximum_topography;
 
         /**
          * The polygons and their points are stored in this vector.

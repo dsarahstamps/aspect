@@ -1,5 +1,5 @@
 /*
- Copyright (C) 2015 by the authors of the ASPECT code.
+ Copyright (C) 2015 - 2019 by the authors of the ASPECT code.
 
  This file is part of ASPECT.
 
@@ -14,7 +14,7 @@
  GNU General Public License for more details.
 
  You should have received a copy of the GNU General Public License
- along with ASPECT; see the file doc/COPYING.  If not see
+ along with ASPECT; see the file LICENSE.  If not see
  <http://www.gnu.org/licenses/>.
  */
 
@@ -57,7 +57,7 @@ namespace aspect
        * a random number between zero and the global integral of the
        * probability density function uniquely defines one particular cell.
        * Afterwards, every process generates n_global_particles random numbers,
-       * but only generates a tracer if it is the owner of the active cell
+       * but only generates a particle if it is the owner of the active cell
        * that is associated with this random number.
        *
        * @ingroup ParticleGenerators
@@ -66,6 +66,12 @@ namespace aspect
       class ProbabilityDensityFunction : public Interface<dim>
       {
         public:
+          /**
+           * Initialization function for the random number generator.
+           */
+          void
+          initialize () override;
+
           /**
            * Generate a set of particles in the current
            * particle world. The particle density is set by an analytically
@@ -77,9 +83,8 @@ namespace aspect
            * @param [in,out] particles A multimap between cells and their
            * particles. This map will be filled in this function.
            */
-          virtual
           void
-          generate_particles(std::multimap<types::LevelInd, Particle<dim> > &particles);
+          generate_particles(std::multimap<Particles::internal::LevelInd, Particle<dim> > &particles) override;
 
           /**
            * Declare the parameters this class takes through input files.
@@ -91,9 +96,8 @@ namespace aspect
           /**
            * Read the parameters this class declares from the parameter file.
            */
-          virtual
           void
-          parse_parameters (ParameterHandler &prm);
+          parse_parameters (ParameterHandler &prm) override;
 
         protected:
 
@@ -103,13 +107,29 @@ namespace aspect
            */
           virtual
           double
-          get_cell_weight (typename DoFHandler<dim>::active_cell_iterator &cell) const;
+          get_cell_weight (const typename DoFHandler<dim>::active_cell_iterator &cell) const;
 
         private:
           /**
            * Number of particles to create
            */
-          types::particle_index n_tracers;
+          types::particle_index n_particles;
+
+          /**
+           * If true, particle numbers per cell are calculated randomly
+           * according to their respective probability density. If false,
+           * first determine how many particles each cell should have based
+           * on the integral of the density over each of the cells, and then
+           * once we know how many particles we want on each cell, choose their
+           * locations randomly within each cell.
+           */
+          bool random_cell_selection;
+
+          /**
+           * The seed for the random number generator that controls the
+           * particle generation.
+           */
+          unsigned int random_number_seed;
 
           /**
            * A function object representing the particle location probability
@@ -123,16 +143,16 @@ namespace aspect
            *
            * @param [in] particles_per_cell A vector with n_locally_owned_cells entries
            * that determines how many particles are generated in each cell.
-           * @param [in] local_start_id The starting ID to assign to generated particles of the local process.
+           * @param [in] first_particle_index The starting ID to assign to generated particles of the local process.
            * @param [in] n_local_particles The total number of particles to generate locally.
            * @param [out] particles A map between cells and all generated particles.
            *
            */
           void
           generate_particles_in_subdomain (const std::vector<unsigned int> &particles_per_cell,
-                                           const types::particle_index local_start_id,
+                                           const types::particle_index first_particle_index,
                                            const types::particle_index n_local_particles,
-                                           std::multimap<types::LevelInd, Particle<dim> > &particles);
+                                           std::multimap<Particles::internal::LevelInd, Particle<dim> > &particles);
 
           /**
            * This function loops over all active cells in the local subdomain

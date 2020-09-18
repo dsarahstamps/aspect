@@ -40,10 +40,10 @@ subsection Material model
 # velocity and normal stress. The relation between the two scales 
 # with the phase change number P, which is given in the 'Function
 # expression'. 
-# For P-->inifinity, the boundary is a free slip boundary, and for 
+# For P-->infinity, the boundary is a free slip boundary, and for 
 # P-->0, the boundary is an open boundary (with zero normal stress). 
 
-# For time dependence, the varibale names have to have dim+1 entries,
+# For time dependence, the variable names have to have dim+1 entries,
 # and the last variable will be the time
   subsection Inner core
     subsection Phase change resistance function
@@ -67,10 +67,15 @@ end
 # into account the effect of melting/freezing of material at 
 # the boundary of inner and outer core, and which is implemented
 # in the shared library. 
-subsection Model settings
-  set Zero velocity boundary indicators       = 
+# The parameters below this comment were created by the update script
+# as replacement for the old 'Model settings' subsection. They can be
+# safely merged with any existing subsections with the same name.
+
+subsection Boundary traction model
   set Prescribed traction boundary indicators = surface: zero traction
-  set Prescribed velocity boundary indicators =
+end
+
+subsection Boundary temperature model
   set Fixed temperature boundary indicators   = surface
 end
 
@@ -85,14 +90,14 @@ end
 
 # The (potential) temperature is set to zero at the outer boundary.
 subsection Boundary temperature model
-  set Model name = spherical constant
+  set List of model names = spherical constant
   subsection Spherical constant
     set Inner temperature = 0.8
     set Outer temperature = 0
   end
 end
 
-subsection Initial conditions
+subsection Initial temperature model
   set Model name = spherical hexagonal perturbation
 end
 
@@ -105,6 +110,8 @@ subsection Gravity model
   set Model name = radial linear
 
   subsection Radial linear
+    set Magnitude at bottom = 0.0
+    set Magnitude at bottom = 0.0
     set Magnitude at surface = 2     # <-- Ra
   end
 end
@@ -127,6 +134,7 @@ subsection Postprocess
   set List of postprocessors = visualization, velocity statistics, temperature statistics, heat flux statistics
 
   subsection Visualization
+    set Interpolate output = false
     set Output format                 = vtu
     set Time between graphical output = 0
     set Number of grouped files       = 0

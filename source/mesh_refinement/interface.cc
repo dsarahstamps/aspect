@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2016 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2020 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,7 +14,7 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
@@ -90,16 +90,12 @@ namespace aspect
     {
       Assert (mesh_refinement_objects.size() > 0, ExcInternalError());
 
-      // call the update() functions of all
-      // refinement plugins.
-      unsigned int index = 0;
-      for (typename std::list<std_cxx11::shared_ptr<Interface<dim> > >::const_iterator
-           p = mesh_refinement_objects.begin();
-           p != mesh_refinement_objects.end(); ++p, ++index)
+      // call the update() functions of all refinement plugins.
+      for (const auto &p : mesh_refinement_objects)
         {
           try
             {
-              (*p)->update ();
+              p->update ();
             }
 
           // plugins that throw exceptions usually do not result in
@@ -116,7 +112,7 @@ namespace aspect
               std::cerr << "Exception on MPI process <"
                         << Utilities::MPI::this_mpi_process(MPI_COMM_WORLD)
                         << "> while running mesh refinement plugin <"
-                        << typeid(**p).name()
+                        << typeid(*p).name()
                         << ">: " << std::endl
                         << exc.what() << std::endl
                         << "Aborting!" << std::endl
@@ -134,7 +130,7 @@ namespace aspect
               std::cerr << "Exception on MPI process <"
                         << Utilities::MPI::this_mpi_process(MPI_COMM_WORLD)
                         << "> while running mesh refinement plugin <"
-                        << typeid(**p).name()
+                        << typeid(*p).name()
                         << ">: " << std::endl;
               std::cerr << "Unknown exception!" << std::endl
                         << "Aborting!" << std::endl
@@ -161,7 +157,7 @@ namespace aspect
       std::vector<Vector<float> > all_error_indicators (mesh_refinement_objects.size(),
                                                         Vector<float>(error_indicators.size()));
       unsigned int index = 0;
-      for (typename std::list<std_cxx11::shared_ptr<Interface<dim> > >::const_iterator
+      for (typename std::list<std::unique_ptr<Interface<dim> > >::const_iterator
            p = mesh_refinement_objects.begin();
            p != mesh_refinement_objects.end(); ++p, ++index)
         {
@@ -267,14 +263,11 @@ namespace aspect
 
       // call the tag_additional_cells() functions of all
       // plugins we have here in turns.
-      unsigned int index = 0;
-      for (typename std::list<std_cxx11::shared_ptr<Interface<dim> > >::const_iterator
-           p = mesh_refinement_objects.begin();
-           p != mesh_refinement_objects.end(); ++p, ++index)
+      for (const auto &p : mesh_refinement_objects)
         {
           try
             {
-              (*p)->tag_additional_cells ();
+              p->tag_additional_cells ();
             }
 
           // plugins that throw exceptions usually do not result in
@@ -291,7 +284,7 @@ namespace aspect
               std::cerr << "Exception on MPI process <"
                         << Utilities::MPI::this_mpi_process(MPI_COMM_WORLD)
                         << "> while running mesh refinement plugin <"
-                        << typeid(**p).name()
+                        << typeid(*p).name()
                         << ">: " << std::endl
                         << exc.what() << std::endl
                         << "Aborting!" << std::endl
@@ -309,7 +302,7 @@ namespace aspect
               std::cerr << "Exception on MPI process <"
                         << Utilities::MPI::this_mpi_process(MPI_COMM_WORLD)
                         << "> while running mesh refinement plugin <"
-                        << typeid(**p).name()
+                        << typeid(*p).name()
                         << ">: " << std::endl;
               std::cerr << "Unknown exception!" << std::endl
                         << "Aborting!" << std::endl
@@ -331,11 +324,11 @@ namespace aspect
 
     namespace
     {
-      std_cxx11::tuple
+      std::tuple
       <void *,
       void *,
-      internal::Plugins::PluginList<Interface<2> >,
-      internal::Plugins::PluginList<Interface<3> > > registered_plugins;
+      aspect::internal::Plugins::PluginList<Interface<2> >,
+      aspect::internal::Plugins::PluginList<Interface<3> > > registered_plugins;
     }
 
 
@@ -351,7 +344,7 @@ namespace aspect
         // construct a string for Patterns::MultipleSelection that
         // contains the names of all registered plugins
         const std::string pattern_of_names
-          = std_cxx11::get<dim>(registered_plugins).get_pattern_of_names ();
+          = std::get<dim>(registered_plugins).get_pattern_of_names ();
         prm.declare_entry("Strategy",
                           "thermal energy density",
                           Patterns::MultipleSelection(pattern_of_names),
@@ -364,7 +357,7 @@ namespace aspect
                           "merged through the operation selected in this section.\n\n"
                           "The following criteria are available:\n\n"
                           +
-                          std_cxx11::get<dim>(registered_plugins).get_description_string());
+                          std::get<dim>(registered_plugins).get_description_string());
 
         prm.declare_entry("Normalize individual refinement criteria",
                           "true",
@@ -382,7 +375,7 @@ namespace aspect
                           "whether this normalization will happen.");
         prm.declare_entry("Refinement criteria scaling factors",
                           "",
-                          Patterns::List (Patterns::Double(0)),
+                          Patterns::List (Patterns::Double (0.)),
                           "A list of scaling factors by which every individual refinement "
                           "criterion will be multiplied by. If only a single refinement "
                           "criterion is selected (using the ``Strategy'' parameter, then "
@@ -415,8 +408,8 @@ namespace aspect
                           "If multiple mesh refinement criteria are computed for each cell "
                           "(by passing a list of more than element to the \\texttt{Strategy} "
                           "parameter in this section of the input file) "
-                          "then one will have to decide which one should win when deciding "
-                          "which cell to refine. The operation that selects from these competing "
+                          "then one will have to decide which criteria should win when deciding "
+                          "which cells to refine. The operation that determines how to combine these competing "
                           "criteria is the one that is selected here. The options are:\n\n"
                           "\\begin{itemize}\n"
                           "\\item \\texttt{plus}: Add the various error indicators together and "
@@ -432,7 +425,7 @@ namespace aspect
 
       // now declare the parameters of each of the registered
       // plugins in turn
-      std_cxx11::get<dim>(registered_plugins).declare_parameters (prm);
+      std::get<dim>(registered_plugins).declare_parameters (prm);
     }
 
 
@@ -441,7 +434,7 @@ namespace aspect
     void
     Manager<dim>::parse_parameters (ParameterHandler &prm)
     {
-      Assert (std_cxx11::get<dim>(registered_plugins).plugins != 0,
+      Assert (std::get<dim>(registered_plugins).plugins != nullptr,
               ExcMessage ("No mesh refinement plugins registered!?"));
 
       // find out which plugins are requested and the various other
@@ -485,8 +478,8 @@ namespace aspect
                    ExcMessage ("You need to provide at least one mesh refinement criterion in the input file!"));
       for (unsigned int name=0; name<plugin_names.size(); ++name)
         {
-          mesh_refinement_objects.push_back (std_cxx11::shared_ptr<Interface<dim> >
-                                             (std_cxx11::get<dim>(registered_plugins)
+          mesh_refinement_objects.push_back (std::unique_ptr<Interface<dim> >
+                                             (std::get<dim>(registered_plugins)
                                               .create_plugin (plugin_names[name],
                                                               "Mesh refinement::Refinement criteria merge operation")));
 
@@ -506,10 +499,20 @@ namespace aspect
                                                       void (*declare_parameters_function) (ParameterHandler &),
                                                       Interface<dim> *(*factory_function) ())
     {
-      std_cxx11::get<dim>(registered_plugins).register_plugin (name,
-                                                               description,
-                                                               declare_parameters_function,
-                                                               factory_function);
+      std::get<dim>(registered_plugins).register_plugin (name,
+                                                         description,
+                                                         declare_parameters_function,
+                                                         factory_function);
+    }
+
+
+
+    template <int dim>
+    void
+    Manager<dim>::write_plugin_graph (std::ostream &out)
+    {
+      std::get<dim>(registered_plugins).write_plugin_graph ("Mesh refinement criteria interface",
+                                                            out);
     }
 
   }
@@ -525,10 +528,10 @@ namespace aspect
     {
       template <>
       std::list<internal::Plugins::PluginList<MeshRefinement::Interface<2> >::PluginInfo> *
-      internal::Plugins::PluginList<MeshRefinement::Interface<2> >::plugins = 0;
+      internal::Plugins::PluginList<MeshRefinement::Interface<2> >::plugins = nullptr;
       template <>
       std::list<internal::Plugins::PluginList<MeshRefinement::Interface<3> >::PluginInfo> *
-      internal::Plugins::PluginList<MeshRefinement::Interface<3> >::plugins = 0;
+      internal::Plugins::PluginList<MeshRefinement::Interface<3> >::plugins = nullptr;
     }
   }
 
@@ -539,5 +542,7 @@ namespace aspect
   template class Manager<dim>;
 
     ASPECT_INSTANTIATE(INSTANTIATE)
+
+#undef INSTANTIATE
   }
 }

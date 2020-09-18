@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2015 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2019 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,7 +14,7 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
@@ -23,6 +23,8 @@
 
 #include <aspect/material_model/interface.h>
 #include <aspect/simulator_access.h>
+#include <aspect/material_model/rheology/diffusion_creep.h>
+#include <aspect/material_model/rheology/dislocation_creep.h>
 
 namespace aspect
 {
@@ -80,40 +82,43 @@ namespace aspect
     {
       public:
 
-        virtual void evaluate(const MaterialModel::MaterialModelInputs<dim> &in,
-                              MaterialModel::MaterialModelOutputs<dim> &out) const;
+        void evaluate(const MaterialModel::MaterialModelInputs<dim> &in,
+                      MaterialModel::MaterialModelOutputs<dim> &out) const override;
 
         /**
          * Return whether the model is compressible or not.  Incompressibility
          * does not necessarily imply that the density is constant; rather, it
          * may still depend on temperature or pressure. In the current
-         * context, compressibility means whether we should solve the continuity
-         * equation as $\nabla \cdot (\rho \mathbf u)=0$ (compressible Stokes)
-         * or as $\nabla \cdot \mathbf{u}=0$ (incompressible Stokes).
-        *
-        * This material model is incompressible.
+         * context, compressibility means whether we should solve the
+         * continuity equation as $\nabla \cdot (\rho \mathbf u)=0$
+         * (compressible Stokes) or as $\nabla \cdot \mathbf{u}=0$
+         * (incompressible Stokes).
+         *
+         * This material model is incompressible.
          */
-        virtual bool is_compressible () const;
+        bool is_compressible () const override;
 
-        virtual double reference_viscosity () const;
-
-        virtual double reference_density () const;
+        double reference_viscosity () const override;
 
         static
         void
         declare_parameters (ParameterHandler &prm);
 
-        virtual
         void
-        parse_parameters (ParameterHandler &prm);
+        parse_parameters (ParameterHandler &prm) override;
 
       private:
+        /**
+         * Objects for computing viscous creep viscosities.
+         */
+        Rheology::DiffusionCreep<dim> diffusion_creep;
+        Rheology::DislocationCreep<dim> dislocation_creep;
 
         double reference_T;
 
         /**
          * Defining a minimum strain rate stabilizes the viscosity calculation,
-         * which involves a division by the strain rate. Units: $1/s$.
+         * which involves a division by the strain rate. Units: 1/s.
          */
         double min_strain_rate;
         double min_visc;
@@ -128,59 +133,16 @@ namespace aspect
         double heat_capacity;
         double grain_size;
 
-        /**
-         * From multicomponent material model: From a list of compositional
-         * fields of length N, we come up with an N+1 length list that which
-         * also includes the fraction of ``background mantle''. This list
-         * should sum to one, and is interpreted as volume fractions.  If the
-         * sum of the compositional_fields is greater than one, we assume that
-         * there is no background mantle (i.e., that field value is zero).
-         * Otherwise, the difference between the sum of the compositional
-         * fields and 1.0 is assumed to be the amount of background mantle.
-         */
-        std::vector<double> compute_volume_fractions(
-          const std::vector<double> &compositional_fields) const;
         std::vector<double> densities;
         std::vector<double> thermal_expansivities;
 
-        /**
-         * Enumeration for selecting which viscosity averaging scheme to use.
-         * Select between harmonic, arithmetic, geometric, and
-         * maximum_composition. The max composition scheme simply uses the
-         * viscosity of whichever field has the highes volume fraction.
-        * For each quadrature point, averaging is conducted over the
-        * N compositional fields plus the background field.
-         */
-        enum averaging_scheme
-        {
-          harmonic,
-          arithmetic,
-          geometric,
-          maximum_composition
-        } viscosity_averaging;
-
-
-        double average_value (const std::vector<double> &composition,
-                              const std::vector<double> &parameter_values,
-                              const enum averaging_scheme &average_type) const;
+        MaterialUtilities::CompositionalAveragingOperation viscosity_averaging;
 
         std::vector<double>
         calculate_isostrain_viscosities ( const std::vector<double> &volume_fractions,
                                           const double &pressure,
                                           const double &temperature,
                                           const SymmetricTensor<2,dim> &strain_rate) const;
-
-
-        std::vector<double> prefactors_diffusion;
-        std::vector<double> stress_exponents_diffusion;
-        std::vector<double> grain_size_exponents_diffusion;
-        std::vector<double> activation_energies_diffusion;
-        std::vector<double> activation_volumes_diffusion;
-
-        std::vector<double> prefactors_dislocation;
-        std::vector<double> stress_exponents_dislocation;
-        std::vector<double> activation_energies_dislocation;
-        std::vector<double> activation_volumes_dislocation;
 
     };
 

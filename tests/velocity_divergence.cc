@@ -19,14 +19,10 @@ namespace aspect
         return 1e19;
       }
 
-      virtual double reference_density () const
-      {
-        return 3000;
-      }
       virtual void evaluate(const typename MaterialModel::Interface<dim>::MaterialModelInputs &in,
                             typename MaterialModel::Interface<dim>::MaterialModelOutputs &out) const
       {
-        for (unsigned int i=0; i<in.position.size(); ++i)
+        for (unsigned int i=0; i<in.n_evaluation_points(); ++i)
           {
             out.viscosities[i] = 1e19;
             out.thermal_expansion_coefficients[i] = 0.0;
@@ -36,7 +32,7 @@ namespace aspect
             out.densities[i] = 3000;
             for (unsigned int c=0; c<in.composition[i].size(); ++c)
               {
-                if (in.strain_rate.size())
+                if (in.requests_property(MaterialModel::MaterialProperties::reaction_terms))
                   out.reaction_terms[i][c] = trace(in.strain_rate[i]) * this->get_timestep();
                 else
                   out.reaction_terms[i][c] = 0.0;

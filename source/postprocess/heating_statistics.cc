@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2015 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2019 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,13 +14,15 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
 
 
 #include <aspect/postprocess/heating_statistics.h>
+#include <aspect/heating_model/interface.h>
+#include <aspect/adiabatic_conditions/interface.h>
 
 #include <deal.II/base/quadrature_lib.h>
 #include <deal.II/fe/fe_values.h>
@@ -51,10 +53,11 @@ namespace aspect
 
       MaterialModel::MaterialModelInputs<dim> in(fe_values.n_quadrature_points, this->n_compositional_fields());
       MaterialModel::MaterialModelOutputs<dim> out(fe_values.n_quadrature_points, this->n_compositional_fields());
+      this->get_heating_model_manager().create_additional_material_model_inputs_and_outputs(in, out);
 
       std::vector<std::vector<double> > composition_values (this->n_compositional_fields(),std::vector<double> (quadrature_formula.size()));
 
-      const std::list<std_cxx11::shared_ptr<HeatingModel::Interface<dim> > > &heating_model_objects = this->get_heating_model_manager().get_active_heating_models();
+      const auto &heating_model_objects = this->get_heating_model_manager().get_active_heating_models();
       const std::vector<std::string> &heating_model_names = this->get_heating_model_manager().get_active_heating_model_names();
 
       HeatingModel::HeatingModelOutputs heating_model_outputs(n_q_points, this->n_compositional_fields());
@@ -68,50 +71,13 @@ namespace aspect
       std::vector<double> local_heating_integrals (heating_model_objects.size());
       double local_mass = 0.0;
 
-      typename DoFHandler<dim>::active_cell_iterator
-      cell = this->get_dof_handler().begin_active(),
-      endc = this->get_dof_handler().end();
-
-      // compute the integral quantities by quadrature
-      for (; cell!=endc; ++cell)
+      for (const auto &cell : this->get_dof_handler().active_cell_iterators())
         if (cell->is_locally_owned())
           {
-
             fe_values.reinit (cell);
-            fe_values[this->introspection().extractors.temperature]
-            .get_function_values (this->get_solution(),
-                                  in.temperature);
-            fe_values[this->introspection().extractors.pressure]
-            .get_function_values (this->get_solution(),
-                                  in.pressure);
-            fe_values[this->introspection().extractors.velocities]
-            .get_function_values (this->get_solution(),
-                                  in.velocity);
-            fe_values[this->introspection().extractors.pressure]
-            .get_function_gradients (this->get_solution(),
-                                     in.pressure_gradient);
-            for (unsigned int c=0; c<this->n_compositional_fields(); ++c)
-              fe_values[this->introspection().extractors.compositional_fields[c]]
-              .get_function_values(this->get_solution(),
-                                   composition_values[c]);
-            for (unsigned int i=0; i<fe_values.n_quadrature_points; ++i)
-              {
-                for (unsigned int c=0; c<this->n_compositional_fields(); ++c)
-                  in.composition[i][c] = composition_values[c][i];
-              }
+            in.reinit(fe_values, cell, this->introspection(), this->get_solution());
 
-            fe_values[this->introspection().extractors.velocities].get_function_symmetric_gradients (this->get_solution(),
-                in.strain_rate);
-            in.position = fe_values.get_quadrature_points();
-            in.cell = &cell;
-
-            for (typename std::list<std_cxx11::shared_ptr<HeatingModel::Interface<dim> > >::const_iterator
-                 heating_model = heating_model_objects.begin();
-                 heating_model != heating_model_objects.end(); ++heating_model)
-              {
-                (*heating_model)->create_additional_material_model_outputs(out);
-              }
-
+            this->get_material_model().fill_additional_material_model_inputs(in, this->get_solution(), fe_values, this->introspection());
             this->get_material_model().evaluate(in, out);
 
             if (this->get_parameters().formulation_temperature_equation
@@ -134,7 +100,7 @@ namespace aspect
               local_mass += out.densities[q] * fe_values.JxW(q);
 
             unsigned int index = 0;
-            for (typename std::list<std_cxx11::shared_ptr<HeatingModel::Interface<dim> > >::const_iterator
+            for (typename std::list<std::unique_ptr<HeatingModel::Interface<dim> > >::const_iterator
                  heating_model = heating_model_objects.begin();
                  heating_model != heating_model_objects.end(); ++heating_model, ++index)
               {
@@ -156,19 +122,19 @@ namespace aspect
       global_mass = Utilities::MPI::sum (local_mass, this->get_mpi_communicator());
 
       unsigned int index = 0;
-      for (typename std::list<std_cxx11::shared_ptr<HeatingModel::Interface<dim> > >::const_iterator
+      for (typename std::list<std::unique_ptr<HeatingModel::Interface<dim> > >::const_iterator
            heating_model = heating_model_objects.begin();
            heating_model != heating_model_objects.end(); ++heating_model, ++index)
         {
           // finally produce something for the statistics file
-          const std::string name1("Average " + heating_model_names[index] + " rate (W/kg) ");
+          const std::string name1("Average " + heating_model_names[index] + " rate (W/kg)");
           statistics.add_value (name1, global_heating_integrals[index]/global_mass);
           // also make sure that the other columns filled by the this object
           // all show up with sufficient accuracy and in scientific notation
           statistics.set_precision (name1, 8);
           statistics.set_scientific (name1, true);
 
-          const std::string name2("Total " + heating_model_names[index] + " rate (W) ");
+          const std::string name2("Total " + heating_model_names[index] + " rate (W)");
           statistics.add_value (name2, global_heating_integrals[index]);
           // also make sure that the other columns filled by the this object
           // all show up with sufficient accuracy and in scientific notation

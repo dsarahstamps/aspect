@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2015 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2019 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,7 +14,7 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
@@ -56,14 +56,10 @@ namespace aspect
 
       std::vector<double> compositional_values(n_q_points);
 
-      typename DoFHandler<dim>::active_cell_iterator
-      cell = this->get_dof_handler().begin_active(),
-      endc = this->get_dof_handler().end();
-
       std::vector<double> local_compositional_integrals (this->n_compositional_fields());
 
       // compute the integral quantities by quadrature
-      for (; cell!=endc; ++cell)
+      for (const auto &cell : this->get_dof_handler().active_cell_iterators())
         if (cell->is_locally_owned())
           {
             fe_values.reinit (cell);
@@ -174,6 +170,6 @@ namespace aspect
                                   "In particular, it computes maximal and minimal values of "
                                   "each field, as well as the total mass contained in this "
                                   "field as defined by the integral "
-                                  "$m_i(t) = \\int_\\Omega c_i(\\mathbf x,t) \\; dx$.")
+                                  "$m_i(t) = \\int_\\Omega c_i(\\mathbf x,t) \\; \\text{d}x$.")
   }
 }

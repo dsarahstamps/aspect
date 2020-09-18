@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2016 by the authors of the ASPECT code.
+  Copyright (C) 2016 - 2020 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,14 +14,15 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
 
 #include <aspect/material_model/nondimensional.h>
+#include <aspect/geometry_model/interface.h>
+#include <aspect/adiabatic_conditions/interface.h>
 
-using namespace dealii;
 
 namespace aspect
 {
@@ -61,7 +62,7 @@ namespace aspect
     evaluate(const MaterialModel::MaterialModelInputs<dim> &in,
              MaterialModel::MaterialModelOutputs<dim> &out) const
     {
-      for (unsigned int i=0; i < in.temperature.size(); ++i)
+      for (unsigned int i=0; i < in.n_evaluation_points(); ++i)
         {
           const Point<dim> position = in.position[i];
           const double temperature_deviation = in.temperature[i] - this->get_adiabatic_conditions().temperature(position);
@@ -101,21 +102,7 @@ namespace aspect
       return compressible ? (Di/Ra) : (1.0/Ra);
     }
 
-    template <int dim>
-    double
-    Nondimensional<dim>::
-    reference_density () const
-    {
-      return 1;
-    }
 
-    template <int dim>
-    double
-    Nondimensional<dim>::
-    reference_cp () const
-    {
-      return reference_specific_heat;
-    }
 
     template <int dim>
     bool
@@ -136,27 +123,28 @@ namespace aspect
         prm.enter_subsection("Nondimensional model");
         {
           prm.declare_entry ("Reference density", "1.0",
-                             Patterns::Double (0),
-                             "Reference density $\\rho_0$. Units: $kg/m^3$.");
+                             Patterns::Double (0.),
+                             "Reference density $\\rho_0$. "
+                             "Units: \\si{\\kilogram\\per\\meter\\cubed}.");
           prm.declare_entry ("Ra", "1e4",
-                             Patterns::Double (0),
+                             Patterns::Double (0.),
                              "Rayleigh number Ra");
           prm.declare_entry ("Di", "0.0",
-                             Patterns::Double (0),
+                             Patterns::Double (0.),
                              "Dissipation number. Pick 0.0 for incompressible "
                              "computations.");
           prm.declare_entry ("gamma", "1.0",
-                             Patterns::Double (0),
+                             Patterns::Double (0.),
                              "Grueneisen parameter");
           prm.declare_entry ("Reference specific heat", "1.0",
-                             Patterns::Double (0),
+                             Patterns::Double (0.),
                              "The value of the specific heat $C_p$. "
-                             "Units: $J/kg/K$.");
+                             "Units: \\si{\\joule\\per\\kelvin\\per\\kilogram}.");
           prm.declare_entry ("Viscosity temperature prefactor", "0.0",
-                             Patterns::Double (0),
+                             Patterns::Double (0.),
                              "Exponential temperature prefactor for viscosity.");
           prm.declare_entry ("Viscosity depth prefactor", "0.0",
-                             Patterns::Double (0),
+                             Patterns::Double (0.),
                              "Exponential depth prefactor for viscosity.");
           prm.declare_entry ("Use TALA", "false",
                              Patterns::Bool (),
@@ -228,7 +216,7 @@ namespace aspect
                                    "\n\n"
                                    "The density is defined as \\[\\rho = \\exp(\\text{Di}/\\gamma \\cdot z) "
                                    " (1.0 - \\alpha T' + \\text{Di} \\gamma p'),\\] where "
-                                   "$\\alpha=\text{Di}$ is the thermal expansion coefficient, "
+                                   "$\\alpha=\\text{Di}$ is the thermal expansion coefficient, "
                                    "$\\gamma$ is the Grueneisen parameter, and $p'$ is "
                                    "the pressure variation from the adiabatic "
                                    "pressure. The pressure dependent term is not present "

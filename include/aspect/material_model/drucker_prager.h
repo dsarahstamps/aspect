@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2015 by the authors of the ASPECT code.
+  Copyright (C) 2015 - 2019 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,7 +14,7 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
@@ -22,6 +22,8 @@
 #define _aspect_material_model_drucker_prager_h
 
 #include <aspect/material_model/interface.h>
+#include <aspect/material_model/rheology/drucker_prager.h>
+#include <aspect/material_model/equation_of_state/linearized_incompressible.h>
 #include <aspect/simulator_access.h>
 
 namespace aspect
@@ -76,43 +78,16 @@ namespace aspect
      * @ingroup MaterialModels
      */
     template <int dim>
-    class DruckerPrager : public MaterialModel::InterfaceCompatibility<dim>, public ::aspect::SimulatorAccess<dim>
+    class DruckerPrager : public MaterialModel::Interface<dim>, public ::aspect::SimulatorAccess<dim>
     {
       public:
         /**
          * @name Physical parameters used in the basic equations
          * @{
          */
-        virtual double viscosity (const double                  temperature,
-                                  const double                  pressure,
-                                  const std::vector<double>    &compositional_fields,
-                                  const SymmetricTensor<2,dim> &strain_rate,
-                                  const Point<dim>             &position) const;
+        void evaluate(const MaterialModel::MaterialModelInputs<dim> &in,
+                      MaterialModel::MaterialModelOutputs<dim> &out) const override;
 
-        virtual double density (const double temperature,
-                                const double pressure,
-                                const std::vector<double> &compositional_fields,
-                                const Point<dim> &position) const;
-
-        virtual double compressibility (const double temperature,
-                                        const double pressure,
-                                        const std::vector<double> &compositional_fields,
-                                        const Point<dim> &position) const;
-
-        virtual double specific_heat (const double temperature,
-                                      const double pressure,
-                                      const std::vector<double> &compositional_fields,
-                                      const Point<dim> &position) const;
-
-        virtual double thermal_expansion_coefficient (const double      temperature,
-                                                      const double      pressure,
-                                                      const std::vector<double> &compositional_fields,
-                                                      const Point<dim> &position) const;
-
-        virtual double thermal_conductivity (const double temperature,
-                                             const double pressure,
-                                             const std::vector<double> &compositional_fields,
-                                             const Point<dim> &position) const;
         /**
          * @}
          */
@@ -130,7 +105,7 @@ namespace aspect
          * equation as $\nabla \cdot (\rho \mathbf u)=0$ (compressible Stokes)
          * or as $\nabla \cdot \mathbf{u}=0$ (incompressible Stokes).
          */
-        virtual bool is_compressible () const;
+        bool is_compressible () const override;
         /**
          * @}
          */
@@ -139,16 +114,7 @@ namespace aspect
          * @name Reference quantities
          * @{
          */
-        virtual double reference_viscosity () const;
-
-        virtual double reference_density () const;
-
-        virtual double reference_thermal_expansion_coefficient () const;
-
-//TODO: should we make this a virtual function as well? where is it used?
-        double reference_thermal_diffusivity () const;
-
-        double reference_cp () const;
+        double reference_viscosity () const override;
         /**
          * @}
          */
@@ -167,25 +133,29 @@ namespace aspect
         /**
          * Read the parameters this class declares from the parameter file.
          */
-        virtual
         void
-        parse_parameters (ParameterHandler &prm);
+        parse_parameters (ParameterHandler &prm) override;
         /**
          * @}
          */
 
       private:
-        double reference_rho;
+
         double reference_T;
         double reference_eta;
-        double thermal_alpha;
-        double reference_specific_heat;
-        double thermal_k;
+        double thermal_conductivities;
+
+        EquationOfState::LinearizedIncompressible<dim> equation_of_state;
+
+        /*
+         * Objects for computing plastic stresses, viscosities, and additional outputs
+         */
+        Rheology::DruckerPrager<dim> drucker_prager_plasticity;
 
         /**
          * The angle of internal friction
          */
-        double phi;
+        double angle_of_internal_friction;
 
         /**
          * The cohesion

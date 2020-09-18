@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011, 2012 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2018 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,7 +14,7 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
@@ -92,6 +92,11 @@ namespace aspect
        * components are the scalar pressure and temperature fields.
        */
       const unsigned int n_components;
+
+      /**
+       * The number of compositional fields.
+       */
+      const unsigned int n_compositional_fields;
 
       /**
        * A variable that holds whether the temperature field should use a
@@ -341,6 +346,12 @@ namespace aspect
        */
       std::string
       name_for_compositional_index (const unsigned int index) const;
+
+      /**
+       * A function that returns the full list of compositional field names.
+       */
+      const std::vector<std::string> &
+      get_composition_names () const;
 
       /**
        * A function that gets the name of a compositional field as an input

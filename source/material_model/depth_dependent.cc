@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2016 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2020 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,24 +14,49 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
 #include <aspect/material_model/depth_dependent.h>
 #include <aspect/utilities.h>
+#include <aspect/geometry_model/interface.h>
 
-#include <deal.II/base/std_cxx11/array.h>
+#include <array>
 
 #include <utility>
 #include <limits>
 
-using namespace dealii;
 
 namespace aspect
 {
   namespace MaterialModel
   {
+    template <int dim>
+    void
+    DepthDependent<dim>::initialize()
+    {
+      base_model->initialize();
+    }
+
+
+
+    template <int dim>
+    void
+    DepthDependent<dim>::update()
+    {
+      base_model->update();
+
+      // we get time passed as seconds (always) but may want
+      // to reinterpret it in years
+      if (this->convert_output_to_years())
+        viscosity_function.set_time (this->get_time() / year_in_seconds);
+      else
+        viscosity_function.set_time (this->get_time());
+    }
+
+
+
     template <int dim>
     void
     DepthDependent<dim>::read_viscosity_file(const std::string &filename,
@@ -46,9 +71,9 @@ namespace aspect
 
       /* The input viscosity file has two columns that are the viscosity and Depth */
       std::string header;
-      getline(in, header);/* Discard header line */
+      std::getline(in, header);/* Discard header line */
       std::vector<double> visc_vec;
-      std_cxx11::array< std::vector<double>, 1 > depth_table;
+      std::array< std::vector<double>, 1 > depth_table;
       while (!in.eof())
         {
           double visc, depth;
@@ -71,8 +96,11 @@ namespace aspect
         {
           viscosity_table[i] = visc_vec[i];
         }
-      viscosity_file_function.reset( new Functions::InterpolatedTensorProductGridData<1>(depth_table, viscosity_table) );
+      viscosity_file_function
+        = std_cxx14::make_unique<Functions::InterpolatedTensorProductGridData<1>>(depth_table, viscosity_table);
     }
+
+
 
     template <int dim>
     double
@@ -81,6 +109,8 @@ namespace aspect
       const Point<1> dpoint(depth);
       return viscosity_file_function->value( dpoint );
     }
+
+
 
     template <int dim>
     double
@@ -93,12 +123,14 @@ namespace aspect
       return viscosity_values[i];
     }
 
+
+
     template <int dim>
     double
     DepthDependent<dim>::calculate_depth_dependent_prefactor(const double &depth) const
     {
       /* The depth dependent prefactor is the multiplicative factor by which the
-       * viscosity computed by the base model's evaluate mathod will be scaled */
+       * viscosity computed by the base model's evaluate method will be scaled */
       const double reference_viscosity = base_model->reference_viscosity();
       if ( viscosity_source == File )
         {
@@ -127,22 +159,24 @@ namespace aspect
     }
 
 
+
     template <int dim>
     void
     DepthDependent<dim>::evaluate(const typename Interface<dim>::MaterialModelInputs &in,
                                   typename Interface<dim>::MaterialModelOutputs &out) const
     {
       base_model->evaluate(in,out);
-      if (in.strain_rate.size())
+      if (in.requests_property(MaterialProperties::viscosity))
         {
           // Scale the base model viscosity value by the depth dependent prefactor
-          for (unsigned int i=0; i < out.viscosities.size(); ++i)
+          for (unsigned int i=0; i < out.n_evaluation_points(); ++i)
             {
               const double depth = this->get_geometry_model().depth(in.position[i]);
               out.viscosities[i] *= calculate_depth_dependent_prefactor( depth );
             }
         }
     }
+
 
 
     template <int dim>
@@ -162,29 +196,28 @@ namespace aspect
                             "that for more information.");
           prm.declare_entry ("Depth dependence method", "None",
                              Patterns::Selection("Function|File|List|None"),
-                             "Method that is used to specify how the viscosity should vary with depth. ");
-          prm.declare_entry ("Data directory", "./",
+                             "Method that is used to specify how the viscosity should vary with depth.");
+          prm.declare_entry ("Data directory", "$ASPECT_SOURCE_DIR/data/material-model/depth-dependent/",
                              Patterns::DirectoryName (),
                              "The path to the model data. The path may also include the special "
                              "text `$ASPECT_SOURCE_DIR' which will be interpreted as the path "
                              "in which the ASPECT source files were located when ASPECT was "
                              "compiled. This interpretation allows, for example, to reference "
-                             "files located in the 'data/' subdirectory of ASPECT. ");
-          prm.declare_entry("Viscosity depth file", "visc-depth.txt",
+                             "files located in the `data/' subdirectory of ASPECT.");
+          prm.declare_entry("Viscosity depth file", "visc_depth.txt",
                             Patterns::Anything (),
-                            "The name of the file containing depth-dependent viscosity data. ");
-
+                            "The name of the file containing depth-dependent viscosity data.");
           prm.declare_entry("Depth list", "", Patterns::List(Patterns::Double ()),
                             "A comma-separated list of depth values for use with the ``List'' "
-                            "``Depth dependence method''. The list must be provided in order of"
+                            "``Depth dependence method''. The list must be provided in order of "
                             "increasing depth, and the last value must be greater than or equal to "
                             "the maximal depth of the model. The depth list is interpreted as a layered "
                             "viscosity structure and the depth values specify the maximum depths of each "
-                            "layer. ");
+                            "layer.");
           prm.declare_entry("Viscosity list", "", Patterns::List(Patterns::Double ()),
                             "A comma-separated list of viscosity values, corresponding to the depth values "
                             "provided in ``Depth list''. The number of viscosity values specified here must "
-                            "be the same as the number of depths provided in ``Depth list'' ");
+                            "be the same as the number of depths provided in ``Depth list''.");
 
           prm.enter_subsection("Viscosity depth function");
           {
@@ -307,14 +340,6 @@ namespace aspect
       const double mean_depth = 0.5*this->get_geometry_model().maximal_depth();
       return calculate_depth_dependent_prefactor( mean_depth )*base_model->reference_viscosity();
     }
-
-    template <int dim>
-    double
-    DepthDependent<dim>::
-    reference_density() const
-    {
-      return base_model->reference_density();
-    }
   }
 }
 
@@ -338,7 +363,7 @@ namespace aspect
                                    "\\begin{equation}"
                                    "\\eta(z,p,T,X,...) = \\eta(z) \\eta_b(p,T,X,..)/\\eta_{rb}"
                                    "\\end{equation}"
-                                   "where $\\eta(z)$ is the the depth-dependence specified by the depth dependent "
+                                   "where $\\eta(z)$ is the depth-dependence specified by the depth dependent "
                                    "model, $\\eta_b(p,T,X,...)$ is the viscosity calculated from the base model, "
                                    "and $\\eta_{rb}$ is the reference viscosity of the ``Base model''. "
                                    "In addition to the specification of the ``Base model'', the user must specify "

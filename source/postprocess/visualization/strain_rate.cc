@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2015 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2020 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,7 +14,7 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
@@ -34,7 +34,7 @@ namespace aspect
       StrainRate ()
         :
         DataPostprocessorScalar<dim> ("strain_rate",
-                                      update_gradients | update_q_points)
+                                      update_gradients | update_quadrature_points)
       {}
 
 
@@ -42,25 +42,20 @@ namespace aspect
       template <int dim>
       void
       StrainRate<dim>::
-      compute_derived_quantities_vector (const std::vector<Vector<double> >              &solution_values,
-                                         const std::vector<std::vector<Tensor<1,dim> > > &solution_gradients,
-                                         const std::vector<std::vector<Tensor<2,dim> > > &,
-                                         const std::vector<Point<dim> > &,
-                                         const std::vector<Point<dim> > &,
-                                         std::vector<Vector<double> >                    &computed_quantities) const
+      evaluate_vector_field(const DataPostprocessorInputs::Vector<dim> &input_data,
+                            std::vector<Vector<double> > &computed_quantities) const
       {
-        const unsigned int n_quadrature_points = solution_values.size();
+        const unsigned int n_quadrature_points = input_data.solution_values.size();
         Assert (computed_quantities.size() == n_quadrature_points,    ExcInternalError());
         Assert (computed_quantities[0].size() == 1,                   ExcInternalError());
-        Assert (solution_values[0].size() == this->introspection().n_components,           ExcInternalError());
-        Assert (solution_gradients[0].size() == this->introspection().n_components,          ExcInternalError());
+        Assert (input_data.solution_values[0].size() == this->introspection().n_components,           ExcInternalError());
+        Assert (input_data.solution_gradients[0].size() == this->introspection().n_components,          ExcInternalError());
 
         for (unsigned int q=0; q<n_quadrature_points; ++q)
           {
-            // extract the primal variables
             Tensor<2,dim> grad_u;
             for (unsigned int d=0; d<dim; ++d)
-              grad_u[d] = solution_gradients[q][d];
+              grad_u[d] = input_data.solution_gradients[q][d];
 
             const SymmetricTensor<2,dim> strain_rate = symmetrize (grad_u);
             const SymmetricTensor<2,dim> compressible_strain_rate
@@ -72,6 +67,11 @@ namespace aspect
             computed_quantities[q](0) = std::sqrt(compressible_strain_rate *
                                                   compressible_strain_rate);
           }
+
+        // average the values if requested
+        const auto &viz = this->get_postprocess_manager().template get_matching_postprocessor<Postprocess::Visualization<dim> >();
+        if (!viz.output_pointwise_stress_and_strain())
+          average_quantities(computed_quantities);
       }
     }
   }

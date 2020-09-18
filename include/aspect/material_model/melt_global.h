@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2015 - 2016 by the authors of the ASPECT code.
+  Copyright (C) 2015 - 2019 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,7 +14,7 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
@@ -44,7 +44,7 @@ namespace aspect
      * @ingroup MaterialModels
      */
     template <int dim>
-    class MeltGlobal : public MaterialModel::Interface<dim>, public ::aspect::SimulatorAccess<dim>, public MaterialModel::MeltFractionModel<dim>
+    class MeltGlobal : public MaterialModel::MeltInterface<dim>, public ::aspect::SimulatorAccess<dim>, public MaterialModel::MeltFractionModel<dim>
     {
       public:
         /**
@@ -55,24 +55,34 @@ namespace aspect
          * equation as $\nabla \cdot (\rho \mathbf u)=0$ (compressible Stokes)
          * or as $\nabla \cdot \mathbf{u}=0$ (incompressible Stokes).
          */
-        virtual bool is_compressible () const;
+        bool is_compressible () const override;
+
+        void evaluate(const typename Interface<dim>::MaterialModelInputs &in,
+                      typename Interface<dim>::MaterialModelOutputs &out) const override;
+
         /**
-         * @}
+         * Compute the equilibrium melt fractions for the given input conditions.
+         * @p in and @p melt_fractions need to have the same size.
+         *
+         * @param in Object that contains the current conditions.
+         * @param melt_fractions Vector of doubles that is filled with the
+         * equilibrium melt fraction for each given input conditions.
          */
+        void melt_fractions (const MaterialModel::MaterialModelInputs<dim> &in,
+                             std::vector<double> &melt_fractions) const override;
 
         /**
          * @name Reference quantities
          * @{
          */
-        virtual double reference_viscosity () const;
+        double reference_viscosity () const override;
 
-        virtual double reference_density () const;
+        double reference_darcy_coefficient () const override;
 
-        virtual void evaluate(const typename Interface<dim>::MaterialModelInputs &in,
-                              typename Interface<dim>::MaterialModelOutputs &out) const;
 
-        virtual void melt_fractions (const MaterialModel::MaterialModelInputs<dim> &in,
-                                     std::vector<double> &melt_fractions) const;
+        /**
+         * @}
+         */
 
         /**
          * @name Functions used in dealing with run-time parameters
@@ -88,12 +98,15 @@ namespace aspect
         /**
          * Read the parameters this class declares from the parameter file.
          */
-        virtual
         void
-        parse_parameters (ParameterHandler &prm);
+        parse_parameters (ParameterHandler &prm) override;
         /**
          * @}
          */
+
+        void
+        create_additional_named_outputs (MaterialModel::MaterialModelOutputs<dim> &out) const override;
+
 
       private:
         double reference_rho_s;
@@ -116,6 +129,9 @@ namespace aspect
         double compressibility;
         double melt_compressibility;
         bool include_melting_and_freezing;
+        double melting_time_scale;
+        double alpha_depletion;
+        double delta_eta_depletion_max;
 
         // entropy change upon melting
         double peridotite_melting_entropy_change;

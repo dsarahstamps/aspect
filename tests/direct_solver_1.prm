@@ -5,7 +5,6 @@
 
 set Dimension = 2
 
-set Use direct solver for Stokes system = true
 
 set Start time                             = 0
 set End time                               = 6e15
@@ -33,12 +32,22 @@ subsection Gravity model
 end
 
 
-subsection Model settings
+# The parameters below this comment were created by the update script
+# as replacement for the old 'Model settings' subsection. They can be
+# safely merged with any existing subsections with the same name.
+
+subsection Boundary temperature model
   # We only fix the temperature at the upper boundary, the other boundaries
-  # are isolating. To guarantuee a steady downward flow, we fix the velocity
+  # are isolating. To guarantee a steady downward flow, we fix the velocity
   # at the top and bottom, and set it to free slip on the sides. 
   set Fixed temperature boundary indicators   = 3
+end
+
+subsection Boundary velocity model
   set Prescribed velocity boundary indicators = 2:function, 3:function
+end
+
+subsection Boundary velocity model
   set Tangential velocity boundary indicators = 0, 1
 end
 
@@ -46,7 +55,7 @@ end
 ############### Boundary conditions
 # We set the top temperature to T1=1000K. 
 subsection Boundary temperature model
-  set Model name = box
+  set List of model names = box
   subsection Box
     set Top temperature = 1000
   end
@@ -60,7 +69,7 @@ subsection Boundary velocity model
   end
 end
 
-subsection Initial conditions
+subsection Initial temperature model
   set Model name = function
   subsection Function
     set Function expression = 1000.0
@@ -98,7 +107,7 @@ subsection Material model
     set Reference temperature                          = 1000
     set Thermal conductivity                           = 2.38
 
-    # We set the thermal expansion amd the compressibility to zero, so that 
+    # We set the thermal expansion and the compressibility to zero, so that 
     # all temperature (and density) changes are caused by advection, diffusion 
     # and latent heating. 
     set Thermal expansion coefficient                  = 0.0
@@ -142,6 +151,7 @@ subsection Postprocess
   set List of postprocessors = visualization
 
   subsection Visualization
+    set Interpolate output = false
 
     set Number of grouped files       = 0
     set Output format                 = vtu
@@ -157,4 +167,10 @@ end
 
 subsection Heating model
   set List of model names =  latent heat
+end
+
+subsection Solver parameters
+  subsection Stokes solver parameters
+    set Use direct solver for Stokes system = true
+  end
 end

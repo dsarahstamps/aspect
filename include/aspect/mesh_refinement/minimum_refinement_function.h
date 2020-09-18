@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2014 by the authors of the ASPECT code.
+  Copyright (C) 2014 - 2019 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,7 +14,7 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
@@ -25,6 +25,7 @@
 
 #include <aspect/mesh_refinement/interface.h>
 #include <aspect/simulator_access.h>
+#include <aspect/utilities.h>
 
 #include <deal.II/base/parsed_function.h>
 
@@ -44,22 +45,20 @@ namespace aspect
       public SimulatorAccess<dim>
     {
       public:
-        /*
+        /**
          * At the beginning of each time step, update the time for the
          * ParsedFunction.
          */
-        virtual
         void
-        update ();
+        update () override;
 
         /**
          * After cells have been marked for coarsening/refinement, apply
          * additional criteria independent of the error estimate.
          *
          */
-        virtual
         void
-        tag_additional_cells () const;
+        tag_additional_cells () const override;
 
         /**
          * Declare the parameters this class takes through input files.
@@ -71,21 +70,15 @@ namespace aspect
         /**
          * Read the parameters this class declares from the parameter file.
          */
-        virtual
         void
-        parse_parameters (ParameterHandler &prm);
+        parse_parameters (ParameterHandler &prm) override;
 
       private:
         /**
          * The coordinate representation to evaluate the function. Possible
          * choices are depth, cartesian and spherical.
          */
-        enum coordinates
-        {
-          depth,
-          cartesian,
-          spherical
-        } coordinate_system;
+        Utilities::Coordinates::CoordinateSystem coordinate_system;
 
         /**
          * A function object representing the minimum refinement level. The

@@ -1,5 +1,5 @@
 #include <aspect/material_model/interface.h>
-#include <aspect/velocity_boundary_conditions/interface.h>
+#include <aspect/boundary_velocity/interface.h>
 #include <aspect/simulator_access.h>
 #include <aspect/global.h>
 #include <aspect/melt.h>
@@ -16,7 +16,7 @@ namespace aspect
 {
   template <int dim>
   class MeltMaterial:
-    public MaterialModel::Interface<dim>, public ::aspect::SimulatorAccess<dim>
+    public MaterialModel::MeltInterface<dim>, public ::aspect::SimulatorAccess<dim>
   {
       virtual bool is_compressible () const
       {
@@ -28,15 +28,18 @@ namespace aspect
         return 1.0;
       }
 
-      virtual double reference_density () const
+      virtual double reference_darcy_coefficient () const
       {
-        return 1.0;
+        const double porosity = 0.01;
+        const double permeability = 1.0 * std::pow(porosity,3) * std::pow(1.0-porosity,2);
+        return permeability / 0.1;
       }
+
       virtual void evaluate(const typename MaterialModel::Interface<dim>::MaterialModelInputs &in,
                             typename MaterialModel::Interface<dim>::MaterialModelOutputs &out) const
       {
 
-        for (unsigned int i=0; i<in.position.size(); ++i)
+        for (unsigned int i=0; i<in.n_evaluation_points(); ++i)
           {
             out.viscosities[i] = 1.0;
             out.densities[i] = 1.0 + (in.composition[i][0]);
@@ -51,10 +54,10 @@ namespace aspect
         // fill melt outputs if they exist
         aspect::MaterialModel::MeltOutputs<dim> *melt_out = out.template get_additional_output<aspect::MaterialModel::MeltOutputs<dim> >();
 
-        if (melt_out != NULL)
+        if (melt_out != nullptr)
           {
             const unsigned int porosity_idx = this->introspection().compositional_index_for_name("porosity");
-            for (unsigned int i=0; i<in.position.size(); ++i)
+            for (unsigned int i=0; i<in.n_evaluation_points(); ++i)
               {
                 const double porosity = in.composition[i][porosity_idx];
 

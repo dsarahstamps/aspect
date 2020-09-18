@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2013 by the authors of the ASPECT code.
+  Copyright (C) 2013 - 2019 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,7 +14,7 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
@@ -48,10 +48,9 @@ namespace aspect
          *
          * @copydoc aspect::BoundaryComposition::Interface::boundary_composition()
          */
-        virtual
         double boundary_composition (const types::boundary_id boundary_indicator,
                                      const Point<dim> &position,
-                                     const unsigned int compositional_field) const;
+                                     const unsigned int compositional_field) const override;
 
         /**
          * Return the minimal composition on that part of the boundary on
@@ -78,9 +77,8 @@ namespace aspect
         /**
          * Read the parameters this class declares from the parameter file.
          */
-        virtual
         void
-        parse_parameters (ParameterHandler &prm);
+        parse_parameters (ParameterHandler &prm) override;
 
       private:
         /**

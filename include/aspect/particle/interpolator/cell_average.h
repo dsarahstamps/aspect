@@ -1,5 +1,5 @@
 /*
- Copyright (C) 2016 by the authors of the ASPECT code.
+ Copyright (C) 2016 - 2019 by the authors of the ASPECT code.
 
  This file is part of ASPECT.
 
@@ -14,7 +14,7 @@
  GNU General Public License for more details.
 
  You should have received a copy of the GNU General Public License
- along with ASPECT; see the file doc/COPYING.  If not see
+ along with ASPECT; see the file LICENSE.  If not see
  <http://www.gnu.org/licenses/>.
  */
 
@@ -31,7 +31,7 @@ namespace aspect
     namespace Interpolator
     {
       /**
-       * Return the averaged properties of all tracers on the given cell.
+       * Return the averaged properties of all particles on the given cell.
        *
        * @ingroup ParticleInterpolators
        */
@@ -40,14 +40,38 @@ namespace aspect
       {
         public:
           /**
-           * Return the cell-wise averaged properties of all tracers of the cell containing the
+           * Return the cell-wise averaged properties of all particles of the cell containing the
            * given positions.
            */
-          virtual
           std::vector<std::vector<double> >
-          properties_at_points(const std::multimap<types::LevelInd, Particle<dim> > &particles,
+          properties_at_points(const ParticleHandler<dim> &particle_handler,
                                const std::vector<Point<dim> > &positions,
-                               const typename parallel::distributed::Triangulation<dim>::active_cell_iterator &cell) const;
+                               const ComponentMask &selected_properties,
+                               const typename parallel::distributed::Triangulation<dim>::active_cell_iterator &cell) const override;
+
+          // avoid -Woverloaded-virtual:
+          using Interface<dim>::properties_at_points;
+
+          /**
+          * @copydoc Interface<dim>::declare_parameters()
+          **/
+          static
+          void
+          declare_parameters (ParameterHandler &prm);
+
+          /**
+           * @copydoc Interface<dim>::parse_parameters()
+           **/
+          void
+          parse_parameters (ParameterHandler &prm) override;
+
+        private:
+          /**
+           * By default, every cell needs to contain particles to use this interpolator
+           * plugin. If this parameter is set to true, cells are allowed to have no particles,
+           * in which case the interpolator will return 0 for the cell's properties.
+           */
+          bool allow_cells_without_particles;
       };
     }
   }

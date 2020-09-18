@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2015 - 2016 by the authors of the ASPECT code.
+  Copyright (C) 2015 - 2019 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,7 +14,7 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
@@ -48,41 +48,37 @@ namespace aspect
                                quadrature,
                                update_quadrature_points | update_values);
 
-      // the values of the compositional fields are stored as blockvectors for each field
+      // the values of the compositional fields are stored as block vectors for each field
       // we have to extract them in this structure
       std::vector<double> composition_values (quadrature.size());
 
 
-      for (typename DoFHandler<dim>::active_cell_iterator
-           cell = this->get_dof_handler().begin_active();
-           cell != this->get_dof_handler().end(); ++cell)
-        {
-          if (cell->is_locally_owned())
-            {
-              bool refine = false;
+      for (const auto &cell : this->get_dof_handler().active_cell_iterators())
+        if (cell->is_locally_owned())
+          {
+            bool refine = false;
 
-              for (unsigned int c=0; c<this->n_compositional_fields(); ++c)
-                {
-                  fe_values.reinit(cell);
-                  fe_values[this->introspection().extractors.compositional_fields[c]].get_function_values (this->get_solution(),
-                      composition_values);
+            for (unsigned int c=0; c<this->n_compositional_fields(); ++c)
+              {
+                fe_values.reinit(cell);
+                fe_values[this->introspection().extractors.compositional_fields[c]].get_function_values (this->get_solution(),
+                    composition_values);
 
-                  // if the composition exceeds the threshold, cell is marked for refinement
-                  for (unsigned int j=0; j<this->get_fe().base_element(this->introspection().base_elements.compositional_fields).dofs_per_cell; ++j)
-                    if (composition_values[j] > composition_thresholds[c])
-                      {
-                        refine = true;
-                        break;
-                      }
-                }
+                // if the composition exceeds the threshold, cell is marked for refinement
+                for (unsigned int j=0; j<this->get_fe().base_element(this->introspection().base_elements.compositional_fields).dofs_per_cell; ++j)
+                  if (composition_values[j] > composition_thresholds[c])
+                    {
+                      refine = true;
+                      break;
+                    }
+              }
 
-              if (refine)
-                {
-                  cell->clear_coarsen_flag ();
-                  cell->set_refine_flag ();
-                }
-            }
-        }
+            if (refine)
+              {
+                cell->clear_coarsen_flag ();
+                cell->set_refine_flag ();
+              }
+          }
     }
 
     template <int dim>

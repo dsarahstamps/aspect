@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2016 by the authors of the ASPECT code.
+  Copyright (C) 2016 - 2020 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,7 +14,7 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
@@ -30,7 +30,7 @@ namespace aspect
 
   template <int dim>
   VariableDeclaration<dim>::VariableDeclaration(const std::string &name,
-                                                const std_cxx11::shared_ptr<FiniteElement<dim> > &fe,
+                                                const std::shared_ptr<FiniteElement<dim> > &fe,
                                                 const unsigned int multiplicity,
                                                 const unsigned int n_blocks)
     : name(name),
@@ -49,14 +49,6 @@ namespace aspect
 
   template <int dim>
   VariableDeclaration<dim>::VariableDeclaration()
-  {}
-
-  template <int dim>
-  VariableDeclaration<dim>::VariableDeclaration(const VariableDeclaration &other)
-    : name (other.name),
-      fe (other.fe),
-      multiplicity (other.multiplicity),
-      n_blocks (other.n_blocks)
   {}
 
   template <int dim>
@@ -80,6 +72,8 @@ namespace aspect
       vector_extractor ( (this->n_components()==dim) ? component_index : -1)
   {}
 
+
+
   template <int dim>
   const FEValuesExtractors::Scalar &
   FEVariable<dim>::extractor_scalar() const
@@ -88,6 +82,8 @@ namespace aspect
            ExcMessage("You cannot ask for the scalar extractor of a non-scalar variable."));
     return scalar_extractor;
   }
+
+
 
   template <int dim>
   const FEValuesExtractors::Vector &
@@ -105,11 +101,13 @@ namespace aspect
   {}
 
 
+
   template <int dim>
   FEVariableCollection<dim>::FEVariableCollection(const std::vector<VariableDeclaration<dim> > &variable_definitions)
   {
     initialize(variable_definitions);
   }
+
 
 
   template <int dim>
@@ -258,4 +256,6 @@ namespace aspect
   template class FEVariableCollection<dim>; \
    
   ASPECT_INSTANTIATE(INSTANTIATE)
+
+#undef INSTANTIATE
 }

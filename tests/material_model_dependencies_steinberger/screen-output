@@ -6,20 +6,33 @@ Number of degrees of freedom: 740 (450+65+225)
 
 *** Timestep 0:  t=0 seconds
    Rebuilding Stokes preconditioner...
-   Solving Stokes system... 21+0 iterations.
-      Relative Stokes residual after nonlinear iteration 1: 1
-   Rebuilding Stokes preconditioner...
-   Solving Stokes system... 21+0 iterations.
-      Relative Stokes residual after nonlinear iteration 2: 0.0155363
-   Rebuilding Stokes preconditioner...
    Solving Stokes system... 17+0 iterations.
-      Relative Stokes residual after nonlinear iteration 3: 0.00416092
+      Relative nonlinear residual (Stokes system) after nonlinear iteration 1: 1
+
    Rebuilding Stokes preconditioner...
    Solving Stokes system... 13+0 iterations.
-      Relative Stokes residual after nonlinear iteration 4: 1.08037e-05
+      Relative nonlinear residual (Stokes system) after nonlinear iteration 2: 1.89162
+
    Rebuilding Stokes preconditioner...
-   Solving Stokes system... 7+0 iterations.
-      Relative Stokes residual after nonlinear iteration 5: 2.34165e-07
+   Solving Stokes system... 12+0 iterations.
+      Relative nonlinear residual (Stokes system) after nonlinear iteration 3: 0.0277013
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 10+0 iterations.
+      Relative nonlinear residual (Stokes system) after nonlinear iteration 4: 0.0096136
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 8+0 iterations.
+      Relative nonlinear residual (Stokes system) after nonlinear iteration 5: 0.000195868
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 6+0 iterations.
+      Relative nonlinear residual (Stokes system) after nonlinear iteration 6: 5.06693e-05
+
+   Rebuilding Stokes preconditioner...
+   Solving Stokes system... 4+0 iterations.
+      Relative nonlinear residual (Stokes system) after nonlinear iteration 7: 1.20942e-06
+
 
    Postprocessing:
 viscosity depends on temperature
@@ -32,7 +45,4 @@ model is compressible
 Termination requested by criterion: end time
 
 
-+---------------------------------------------+------------+------------+
-+---------------------------------+-----------+------------+------------+
-+---------------------------------+-----------+------------+------------+
 

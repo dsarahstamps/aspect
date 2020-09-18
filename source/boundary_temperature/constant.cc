@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2016 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2017 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,13 +14,16 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
 
 #include <aspect/boundary_temperature/constant.h>
+
 #include <deal.II/base/utilities.h>
+#include <deal.II/base/signaling_nan.h>
+
 #include <limits>
 
 
@@ -45,7 +48,7 @@ namespace aspect
                   ExcMessage ("Unknown boundary indicator with number <" + Utilities::int_to_string(boundary_indicator) + ">. "
                               "You may not have specified the temperature for this boundary indicator "
                               "in the input file."));
-          return std::numeric_limits<double>::quiet_NaN();
+          return numbers::signaling_nan<double>();
         }
     }
 
@@ -125,18 +128,17 @@ namespace aspect
             = Utilities::split_string_list(prm.get ("Boundary indicator to temperature mappings"));
 
 
-          for (std::vector<std::string>::const_iterator it = x_boundary_temperatures.begin();
-               it != x_boundary_temperatures.end(); ++it)
+          for (const auto &boundary_id_string : x_boundary_temperatures)
             {
               // each entry has the format (white space is optional):
               // <id> : <value (might have spaces)>
-              const std::vector<std::string> parts = Utilities::split_string_list (*it, ':');
+              const std::vector<std::string> parts = Utilities::split_string_list (boundary_id_string, ':');
 
               AssertThrow (parts.size() == 2,
                            ExcMessage (std::string("Invalid entry trying to describe boundary "
                                                    "temperatures. Each entry needs to have the form "
                                                    "<boundary_id : name>, "
-                                                   "but there is an entry of the form <") + *it + ">"));
+                                                   "but there is an entry of the form <") + boundary_id_string + ">"));
 
               types::boundary_id boundary_id;
               try

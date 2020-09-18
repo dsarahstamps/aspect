@@ -3,11 +3,10 @@
 #include <aspect/material_model/simple.h>
 #include <aspect/simulator_access.h>
 #include <aspect/melt.h>
-#include <aspect/assembly.h>
+#include <aspect/simulator/assemblers/interface.h>
 
 #include <deal.II/fe/fe_dgq.h>
 #include <iostream>
-#include <typeinfo>
 
 using namespace dealii;
 
@@ -20,8 +19,7 @@ namespace aspect
     std::cout << "* signals.edit_finite_element_variables:" << std::endl;
 
     VariableDeclaration<dim> dummy("dummy",
-                                   std_cxx11::shared_ptr<FiniteElement<dim> > (
-                                     new dealii::FE_DGQ<dim>(4)),
+                                   std::make_shared<FE_DGQ<dim>>(4),
                                    1,
                                    1);
     variables.insert(variables.begin()+6, dummy);
@@ -42,7 +40,7 @@ namespace aspect
 
   template <int dim>
   class MeltMaterial:
-    public MaterialModel::Interface<dim>, public ::aspect::SimulatorAccess<dim>
+    public MaterialModel::MeltInterface<dim>, public ::aspect::SimulatorAccess<dim>
   {
       virtual bool is_compressible () const
       {
@@ -54,15 +52,18 @@ namespace aspect
         return 1.0;
       }
 
-      virtual double reference_density () const
+      virtual double reference_darcy_coefficient () const
       {
-        return 1.0;
+        const double porosity = 0.01;
+        const double permeability = 1.0 * std::pow(porosity, 3) * std::pow(1.0-porosity, 2);
+        return permeability / 0.1;
       }
+
       virtual void evaluate(const typename MaterialModel::Interface<dim>::MaterialModelInputs &in,
                             typename MaterialModel::Interface<dim>::MaterialModelOutputs &out) const
       {
 
-        for (unsigned int i=0; i<in.position.size(); ++i)
+        for (unsigned int i=0; i<in.n_evaluation_points(); ++i)
           {
             out.viscosities[i] = 1.0;
             out.densities[i] = 1.0 + (in.composition[i][0]);
@@ -77,10 +78,10 @@ namespace aspect
         // fill melt outputs if they exist
         aspect::MaterialModel::MeltOutputs<dim> *melt_out = out.template get_additional_output<aspect::MaterialModel::MeltOutputs<dim> >();
 
-        if (melt_out != NULL)
+        if (melt_out != nullptr)
           {
             const unsigned int porosity_idx = this->introspection().compositional_index_for_name("porosity");
-            for (unsigned int i=0; i<in.position.size(); ++i)
+            for (unsigned int i=0; i<in.n_evaluation_points(); ++i)
               {
                 const double porosity = in.composition[i][porosity_idx];
 

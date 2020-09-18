@@ -38,7 +38,7 @@ namespace aspect
              MaterialModel::MaterialModelOutputs<dim> &out) const
     {
       Simple<dim>::evaluate(in, out);
-      for (unsigned int i=0; i < in.position.size(); ++i)
+      for (unsigned int i=0; i < in.n_evaluation_points(); ++i)
         {
           const double pressure = in.pressure[i];
           out.densities[i] = 1.0 + pressure;
@@ -104,7 +104,7 @@ namespace aspect
     {
       // create a quadrature formula based on the temperature element alone.
       // be defensive about determining that what we think is the temperature
-      // element, is it in fact
+      // element is indeed the temperature element
       Assert (this->get_fe().n_base_elements() == 3+(this->n_compositional_fields()>0 ? 1 : 0),
               ExcNotImplemented());
       const QGauss<dim-1> quadrature_formula (this->get_fe().base_element(2).degree+1);
@@ -112,8 +112,8 @@ namespace aspect
       FEFaceValues<dim> fe_face_values (this->get_mapping(),
                                         this->get_fe(),
                                         quadrature_formula,
-                                        update_gradients      | update_values |
-                                        update_q_points       | update_JxW_values);
+                                        update_gradients         | update_values |
+                                        update_quadrature_points | update_JxW_values);
 
       std::vector<std::vector<double> > composition_values (this->n_compositional_fields(),std::vector<double> (quadrature_formula.size()));
       std::vector<Tensor<1,dim> > velocity_values(quadrature_formula.size());

@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2016 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2017 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,12 +14,14 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
 
 #include <aspect/gravity_model/function.h>
+
+#include <iostream>
 
 namespace aspect
 {
@@ -41,6 +43,20 @@ namespace aspect
         gravity[d] = function.value(position,d);
       return gravity;
     }
+
+
+    template <int dim>
+    void
+    Function<dim>::update()
+    {
+      // we get time passed as seconds (always) but may want
+      // to reinterpret it in years
+      if (this->convert_output_to_years())
+        function.set_time (this->get_time() / year_in_seconds);
+      else
+        function.set_time (this->get_time());
+    }
+
 
     template <int dim>
     void

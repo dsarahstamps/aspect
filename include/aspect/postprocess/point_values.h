@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2016 by the authors of the ASPECT code.
+  Copyright (C) 2016 - 2019 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,7 +14,7 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
@@ -44,12 +44,16 @@ namespace aspect
     {
       public:
         /**
+         * Constructor
+         */
+        PointValues ();
+
+        /**
          * Evaluate the solution and determine the values at the
          * selected points.
          */
-        virtual
         std::pair<std::string,std::string>
-        execute (TableHandler &statistics);
+        execute (TableHandler &statistics) override;
 
         /**
          * Declare the parameters this class takes through input files.
@@ -61,21 +65,18 @@ namespace aspect
         /**
          * Read the parameters this class declares from the parameter file.
          */
-        virtual
         void
-        parse_parameters (ParameterHandler &prm);
+        parse_parameters (ParameterHandler &prm) override;
 
         /**
          * Save the state of this object.
          */
-        virtual
-        void save (std::map<std::string, std::string> &status_strings) const;
+        void save (std::map<std::string, std::string> &status_strings) const override;
 
         /**
          * Restore the state of the object.
          */
-        virtual
-        void load (const std::map<std::string, std::string> &status_strings);
+        void load (const std::map<std::string, std::string> &status_strings) override;
 
         /**
          * Serialize the contents of this class as far as they are not read
@@ -85,8 +86,40 @@ namespace aspect
         void serialize (Archive &ar, const unsigned int version);
 
       private:
-        std::vector<Point<dim> >                                       evaluation_points;
+        /**
+         * Set the time output was supposed to be written. In the simplest
+         * case, this is the previous last output time plus the interval, but
+         * in general we'd like to ensure that it is the largest supposed
+         * output time, which is smaller than the current time, to avoid
+         * falling behind with last_output_time and having to catch up once
+         * the time step becomes larger. This is done after every output.
+         */
+        void set_last_output_time (const double current_time);
+
+        /**
+         * Interval between the generation of output in seconds.
+         */
+        double output_interval;
+
+        /**
+         * A time (in seconds) the last output has been produced.
+         */
+        double last_output_time;
+
+        /**
+         * Vector of Points representing the points where the solution is to be evaluated
+         * that can be used by VectorTools.
+         */
+        std::vector<Point<dim> > evaluation_points_cartesian;
+        /**
+         * The values of the solution at the evaluation points.
+         */
         std::vector<std::pair<double, std::vector<Vector<double> > > > point_values;
+        /**
+         * Whether or not to interpret the evaluation points in the input file
+         * as natural coordinates or not.
+         */
+        bool use_natural_coordinates;
     };
   }
 }

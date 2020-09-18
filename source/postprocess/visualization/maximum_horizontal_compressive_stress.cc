@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2016 by the authors of the ASPECT code.
+  Copyright (C) 2016 - 2019 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,12 +14,13 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
 
 #include <aspect/postprocess/visualization/maximum_horizontal_compressive_stress.h>
+#include <aspect/gravity_model/interface.h>
 #include <aspect/utilities.h>
 
 
@@ -32,48 +33,22 @@ namespace aspect
       template <int dim>
       void
       MaximumHorizontalCompressiveStress<dim>::
-      compute_derived_quantities_vector (const std::vector<Vector<double> >              &solution_values,
-                                         const std::vector<std::vector<Tensor<1,dim> > > &solution_gradients,
-                                         const std::vector<std::vector<Tensor<2,dim> > > &,
-                                         const std::vector<Point<dim> > &,
-                                         const std::vector<Point<dim> >                  &evaluation_points,
-                                         std::vector<Vector<double> >                    &computed_quantities) const
+      evaluate_vector_field(const DataPostprocessorInputs::Vector<dim> &input_data,
+                            std::vector<Vector<double> > &computed_quantities) const
       {
-        const unsigned int n_quadrature_points = solution_values.size();
+        const unsigned int n_quadrature_points = input_data.solution_values.size();
         Assert (computed_quantities.size() == n_quadrature_points,    ExcInternalError());
         Assert ((computed_quantities[0].size() == dim),
                 ExcInternalError());
-        Assert (solution_values[0].size() == this->introspection().n_components,   ExcInternalError());
-        Assert (solution_gradients[0].size() == this->introspection().n_components,  ExcInternalError());
+        Assert (input_data.solution_values[0].size() == this->introspection().n_components,   ExcInternalError());
+        Assert (input_data.solution_gradients[0].size() == this->introspection().n_components,  ExcInternalError());
 
-        MaterialModel::MaterialModelInputs<dim> in(n_quadrature_points,
-                                                   this->n_compositional_fields());
+        MaterialModel::MaterialModelInputs<dim> in(input_data,
+                                                   this->introspection());
         MaterialModel::MaterialModelOutputs<dim> out(n_quadrature_points,
                                                      this->n_compositional_fields());
 
-        // collect input information to compute the viscosity at every evaluation point
-        in.position = evaluation_points;
-        for (unsigned int q=0; q<n_quadrature_points; ++q)
-          {
-            Tensor<2,dim> grad_u;
-            for (unsigned int d=0; d<dim; ++d)
-              grad_u[d] = solution_gradients[q][d];
-            in.strain_rate[q] = symmetrize (grad_u);
-
-            in.pressure[q]=solution_values[q][this->introspection().component_indices.pressure];
-            in.temperature[q]=solution_values[q][this->introspection().component_indices.temperature];
-
-            for (unsigned int d = 0; d < dim; ++d)
-              {
-                in.velocity[q][d]=solution_values[q][this->introspection().component_indices.velocities[d]];
-                in.pressure_gradient[q][d] = solution_gradients[q][this->introspection().component_indices.pressure][d];
-              }
-
-            for (unsigned int c=0; c<this->n_compositional_fields(); ++c)
-              in.composition[q][c] = solution_values[q][this->introspection().component_indices.compositional_fields[c]];
-          }
-
-        // then do compute the viscosity...
+        // Compute the viscosity...
         this->get_material_model().evaluate(in, out);
 
         // ...and use it to compute the stresses and from that the
@@ -103,7 +78,7 @@ namespace aspect
             // then find a set of (dim-1) horizontal, unit-length, mutually orthogonal vectors
             const Tensor<1,dim> gravity = this->get_gravity_model().gravity_vector (in.position[q]);
             const Tensor<1,dim> vertical_direction = gravity/gravity.norm();
-            std_cxx11::array<Tensor<1,dim>,dim-1 > orthogonal_directions
+            std::array<Tensor<1,dim>,dim-1 > orthogonal_directions
               = Utilities::orthogonal_vectors(vertical_direction);
             for (unsigned int i=0; i<orthogonal_directions.size(); ++i)
               orthogonal_directions[i] /= orthogonal_directions[i].norm();
@@ -136,7 +111,7 @@ namespace aspect
                   const double b = orthogonal_directions[1] *
                                    (compressive_stress *
                                     orthogonal_directions[1]);
-                  const double c = orthogonal_directions[0] *
+                  const double c = 2.0*orthogonal_directions[0] *
                                    (compressive_stress *
                                     orthogonal_directions[1]);
 
@@ -225,7 +200,7 @@ namespace aspect
       UpdateFlags
       MaximumHorizontalCompressiveStress<dim>::get_needed_update_flags () const
       {
-        return update_gradients | update_values | update_q_points;
+        return update_gradients | update_values | update_quadrature_points;
       }
 
     }
@@ -247,7 +222,7 @@ namespace aspect
                                                   "field. The direction of this vector can often be used to "
                                                   "visualize the principal mode of deformation (e.g., at "
                                                   "normal faults or extensional margins) and can be "
-                                                  "correlated with seismic anisotropies. Recall that the "
+                                                  "correlated with seismic anisotropy. Recall that the "
                                                   "\\textit{compressive} stress is simply the negative stress, "
                                                   "$\\sigma_c=-\\sigma=-\\left["
                                                   "     2\\eta (\\varepsilon(\\mathbf u)"
@@ -282,7 +257,7 @@ namespace aspect
                                                   "Evaluating the derivative and using trigonometric identities, "
                                                   "one finds that $\\alpha$ has to satisfy the equation "
                                                   "\\begin{align*}"
-                                                  "  \\tan(2\\alpha) = \\frac{\\mathbf u^T \\sigma_c \\mathbf v}"
+                                                  "  \\tan(2\\alpha) = \\frac{2.0\\mathbf u^T \\sigma_c \\mathbf v}"
                                                   "                          {\\mathbf u^T \\sigma_c \\mathbf u "
                                                   "                           - \\mathbf v^T \\sigma_c \\mathbf v}."
                                                   "\\end{align*}"
@@ -311,7 +286,7 @@ namespace aspect
                                                   "a given location simply because the hydrostatic pressure "
                                                   "is the largest component of the overall stress. On the other "
                                                   "hand, the hydrostatic pressure does not determine any "
-                                                  "principle direction because it is an isotropic, anti-compressive "
+                                                  "principal direction because it is an isotropic, anti-compressive "
                                                   "force. As a consequence, there are often points in simulations "
                                                   "(e.g., at the center of convection rolls) where the stress has "
                                                   "no dominant horizontal direction, and the algorithm above will "

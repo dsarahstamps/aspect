@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2015 by the authors of the ASPECT code.
+  Copyright (C) 2015 - 2019 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,7 +14,7 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
@@ -50,46 +50,19 @@ namespace aspect
        */
       template <int dim>
       class ShearStress
-        : public DataPostprocessor<dim>,
+        : public DataPostprocessorTensor<dim>,
           public SimulatorAccess<dim>,
           public Interface<dim>
       {
         public:
-          virtual
+          /**
+           * Constructor.
+           */
+          ShearStress ();
+
           void
-          compute_derived_quantities_vector (const std::vector<Vector<double> >              &solution_values,
-                                             const std::vector<std::vector<Tensor<1,dim> > > &solution_gradients,
-                                             const std::vector<std::vector<Tensor<2,dim> > > &solution_hessians,
-                                             const std::vector<Point<dim> >                  &normals,
-                                             const std::vector<Point<dim> >                  &evaluation_points,
-                                             std::vector<Vector<double> >                    &computed_quantities) const;
-
-          /**
-           * Return the vector of strings describing the names of the computed
-           * quantities. Given the purpose of this class, this is a vector
-           * with entries all equal to the name of the plugin.
-           */
-          virtual std::vector<std::string> get_names () const;
-
-          /**
-           * This functions returns information about how the individual
-           * components of output files that consist of more than one data set
-           * are to be interpreted. The returned value is
-           * DataComponentInterpretation::component_is_scalar repeated
-           * SymmetricTensor::n_independent_components times. (These
-           * components should really be part of a symmetric tensor, but
-           * deal.II does not allow marking components as such.)
-           */
-          virtual
-          std::vector<DataComponentInterpretation::DataComponentInterpretation>
-          get_data_component_interpretation () const;
-
-          /**
-           * Return which data has to be provided to compute the derived
-           * quantities. The flags returned here are the ones passed to the
-           * constructor of this class.
-           */
-          virtual UpdateFlags get_needed_update_flags () const;
+          evaluate_vector_field(const DataPostprocessorInputs::Vector<dim> &input_data,
+                                std::vector<Vector<double> > &computed_quantities) const override;
       };
     }
   }

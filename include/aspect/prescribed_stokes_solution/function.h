@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2015 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2019 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,7 +14,7 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
@@ -51,9 +51,8 @@ namespace aspect
         /**
          * Return the velocity and pressure as a function of position.
          */
-        virtual
         void
-        stokes_solution (const Point<dim> &p, Vector<double> &value) const;
+        stokes_solution (const Point<dim> &position, Vector<double> &value) const override;
 
         /**
          * A function that is called at the beginning of each time step to
@@ -61,9 +60,8 @@ namespace aspect
          * pressure values will next be evaluated. For the current class,
          * the function passes to the parsed function what the current time is.
          */
-        virtual
         void
-        update ();
+        update () override;
 
         /**
          * Declare the parameters this class takes through input files.
@@ -75,9 +73,8 @@ namespace aspect
         /**
          * Read the parameters this class declares from the parameter file.
          */
-        virtual
         void
-        parse_parameters (ParameterHandler &prm);
+        parse_parameters (ParameterHandler &prm) override;
 
       private:
         /**
@@ -88,6 +85,18 @@ namespace aspect
          * A function object representing the pressure.
          */
         Functions::ParsedFunction<dim> prescribed_pressure_function;
+        /**
+         * A function object representing the fluid pressure (in models with melt transport).
+         */
+        Functions::ParsedFunction<dim> prescribed_fluid_pressure_function;
+        /**
+         * A function object representing the compaction pressure (in models with melt transport).
+         */
+        Functions::ParsedFunction<dim> prescribed_compaction_pressure_function;
+        /**
+         * A function object representing the components of the fluid velocity (in models with melt transport).
+         */
+        Functions::ParsedFunction<dim> prescribed_fluid_velocity_function;
     };
   }
 }

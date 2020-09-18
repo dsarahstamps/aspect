@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2016 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2019 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,13 +14,14 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
 
 #include <aspect/postprocess/mass_flux_statistics.h>
 #include <aspect/utilities.h>
+#include <aspect/geometry_model/interface.h>
 
 #include <deal.II/base/quadrature_lib.h>
 #include <deal.II/fe/fe_values.h>
@@ -47,22 +48,18 @@ namespace aspect
                               1.0;
 
       // create a quadrature formula based on the temperature element alone.
-      const QGauss<dim-1> quadrature_formula (this->get_fe().base_element(this->introspection().base_elements.velocities).degree+1);
+      const QGauss<dim-1> quadrature_formula (this->introspection().polynomial_degree.velocities + 1);
 
       FEFaceValues<dim> fe_face_values (this->get_mapping(),
                                         this->get_fe(),
                                         quadrature_formula,
-                                        update_values         | update_gradients |
-                                        update_normal_vectors |
-                                        update_q_points       | update_JxW_values);
+                                        update_values            | update_gradients |
+                                        update_normal_vectors    |
+                                        update_quadrature_points | update_JxW_values);
 
       std::vector<std::vector<double> > composition_values (this->n_compositional_fields(),std::vector<double> (quadrature_formula.size()));
 
       std::map<types::boundary_id, double> local_boundary_fluxes;
-
-      typename DoFHandler<dim>::active_cell_iterator
-      cell = this->get_dof_handler().begin_active(),
-      endc = this->get_dof_handler().end();
 
       MaterialModel::MaterialModelInputs<dim> in(fe_face_values.n_quadrature_points, this->n_compositional_fields());
       MaterialModel::MaterialModelOutputs<dim> out(fe_face_values.n_quadrature_points, this->n_compositional_fields());
@@ -71,44 +68,14 @@ namespace aspect
       // mass flux and that is owned by this processor,
       // integrate the normal mass flux given by the formula
       //   j =  \rho * v * n
-      //
-      // for the spherical shell geometry, note that for the inner boundary,
-      // the normal vector points *into* the core, i.e. we compute the flux
-      // *out* of the mantle, not into it. we fix this when we add the local
-      // contribution to the global flux
-      for (; cell!=endc; ++cell)
+      for (const auto &cell : this->get_dof_handler().active_cell_iterators())
         if (cell->is_locally_owned())
           for (unsigned int f=0; f<GeometryInfo<dim>::faces_per_cell; ++f)
             if (cell->at_boundary(f))
               {
                 fe_face_values.reinit (cell, f);
-                fe_face_values[this->introspection().extractors.velocities].get_function_values (this->get_solution(),
-                    in.velocity);
-                fe_face_values[this->introspection().extractors.temperature].get_function_values (this->get_solution(),
-                    in.temperature);
-                fe_face_values[this->introspection().extractors.pressure].get_function_values (this->get_solution(),
-                                                                                               in.pressure);
-                fe_face_values[this->introspection().extractors.pressure].get_function_gradients (this->get_solution(),
-                    in.pressure_gradient);
-                for (unsigned int c=0; c<this->n_compositional_fields(); ++c)
-                  fe_face_values[this->introspection().extractors.compositional_fields[c]].get_function_values(this->get_solution(),
-                      composition_values[c]);
-
-                in.position = fe_face_values.get_quadrature_points();
-
-                // since we are not reading the viscosity and the viscosity
-                // is the only coefficient that depends on the strain rate,
-                // we need not compute the strain rate. set the corresponding
-                // array to empty, to prevent accidental use and skip the
-                // evaluation of the strain rate in evaluate().
-                in.strain_rate.resize(0);
-
-                for (unsigned int i=0; i<fe_face_values.n_quadrature_points; ++i)
-                  {
-                    for (unsigned int c=0; c<this->n_compositional_fields(); ++c)
-                      in.composition[i][c] = composition_values[c][i];
-                  }
-                in.cell = &cell;
+                // Set use_strain_rates to false since we don't need viscosity
+                in.reinit(fe_face_values, cell, this->introspection(), this->get_solution(), false);
 
                 this->get_material_model().evaluate(in, out);
 
@@ -137,10 +104,8 @@ namespace aspect
         boundary_indicators
           = this->get_geometry_model().get_used_boundary_indicators ();
         std::vector<double> local_values;
-        for (std::set<types::boundary_id>::const_iterator
-             p = boundary_indicators.begin();
-             p != boundary_indicators.end(); ++p)
-          local_values.push_back (local_boundary_fluxes[*p]);
+        for (const auto p : boundary_indicators)
+          local_values.push_back (local_boundary_fluxes[p]);
 
         // then collect contributions from all processors
         std::vector<double> global_values (local_values.size());
@@ -154,7 +119,7 @@ namespace aspect
           global_boundary_fluxes[*p] = global_values[index];
       }
 
-      // now add all of the computed heat fluxes to the statistics object
+      // now add all of the computed mass fluxes to the statistics object
       // and create a single string that can be output to the screen
       std::ostringstream screen_text;
       unsigned int index = 0;
@@ -210,7 +175,7 @@ namespace aspect
                                   "the core into the mantle when the domain describes the "
                                   "mantle, then you need to multiply the result by -1."
                                   "\n\n"
-                                  "\\note{In geodynamics, the term ``mass flux'' is often understand "
+                                  "\\note{In geodynamics, the term ``mass flux'' is often understood "
                                   "to be the quantity $\\rho \\mathbf v$, which is really a mass "
                                   "flux \\textit{density}, i.e., a vector-valued field. In contrast "
                                   "to this, the current postprocessor only computes the integrated "

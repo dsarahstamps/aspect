@@ -1,11 +1,11 @@
 # This test is used to check if the latent heat of
 # melting of pyroxenite is calculated correctly. 
 # The material is upwelling with a constant velocity
-# (without seperation of melt and solid) and without
+# (without separation of melt and solid) and without
 # conduction of heat, so that the steady state of the 
 # model is an adiabatic temperature profile. An approximated
 # analytical solution for this profile to compare the solution 
-# to can be calculated analogue to the descriptoin in Katz 
+# to can be calculated analogue to the description in Katz 
 # et al., 2003 (A new parameterization of hydrous mantle melting)
 # by numerically integrating equation (23) of that paper and 
 # using the corresponding parameters of the pyroxenite melting
@@ -64,7 +64,7 @@ end
 # constants. We choose a linear temperature profile that
 # matches the boundary conditions defined below plus
 # a small perturbation:
-subsection Initial conditions
+subsection Initial temperature model
   set Model name = function
   subsection Function
     set Function expression = 1746.794 - z/183540.0 * 300
@@ -72,7 +72,7 @@ subsection Initial conditions
   end
 end
 
-subsection Compositional initial conditions
+subsection Initial composition model
   set Model name = function
   subsection Function
     set Function expression = 1.0
@@ -80,14 +80,14 @@ subsection Compositional initial conditions
 end
 
 subsection Boundary temperature model
-  set Model name = box
+  set List of model names = box
   subsection Box
     set Bottom temperature = 1746.794  # 1350°C adiabat
   end
 end
 
 subsection Boundary composition model
-  set Model name = initial composition
+  set List of model names = initial composition
 end
 
 subsection Boundary velocity model
@@ -96,16 +96,23 @@ subsection Boundary velocity model
   end
 end
 
-subsection Model settings
-  # The next parameters then describe on which parts of the
-  # boundary we prescribe a zero or nonzero velocity and
-  # on which parts the flow is allowed to be tangential.
-  # Here, all four sides of the box allow tangential
-  # unrestricted flow but with a zero normal component:
-  set Zero velocity boundary indicators       =
+# The parameters below this comment were created by the update script
+# as replacement for the old 'Model settings' subsection. They can be
+# safely merged with any existing subsections with the same name.
+
+subsection Boundary velocity model
   set Prescribed velocity boundary indicators = 2:function
+end
+
+subsection Boundary velocity model
   set Tangential velocity boundary indicators = 0,1
+end
+
+subsection Boundary temperature model
   set Fixed temperature boundary indicators   = 2
+end
+
+subsection Boundary composition model
   set Fixed composition boundary indicators   = 2
 end
 

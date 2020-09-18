@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011, 2012, 2014, 2016 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2019 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,7 +14,7 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
@@ -22,25 +22,19 @@
 #ifndef _aspect_global_h
 #define _aspect_global_h
 
-#ifdef ASPECT_USE_PETSC
-#  include <deal.II/lac/petsc_parallel_block_vector.h>
-#  include <deal.II/lac/petsc_parallel_block_sparse_matrix.h>
-#  include <deal.II/lac/petsc_precondition.h>
-#else
-#  include <deal.II/lac/trilinos_block_vector.h>
-#  include <deal.II/lac/trilinos_block_sparse_matrix.h>
-#  include <deal.II/lac/trilinos_precondition.h>
-#endif
+#include <aspect/config.h>
+
+#include <deal.II/base/mpi.h>
+
+DEAL_II_DISABLE_EXTRA_DIAGNOSTICS
 
 #include <deal.II/lac/generic_linear_algebra.h>
 
-DEAL_II_DISABLE_EXTRA_DIAGNOSTICS
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/archive/binary_iarchive.hpp>
+
 DEAL_II_ENABLE_EXTRA_DIAGNOSTICS
 
-#include <deal.II/base/mpi.h>
-#include <deal.II/base/multithread_info.h>
 
 #include <aspect/compat.h>
 
@@ -55,25 +49,25 @@ namespace aspect
     /**
      * Number of seconds in a year [s]
      */
-    extern const double year_in_seconds;
+    constexpr double year_in_seconds = 60*60*24*365.2425;
 
     /**
      * Zero degrees Celsius to Kelvin [K]
      */
-    extern const double celsius_to_kelvin;
+    constexpr double celsius_to_kelvin = 273.15;
 
     /**
      * Gas constant (also known as R) [J K^-1 mol^-1]
      */
-    extern const double gas_constant;
+    constexpr double gas_constant = 8.3144621;
     /**
      * Avogadro's constant [mol^-1]
      */
-    extern const double avogadro;
+    constexpr double avogadro = 6.02214129e23;
     /**
      * Gravitational constant [m^3 kg^-1 s^-2]
      */
-    extern const double big_g;
+    constexpr double big_g = 6.67384e-11;
 
     /**
      * Constants for Earth:
@@ -89,93 +83,93 @@ namespace aspect
         /**
          * Planet mass [kg]
          */
-        extern const double planet;
+        constexpr double planet = 5.9736e24;
         /**
          * Mass of the whole core [kg]
          */
-        extern const double core;
+        constexpr double core = 1.932e24;
         /**
          * Mass of the mantle [kg]
          */
-        extern const double mantle;
+        constexpr double mantle = 4.043e24;
       }
 
       /**
-       * Earth structure radii taken from the IASP91 model:
+       * Earth structure radii taken from the IASP91 model
        */
       namespace iasp91_radii
       {
         /**
-        * Inner core radius [m], equivalent of 5150 km depth
-        */
-        extern const double inner_core;
+         * Inner core radius [m], equivalent of 5150 km depth
+         */
+        constexpr double inner_core = 1.2171e6;
         /**
-        * Inner core radius [m], equivalent of 2889 km depth
-        */
-        extern const double core;
+         * Inner core radius [m], equivalent of 2889 km depth
+         */
+        constexpr double core = 3.482e6;
         /**
-        * Lower mantle radius [m], equivalent of 660 km depth
-        */
-        extern const double lower_mantle;
+         * Lower mantle radius [m], equivalent of 660 km depth
+         */
+        constexpr double lower_mantle = 5.711e6;
         /**
-        * Radius [m], equivalent of 5150 km depth
-        */
-        extern const double planet;
+         * Radius [m], equivalent of 5150 km depth
+         */
+        constexpr double planet = 6.371e6;
       }
 
       /**
-       *  Gravity values taken from the PREM (Dziewonski and Anderson, 1981):
+       * Gravity values taken from the PREM (Dziewonski and Anderson, 1981)
        */
       namespace prem_gravity
       {
         /**
-        * Inner core boundary gravity [ms^-2]
-        */
-        extern const double icb;
+         * Inner core boundary gravity [ms^-2]
+         */
+        constexpr double icb = 4.4002;
         /**
-        * Core-mantle boundary gravity [ms^-2]
-        */
-        extern const double cmb;
+         * Core-mantle boundary gravity [ms^-2]
+         */
+        constexpr double cmb = 10.6823;
         /**
-        * Upper-lower mantle boundary gravity [ms^-2]
-        */
-        extern const double ulmb;
+         * Upper-lower mantle boundary gravity [ms^-2]
+         */
+        constexpr double ulmb = 10.0143;
         /**
-        * Surface gravity [ms^-2]
-        */
-        extern const double surface;
+         * Surface gravity [ms^-2]
+         */
+        constexpr double surface = 9.8156;
       }
 
       /**
-       * "Standard gravity" (average gravitational acceleration at surface [ms^-2]
+       * NIST "Standard gravity" (average gravitational acceleration at surface
+       * [ms^-2]
        */
-      extern const double surface_gravity;
+      constexpr double surface_gravity = 9.80665;
     }
 
     /**
-     * Constants for Mars:
+     * Constants for Mars
      */
     namespace mars
     {
-
       /**
        * Mars structure radii
        */
       namespace radii
       {
         /**
-         * Planetary radius [m]
+         * Planetary radius from Seidermann et al., 2007 [m]
          */
-        extern const double planet;
+        constexpr double planet = 3.3895e6;
         /**
-         * Core radius [m]
+         * Core radius from Rivoldini et al., 2011 [m]
          */
-        extern const double core;
+        constexpr double core = 1.794e6;
       }
       /**
-       * Surface gravity [ms^-2]
+       * Surface gravity from Lodders et al., 1998 [ms^-2]
        */
-      extern const double surface_gravity;
+      constexpr double surface_gravity = 3.711;
     }
   }
 
@@ -190,14 +184,14 @@ namespace aspect
    * serialization. The type chosen here is a binary archive which we
    * subsequently will have to un-compress.
    */
-  typedef boost::archive::binary_iarchive iarchive;
+  using iarchive = boost::archive::binary_iarchive;
 
   /**
    * A typedef that denotes the BOOST stream type for writing data during
    * serialization. The type chosen here is a binary archive which we compress
    * before writing it into a file.
    */
-  typedef boost::archive::binary_oarchive oarchive;
+  using oarchive = boost::archive::binary_oarchive;
 
   /**
    * A class we throw in exceptions in parallel jobs and that we can silently
@@ -223,115 +217,125 @@ namespace aspect
     /**
      * Typedef for the vector type used.
      */
-    typedef dealii::PETScWrappers::MPI::Vector Vector;
+    using Vector = dealii::PETScWrappers::MPI::Vector;
 
     /**
      * Typedef for the type used to describe vectors that consist of multiple
      * blocks.
      */
-    typedef dealii::PETScWrappers::MPI::BlockVector BlockVector;
+    using BlockVector = dealii::PETScWrappers::MPI::BlockVector;
 
     /**
      * Typedef for the sparse matrix type used.
      */
-    typedef dealii::PETScWrappers::MPI::SparseMatrix SparseMatrix;
+    using SparseMatrix = dealii::PETScWrappers::MPI::SparseMatrix;
 
     /**
      * Typedef for the type used to describe sparse matrices that consist of
      * multiple blocks.
      */
-    typedef dealii::PETScWrappers::MPI::BlockSparseMatrix BlockSparseMatrix;
+    using BlockSparseMatrix = dealii::PETScWrappers::MPI::BlockSparseMatrix;
+
+    /**
+     * Typedef for the base class for all preconditioners.
+     */
+    using PreconditionBase = dealii::PETScWrappers::PreconditionerBase;
 
     /**
      * Typedef for the AMG preconditioner type used for the top left block of
      * the Stokes matrix.
      */
-    typedef dealii::PETScWrappers::PreconditionBoomerAMG PreconditionAMG;
+    using PreconditionAMG = dealii::PETScWrappers::PreconditionBoomerAMG;
 
     /**
      * Typedef for the Incomplete Cholesky preconditioner used for other
      * blocks of the system matrix.
      */
-    typedef dealii::PETScWrappers::PreconditionICC PreconditionIC;
+    using PreconditionIC = dealii::PETScWrappers::PreconditionICC;
 
     /**
      * Typedef for the Incomplete LU decomposition preconditioner used for
      * other blocks of the system matrix. Note that PETSc does not support a
      * communicating ILU, so we use Jacobi here.
      */
-    typedef dealii::PETScWrappers::PreconditionBlockJacobi PreconditionILU;
+    using PreconditionILU = dealii::PETScWrappers::PreconditionBlockJacobi;
 
     /**
      * Typedef for the Jacobi preconditioner used for free surface velocity
      * projection.
      */
-    typedef dealii::PETScWrappers::PreconditionJacobi PreconditionJacobi;
+    using PreconditionJacobi = dealii::PETScWrappers::PreconditionJacobi;
 
     /**
      * Typedef for the block compressed sparsity pattern type.
      */
-    typedef dealii::BlockDynamicSparsityPattern BlockDynamicSparsityPattern;
+    using BlockDynamicSparsityPattern = dealii::BlockDynamicSparsityPattern;
 
     /**
      * Typedef for the compressed sparsity pattern type.
      */
-    typedef dealii::DynamicSparsityPattern DynamicSparsityPattern;
+    using DynamicSparsityPattern = dealii::DynamicSparsityPattern;
 #else
     /**
      * Typedef for the vector type used.
      */
-    typedef dealii::TrilinosWrappers::MPI::Vector Vector;
+    using Vector = dealii::TrilinosWrappers::MPI::Vector;
 
     /**
      * Typedef for the type used to describe vectors that consist of multiple
      * blocks.
      */
-    typedef dealii::TrilinosWrappers::MPI::BlockVector BlockVector;
+    using BlockVector = dealii::TrilinosWrappers::MPI::BlockVector;
 
     /**
      * Typedef for the sparse matrix type used.
      */
-    typedef dealii::TrilinosWrappers::SparseMatrix SparseMatrix;
+    using SparseMatrix = dealii::TrilinosWrappers::SparseMatrix;
 
     /**
      * Typedef for the type used to describe sparse matrices that consist of
      * multiple blocks.
      */
-    typedef dealii::TrilinosWrappers::BlockSparseMatrix BlockSparseMatrix;
+    using BlockSparseMatrix = dealii::TrilinosWrappers::BlockSparseMatrix;
+
+    /**
+     * Typedef for the base class for all preconditioners.
+     */
+    using PreconditionBase = dealii::TrilinosWrappers::PreconditionBase;
 
     /**
      * Typedef for the AMG preconditioner type used for the top left block of
      * the Stokes matrix.
      */
-    typedef dealii::TrilinosWrappers::PreconditionAMG PreconditionAMG;
+    using PreconditionAMG = dealii::TrilinosWrappers::PreconditionAMG;
 
     /**
      * Typedef for the Incomplete Cholesky preconditioner used for other
      * blocks of the system matrix.
      */
-    typedef dealii::TrilinosWrappers::PreconditionIC PreconditionIC;
+    using PreconditionIC = dealii::TrilinosWrappers::PreconditionIC;
 
     /**
      * Typedef for the Incomplete LU decomposition preconditioner used for
      * other blocks of the system matrix.
      */
-    typedef dealii::TrilinosWrappers::PreconditionILU PreconditionILU;
+    using PreconditionILU = dealii::TrilinosWrappers::PreconditionILU;
 
     /**
      * Typedef for the Jacobi preconditioner used for free surface velocity
      * projection.
      */
-    typedef dealii::TrilinosWrappers::PreconditionJacobi PreconditionJacobi;
+    using PreconditionJacobi = dealii::TrilinosWrappers::PreconditionJacobi;
 
     /**
      * Typedef for the block compressed sparsity pattern type.
      */
-    typedef dealii::TrilinosWrappers::BlockSparsityPattern BlockDynamicSparsityPattern;
+    using BlockDynamicSparsityPattern = dealii::TrilinosWrappers::BlockSparsityPattern;
 
     /**
      * Typedef for the compressed sparsity pattern type.
      */
-    typedef dealii::TrilinosWrappers::SparsityPattern DynamicSparsityPattern;
+    using DynamicSparsityPattern = dealii::TrilinosWrappers::SparsityPattern;
 #endif
   }
 }
@@ -343,32 +347,7 @@ namespace aspect
  * running, with how many processes, and using which linear algebra library.
  */
 template <class Stream>
-void print_aspect_header(Stream &stream)
-{
-  const int n_tasks = dealii::Utilities::MPI::n_mpi_processes(MPI_COMM_WORLD);
-
-  stream << "-----------------------------------------------------------------------------\n"
-         << "-- This is ASPECT, the Advanced Solver for Problems in Earth's ConvecTion.\n"
-         << "--     . version 1.5.0-pre\n" //VERSION-INFO. Do not edit by hand.
-#ifdef DEBUG
-         << "--     . running in DEBUG mode\n"
-#else
-         << "--     . running in OPTIMIZED mode\n"
-#endif
-         << "--     . running with " << n_tasks << " MPI process" << (n_tasks == 1 ? "\n" : "es\n");
-  const int n_threads =
-    dealii::MultithreadInfo::n_threads();
-  if (n_threads>1)
-    stream << "--     . using " << n_threads << " threads " << (n_tasks == 1 ? "\n" : "each\n");
-#ifdef ASPECT_USE_PETSC
-  stream << "--     . using PETSc\n";
-#else
-  stream << "--     . using Trilinos\n";
-#endif
-  stream << "-----------------------------------------------------------------------------\n"
-         << std::endl;
-}
-
+void print_aspect_header(Stream &stream);
 
 /**
  * A macro that is used in instantiating the ASPECT classes and functions for

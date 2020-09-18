@@ -1,5 +1,5 @@
 /*
- Copyright (C) 2016 by the authors of the ASPECT code.
+ Copyright (C) 2016 - 2019 by the authors of the ASPECT code.
 
  This file is part of ASPECT.
 
@@ -14,7 +14,7 @@
  GNU General Public License for more details.
 
  You should have received a copy of the GNU General Public License
- along with ASPECT; see the file doc/COPYING.  If not see
+ along with ASPECT; see the file LICENSE.  If not see
  <http://www.gnu.org/licenses/>.
  */
 
@@ -47,9 +47,8 @@ namespace aspect
            * @param [in,out] particles A multimap between cells and their
            * particles. This map will be filled in this function.
            */
-          virtual
           void
-          generate_particles(std::multimap<types::LevelInd, Particle<dim> > &particles);
+          generate_particles(std::multimap<Particles::internal::LevelInd, Particle<dim> > &particles) override;
 
           /**
            * Declare the parameters this class takes through input files.
@@ -61,9 +60,8 @@ namespace aspect
           /**
            * Read the parameters this class declares from the parameter file.
            */
-          virtual
           void
-          parse_parameters (ParameterHandler &prm);
+          parse_parameters (ParameterHandler &prm) override;
       };
     }
   }

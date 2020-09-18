@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2015 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2019 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,13 +14,14 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
 
 #include <aspect/postprocess/visualization/material_properties.h>
 #include <aspect/utilities.h>
+#include <aspect/melt.h>
 
 #include <algorithm>
 
@@ -85,49 +86,36 @@ namespace aspect
       MaterialProperties<dim>::
       get_needed_update_flags () const
       {
-        return update_gradients | update_values  | update_q_points;
+        return update_gradients | update_values  | update_quadrature_points;
       }
 
       template <int dim>
       void
       MaterialProperties<dim>::
-      compute_derived_quantities_vector (const std::vector<Vector<double> >              &solution_values,
-                                         const std::vector<std::vector<Tensor<1,dim> > > &solution_gradients,
-                                         const std::vector<std::vector<Tensor<2,dim> > > &,
-                                         const std::vector<Point<dim> > &,
-                                         const std::vector<Point<dim> >                  &evaluation_points,
-                                         std::vector<Vector<double> >                    &computed_quantities) const
+      evaluate_vector_field(const DataPostprocessorInputs::Vector<dim> &input_data,
+                            std::vector<Vector<double> > &computed_quantities) const
       {
-        const unsigned int n_quadrature_points = solution_values.size();
+        const unsigned int n_quadrature_points = input_data.solution_values.size();
         Assert (computed_quantities.size() == n_quadrature_points,    ExcInternalError());
-        Assert (solution_values[0].size() == this->introspection().n_components,           ExcInternalError());
+        Assert (input_data.solution_values[0].size() == this->introspection().n_components,           ExcInternalError());
 
-        MaterialModel::MaterialModelInputs<dim> in(n_quadrature_points,
-                                                   this->n_compositional_fields());
+        MaterialModel::MaterialModelInputs<dim> in(input_data,
+                                                   this->introspection());
         MaterialModel::MaterialModelOutputs<dim> out(n_quadrature_points,
                                                      this->n_compositional_fields());
 
-        in.position = evaluation_points;
-        for (unsigned int q=0; q<n_quadrature_points; ++q)
-          {
-            Tensor<2,dim> grad_u;
-            for (unsigned int d=0; d<dim; ++d)
-              {
-                grad_u[d] = solution_gradients[q][d];
-                in.velocity[q][d] = solution_values[q][this->introspection().component_indices.velocities[d]];
-                in.pressure_gradient[q][d] = solution_gradients[q][this->introspection().component_indices.pressure][d];
-              }
-
-            in.strain_rate[q] = symmetrize (grad_u);
-
-            in.pressure[q]=solution_values[q][this->introspection().component_indices.pressure];
-            in.temperature[q]=solution_values[q][this->introspection().component_indices.temperature];
-
-            for (unsigned int c=0; c<this->n_compositional_fields(); ++c)
-              in.composition[q][c] = solution_values[q][this->introspection().component_indices.compositional_fields[c]];
-          }
-
         this->get_material_model().evaluate(in, out);
+
+        std::vector<double> melt_fractions(n_quadrature_points);
+        if (std::find(property_names.begin(), property_names.end(), "melt fraction") != property_names.end())
+          {
+            AssertThrow(Plugins::plugin_type_matches<const MaterialModel::MeltFractionModel<dim>> (this->get_material_model()),
+                        ExcMessage("You are trying to visualize the melt fraction, but the material"
+                                   "model you use does not actually compute a melt fraction."));
+
+            Plugins::get_plugin_as_type<const MaterialModel::MeltFractionModel<dim>> (this->get_material_model()).
+                                                                                  melt_fractions(in, melt_fractions);
+          }
 
         for (unsigned int q=0; q<n_quadrature_points; ++q)
           {
@@ -169,6 +157,8 @@ namespace aspect
                       }
                     --output_index;
                   }
+                else if (property_names[i] == "melt fraction")
+                  computed_quantities[q][output_index] = melt_fractions[q];
                 else
                   AssertThrow(false,
                               ExcMessage("Material property not implemented for this postprocessor."));
@@ -189,7 +179,8 @@ namespace aspect
               const std::string pattern_of_names
                 = "viscosity|density|thermal expansivity|specific heat|"
                   "thermal conductivity|thermal diffusivity|compressibility|"
-                  "entropy derivative temperature|entropy derivative pressure|reaction terms";
+                  "entropy derivative temperature|entropy derivative pressure|reaction terms|"
+                  "melt fraction";
 
               prm.declare_entry("List of material properties",
                                 "density,thermal expansivity,specific heat,viscosity",
@@ -218,10 +209,6 @@ namespace aspect
         {
           prm.enter_subsection("Visualization");
           {
-            // Find out which variables are registered separately
-            std::vector<std::string> variable_names;
-            variable_names = Utilities::split_string_list(prm.get("List of output variables"));
-
             prm.enter_subsection("Material properties");
             {
               // Get property names and compare against variable names
@@ -231,13 +218,6 @@ namespace aspect
                                      "'Postprocess/Visualization/Material properties/List of material properties' "
                                      "contains entries more than once. This is not allowed. "
                                      "Please check your parameter file."));
-
-              for (std::vector<std::string>::const_iterator p = variable_names.begin();
-                   p != variable_names.end(); ++p)
-                AssertThrow((std::find(property_names.begin(),property_names.end(),*p)) == property_names.end(),
-                            ExcMessage("Visualization postprocessor "
-                                       + *p
-                                       + " is listed separately and in the list of material properties."));
             }
             prm.leave_subsection();
           }

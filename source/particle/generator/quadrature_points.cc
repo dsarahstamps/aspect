@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2016 by the authors of the ASPECT code.
+  Copyright (C) 2016 - 2020 by the authors of the ASPECT code.
 
  This file is part of ASPECT.
 
@@ -14,7 +14,7 @@
  GNU General Public License for more details.
 
  You should have received a copy of the GNU General Public License
- along with ASPECT; see the file doc/COPYING.  If not see
+ along with ASPECT; see the file LICENSE.  If not see
  <http://www.gnu.org/licenses/>.
  */
 
@@ -30,7 +30,7 @@ namespace aspect
     {
       template <int dim>
       void
-      QuadraturePoints<dim>::generate_particles(std::multimap<types::LevelInd, Particle<dim> > &particles)
+      QuadraturePoints<dim>::generate_particles(std::multimap<Particles::internal::LevelInd, Particle<dim> > &particles)
       {
         const QGauss<dim> quadrature_formula(this->get_parameters().stokes_velocity_degree + 1);
 
@@ -43,28 +43,27 @@ namespace aspect
                                 quadrature_formula,
                                 update_quadrature_points);
 
-
-        MPI_Scan(&n_particles_to_generate, &prefix_sum, 1, ASPECT_TRACER_INDEX_MPI_TYPE, MPI_SUM, this->get_mpi_communicator());
+#if DEAL_II_VERSION_GTE(9,1,0)
+        const int ierr = MPI_Scan(&n_particles_to_generate, &prefix_sum, 1, DEAL_II_PARTICLE_INDEX_MPI_TYPE, MPI_SUM, this->get_mpi_communicator());
+#else
+        const int ierr = MPI_Scan(&n_particles_to_generate, &prefix_sum, 1, PARTICLE_INDEX_MPI_TYPE, MPI_SUM, this->get_mpi_communicator());
+#endif
+        AssertThrowMPI(ierr);
 
         particle_index = prefix_sum - n_particles_to_generate;
 
-        typename parallel::distributed::Triangulation<dim>::active_cell_iterator
-        cell = this->get_triangulation().begin_active(), endc = this->get_triangulation().end();
-
-        for (; cell != endc; cell++)
-          {
-            if (cell->is_locally_owned())
-              {
-                fe_values.reinit(cell);
-                for (unsigned int i = 0; i < quadrature_formula.size(); i++)
-                  {
-                    const Particle<dim> particle(fe_values.get_quadrature_points()[i], quadrature_formula.get_points()[i], particle_index);
-                    const types::LevelInd cell_index(cell->level(), cell->index());
-                    particles.insert(std::make_pair(cell_index, particle));
-                    ++particle_index;
-                  }
-              }
-          }
+        for (const auto &cell : this->get_triangulation().active_cell_iterators())
+          if (cell->is_locally_owned())
+            {
+              fe_values.reinit(cell);
+              for (unsigned int i = 0; i < quadrature_formula.size(); i++)
+                {
+                  const Particle<dim> particle(fe_values.get_quadrature_points()[i], quadrature_formula.get_points()[i], particle_index);
+                  const Particles::internal::LevelInd cell_index(cell->level(), cell->index());
+                  particles.insert(std::make_pair(cell_index, particle));
+                  ++particle_index;
+                }
+            }
       }
 
 

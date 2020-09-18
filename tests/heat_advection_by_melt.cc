@@ -1,4 +1,5 @@
-#include <aspect/fluid_pressure_boundary_conditions/interface.h>
+#include <aspect/boundary_fluid_pressure/interface.h>
+#include <aspect/gravity_model/interface.h>
 #include <aspect/material_model/melt_global.h>
 #include <aspect/simulator_access.h>
 #include <aspect/global.h>
@@ -9,7 +10,7 @@ namespace aspect
 
   template <int dim>
   class PressureBdry:
-    public FluidPressureBoundaryConditions::Interface<dim>, public ::aspect::SimulatorAccess<dim>
+    public BoundaryFluidPressure::Interface<dim>, public ::aspect::SimulatorAccess<dim>
   {
     public:
       virtual
@@ -22,7 +23,7 @@ namespace aspect
       ) const
       {
         const MaterialModel::MeltOutputs<dim> *melt_outputs = material_model_outputs.template get_additional_output<MaterialModel::MeltOutputs<dim> >();
-        Assert(melt_outputs != NULL, ExcMessage("Need MeltOutputs from the material model for shear heating with melt."));
+        Assert(melt_outputs != nullptr, ExcMessage("Need MeltOutputs from the material model for shear heating with melt."));
 
         for (unsigned int q=0; q<fluid_pressure_gradient_outputs.size(); ++q)
           {
@@ -61,14 +62,14 @@ namespace aspect
 
       // fill melt outputs if they exist
       MeltOutputs<dim> *melt_out = out.template get_additional_output<MeltOutputs<dim> >();
-      for (unsigned int i=0; i < in.position.size(); ++i)
+      for (unsigned int i=0; i < in.n_evaluation_points(); ++i)
         {
           out.densities[i] = 2.0;
         }
 
-      if (melt_out != NULL)
+      if (melt_out != nullptr)
         {
-          for (unsigned int i=0; i < in.position.size(); ++i)
+          for (unsigned int i=0; i < in.n_evaluation_points(); ++i)
             {
               melt_out->fluid_densities[i] = 1.0;
               melt_out->permeabilities[i] = 1.0;
@@ -86,11 +87,11 @@ namespace aspect
 // explicit instantiations
 namespace aspect
 {
-  ASPECT_REGISTER_FLUID_PRESSURE_BOUNDARY_CONDITIONS(PressureBdry,
-                                                     "PressureBdry",
-                                                     "A fluid pressure boundary condition that prescribes the "
-                                                     "gradient of the fluid pressure at the boundaries as "
-                                                     "calculated in the analytical solution. ")
+  ASPECT_REGISTER_BOUNDARY_FLUID_PRESSURE_MODEL(PressureBdry,
+                                                "PressureBdry",
+                                                "A fluid pressure boundary condition that prescribes the "
+                                                "gradient of the fluid pressure at the boundaries as "
+                                                "calculated in the analytical solution. ")
 
 }
 

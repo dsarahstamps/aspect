@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2014 by the authors of the ASPECT code.
+  Copyright (C) 2014 - 2019 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,7 +14,7 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
@@ -55,26 +55,18 @@ namespace aspect
         public:
           MaterialProperties ();
 
-          virtual
           std::vector<std::string>
-          get_names () const;
+          get_names () const override;
 
-          virtual
           std::vector<DataComponentInterpretation::DataComponentInterpretation>
-          get_data_component_interpretation () const;
+          get_data_component_interpretation () const override;
 
-          virtual
           UpdateFlags
-          get_needed_update_flags () const;
+          get_needed_update_flags () const override;
 
-          virtual
           void
-          compute_derived_quantities_vector (const std::vector<Vector<double> >              &solution_values,
-                                             const std::vector<std::vector<Tensor<1,dim> > > &solution_gradients,
-                                             const std::vector<std::vector<Tensor<2,dim> > > &solution_hessians,
-                                             const std::vector<Point<dim> >                  &normals,
-                                             const std::vector<Point<dim> >                  &evaluation_points,
-                                             std::vector<Vector<double> >                    &computed_quantities) const;
+          evaluate_vector_field(const DataPostprocessorInputs::Vector<dim> &input_data,
+                                std::vector<Vector<double> > &computed_quantities) const override;
 
 
           /**
@@ -87,9 +79,8 @@ namespace aspect
           /**
            * Read the parameters this class declares from the parameter file.
            */
-          virtual
           void
-          parse_parameters (ParameterHandler &prm);
+          parse_parameters (ParameterHandler &prm) override;
 
         private:
           std::vector<std::string> property_names;

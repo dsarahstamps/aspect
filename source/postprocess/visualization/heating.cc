@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2015 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2019 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,12 +14,14 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
 
 #include <aspect/postprocess/visualization/heating.h>
+#include <aspect/heating_model/interface.h>
+#include <aspect/adiabatic_conditions/interface.h>
 #include <deal.II/base/utilities.h>
 #include <deal.II/grid/grid_tools.h>
 
@@ -68,21 +70,17 @@ namespace aspect
       Heating<dim>::
       get_needed_update_flags () const
       {
-        return update_gradients | update_values  | update_q_points;
+        return update_gradients | update_values  | update_quadrature_points | update_JxW_values;
       }
 
       template <int dim>
       void
       Heating<dim>::
-      compute_derived_quantities_vector (const std::vector<Vector<double> >              &solution_values,
-                                         const std::vector<std::vector<Tensor<1,dim> > > &solution_gradients,
-                                         const std::vector<std::vector<Tensor<2,dim> > > &,
-                                         const std::vector<Point<dim> > &,
-                                         const std::vector<Point<dim> >                  &evaluation_points,
-                                         std::vector<Vector<double> >                    &computed_quantities) const
+      evaluate_vector_field(const DataPostprocessorInputs::Vector<dim> &input_data,
+                            std::vector<Vector<double> > &computed_quantities) const
       {
-        const unsigned int n_quadrature_points = solution_values.size();
-        const std::list<std_cxx11::shared_ptr<HeatingModel::Interface<dim> > > &heating_model_objects = this->get_heating_model_manager().get_active_heating_models();
+        const unsigned int n_quadrature_points = input_data.solution_values.size();
+        const auto &heating_model_objects = this->get_heating_model_manager().get_active_heating_models();
 
         // we do not want to write any output if there are no heating models
         // used in the computation
@@ -94,54 +92,39 @@ namespace aspect
                            "postprocessor (" + dealii::Utilities::int_to_string(computed_quantities.size()) + ") has to match the "
                            "number of quadrature points (" + dealii::Utilities::int_to_string(n_quadrature_points) + ")!"));
         Assert (computed_quantities[0].size() == heating_model_objects.size(), ExcInternalError());
-        Assert (solution_values[0].size() == this->introspection().n_components, ExcInternalError());
+        Assert (input_data.solution_values[0].size() == this->introspection().n_components, ExcInternalError());
 
-        MaterialModel::MaterialModelInputs<dim> in(n_quadrature_points, this->n_compositional_fields());
+        MaterialModel::MaterialModelInputs<dim> in(input_data, this->introspection());
         MaterialModel::MaterialModelOutputs<dim> out(n_quadrature_points, this->n_compositional_fields());
 
         std::vector<std::vector<double> > composition_values (this->n_compositional_fields(),std::vector<double> (n_quadrature_points));
 
+        this->get_heating_model_manager().create_additional_material_model_inputs_and_outputs(in, out);
         HeatingModel::HeatingModelOutputs heating_model_outputs(n_quadrature_points, this->n_compositional_fields());
 
         // we need the cell as input for the material model because some heating models
         // want to access the solution vector.
-        // To find the cell, we find a point in the middle of the cell by averaging over the quadrature points.
-        Point<dim> mid_point;
+        in.current_cell = input_data.template get_cell<DoFHandler<dim> > ();
+
+        // we need an fevalues object to get the melt velocities
+        std::vector<Point<dim> > quadrature_points(n_quadrature_points);
         for (unsigned int q=0; q<n_quadrature_points; ++q)
-          {
-            Tensor<2,dim> grad_u;
-            for (unsigned int d=0; d<dim; ++d)
-              grad_u[d] = solution_gradients[q][d];
-            in.strain_rate[q] = symmetrize (grad_u);
+          quadrature_points[q] = this->get_mapping().transform_real_to_unit_cell(in.current_cell,input_data.evaluation_points[q]);
 
-            in.temperature[q] = solution_values[q][this->introspection().component_indices.temperature];
-            in.pressure[q]    = solution_values[q][this->introspection().component_indices.pressure];
+        const Quadrature<dim> quadrature_formula (quadrature_points);
+        FEValues<dim> fe_values (this->get_mapping(),
+                                 this->get_fe(),
+                                 quadrature_formula,
+                                 update_values   |
+                                 update_gradients |
+                                 update_quadrature_points |
+                                 update_JxW_values);
 
-            for (unsigned int d = 0; d < dim; ++d)
-              {
-                in.velocity[q][d]=solution_values[q][this->introspection().component_indices.velocities[d]];
-                in.pressure_gradient[q][d] = solution_gradients[q][this->introspection().component_indices.pressure][d];
-              }
-
-            for (unsigned int c=0; c<this->n_compositional_fields(); ++c)
-              in.composition[q][c] = solution_values[q][this->introspection().component_indices.compositional_fields[c]];
-
-            mid_point += evaluation_points[q]/n_quadrature_points;
-          }
-
-        in.position = evaluation_points;
-
-        typename DoFHandler<dim>::active_cell_iterator cell;
-        cell = (GridTools::find_active_cell_around_point<> (this->get_mapping(), this->get_dof_handler(), mid_point)).first;
-        in.cell = &cell;
-
-        for (typename std::list<std_cxx11::shared_ptr<HeatingModel::Interface<dim> > >::const_iterator
-             heating_model = heating_model_objects.begin();
-             heating_model != heating_model_objects.end(); ++heating_model)
-          {
-            (*heating_model)->create_additional_material_model_outputs(out);
-          }
-
+        fe_values.reinit(in.current_cell);
+        this->get_material_model().fill_additional_material_model_inputs(in,
+                                                                         this->get_solution(),
+                                                                         fe_values,
+                                                                         this->introspection());
         this->get_material_model().evaluate(in, out);
 
         if (this->get_parameters().formulation_temperature_equation
@@ -161,7 +144,7 @@ namespace aspect
           AssertThrow(false, ExcNotImplemented());
 
         unsigned int index = 0;
-        for (typename std::list<std_cxx11::shared_ptr<HeatingModel::Interface<dim> > >::const_iterator
+        for (typename std::list<std::unique_ptr<HeatingModel::Interface<dim> > >::const_iterator
              heating_model = heating_model_objects.begin();
              heating_model != heating_model_objects.end(); ++heating_model, ++index)
           {

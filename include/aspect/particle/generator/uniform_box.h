@@ -1,5 +1,5 @@
 /*
- Copyright (C) 2015 by the authors of the ASPECT code.
+ Copyright (C) 2015 - 2019 by the authors of the ASPECT code.
 
  This file is part of ASPECT.
 
@@ -14,7 +14,7 @@
  GNU General Public License for more details.
 
  You should have received a copy of the GNU General Public License
- along with ASPECT; see the file doc/COPYING.  If not see
+ along with ASPECT; see the file LICENSE.  If not see
  <http://www.gnu.org/licenses/>.
  */
 
@@ -34,7 +34,7 @@ namespace aspect
        * model domain. Uniform here means the particles will be generated with
        * an equal spacing in each spatial dimension. Note that in order
        * to produce a regular distribution the number of generated
-       * tracers might not exactly match the one specified in the
+       * particles might not exactly match the one specified in the
        * input file.
        *
        * @ingroup ParticleGenerators
@@ -50,9 +50,8 @@ namespace aspect
            * @param [in,out] particles A multimap between cells and their
            * particles. This map will be filled in this function.
            */
-          virtual
           void
-          generate_particles(std::multimap<types::LevelInd, Particle<dim> > &particles);
+          generate_particles(std::multimap<Particles::internal::LevelInd, Particle<dim> > &particles) override;
 
           /**
            * Declare the parameters this class takes through input files.
@@ -64,25 +63,24 @@ namespace aspect
           /**
            * Read the parameters this class declares from the parameter file.
            */
-          virtual
           void
-          parse_parameters (ParameterHandler &prm);
+          parse_parameters (ParameterHandler &prm) override;
 
         private:
           /**
            * Number of initial particles to create.
            */
-          types::particle_index n_tracers;
+          types::particle_index n_particles;
 
           /**
-           * The minimum coordinates of the tracer region, i.e. one corner of
-           * the n-dimensional box region in which tracers are generated.
+           * The minimum coordinates of the particle region, i.e. one corner of
+           * the n-dimensional box region in which particles are generated.
            */
           Point<dim> P_min;
 
           /**
-           * The maximum coordinates of the tracer region, i.e. the opposite
-           * corner of the n-dimensional box region in which tracers are
+           * The maximum coordinates of the particle region, i.e. the opposite
+           * corner of the n-dimensional box region in which particles are
            * generated.
            */
           Point<dim> P_max;

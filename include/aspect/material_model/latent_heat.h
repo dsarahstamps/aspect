@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2013 by the authors of the ASPECT code.
+  Copyright (C) 2013 - 2019 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -14,7 +14,7 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with ASPECT; see the file doc/COPYING.  If not see
+  along with ASPECT; see the file LICENSE.  If not see
   <http://www.gnu.org/licenses/>.
 */
 
@@ -36,7 +36,7 @@ namespace aspect
      * is calculated as $Delta S = \gamma \frac{\Delta\rho}{\rho^2}$ with the
      * Clapeyron slope $\gamma$ and the density change $\Delta\rho$ of the
      * phase transition being input parameters. This model employs an analytic
-     * phase function in the form $X=0.5 \left( 1 + \tanh \left( \frac{\Delta
+     * phase function in the form $X=\frac{1}{2} \left( 1 + \tanh \left( \frac{\Delta
      * p}{\Delta p_0} \right) \right)$ with $\Delta p = p - p_transition -
      * \gamma \left( T - T_transition \right)$ and $\Delta p_0$ being the
      * pressure difference over the width of the phase transition (specified
@@ -52,8 +52,8 @@ namespace aspect
         /**
          * Evaluate material properties.
          */
-        virtual void evaluate(const MaterialModelInputs<dim> &in,
-                              MaterialModelOutputs<dim> &out) const;
+        void evaluate(const MaterialModelInputs<dim> &in,
+                      MaterialModelOutputs<dim> &out) const override;
 
         /**
          * @name Qualitative properties one can ask a material model
@@ -68,7 +68,7 @@ namespace aspect
          * equation as $\nabla \cdot (\rho \mathbf u)=0$ (compressible Stokes)
          * or as $\nabla \cdot \mathbf{u}=0$ (incompressible Stokes).
          */
-        virtual bool is_compressible () const;
+        bool is_compressible () const override;
         /**
          * @}
          */
@@ -77,20 +77,10 @@ namespace aspect
          * @name Reference quantities
          * @{
          */
-        virtual double reference_viscosity () const;
-
-        virtual double reference_density () const;
-
-        virtual double reference_thermal_expansion_coefficient () const;
-
-//TODO: should we make this a virtual function as well? where is it used?
-        double reference_thermal_diffusivity () const;
-
-        double reference_cp () const;
+        double reference_viscosity () const override;
         /**
          * @}
          */
-
 
         /**
          * @name Functions used in dealing with run-time parameters
@@ -106,15 +96,13 @@ namespace aspect
         /**
          * Read the parameters this class declares from the parameter file.
          */
-        virtual
         void
-        parse_parameters (ParameterHandler &prm);
+        parse_parameters (ParameterHandler &prm) override;
         /**
          * @}
          */
 
       private:
-        bool use_depth;
         double reference_rho;
         double reference_T;
         double eta;
@@ -123,6 +111,8 @@ namespace aspect
         double thermal_alpha;
         double reference_specific_heat;
         double reference_compressibility;
+        double max_viscosity;
+        double min_viscosity;
 
         /**
          * The thermal conductivity.
@@ -131,40 +121,13 @@ namespace aspect
 
         double compositional_delta_rho;
 
-        /**
-         * Percentage of material that has already undergone the phase
-         * transition to the higher-pressure material (this is done
-         * individually for each transition and summed up in the end)
-         */
-        virtual
-        double
-        phase_function (const Point<dim> &position,
-                        const double temperature,
-                        const double pressure,
-                        const int phase) const;
-
-        /**
-         * Derivative of the phase function (argument is the pressure
-         * deviation).
-         */
-        virtual
-        double
-        phase_function_derivative (const Point<dim> &position,
-                                   const double temperature,
-                                   const double pressure,
-                                   const int phase) const;
-
         // list of depth (or pressure), width and Clapeyron slopes
         // for the different phase transitions
-        std::vector<double> transition_depths;
-        std::vector<double> transition_pressures;
-        std::vector<double> transition_temperatures;
-        std::vector<double> transition_widths;
-        std::vector<double> transition_pressure_widths;
-        std::vector<double> transition_slopes;
         std::vector<double> density_jumps;
         std::vector<int> transition_phases;
         std::vector<double> phase_prefactors;
+
+        MaterialUtilities::PhaseFunction<dim> phase_function;
     };
 
   }
