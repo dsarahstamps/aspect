@@ -50,7 +50,7 @@ namespace aspect
          * The main execute() function.
          */
         virtual
-        std::pair<Reaction, double>
+        double
         execute() override;
 
         static
