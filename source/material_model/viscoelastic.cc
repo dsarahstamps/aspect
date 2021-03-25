@@ -49,7 +49,7 @@ namespace aspect
       for (unsigned int i=0; i < in.n_evaluation_points(); ++i)
         {
           const std::vector<double> composition = in.composition[i];
-          const std::vector<double> volume_fractions = MaterialUtilities::compute_volume_fractions(composition, composition_mask);
+          const std::vector<double> volume_fractions = MaterialUtilities::compute_composition_fractions(composition, composition_mask);
 
           equation_of_state.evaluate(in, i, eos_outputs);
 
@@ -240,9 +240,9 @@ namespace aspect
                                    "The overview below directly follows Moresi et al. (2003) eqns. 23-32. "
                                    "However, an important distinction between this material model and "
                                    "the studies above is the use of compositional fields, rather than "
-                                   "tracers, to track individual components of the viscoelastic stress "
+                                   "particles, to track individual components of the viscoelastic stress "
                                    "tensor. The material model will be updated when an option to track "
-                                   "and calculate viscoelastic stresses with tracers is implemented. "
+                                   "and calculate viscoelastic stresses with particles is implemented. "
                                    "\n\n "
                                    "Moresi et al. (2003) begins (eqn. 23) by writing the deviatoric "
                                    "rate of deformation ($\\hat{D}$) as the sum of elastic "

@@ -24,6 +24,7 @@
 #include <aspect/compat.h>
 #include <aspect/geometry_model/box.h>
 #include <aspect/geometry_model/two_merged_boxes.h>
+#include <aspect/geometry_model/spherical_shell.h>
 #include <aspect/citation_info.h>
 
 #include <deal.II/base/quadrature_lib.h>
@@ -101,12 +102,15 @@ namespace aspect
       return *property_manager;
     }
 
+
+
     template <int dim>
     const Particles::ParticleHandler<dim> &
     World<dim>::get_particle_handler() const
     {
       return *particle_handler.get();
     }
+
 
 
     template <int dim>
@@ -117,6 +121,9 @@ namespace aspect
       {
         TimerOutput::Scope timer_section(this->get_computing_timer(), "Particles: Copy");
 
+#if DEAL_II_VERSION_GTE(9,3,0)
+        to_particle_handler.copy_from(from_particle_handler);
+#else
         // initialize to_particle_handler
         const unsigned int n_properties = property_manager->get_n_property_components();
         to_particle_handler.clear();
@@ -134,10 +141,8 @@ namespace aspect
                                                    particle.get_reference_location(),
                                                    particle.get_id());
 
-#if !DEAL_II_VERSION_GTE(9,3,0)
             new_particle.set_property_pool(to_particle_handler.get_property_pool());
             new_particle.set_properties(particle.get_properties());
-#endif
 
 #ifdef DEAL_II_WITH_CXX14
             new_particles.emplace_hint(new_particles.end(),
@@ -149,26 +154,36 @@ namespace aspect
                                                 std::move(new_particle)));
 #endif
           }
-
         to_particle_handler.insert_particles(new_particles);
-
-#if DEAL_II_VERSION_GTE(9,3,0)
-        auto from_particle = from_particle_handler.begin();
-        for (auto &particle : to_particle_handler)
-          {
-            particle.set_properties(from_particle->get_properties());
-            ++from_particle;
-          }
 #endif
-
       }
 
+#if !DEAL_II_VERSION_GTE(9,3,0)
       if (update_ghost_particles &&
           dealii::Utilities::MPI::n_mpi_processes(this->get_mpi_communicator()) > 1)
         {
           TimerOutput::Scope timer_section(this->get_computing_timer(), "Particles: Exchange ghosts");
           to_particle_handler.exchange_ghost_particles();
         }
+#endif
+    }
+
+
+
+    template <int dim>
+    void
+    World<dim>::backup_particles ()
+    {
+      copy_particle_handler (*particle_handler.get(), particle_handler_backup);
+    }
+
+
+
+    template <int dim>
+    void
+    World<dim>::restore_particles ()
+    {
+      copy_particle_handler (particle_handler_backup, *particle_handler.get());
     }
 
 
@@ -188,6 +203,7 @@ namespace aspect
     {
       return particle_handler->n_global_particles();
     }
+
 
 
     template <int dim>
@@ -256,6 +272,13 @@ namespace aspect
           signals.post_refinement_load_user_data.connect(lambda);
           signals.post_resume_load_user_data.connect(lambda);
         }
+
+      signals.post_mesh_deformation.connect(
+        [&] (const SimulatorAccess<dim> &)
+      {
+        particle_handler->sort_particles_into_subdomains_and_cells();
+      },
+      boost::signals2::at_front);
     }
 
 
@@ -440,8 +463,6 @@ namespace aspect
 
           if (periodic_boundaries.size() != 0)
             {
-              const std::map<types::subdomain_id, unsigned int> subdomain_to_neighbor_map(get_subdomain_id_to_neighbor_map());
-
               std::vector<bool> periodic(dim,false);
               std::set< std::pair< std::pair<types::boundary_id, types::boundary_id>, unsigned int> >::const_iterator boundary =
                 periodic_boundaries.begin();
@@ -479,8 +500,6 @@ namespace aspect
 
           if (periodic_boundaries.size() != 0)
             {
-              const std::map<types::subdomain_id, unsigned int> subdomain_to_neighbor_map(get_subdomain_id_to_neighbor_map());
-
               std::vector<bool> periodic(dim,false);
               std::set< std::pair< std::pair<types::boundary_id, types::boundary_id>, unsigned int> >::const_iterator boundary =
                 periodic_boundaries.begin();
@@ -506,11 +525,53 @@ namespace aspect
                 }
             }
         }
+      else if (Plugins::plugin_type_matches<const GeometryModel::SphericalShell<dim>> (this->get_geometry_model()))
+        {
+          const GeometryModel::SphericalShell<dim> &geometry
+            = Plugins::get_plugin_as_type<const GeometryModel::SphericalShell<dim>>(this->get_geometry_model());
+
+          const auto &periodic_boundaries = geometry.get_periodic_boundary_pairs();
+
+          if (periodic_boundaries.size() != 0)
+            {
+              AssertThrow(dim == 2,
+                          ExcMessage("Periodic boundaries combined with particles currently "
+                                     "only work with 2D spherical shell."));
+              AssertThrow(geometry.opening_angle() == 90,
+                          ExcMessage("Periodic boundaries combined with particles currently "
+                                     "only work with 90 degree opening angle in spherical shell."));
+
+              typename ParticleHandler<dim>::particle_iterator particle = particle_handler->begin();
+              for (; particle != particle_handler->end(); ++particle)
+                {
+                  // modify the particle position if it crossed a periodic boundary
+                  Point<dim> particle_position = particle->get_location();
+
+                  if (particle_position[0] < 0.)
+                    {
+                      const double temp = particle_position[0];
+                      particle_position[0] = particle_position[1];
+                      particle_position[1] = -temp;
+                    }
+                  else if (particle_position[1] < 0.)
+                    {
+                      const double temp = particle_position[0];
+                      particle_position[0] = -particle_position[1];
+                      particle_position[1] = temp;
+                    }
+                  else
+                    continue;
+
+                  particle->set_location(particle_position);
+                }
+            }
+
+        }
       else
         {
           AssertThrow(this->get_geometry_model().get_periodic_boundary_pairs().size() == 0,
                       ExcMessage("Periodic boundaries combined with particles currently "
-                                 "only work with box and two merged boxes geometry models."));
+                                 "only work with box, two merged boxes, and spherical shell geometry models."));
         }
     }
 
@@ -619,7 +680,7 @@ namespace aspect
                 = this->get_fe().component_to_system_index(this->introspection()
                                                            .component_indices.velocities[dir],j);
 
-              velocity_at_support_point[dir] = this->get_solution()[cell_dof_indices[support_point_index]];
+              velocity_at_support_point[dir] = this->get_current_linearization_point()[cell_dof_indices[support_point_index]];
               old_velocity_at_support_point[dir] = this->get_old_solution()[cell_dof_indices[support_point_index]];
             }
 
@@ -926,13 +987,6 @@ namespace aspect
                              "in this case particles can move more than one cell "
                              "diameter in one time step and therefore skip the layer "
                              "of ghost cells around the local subdomain."));
-
-      AssertThrow(!this->get_parameters().mesh_deformation_enabled,
-                  ExcMessage("Combining particles and a deforming mesh is currently untested "
-                             "and not officially supported. If you disable this assertion make "
-                             "sure you benchmark the particle accuracy, and carefully check for "
-                             "problems related to storing the particle reference coordinates for "
-                             "a deforming mesh."));
 
       prm.enter_subsection("Postprocess");
       {

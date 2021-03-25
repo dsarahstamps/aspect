@@ -1,7 +1,7 @@
 set Additional shared libraries            = ./libdrucker_prager_compositions.so
 
 set Use years in output instead of seconds = false  # default: true
-set Nonlinear solver scheme                = Newton Stokes
+set Nonlinear solver scheme                = iterated Advection and Newton Stokes
 set Max nonlinear iterations               = 150
 set Nonlinear solver tolerance             = 1e-14
 set Pressure normalization                 = no
@@ -10,11 +10,11 @@ subsection Solver parameters
   subsection Stokes solver parameters
     set Number of cheap Stokes solver steps = 0
     set Linear solver tolerance             = 1e-5
-  end 
+  end
   subsection Newton solver parameters
     set Max pre-Newton nonlinear iterations      = 5
     set SPD safety factor                        = 0.9
-    set Nonlinear Newton solver switch tolerance = 1e-20 #  
+    set Nonlinear Newton solver switch tolerance = 1e-20 #
     set Max Newton line search iterations        = 0
     set Maximum linear Stokes solver tolerance   = 9e-1
     set Use Newton residual scaling method       = false
@@ -25,7 +25,7 @@ subsection Solver parameters
 end
 
 subsection Boundary temperature model
-  set Model name = box
+  set List of model names = box
 end
 
 
@@ -38,8 +38,8 @@ end
    subsection Function
     set Variable names      = x,z
     set Function constants  = H = 30e3
-    # The function below lays out the composition structure as described in the Spiegelman paper. 
-    # It generates a composition at the bottom wich has a square with round eges sticking out in 
+    # The function below lays out the composition structure as described in the Spiegelman paper.
+    # It generates a composition at the bottom wich has a square with round eges sticking out in
     # the center.
     set Function expression = if(z < 0.25 * H,1, \
 if(z < (0.25+(1/12)-0.02)*H & x > (2-(1/12))*H & x < (2+(1/12))*H,1, \
@@ -140,4 +140,3 @@ subsection Postprocess
     set Interpolate output       = false
   end
 end
-

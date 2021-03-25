@@ -112,9 +112,15 @@ namespace aspect
                        "On the other hand, for non-dimensional computations, one wants "
                        "results in their natural unit system as used inside the code. "
                        "If this flag is set to `true' conversion to years happens; if "
-                       "it is `false', no such conversion happens. Note that when `true', "
-                       "some input such as prescribed velocities should also use years "
-                       "instead of seconds.");
+                       "it is `false', no such conversion happens."
+                       "\n\n"
+                       "Contrary to the word ``output'' in the name of this parameter, "
+                       "a number of plugins also use this parameter to determine "
+                       "how to interpret their \\textit{inputs}. For example, when `true', "
+                       "several of the boundary velocity models described in Section~"
+                       "\\ref{parameters:Boundary_20velocity_20model} interpret both "
+                       "specific times in years instead of seconds, and velocities in "
+                       "meters per year instead of meters per second.");
 
     prm.declare_entry ("CFL number", "1.0",
                        Patterns::Double (0.),
@@ -217,6 +223,17 @@ namespace aspect
                        "the temperature and composition equations once at the beginning of each time step and "
                        "then iterates out the solution of the Stokes equation, using Newton iterations for the "
                        "Stokes system. "
+                       "The `iterated Advection and defect correction Stokes' scheme iterates by alternating the "
+                       "solution of the temperature, composition and Stokes equations, using Picard iterations for "
+                       "the temperature and composition, and defect correction Picard iterations for the Stokes system. "
+                       "The `single Advection, iterated defect correction Stokes' scheme solves "
+                       "the temperature and composition equations once at the beginning of each time step and "
+                       "then iterates out the solution of the Stokes equation, using defect correction Picard "
+                       "iterations for the Stokes system. "
+                       "The `no Advection, iterated defect correction Stokes' scheme solves "
+                       "the temperature and composition equations once at the beginning of each time step and "
+                       "then iterates out the solution of the Stokes equation, using defect correction Picard "
+                       "iterations for the Stokes system. "
                        "The `first timestep only, single Stokes' scheme solves the Stokes equations exactly "
                        "once, at the first time step. No nonlinear iterations are done, and the temperature and "
                        "composition systems are not solved. "
@@ -524,7 +541,7 @@ namespace aspect
                            Patterns::Double (0.),
                            "Set a time step size for computing reactions of compositional fields and the "
                            "temperature field in case operator splitting is used. This is only used "
-                           "when the nonlinear solver scheme ``operator splitting'' is selected. "
+                           "when the parameter ``Use operator splitting'' is set to true. "
                            "The reaction time step must be greater than 0. "
                            "If you want to prescribe the reaction time step only as a relative value "
                            "compared to the advection time step as opposed to as an absolute value, you "
@@ -537,8 +554,8 @@ namespace aspect
         prm.declare_entry ("Reaction time steps per advection step", "0",
                            Patterns::Integer (0),
                            "The number of reaction time steps done within one advection time step "
-                           "in case operator splitting is used. This is only used if the nonlinear "
-                           "solver scheme ``operator splitting'' is selected. If set to zero, this "
+                           "in case operator splitting is used. This is only used if the parameter "
+                           "``Use operator splitting'' is set to true. If set to zero, this "
                            "parameter is ignored. Otherwise, the reaction time step size is chosen according to "
                            "this criterion and the ``Reaction time step'', whichever yields the "
                            "smaller time step. "
@@ -718,12 +735,14 @@ namespace aspect
     {
       prm.declare_entry ("Remove nullspace", "",
                          Patterns::MultipleSelection("net rotation|angular momentum|"
+                                                     "net surface rotation|"
                                                      "net translation|linear momentum|"
                                                      "net x translation|net y translation|net z translation|"
                                                      "linear x momentum|linear y momentum|linear z momentum"),
                          "Choose none, one or several from "
                          "\n\n"
                          "\\begin{itemize} \\item net rotation \\item angular momentum \\item net translation "
+                         "\\item net surface rotation"
                          "\\item linear momentum \\item net x translation \\item net y translation "
                          "\\item net z translation \\item linear x momentum \\item linear y momentum "
                          "\\item linear z momentum \\end{itemize}"
@@ -737,7 +756,8 @@ namespace aspect
                          "The ``angular momentum'' option removes a rotation such that the net angular momentum "
                          "is zero. The ``linear * momentum'' options remove translations such that the net "
                          "momentum in the relevant direction is zero.  The ``net rotation'' option removes the "
-                         "net rotation of the domain, and the ``net * translation'' options remove the "
+                         "net rotation of the whole domain, the ``net surface rotation'' option removes the net "
+                         "rotation of the top surface, and the ``net * translation'' options remove the "
                          "net translations in the relevant directions.  For most problems there should not be a "
                          "significant difference between the momentum and rotation/translation versions of "
                          "nullspace removal, although the momentum versions are more physically motivated. "
@@ -1268,15 +1288,6 @@ namespace aspect
     }
     prm.leave_subsection ();
 
-    prm.enter_subsection ("Volume of Fluid");
-    {
-      prm.declare_entry ("Enable interface tracking", "false",
-                         Patterns::Bool (),
-                         "When set to true, Volume of Fluid interface tracking will be used");
-    }
-    prm.leave_subsection ();
-
-    // declare the VolumeOfFluid parameters
     VolumeOfFluidHandler<dim>::declare_parameters(prm);
 
     // then, finally, let user additions that do not go through the usual
@@ -1554,6 +1565,9 @@ namespace aspect
           if (nullspace_names[i]=="net rotation")
             nullspace_removal = typename NullspaceRemoval::Kind(
                                   nullspace_removal | NullspaceRemoval::net_rotation);
+          else if (nullspace_names[i]=="net surface rotation")
+            nullspace_removal = typename NullspaceRemoval::Kind(
+                                  nullspace_removal | NullspaceRemoval::net_surface_rotation);
           else if (nullspace_names[i]=="angular momentum")
             nullspace_removal = typename NullspaceRemoval::Kind(
                                   nullspace_removal | NullspaceRemoval::angular_momentum);
@@ -1627,9 +1641,9 @@ namespace aspect
       use_discontinuous_composition_discretization
         = prm.get_bool("Use discontinuous composition discretization");
 
-      Assert(use_discontinuous_composition_discretization == true || composition_degree > 0,
-             ExcMessage("Using a composition polynomial degree of 0 (cell-wise constant composition) "
-                        "is only supported if a discontinuous composition discretization is selected."));
+      AssertThrow(use_discontinuous_composition_discretization == true || composition_degree > 0,
+                  ExcMessage("Using a composition polynomial degree of 0 (cell-wise constant composition) "
+                             "is only supported if a discontinuous composition discretization is selected."));
 
       prm.enter_subsection ("Stabilization parameters");
       {
@@ -1730,19 +1744,19 @@ namespace aspect
       // check that the names use only allowed characters, are not empty strings and are unique
       for (unsigned int i=0; i<names_of_compositional_fields.size(); ++i)
         {
-          Assert (names_of_compositional_fields[i].find_first_not_of("abcdefghijklmnopqrstuvwxyz"
-                                                                     "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                                                                     "0123456789_") == std::string::npos,
-                  ExcMessage("Invalid character in field " + names_of_compositional_fields[i] + ". "
-                             "Names of compositional fields should consist of a "
-                             "combination of letters, numbers and underscores."));
-          Assert (names_of_compositional_fields[i].size() > 0,
-                  ExcMessage("Invalid name of field " + names_of_compositional_fields[i] + ". "
-                             "Names of compositional fields need to be non-empty."));
+          AssertThrow (names_of_compositional_fields[i].find_first_not_of("abcdefghijklmnopqrstuvwxyz"
+                                                                          "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                                                          "0123456789_") == std::string::npos,
+                       ExcMessage("Invalid character in field " + names_of_compositional_fields[i] + ". "
+                                  "Names of compositional fields should consist of a "
+                                  "combination of letters, numbers and underscores."));
+          AssertThrow (names_of_compositional_fields[i].size() > 0,
+                       ExcMessage("Invalid name of field " + names_of_compositional_fields[i] + ". "
+                                  "Names of compositional fields need to be non-empty."));
           for (unsigned int j=0; j<i; ++j)
-            Assert (names_of_compositional_fields[i] != names_of_compositional_fields[j],
-                    ExcMessage("Names of compositional fields have to be unique! " + names_of_compositional_fields[i] +
-                               " is used more than once."));
+            AssertThrow (names_of_compositional_fields[i] != names_of_compositional_fields[j],
+                         ExcMessage("Names of compositional fields have to be unique! " + names_of_compositional_fields[i] +
+                                    " is used more than once."));
         }
 
       // default names if list is empty

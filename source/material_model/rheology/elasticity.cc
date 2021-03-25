@@ -135,32 +135,32 @@ namespace aspect
 
         // Check whether the compositional fields representing the viscoelastic
         // stress tensor are both named correctly and listed in the right order.
-        AssertThrow(this->introspection().compositional_index_for_name("stress_xx") == 0,
+        AssertThrow(this->introspection().compositional_index_for_name("ve_stress_xx") == 0,
                     ExcMessage("Rheology model Elasticity only works if the first "
-                               "compositional field is called stress_xx."));
-        AssertThrow(this->introspection().compositional_index_for_name("stress_yy") == 1,
+                               "compositional field is called ve_stress_xx."));
+        AssertThrow(this->introspection().compositional_index_for_name("ve_stress_yy") == 1,
                     ExcMessage("Rheology model Elasticity only works if the second "
-                               "compositional field is called stress_yy."));
+                               "compositional field is called ve_stress_yy."));
         if (dim == 2)
           {
-            AssertThrow(this->introspection().compositional_index_for_name("stress_xy") == 2,
+            AssertThrow(this->introspection().compositional_index_for_name("ve_stress_xy") == 2,
                         ExcMessage("Rheology model Elasticity only works if the third "
-                                   "compositional field is called stress_xy."));
+                                   "compositional field is called ve_stress_xy."));
           }
         else if (dim == 3)
           {
-            AssertThrow(this->introspection().compositional_index_for_name("stress_zz") == 2,
+            AssertThrow(this->introspection().compositional_index_for_name("ve_stress_zz") == 2,
                         ExcMessage("Rheology model Elasticity only works if the third "
-                                   "compositional field is called stress_zz."));
-            AssertThrow(this->introspection().compositional_index_for_name("stress_xy") == 3,
+                                   "compositional field is called ve_stress_zz."));
+            AssertThrow(this->introspection().compositional_index_for_name("ve_stress_xy") == 3,
                         ExcMessage("Rheology model Elasticity only works if the fourth "
-                                   "compositional field is called stress_xy."));
-            AssertThrow(this->introspection().compositional_index_for_name("stress_xz") == 4,
+                                   "compositional field is called ve_stress_xy."));
+            AssertThrow(this->introspection().compositional_index_for_name("ve_stress_xz") == 4,
                         ExcMessage("Rheology model Elasticity only works if the fifth "
-                                   "compositional field is called stress_xz."));
-            AssertThrow(this->introspection().compositional_index_for_name("stress_yz") == 5,
+                                   "compositional field is called ve_stress_xz."));
+            AssertThrow(this->introspection().compositional_index_for_name("ve_stress_yz") == 5,
                         ExcMessage("Rheology model Elasticity only works if the sixth "
-                                   "compositional field is called stress_yz."));
+                                   "compositional field is called ve_stress_yz."));
           }
         else
           AssertThrow(false, ExcNotImplemented());
@@ -176,10 +176,15 @@ namespace aspect
                      Parameters<dim>::NonlinearSolver::single_Advection_iterated_Stokes
                      ||
                      this->get_parameters().nonlinear_solver ==
-                     Parameters<dim>::NonlinearSolver::single_Advection_iterated_Newton_Stokes),
+                     Parameters<dim>::NonlinearSolver::single_Advection_iterated_Newton_Stokes
+                     ||
+                     this->get_parameters().nonlinear_solver ==
+                     Parameters<dim>::NonlinearSolver::single_Advection_iterated_defect_correction_Stokes),
                     ExcMessage("The material model will only work with the nonlinear "
-                               "solver schemes 'single Advection, single Stokes' and "
-                               "'single Advection, iterated Stokes'"));
+                               "solver schemes 'single Advection, single Stokes', "
+                               "'single Advection, iterated Stokes', "
+                               "'single Advection, iterated Newton Stokes', and "
+                               "'single Advection, iterated defect correction Stokes' "));
 
         // Functionality to average the additional RHS terms over the cell is not implemented.
         // Consequently, it is only possible to use elasticity with the Material averaging schemes
@@ -358,8 +363,8 @@ namespace aspect
       calculate_viscoelastic_viscosity (const double viscosity,
                                         const double elastic_shear_modulus) const
       {
-        const double dte = elastic_timestep();
-        return ( viscosity * dte ) / ( dte + ( viscosity / elastic_shear_modulus ) );
+        const double elastic_viscosity = elastic_shear_modulus*elastic_timestep();
+        return 1. / (1./elastic_viscosity + 1./viscosity);
       }
 
 
@@ -371,10 +376,14 @@ namespace aspect
                                          const SymmetricTensor<2,dim> &stress,
                                          const double shear_modulus) const
       {
-        const SymmetricTensor<2,dim> edot = 2. * (deviator(strain_rate)) + stress /
-                                            (shear_modulus * elastic_timestep());
+        // The second term in the following expression corresponds to the
+        // elastic part of the strain rate deviator. Note the parallels with the
+        // viscous part of the strain rate deviator,
+        // which is equal to 0.5 * stress / viscosity.
+        const SymmetricTensor<2,dim> edot_deviator = deviator(strain_rate) + 0.5*stress /
+                                                     (shear_modulus * elastic_timestep());
 
-        return std::sqrt(std::fabs(second_invariant(edot)));
+        return std::sqrt(std::fabs(second_invariant(edot_deviator)));
       }
     }
   }

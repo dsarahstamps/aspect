@@ -51,6 +51,7 @@
 
 #include <deal.II/fe/mapping_q.h>
 #include <deal.II/fe/mapping_cartesian.h>
+#include <deal.II/fe/mapping_q_cache.h>
 
 #include <deal.II/numerics/error_estimator.h>
 #include <deal.II/numerics/derivative_approximation.h>
@@ -106,7 +107,7 @@ namespace aspect
                                                  const InitialTopographyModel::Interface<dim> &initial_topography_model)
     {
       if (geometry_model.has_curved_elements())
-        return std_cxx14::make_unique<MappingQ<dim>>(4, true);
+        return std_cxx14::make_unique<MappingQCache<dim>>(4);
       if (Plugins::plugin_type_matches<const InitialTopographyModel::ZeroTopography<dim>>(initial_topography_model))
         return std_cxx14::make_unique<MappingCartesian<dim>>();
 
@@ -142,11 +143,7 @@ namespace aspect
     melt_handler (parameters.include_melt_transport ?
                   std_cxx14::make_unique<MeltHandler<dim>>(prm) :
                   nullptr),
-    newton_handler ((parameters.nonlinear_solver == NonlinearSolver::iterated_Advection_and_Newton_Stokes ||
-                     parameters.nonlinear_solver == NonlinearSolver::single_Advection_iterated_Newton_Stokes ||
-                     parameters.nonlinear_solver == NonlinearSolver::no_Advection_iterated_defect_correction_Stokes ||
-                     parameters.nonlinear_solver == NonlinearSolver::single_Advection_iterated_defect_correction_Stokes ||
-                     parameters.nonlinear_solver == NonlinearSolver::iterated_Advection_and_defect_correction_Stokes) ?
+    newton_handler (Parameters<dim>::is_defect_correction(parameters.nonlinear_solver) ?
                     std_cxx14::make_unique<NewtonHandler<dim>>() :
                     nullptr),
     post_signal_creation(
@@ -233,11 +230,7 @@ namespace aspect
 
     rebuild_stokes_matrix (true),
     assemble_newton_stokes_matrix (true),
-    assemble_newton_stokes_system ((parameters.nonlinear_solver == NonlinearSolver::iterated_Advection_and_Newton_Stokes ||
-                                    parameters.nonlinear_solver == NonlinearSolver::single_Advection_iterated_Newton_Stokes ||
-                                    parameters.nonlinear_solver == NonlinearSolver::no_Advection_iterated_defect_correction_Stokes ||
-                                    parameters.nonlinear_solver == NonlinearSolver::single_Advection_iterated_defect_correction_Stokes ||
-                                    parameters.nonlinear_solver == NonlinearSolver::iterated_Advection_and_defect_correction_Stokes)
+    assemble_newton_stokes_system (Parameters<dim>::is_defect_correction(parameters.nonlinear_solver)
                                    ?
                                    true
                                    :
@@ -389,11 +382,7 @@ namespace aspect
 
     // If the solver type is a Newton or defect correction type of solver, we need to set make sure
     // assemble_newton_stokes_system set to true.
-    if (parameters.nonlinear_solver == NonlinearSolver::iterated_Advection_and_Newton_Stokes ||
-        parameters.nonlinear_solver == NonlinearSolver::single_Advection_iterated_Newton_Stokes ||
-        parameters.nonlinear_solver == NonlinearSolver::no_Advection_iterated_defect_correction_Stokes ||
-        parameters.nonlinear_solver == NonlinearSolver::single_Advection_iterated_defect_correction_Stokes ||
-        parameters.nonlinear_solver == NonlinearSolver::iterated_Advection_and_defect_correction_Stokes)
+    if (Parameters<dim>::is_defect_correction(parameters.nonlinear_solver))
       {
         assemble_newton_stokes_system = true;
         newton_handler->initialize_simulator(*this);
@@ -446,6 +435,10 @@ namespace aspect
 
     geometry_model->create_coarse_mesh (triangulation);
     global_Omega_diameter = GridTools::diameter (triangulation);
+
+    // After creating the coarse mesh, initialize mapping cache if one is used
+    if (MappingQCache<dim> *map = dynamic_cast<MappingQCache<dim>*>(&(*mapping)))
+      map->initialize(triangulation,MappingQGeneric<dim>(4));
 
     for (const auto &p : parameters.prescribed_traction_boundary_indicators)
       {
@@ -1599,12 +1592,13 @@ namespace aspect
       if (parameters.mesh_deformation_enabled)
         x_system.push_back( &mesh_deformation->mesh_velocity );
 
-      std::vector<const LinearAlgebra::Vector *> x_fs_system (2);
+      std::vector<const LinearAlgebra::Vector *> x_fs_system (3);
 
       if (parameters.mesh_deformation_enabled)
         {
           x_fs_system[0] = &mesh_deformation->mesh_displacements;
-          x_fs_system[1] = &mesh_deformation->initial_topography;
+          x_fs_system[1] = &mesh_deformation->old_mesh_displacements;
+          x_fs_system[2] = &mesh_deformation->initial_topography;
           mesh_deformation_trans
             = std_cxx14::make_unique<parallel::distributed::SolutionTransfer<dim,LinearAlgebra::Vector>>
               (mesh_deformation->mesh_deformation_dof_handler);
@@ -1651,6 +1645,8 @@ namespace aspect
         mesh_deformation_trans->prepare_for_coarsening_and_refinement(x_fs_system);
 
       triangulation.execute_coarsening_and_refinement ();
+      if (MappingQCache<dim> *map = dynamic_cast<MappingQCache<dim>*>(&(*mapping)))
+        map->initialize(triangulation,MappingQGeneric<dim>(4));
     } // leave the timed section
 
     setup_dofs ();
@@ -1702,20 +1698,30 @@ namespace aspect
           constraints.distribute (distributed_mesh_velocity);
           mesh_deformation->mesh_velocity = distributed_mesh_velocity;
 
-          LinearAlgebra::Vector distributed_mesh_displacements, distributed_initial_topography;
+          LinearAlgebra::Vector distributed_mesh_displacements,
+                        distributed_old_mesh_displacements,
+                        distributed_initial_topography;
 
           distributed_mesh_displacements.reinit(mesh_deformation->mesh_locally_owned,
                                                 mpi_communicator);
+          distributed_old_mesh_displacements.reinit(mesh_deformation->mesh_locally_owned,
+                                                    mpi_communicator);
           distributed_initial_topography.reinit(mesh_deformation->mesh_locally_owned,
                                                 mpi_communicator);
 
-          std::vector<LinearAlgebra::Vector *> system_tmp (2);
+          std::vector<LinearAlgebra::Vector *> system_tmp (3);
           system_tmp[0] = &distributed_mesh_displacements;
-          system_tmp[1] = &distributed_initial_topography;
+          system_tmp[1] = &distributed_old_mesh_displacements;
+          system_tmp[2] = &distributed_initial_topography;
 
           mesh_deformation_trans->interpolate (system_tmp);
+
           mesh_deformation->mesh_vertex_constraints.distribute (distributed_mesh_displacements);
           mesh_deformation->mesh_displacements = distributed_mesh_displacements;
+
+          mesh_deformation->mesh_vertex_constraints.distribute (distributed_old_mesh_displacements);
+          mesh_deformation->old_mesh_displacements = distributed_old_mesh_displacements;
+
           mesh_deformation->mesh_vertex_constraints.distribute (distributed_initial_topography);
           mesh_deformation->initial_topography = distributed_initial_topography;
         }
@@ -1745,7 +1751,10 @@ namespace aspect
     // mesh_deformation_execute() after the Stokes solve, it will be before we know what the appropriate
     // time step to take is, and we will timestep the boundary incorrectly.
     if (parameters.mesh_deformation_enabled)
-      mesh_deformation->execute ();
+      {
+        mesh_deformation->execute ();
+        signals.post_mesh_deformation(*this);
+      }
 
     // Compute the reactions of compositional fields and temperature in case of operator splitting.
     if (parameters.use_operator_splitting)
@@ -1835,18 +1844,6 @@ namespace aspect
           Assert (false, ExcNotImplemented());
       }
 
-    if (particle_world.get() != nullptr)
-      {
-        // Do not advect the particles in the initial refinement stage
-        const bool in_initial_refinement = (timestep_number == 0)
-                                           && (pre_refinement_step < parameters.initial_adaptive_refinement);
-        if (!in_initial_refinement)
-          // Advance the particles in the world to the current time
-          particle_world->advance_timestep();
-
-        if (particle_world->get_property_manager().need_update() == Particle::Property::update_output_step)
-          particle_world->update_particles();
-      }
     pcout << std::endl;
   }
 
@@ -1897,6 +1894,8 @@ namespace aspect
 
             mesh_refinement_manager.tag_additional_cells ();
             triangulation.execute_coarsening_and_refinement();
+            if (MappingQCache<dim> *map = dynamic_cast<MappingQCache<dim>*>(&(*mapping)))
+              map->initialize(triangulation,MappingQGeneric<dim>(4));
           }
 
         setup_dofs();
@@ -1976,7 +1975,7 @@ namespace aspect
 
         if (time_stepping_manager.should_refine_mesh())
           {
-            pcout << "Refining the mesh based on the time stepping manager ..." << std::endl;
+            pcout << "Refining the mesh based on the time stepping manager ...\n" << std::endl;
             refine_mesh(max_refinement_level);
           }
         else
@@ -1989,6 +1988,9 @@ namespace aspect
             // TODO: We need to make a copy of the particle world and then restore it here.
             AssertThrow(!this->particle_world,
                         ExcNotImplemented("Repeating time steps with particles is currently not supported!"));
+
+            if (mesh_deformation)
+              mesh_deformation->mesh_displacements = mesh_deformation->old_mesh_displacements;
 
             // adjust time and time_step size:
             time = time - time_step + new_time_step_size;

@@ -1080,10 +1080,12 @@ Similarly, we can obtain averaging formulae for the other thermodynamic properti
   C_p &=& \sum_i x_i C_{pi}
 \end{eqnarray}
 
+
+
 \subsection{Dimensional or non-dimensionalized equations?}
 \label{sec:non-dimensional}
 
-Equations \eqref{eq:stokes-1}--\eqref{eq:temperature} are stated in the
+Equations \eqref{eq:stokes-1}--\eqref{eq:temperature} are stated in their
 physically correct form. One would usually interpret them in a way that the
 various coefficients such as the viscosity, density and thermal conductivity
 $\eta,\rho,\kappa$ are given in their correct physical units, typically
@@ -1674,7 +1676,38 @@ considering velocity, pressure and temperature, we will in the following omit
 the dependence on the compositional fields used in previous sections, though
 this dependence can easily be added back into the equations stated below. A
 detailed discussion of the approximations introduced below can also be found in \cite{STO01} and
-\cite{KLKLZTTK10}.
+\cite{KLKLZTTK10}; a theoretical and practical comparison of many of
+these formulations using \aspect{} can be found in
+\cite{gassmoller2020formulations}.
+
+\note{Historically, the mantle convection community has typically used
+  one or another of these simplified formulations for computer simulations
+  -- oftentimes the simplest of them, the Boussinesq Approximation
+  (BA) discussed in Section~\ref{sec:Boussinesq}. These kinds of
+  approximations are appropriate in many contexts; for example,
+  for crustal dynamics simulations, the hydrostatic pressures are
+  never high enough to lead to noticeable compression effects and as a
+  consequence the density really is more or less independent of the
+  pressure -- as assumed in several of the approximations below. Yet,
+  it is worth pointing out that many older publications showing
+  mantle convection simulations did not
+  rely on these approximations because they describe the physical
+  situation better than equations
+  \eqref{eq:stokes-1}--\eqref{eq:temperature}, but \textit{because
+    simulation technology did not allow for anything else at the
+    time}.
+
+  This has changed today, and \aspect{} implements more realistic
+  formulations as discussed in this section and in
+  Section~\ref{sec:choosing-a-formulation}. As a consequence, you
+  should evaluate which formulation is
+  appropriate for what you want to do. The fact that someone else in
+  the past used a simplified formulation does not mean that you should do
+  the same for a similar situation: it could just indicate that they
+  did not have the technology to use a more complete formulation at the
+  time.
+  }
+
 
 The three approximations mentioned all start by writing the pressure and
 temperature as the sum of a (possibly depth dependent)
@@ -2073,12 +2106,22 @@ from previous time steps), or using a nonlinear solver scheme.
   ``isothermal compression'' for historical reasons, but the compressibility can be
   either isentropic or isothermal.}
 
+
+
 \subsection{Choosing a formulation in \aspect{}}
+\label{sec:choosing-a-formulation}
 
 After discussing different reasonable approximations for modeling compressible or
 incompressible mantle convection, we will now describe the different steps one has
-to take to use one of these approximations in a computation.
-This includes
+to take to use one of these approximations in a computation. As noted
+towards the beginning of Section~\ref{sec:approximate-equations}, one
+should choose a formulation that is adequate for the situation one
+wants to simulate, taking into account that other authors in previous
+studies may have used formulations not because they were suited to the
+situation but also because, possibly, they did not have software
+available that implemented the most suitable formulation.
+
+The choices involved in selecting a formulation include:
 \begin{enumerate}
 \item Choosing an approximation for the mass conservation equation;
 \item Choosing an approximation for the density in the energy balance, and deciding which heating terms should be included;
@@ -2734,6 +2777,68 @@ this end, see in particular Section~\ref{sec:cookbooks-particles}. All
 particle-related input parameters are listed in
 Section~\ref{parameters:Postprocess/Particles}. The implementation of particles is
 discussed in great detail in \cite{gassmoeller_particles}.
+
+
+
+\subsection{Geometric Multigrid}
+\label{sec:gmg}
+
+\aspect{} can optionally use a Geometric Multigrid Solver (GMG) for the efficient solution
+of the Stokes system (velocity and pressure). When used correctly, this can
+reduce the compute time spent in the solver by about a factor of 3,
+and decrease the memory requirements by a factor of 10.
+For more details
+about the method see~\cite{clevenger_stokes19,clevenger_par_gmg}.
+
+To take advantage of the GMG solver, you need to:
+\begin{enumerate}
+ \item Enable it in your parameter file, namely:
+\lstinputlisting[language=prmfile]{cookbooks/overview/doc/gmg-enable.part.prm.out}
+  See~\ref{parameters:Solver_20parameters/Stokes_20solver_20parameters} for other
+  parameters that influence the solver behavior.
+
+\item
+  \index[prmindex]{Material averaging}
+  \index[prmindexfull]{Material model!Material averaging}
+  The GMG solver requires that the viscosity is averaged, either as a constant (for example by using harmonic averaging)
+  or as a $Q_1$ averaging. (See Section~\ref{sec:sinker-with-averaging}
+  for more about averaging.) Averaging other properties is optional. You can
+  use 
+\lstinputlisting[language=prmfile]{cookbooks/overview/doc/gmg-average.part.prm.out}
+for example. Note that $Q_1$ averaging is a bit slower than averaging to a constant per cell, but it
+might provide more accurate solutions.
+
+\item Run in release mode. The GMG solver depends on running optimized code, so using optimized mode
+is more important than for other parts of ASPECT to get good
+performance. (Of course, the GMG solver also runs in debug mode, and
+you should do so while setting up a model. You will just not get the
+same speedup from the non-GMG to the GMG solver in debug mode as you
+get in release mode.)
+
+\item Enable vectorization optimizations. The GMG solver takes advantage of special instructions (AVX2, AVX512)
+in modern CPUs and requires these do be enabled when compiling \dealii{}. This can be achieved by passing the
+compiler flag \texttt{CMAKE\_CXX\_FLAGS='-march=native'} to CMake or setting \texttt{NATIVE\_OPTIMIZATIONS=true} in \texttt{candi.cfg} when using candi (see~\ref{sec:installation} for more information).
+When you have vectorization enabled, ASPECT will report something like
+this:
+\begin{lstlisting}[frame=single,language=ksh]
+-----------------------------------------------------------------------------
+-- This is ASPECT, the Advanced Solver for Problems in Earth's ConvecTion.
+--     . version 2.3.0-pre
+--     . using deal.II 9.2.0
+--     .       with 64 bit indices and vectorization level 3 (512 bits)
+--     . using Trilinos 12.10.1
+--     . using p4est 2.2.0
+--     . running in OPTIMIZED mode
+--     . running with 114688 MPI processes
+-----------------------------------------------------------------------------
+
+Vectorization over 8 doubles = 512 bits (AVX512), VECTORIZATION_LEVEL=3
+\end{lstlisting}
+Without optimizations enabled, the output will be ``and vectorization
+level 1 (128 bits)'' in the fourth line above.
+\end{enumerate}
+
+
 
 
 \section{Installation}
@@ -5683,7 +5788,7 @@ This cookbook provides an example to illustrate how to use the lazy-expression s
 \begin{equation}
 T(x,y) = T_s + (T_m  - T_s) \erf{(\frac{y}{2\sqrt{\kappa x/v}})}
 \end{equation}
-where $erf$ is the error function, $T_m$ is the mantle temperature, $T_s$ is the surface temperature, $y$ is depth, $x$ is horizontal distance, $\kappa$ is the thermal diffusivity, and $v$ is the plate velocity. The age of the plate is given by $x/v$. Note that the equation for the half-space cooling model is not defined at $x=0$ (because there is a divide by zero inside the error function): at $x=0$, $T=T_m$.  For $(x \le xtr)$ and $(x>0)$ the age of the plate increases from zero at the boundary according to a fixed plate velocity $v_{sub}=7.927\times10^{-10}$~m/s  ($2.5$~cm/yr). This is the subducting plate. For $x > xtr$, there is a fixed plate age of $age_{op}=9.46\times10^{14}$~s ($30$~my); this is the overriding plate. In order to resolve the temperature structure, we also define some initial refinement of the mesh for the top 150 km of the mesh. Both the mesh refinement and the temperature structure are defined using lazy-expression syntax in functions within the parameter file.
+where $\erf$ is the error function, $T_m$ is the mantle temperature, $T_s$ is the surface temperature, $y$ is depth, $x$ is horizontal distance, $\kappa$ is the thermal diffusivity, and $v$ is the plate velocity. The age of the plate is given by $x/v$. Note that the equation for the half-space cooling model is not defined at $x=0$ (because there is a divide by zero inside the error function): at $x=0$, $T=T_m$.  For $(x \le xtr)$ and $(x>0)$ the age of the plate increases from zero at the boundary according to a fixed plate velocity $v_\text{sub}=7.927\times10^{-10}$~m/s  ($2.5$~cm/yr). This is the subducting plate. For $x > xtr$, there is a fixed plate age of $age_{op}=9.46\times10^{14}$~s ($30$~my); this is the overriding plate. In order to resolve the temperature structure, we also define some initial refinement of the mesh for the top 150 km of the mesh. Both the mesh refinement and the temperature structure are defined using lazy-expression syntax in functions within the parameter file.
 
 Functions can be used in the parameter file to define initial conditions (e.g., temperature, composition), boundary conditions, and even to set regions of refinement. We also often want to use different values of functions in different regions of the model (e.g., for the two plates as described above) and so we need to use if-statements to specify these regions. The function constants and expressions are read in using the muparser. The muparser accepts two different syntax options for if-statements (see also Section \ref{sec:muparser-format}).
 \begin{enumerate}
@@ -6568,15 +6673,15 @@ of two non-Newtonian rheologies:
 \[v_{\text{eff}} = \left(\frac{1}{v_{\text{eff}}^v}+\frac{1}{v_{\text{eff}}^p}\right)^{-1}\]
 where
 \begin{align*}
-  v_{\text{eff}}^v = B \left(\frac{\dot{\epsilon}}{\dot{\epsilon}_{ref}}\right)^{-1+1/n_v}
+  v_{\text{eff}}^v = B \left(\frac{\dot{\epsilon}}{\dot{\epsilon}_\text{ref}}\right)^{-1+1/n_v}
   \exp\left(\frac{E_a +V_a \rho_m g z}{n_v R T}\right),
   \\
   v_{\text{eff}}^p = (\tau_0 + \gamma \rho_m g z) \left( \frac{\dot{\epsilon}^{-1+1/n_p}}
-  {\dot{\epsilon}_{ref}^{1/n_p}} \right),
+  {\dot{\epsilon}_\text{ref}^{1/n_p}} \right),
 \end{align*}
 where $B$ is a scaling constant; $\dot{\epsilon}$ is defined as the quadratic sum of the
 second invariant of the strain rate tensor and a minimum strain rate, $\dot{\epsilon}_0$;
-$\dot{\epsilon}_{ref}$ is a reference strain rate; $n_v$, and $n_p$ are stress exponents;
+$\dot{\epsilon}_\text{ref}$ is a reference strain rate; $n_v$, and $n_p$ are stress exponents;
 $E_a$ is the activation energy; $V_a$ is the activation volume; $\rho_m$ is the mantle density;
 $R$ is the gas constant; $T$ is temperature; $\tau_0$ is the cohesive strength of rocks at
 the surface; $\gamma$ is a coefficient of yield stress increase with depth; and $z$ is depth.
@@ -7072,7 +7177,7 @@ Ra_c=\frac{\left(\pi^2+\frac{4\pi^2 b^2}{\lambda^2}\right)^3}{\frac{4\pi^2 b^2}{
 \end{align*}
 The linear stability analysis also makes a prediction for the dimensionless growth rate of the instability $\alpha'$ (Turcotte and Schubert \cite{TS14}, equation (6.315)). The maximum vertical velocity is given by
 \begin{align*}
-v_{y,max} = \frac{2\pi}{\lambda}\phi_0' e^{\alpha' t},
+v_{y,\text{max}} = \frac{2\pi}{\lambda}\phi_0' e^{\alpha' t},
 \end{align*}
 where
 \begin{align*}
@@ -7336,6 +7441,44 @@ We can observe that when the two-layer viscosity model is added, there is only o
 
 \input{cookbooks/van-keken-vof/doc/van-keken-vof.tex}
 
+
+\subsubsection{The Bunge et al.~mantle convection experiments}
+\label{sec:bunge_et_al_cookbook}
+
+\textit{This section was contributed by Cedric Thieulot and Bob Myhill.}
+
+Early mantle modeling studies of the 1970s, 1980s and 1990s were often concerned with simple set-ups (Cartesian geometries, incompressible fluid, free slip boundary conditions) and investigated the influence of the Rayleigh number, the heating mode or the temperature dependence of the viscosity on temperature, pressure and/or strain rate \cite{youn74,buss75,buss79,BBC89,BC93,vavy93,burb97}. In this cookbook, we use the `simple' material model to reproduce the set-up in \cite{burb96}, which reported that even modest increases in mantle viscosity with depth could have a marked effect on the style of mantle convection. The prm file corresponding to this cookbook can be found at \url{cookbooks/bunge_et_al_mantle_convection/bunge_et_al.prm}.
+
+Although the original article showcases results obtained in a 3D hollow sphere, we here run the models in an annular domain of inner radius $R_i = 3480$ \si{\kilo\meter} and outer radius  $R_o = 6370$ \si{\kilo\meter}.
+The surface temperature is set to $T{\textsubscript{surf}}$ = 1060 \si{\kelvin} and 
+the bottom temperature to $T{\textsubscript{cmb}} = 3450$ \si{\kelvin}. The gravity vector is radial and its magnitude is $g = 10$ \si{\metre\per\second\squared}.
+
+There is a single incompressible fluid in the domain, characterized by $\rho_0 = 4500$ \si{\kilogram\per\metre\cubed}, $\alpha = 2.5\cdot10^{-5}$ \si{\per\kelvin}, 
+$k = 4$ \si{\watt\per\metre\per\kelvin},
+$C_p = 1000$ \si{\joule\per\kilogram\per\kelvin} and
+its internal heating rate is $Q{\textsubscript{int}} = 1\cdot10^{-12}$ \si{\watt\per\kilogram}.
+The interface between the upper mantle (viscosity $\eta\textsubscript{um}$)
+and the lower mantle (viscosity $\eta\textsubscript{lm}$) is fixed at 670 \si{\kilo\meter} depth.
+As in the article we consider four time-independent radial viscosity profiles:
+
+\begin{itemize}
+\item[a)] Isoviscous mantle: $\eta\textsubscript{um}=\eta\textsubscript{lm}=1.7\cdot 10^{24}$ \si{\pascal\second}
+\item[b)] Mantle with step change in viscosity: $\eta\textsubscript{um}=5.8\cdot 10^{22}$ \si{\pascal\second}, $\eta\textsubscript{lm}=30\eta\textsubscript{um}$
+\item[c)] Isoviscous mantle: $\eta\textsubscript{um}=\eta\textsubscript{lm}=5.8\cdot 10^{22}$ \si{\pascal\second}
+\item[d)] Mantle with step change in viscosity: $\eta\textsubscript{um}=7\cdot 10^{21}$ \si{\pascal\second},  $\eta\textsubscript{lm}=30\eta\textsubscript{um}$
+\end{itemize}
+
+Separate ascii files {\tt visc\_depth\_X.txt} with {\tt X=\{a,b,c,d\}} contain each of these viscosity profiles. The resulting temperature fields after 5 billion years of convection are shown in Fig.~\ref{fig:bunge_et_al}. Similar to the results obtained by \cite{burb96}, models in which the lower mantle is more viscous than the upper mantle are distinctly colder than their isoviscous equivalents, with more clearly defined upwellings. You can find a movie of how the temperature evolves over this time period at
+\url{https://youtu.be/5SPCU1sFGGc}.
+
+\begin{figure}[tbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{cookbooks/bunge_et_al_mantle_convection/temps.png}
+  \caption{\it Bunge et al.~benchmark. From left to right: temperature field at time $t=5\cdot 10^9$ years obtained with viscosity profiles a, b, c and d.}
+  \label{fig:bunge_et_al}
+\end{figure}
+
+
 \subsubsection{The Rayleigh-Taylor instability}
 \label{sec:benchmark-rayleigh-taylor}
 
@@ -7380,8 +7523,8 @@ j_{22} &=& \frac{\eta_1 2 \phi_1^2 \phi_2}{\eta_2(\cosh 2\phi_1 -1-2\phi_1^2)} -
 \phi_1&=&\frac{2\pi h_1}{\lambda} \\
 \phi_2&=&\frac{2\pi h_2}{\lambda}
 \end{eqnarray}
-We set $L_x=L_y=512\text{km}$, $h_1=h_2=256\text{km}$, $|\boldsymbol{g}|=10\text{m/s}^2$, $\Delta=3\text{km}$,
-$\rho_1=3300\text{kg/m}^3$, $\rho_2=3000\text{kg/m}^3$, $\eta_1=10^{21}\text{Pa s}$. $\eta_2$ is varied between $10^{20}$ and $10^{23}$
+We set $L_x=L_y=\SI{512}{km}$, $h_1=h_2=\SI{256}{km}$, $|\boldsymbol{g}|=\SI{10}{m/s^2}$, $\Delta=\SI{3}{km}$,
+$\rho_1=\SI{3300}{kg/m^3}$, $\rho_2=\SI{3000}{kg/m^3}$, $\eta_1=\SI{1e21}{Pa.s}$. $\eta_2$ is varied between $10^{20}$ and $10^{23}$
 and 3 values of $\lambda$ (64, 128, and 256km) are used.
 Adaptive mesh refinement based on density is used to capture the interface between the two
 fluids, as shown in Figure~\ref{fig:RTi_grids}. This translates as follows in the input file:
@@ -7463,7 +7606,7 @@ This benchmark is based on the benchmark presented in \cite{gery10} and extended
 It consists of a two-dimensional $512\text{km}\times 512\text{km}$ domain filled with a fluid (the "mantle")
 of density $\rho_1=3200$kg/m$^3$ and viscosity $\eta_1=10^{21}\text{Pa s}$.
 A square block of size $128\text{km}\times 128\text{km}$ is placed in the domain and is centered at location $(x_c,y_c)=(256\text{km},384\text{km})$
-so as to insure that its sides align with cell boundaries at all resolutions (GMR level $\geq 3$). It is filled with a fluid of density
+so as to ensure that its sides align with cell boundaries at all resolutions (GMR level $\geq 3$). It is filled with a fluid of density
 $\rho_2=\rho_1+\delta \rho$ and viscosity $\eta_2$. The gravity vector points downwards with
 $|\boldsymbol{g}|=10\text{m}/\text{s}^2$. Boundary conditions are free slip on all sides.
 Only one time step is carried out and we measure the absolute velocity $|v_z|$ in the middle of the block.
@@ -7937,9 +8080,9 @@ of the strainrate $\dot\varepsilon$:
 \[
 \eta_{eff} = \eta_0 \, \dot\varepsilon^{1/n-1}
 \]
-with $n=4$ and $\eta_0=4.75\times 10^{11}\si{Pa . s}$.
-The mantle occupies the rest of the domain and has a constant viscosity $\eta_m=10^{21}\si{Pa . s}$
-and a density $\rho_m=3150\si{kg}/\si{m}^3$. Viscosity is capped between $10^{21}\si{Pa . s}$ and $10^{25}\si{Pa . s}$.
+with $n=4$ and $\eta_0=\SI{4.75e11}{Pa . s}$.
+The mantle occupies the rest of the domain and has a constant viscosity $\eta_m=\SI{1e21}{Pa . s}$
+and a density $\rho_m=\SI{3150}{kg/m^3}$. Viscosity is capped between $\SI{1e21}{Pa . s}$ and $\SI{1e25}{Pa . s}$.
 Figure~\ref{fig:slab_detachment_evolution} shows the various fields and their evolution through time.
 As shown in \cite{schm11,gltf18} the hanging slab necks, helped by the localizing effect of the
 nonlinear rheology. Model results were shown to compare favorably to the results of \cite{schm11} in \cite{gltf18,hitg14}
@@ -11813,6 +11956,13 @@ resources:
 
 \section{Run-time input parameters}
 \label{sec:parameters}
+
+The following sections document all run-time parameters one can set in
+\aspect{} input files. If you want to see on which pages of this
+manual (i.e., in particular in which of the cookbooks) a parameter is
+used, look up the parameter in one of the two indices at the very end
+of this document. There, each parameter is shown with all references
+to the parameter throughout the entire document.
 
 % now include a file that describes all currently available run-time parameters
 \input{parameters}

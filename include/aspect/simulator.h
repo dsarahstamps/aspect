@@ -134,6 +134,38 @@ namespace aspect
   };
 
   /**
+   * A data structure with all properties relevant to compute angular momentum and rotation.
+   */
+  template <int dim>
+  struct RotationProperties
+  {
+    RotationProperties()
+      :
+      scalar_moment_of_inertia(numbers::signaling_nan<double>()),
+      scalar_angular_momentum(numbers::signaling_nan<double>()),
+      scalar_rotation(numbers::signaling_nan<double>()),
+      tensor_moment_of_inertia(numbers::signaling_nan<SymmetricTensor<2,dim>>()),
+      tensor_angular_momentum(numbers::signaling_nan<Tensor<1,dim>>()),
+      tensor_rotation(numbers::signaling_nan<Tensor<1,dim>>())
+    {};
+
+    /**
+     * Scalar properties for the two-dimensional case
+     * with a fixed rotation axis (z).
+     */
+    double scalar_moment_of_inertia;
+    double scalar_angular_momentum;
+    double scalar_rotation;
+
+    /**
+     * Tensor properties for the three-dimensional case.
+     */
+    SymmetricTensor<2,dim> tensor_moment_of_inertia;
+    Tensor<1,dim> tensor_angular_momentum;
+    Tensor<1,dim> tensor_rotation;
+  };
+
+  /**
    * This is the main class of ASPECT. It implements the overall simulation
    * algorithm using the numerical methods discussed in the papers and manuals
    * that accompany ASPECT.
@@ -1424,6 +1456,25 @@ namespace aspect
                             LinearAlgebra::BlockVector &tmp_distributed_stokes);
 
       /**
+       * Compute the angular momentum and other rotation properties
+       * of the velocities in the given solution vector.
+       *
+       * @param use_constant_density determines whether to use a constant
+       * density (which corresponds to computing a net rotation instead of net
+       * angular momentum).
+       * @param solution Solution vector to compute the properties for.
+       * @param limit_to_top_faces allows to only compute the net angular momentum
+       * (or net rotation) of the top surface.
+       *
+       * This function is implemented in
+       * <code>source/simulator/nullspace.cc</code>.
+       */
+      RotationProperties<dim>
+      compute_net_angular_momentum(const bool use_constant_density,
+                                   const LinearAlgebra::BlockVector &solution,
+                                   const bool limit_to_top_faces = false) const;
+
+      /**
        * Remove the angular momentum of the given vector
        *
        * @param use_constant_density determines whether to use a constant
@@ -1432,13 +1483,17 @@ namespace aspect
        * @param relevant_dst locally relevant vector for the whole FE, will be
        * filled at the end.
        * @param tmp_distributed_stokes only contains velocity and pressure.
+       * @param limit_to_top_faces allows to only remove the net angular momentum
+       * (or net rotation) of the top surface. This can be useful to compare surface
+       * motions against plate reconstructions in no net rotation reference frames.
        *
        * This function is implemented in
        * <code>source/simulator/nullspace.cc</code>.
        */
       void remove_net_angular_momentum( const bool use_constant_density,
                                         LinearAlgebra::BlockVector &relevant_dst,
-                                        LinearAlgebra::BlockVector &tmp_distributed_stokes);
+                                        LinearAlgebra::BlockVector &tmp_distributed_stokes,
+                                        const bool limit_to_top_faces = false);
 
       /**
        * Offset the boundary id of all faces located on an outflow boundary
