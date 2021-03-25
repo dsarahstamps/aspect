@@ -80,6 +80,21 @@ namespace aspect
       };
     };
 
+    static
+    bool
+    is_defect_correction(const typename NonlinearSolver::Kind &input)
+    {
+      return input == NonlinearSolver::iterated_Advection_and_Newton_Stokes ||
+             input == NonlinearSolver::single_Advection_iterated_Newton_Stokes ||
+             input == NonlinearSolver::no_Advection_iterated_defect_correction_Stokes ||
+             input == NonlinearSolver::single_Advection_iterated_defect_correction_Stokes ||
+             input == NonlinearSolver::iterated_Advection_and_defect_correction_Stokes
+             ?
+             true
+             :
+             false;
+    }
+
     /**
      * @brief The NullspaceRemoval struct
      */
@@ -97,7 +112,8 @@ namespace aspect
         linear_momentum_z = 0x20,
         linear_momentum   = 0x8+0x10+0x20,
         net_rotation      = 0x40,
-        angular_momentum  = 0x80
+        angular_momentum  = 0x80,
+        net_surface_rotation = 0x100
       };
     };
 

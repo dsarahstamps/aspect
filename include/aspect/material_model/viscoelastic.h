@@ -45,9 +45,9 @@ namespace aspect
      * representing these components must be named and listed in a very specific
      * format, which is designed to minimize mislabeling stress tensor components
      * as distinct 'compositional rock types' (or vice versa). For 2D models,
-     * the first three compositional fields must be labeled stress_xx, stress_yy
-     * and stress_xy. In 3D, the first six compositional fields must be labeled
-     * stress_xx, stress_yy, stress_zz, stress_xy, stress_xz, stress_yz.
+     * the first three compositional fields must be labeled ve_stress_xx, ve_stress_yy
+     * and ve_stress_xy. In 3D, the first six compositional fields must be labeled
+     * ve_stress_xx, ve_stress_yy, ve_stress_zz, ve_stress_xy, ve_stress_xz, ve_stress_yz.
      *
      * Expanding the model to include non-linear viscous flow (e.g.,
      * diffusion/dislocation creep) and plasticity would produce a constitutive
@@ -64,9 +64,9 @@ namespace aspect
      * The overview below directly follows Moresi et al. (2003) eqns. 23-32.
      * However, an important distinction between this material model and
      * the studies above is the use of compositional fields, rather than
-     * tracers, to track individual components of the viscoelastic stress
+     * particles, to track individual components of the viscoelastic stress
      * tensor. The material model will be updated when an option to track
-     * and calculate viscoelastic stresses with tracers is implemented.
+     * and calculate viscoelastic stresses with particles is implemented.
      *
      * Moresi et al. (2003) begins (eqn. 23) by writing the deviatoric
      * rate of deformation ($\hat{D}$) as the sum of elastic

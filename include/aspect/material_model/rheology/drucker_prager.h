@@ -96,7 +96,18 @@ namespace aspect
                              const double angle_internal_friction,
                              const double pressure,
                              const double effective_strain_rate,
-                             const double max_yield_stress) const;
+                             const double max_yield_stress,
+                             const double pre_yield_viscosity = std::numeric_limits<double>::infinity()) const;
+
+          /**
+           * Compute the strain rate and first stress derivative
+           * as a function of stress based on the damped Drucker-Prager flow law.
+           */
+          std::pair<double, double>
+          compute_strain_rate_and_derivative (const double stress,
+                                              const double pressure,
+                                              const unsigned int composition,
+                                              const DruckerPragerParameters p) const;
 
           /**
            * Compute the derivative of the plastic viscosity with respect to pressure.
@@ -104,6 +115,18 @@ namespace aspect
           double
           compute_derivative (const double angle_internal_friction,
                               const double effective_strain_rate) const;
+
+        private:
+          /**
+           * Whether to add a plastic damper in the computation
+           * of the drucker prager plastic viscosity.
+           */
+          bool use_plastic_damper;
+
+          /**
+           * Viscosity of a damper used to stabilize plasticity
+           */
+          double damper_viscosity;
       };
     }
   }

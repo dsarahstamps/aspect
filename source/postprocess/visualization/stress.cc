@@ -64,7 +64,7 @@ namespace aspect
         for (unsigned int q=0; q<n_quadrature_points; ++q)
           {
             const SymmetricTensor<2,dim> strain_rate = in.strain_rate[q];
-            const SymmetricTensor<2,dim> compressible_strain_rate
+            const SymmetricTensor<2,dim> deviatoric_strain_rate
               = (this->get_material_model().is_compressible()
                  ?
                  strain_rate - 1./3 * trace(strain_rate) * unit_symmetric_tensor<dim>()
@@ -73,8 +73,25 @@ namespace aspect
 
             const double eta = out.viscosities[q];
 
-            const SymmetricTensor<2,dim> stress = 2*eta*compressible_strain_rate +
-                                                  in.pressure[q] * unit_symmetric_tensor<dim>();
+            // Compressive stress is positive in geoscience applications
+            SymmetricTensor<2,dim> stress = -2.*eta*deviatoric_strain_rate +
+                                            in.pressure[q] * unit_symmetric_tensor<dim>();
+
+            // Add elastic stresses if existent
+            if (this->get_parameters().enable_elasticity == true)
+              {
+                stress[0][0] += in.composition[q][this->introspection().compositional_index_for_name("ve_stress_xx")];
+                stress[1][1] += in.composition[q][this->introspection().compositional_index_for_name("ve_stress_yy")];
+                stress[0][1] += in.composition[q][this->introspection().compositional_index_for_name("ve_stress_xy")];
+
+                if (dim == 3)
+                  {
+                    stress[2][2] += in.composition[q][this->introspection().compositional_index_for_name("ve_stress_zz")];
+                    stress[0][2] += in.composition[q][this->introspection().compositional_index_for_name("ve_stress_xz")];
+                    stress[1][2] += in.composition[q][this->introspection().compositional_index_for_name("ve_stress_yz")];
+                  }
+              }
+
             for (unsigned int d=0; d<dim; ++d)
               for (unsigned int e=0; e<dim; ++e)
                 computed_quantities[q][Tensor<2,dim>::component_to_unrolled_index(TableIndices<2>(d,e))]
@@ -103,11 +120,14 @@ namespace aspect
                                                   "A visualization output object that generates output "
                                                   "for the 3 (in 2d) or 6 (in 3d) components of the stress "
                                                   "tensor, i.e., for the components of the tensor "
-                                                  "$2\\eta\\varepsilon(\\mathbf u)+pI$ "
+                                                  "$-2\\eta\\varepsilon(\\mathbf u)+pI$ "
                                                   "in the incompressible case and "
-                                                  "$2\\eta\\left[\\varepsilon(\\mathbf u)-"
+                                                  "$-2\\eta\\left[\\varepsilon(\\mathbf u)-"
                                                   "\\tfrac 13(\\textrm{tr}\\;\\varepsilon(\\mathbf u))\\mathbf I\\right]+pI$ "
-                                                  "in the compressible case.")
+                                                  "in the compressible case. If elasticity is used, the "
+                                                  "elastic contribution is being accounted for. "
+                                                  "Note that the convention of positive "
+                                                  "compressive stress is followed. ")
     }
   }
 }

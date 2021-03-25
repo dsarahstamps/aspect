@@ -354,6 +354,8 @@ namespace aspect
 
       TimerOutput::Scope timer (sim.computing_timer, "Mesh deformation");
 
+      old_mesh_displacements = mesh_displacements;
+
       // Make the constraints for the elliptic problem.
       make_constraints();
 
@@ -388,11 +390,11 @@ namespace aspect
       // Add the vanilla periodic boundary constraints
       using periodic_boundary_pairs = std::set< std::pair< std::pair<types::boundary_id, types::boundary_id>, unsigned int> >;
       const periodic_boundary_pairs pbp = this->get_geometry_model().get_periodic_boundary_pairs();
-      for (periodic_boundary_pairs::iterator p = pbp.begin(); p != pbp.end(); ++p)
+      for (const auto &p : pbp)
         DoFTools::make_periodicity_constraints(mesh_deformation_dof_handler,
-                                               (*p).first.first,
-                                               (*p).first.second,
-                                               (*p).second,
+                                               p.first.first,
+                                               p.first.second,
+                                               p.second,
                                                mesh_velocity_constraints);
 
       // Zero out the displacement for the zero-velocity boundaries
@@ -437,20 +439,20 @@ namespace aspect
                                                               boundary_id_set);
 
               const IndexSet local_lines = current_plugin_constraints.get_local_lines();
-              for (auto index = local_lines.begin(); index != local_lines.end(); ++index)
+              for (dealii::IndexSet::size_type local_line : local_lines)
                 {
-                  if (current_plugin_constraints.is_constrained(*index))
+                  if (current_plugin_constraints.is_constrained(local_line))
                     {
-                      if (plugin_constraints.is_constrained(*index) == false)
+                      if (plugin_constraints.is_constrained(local_line) == false)
                         {
-                          plugin_constraints.add_line(*index);
-                          plugin_constraints.set_inhomogeneity(*index, current_plugin_constraints.get_inhomogeneity(*index));
+                          plugin_constraints.add_line(local_line);
+                          plugin_constraints.set_inhomogeneity(local_line, current_plugin_constraints.get_inhomogeneity(local_line));
                         }
                       else
                         {
                           // Add the inhomogeneity of the current plugin to the existing constraints
-                          const double inhomogeneity = plugin_constraints.get_inhomogeneity(*index);
-                          plugin_constraints.set_inhomogeneity(*index, current_plugin_constraints.get_inhomogeneity(*index) + inhomogeneity);
+                          const double inhomogeneity = plugin_constraints.get_inhomogeneity(local_line);
+                          plugin_constraints.set_inhomogeneity(local_line, current_plugin_constraints.get_inhomogeneity(local_line) + inhomogeneity);
                         }
                     }
                 }
@@ -477,15 +479,15 @@ namespace aspect
       std::set< types::boundary_id > periodic_boundaries;
       using periodic_boundary_pairs = std::set< std::pair< std::pair<types::boundary_id, types::boundary_id>, unsigned int> >;
       const periodic_boundary_pairs pbp = this->get_geometry_model().get_periodic_boundary_pairs();
-      for (periodic_boundary_pairs::iterator p = pbp.begin(); p != pbp.end(); ++p)
+      for (const auto &p : pbp)
         {
-          periodic_boundaries.insert((*p).first.first);
-          periodic_boundaries.insert((*p).first.second);
+          periodic_boundaries.insert(p.first.first);
+          periodic_boundaries.insert(p.first.second);
 
           DoFTools::make_periodicity_constraints(mesh_deformation_dof_handler,
-                                                 (*p).first.first,
-                                                 (*p).first.second,
-                                                 (*p).second,
+                                                 p.first.first,
+                                                 p.first.second,
+                                                 p.second,
                                                  initial_deformation_constraints);
         }
 
@@ -535,20 +537,20 @@ namespace aspect
                                                         current_plugin_constraints);
 
               const IndexSet local_lines = current_plugin_constraints.get_local_lines();
-              for (auto index = local_lines.begin(); index != local_lines.end(); ++index)
+              for (dealii::IndexSet::size_type local_line : local_lines)
                 {
-                  if (current_plugin_constraints.is_constrained(*index))
+                  if (current_plugin_constraints.is_constrained(local_line))
                     {
-                      if (plugin_constraints.is_constrained(*index) == false)
+                      if (plugin_constraints.is_constrained(local_line) == false)
                         {
-                          plugin_constraints.add_line(*index);
-                          plugin_constraints.set_inhomogeneity(*index, current_plugin_constraints.get_inhomogeneity(*index));
+                          plugin_constraints.add_line(local_line);
+                          plugin_constraints.set_inhomogeneity(local_line, current_plugin_constraints.get_inhomogeneity(local_line));
                         }
                       else
                         {
                           // Add the current plugin constraints to the existing inhomogeneity
-                          const double inhomogeneity = plugin_constraints.get_inhomogeneity(*index);
-                          plugin_constraints.set_inhomogeneity(*index, current_plugin_constraints.get_inhomogeneity(*index) + inhomogeneity);
+                          const double inhomogeneity = plugin_constraints.get_inhomogeneity(local_line);
+                          plugin_constraints.set_inhomogeneity(local_line, current_plugin_constraints.get_inhomogeneity(local_line) + inhomogeneity);
                         }
                     }
                 }
@@ -843,7 +845,7 @@ namespace aspect
                     else
                       {
                         for (unsigned int d=1; d<dim; ++d)
-                          surface_point[d] = natural_coord[d];
+                          surface_point[d-1] = natural_coord[d];
                       }
                     // Get the topography at this point.
                     const double topo = this->get_initial_topography_model().value(surface_point);
@@ -941,6 +943,7 @@ namespace aspect
       // This will initialize the mesh displacement and free surface
       // mesh velocity vectors with zero-valued entries.
       mesh_displacements.reinit(mesh_locally_owned, mesh_locally_relevant, sim.mpi_communicator);
+      old_mesh_displacements.reinit(mesh_locally_owned, mesh_locally_relevant, sim.mpi_communicator);
       initial_topography.reinit(mesh_locally_owned, mesh_locally_relevant, sim.mpi_communicator);
       fs_mesh_velocity.reinit(mesh_locally_owned, mesh_locally_relevant, sim.mpi_communicator);
 
@@ -1008,6 +1011,7 @@ namespace aspect
     }
 
 
+
     template <int dim>
     const LinearAlgebra::Vector &
     MeshDeformationHandler<dim>::get_mesh_displacements () const
@@ -1022,6 +1026,7 @@ namespace aspect
     {
       return initial_topography;
     }
+
 
 
     template <int dim>
