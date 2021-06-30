@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2018 - 2020 by the authors of the ASPECT code.
+  Copyright (C) 2018 - 2021 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -74,7 +74,7 @@ TEST_CASE("Utilities::AsciiDataLookup manual dim=1")
   raw_data[1](0) = 5.0;
   raw_data[1](1) = 3.0;
 
-  lookup.reinit(column_names, coordinate_values, raw_data);
+  lookup.reinit(column_names, std::move(coordinate_values), std::move(raw_data));
 
   INFO(lookup.get_data(Point<1>(1.5), 0));
   INFO(lookup.get_data(Point<1>(1.5), 1));
@@ -111,7 +111,7 @@ TEST_CASE("Utilities::AsciiDataLookup manual dim=2")
   raw_data[0](1,2) = 0.0;
   raw_data[0](2,2) = 0.0;
 
-  lookup.reinit(column_names, coordinate_values, raw_data);
+  lookup.reinit(column_names, std::move(coordinate_values), std::move(raw_data));
 
   REQUIRE(lookup.get_data(Point<2>(1.0,6.0),0) == Approx(5.0));
   REQUIRE(lookup.get_data(Point<2>(2.0,6.0),0) == Approx(5.5));
@@ -142,7 +142,7 @@ TEST_CASE("Utilities::AsciiDataLookup manual dim=2 equid")
   raw_data[0](1,2) = 0.0;
   raw_data[0](2,2) = 0.0;
 
-  lookup.reinit(column_names, coordinate_values, raw_data);
+  lookup.reinit(column_names, std::move(coordinate_values), std::move(raw_data));
 
   REQUIRE(lookup.get_data(Point<2>(1.0,6.0),0) == Approx(5.0));
   REQUIRE(lookup.get_data(Point<2>(1.5,6.0),0) == Approx(5.5));

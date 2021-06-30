@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2015 - 2020 by the authors of the ASPECT code.
+  Copyright (C) 2015 - 2021 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -391,16 +391,29 @@ namespace aspect
                 else if ((particle_load_balancing & ParticleLoadBalancing::remove_particles) &&
                          (n_particles_in_cell > max_particles_per_cell))
                   {
+                    const unsigned int n_particles_to_remove = n_particles_in_cell - max_particles_per_cell;
+
+#if DEAL_II_VERSION_GTE(10,0,0)
+                    for (unsigned int i=0; i < n_particles_to_remove; ++i)
+                      {
+                        const unsigned int current_n_particles_in_cell = particle_handler->n_particles_in_cell(cell);
+                        const unsigned int index_to_remove = std::uniform_int_distribution<unsigned int>
+                                                             (0,current_n_particles_in_cell-1)(random_number_generator);
+
+                        auto particle_to_remove = particle_handler->particles_in_cell(cell).begin();
+                        std::advance(particle_to_remove, index_to_remove);
+                        particle_handler->remove_particle(particle_to_remove);
+                      }
+#else
                     const boost::iterator_range<typename ParticleHandler<dim>::particle_iterator> particles_in_cell
                       = particle_handler->particles_in_cell(cell);
-
-                    const unsigned int n_particles_to_remove = n_particles_in_cell - max_particles_per_cell;
 
                     std::set<unsigned int> particle_ids_to_remove;
                     while (particle_ids_to_remove.size() < n_particles_to_remove)
                       particle_ids_to_remove.insert(random_number_generator() % n_particles_in_cell);
 
-                    std::list<typename ParticleHandler<dim>::particle_iterator> particles_to_remove;
+                    std::vector<typename ParticleHandler<dim>::particle_iterator> particles_to_remove;
+                    particles_to_remove.reserve(n_particles_to_remove);
 
                     for (const auto id : particle_ids_to_remove)
                       {
@@ -414,6 +427,7 @@ namespace aspect
                       {
                         particle_handler->remove_particle(particle);
                       }
+#endif
                   }
               }
 
@@ -745,6 +759,8 @@ namespace aspect
                                        this->get_timestep());
     }
 
+
+
     template <int dim>
     void
     World<dim>::setup_initial_state ()
@@ -757,6 +773,8 @@ namespace aspect
       // conditions on the current mesh
       initialize_particles();
     }
+
+
 
     template <int dim>
     void
@@ -778,16 +796,19 @@ namespace aspect
       particle_handler->insert_particles(new_particles);
     }
 
+
+
     template <int dim>
     void
     World<dim>::initialize_particles()
     {
+#if !DEAL_II_VERSION_GTE(10,0,0)
       // Initialize the particle's access to the property_pool. This is necessary
       // even if the Particle do not carry properties, because they need a
       // way to determine the number of properties they carry.
       for (ParticleIterator<dim> particle = particle_handler->begin(); particle!=particle_handler->end(); ++particle)
         particle->set_property_pool(particle_handler->get_property_pool());
-
+#endif
 
       // TODO: Change this loop over all cells to use the WorkStream interface
       if (property_manager->get_n_property_components() > 0)
@@ -796,18 +817,11 @@ namespace aspect
 
           particle_handler->get_property_pool().reserve(2 * particle_handler->n_locally_owned_particles());
 
-          // Loop over all cells and initialize the particles cell-wise
-          for (const auto &cell : this->get_dof_handler().active_cell_iterators())
-            if (cell->is_locally_owned())
-              {
-                typename ParticleHandler<dim>::particle_iterator_range
-                particles_in_cell = particle_handler->particles_in_cell(cell);
 
-                // Only initialize particles, if there are any in this cell
-                if (particles_in_cell.begin() != particles_in_cell.end())
-                  local_initialize_particles(particles_in_cell.begin(),
-                                             particles_in_cell.end());
-              }
+          if (particle_handler->n_locally_owned_particles() > 0)
+            local_initialize_particles(particle_handler->begin(),
+                                       particle_handler->end());
+
           if (update_ghost_particles &&
               dealii::Utilities::MPI::n_mpi_processes(this->get_mpi_communicator()) > 1)
             {
@@ -816,6 +830,8 @@ namespace aspect
             }
         }
     }
+
+
 
     template <int dim>
     void
@@ -842,6 +858,8 @@ namespace aspect
               }
         }
     }
+
+
 
     template <int dim>
     void
@@ -879,6 +897,8 @@ namespace aspect
       }
     }
 
+
+
     template <int dim>
     void
     World<dim>::advance_timestep()
@@ -906,6 +926,8 @@ namespace aspect
         }
     }
 
+
+
     template <int dim>
     void
     World<dim>::save (std::ostringstream &os) const
@@ -914,6 +936,8 @@ namespace aspect
       oa << (*this);
     }
 
+
+
     template <int dim>
     void
     World<dim>::load (std::istringstream &is)
@@ -921,6 +945,8 @@ namespace aspect
       aspect::iarchive ia (is);
       ia >> (*this);
     }
+
+
 
     template <int dim>
     void
@@ -989,6 +1015,7 @@ namespace aspect
       Interpolator::declare_parameters<dim>(prm);
       Property::Manager<dim>::declare_parameters(prm);
     }
+
 
 
     template <int dim>

@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2020 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2021 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -220,16 +220,16 @@ namespace aspect
          */
         DEAL_II_DEPRECATED
         bool
-        is_yielding ( const double &pressure,
-                      const double &temperature,
-                      const std::vector<double> &composition,
-                      const SymmetricTensor<2,dim> &strain_rate) const;
+        is_yielding (const double pressure,
+                     const double temperature,
+                     const std::vector<double> &composition,
+                     const SymmetricTensor<2,dim> &strain_rate) const;
 
         /**
-        * A function that returns whether the material is plastically yielding at
-        * the given input variables (pressure, temperature, composition, strain rate,
-        * and so on).
-        */
+         * A function that returns whether the material is plastically
+         * yielding at the given input variables (pressure, temperature,
+         * composition, strain rate, and so on).
+         */
         bool
         is_yielding (const MaterialModelInputs<dim> &in) const;
 

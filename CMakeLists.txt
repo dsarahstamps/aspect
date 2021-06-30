@@ -1,4 +1,4 @@
-# Copyright (C) 2013 - 2020 by the authors of the ASPECT code.
+# Copyright (C) 2013 - 2021 by the authors of the ASPECT code.
 #
 # This file is part of ASPECT.
 #
@@ -123,8 +123,7 @@ SET(ASPECT_WITH_WORLD_BUILDER ON CACHE BOOL "Whether to enable compiling aspect 
 MESSAGE(STATUS "ASPECT_WITH_WORLD_BUILDER = '${ASPECT_WITH_WORLD_BUILDER}'")
 if(ASPECT_WITH_WORLD_BUILDER)
   # Check whether we can find the WorldBuilder.
-  SET(WORLD_BUILDER_SOURCE_DIR "" CACHE PATH "Provide an external World Builder directory to be compiled with ASPECT. \
-    If the path is not not provided or the World Builder is not found in the provided location, the version in the contrib folder is is used.")
+  SET(WORLD_BUILDER_SOURCE_DIR "" CACHE PATH "Provide an external World Builder directory to be compiled with ASPECT. If the path is not provided or the World Builder is not found in the provided location, the version in the contrib folder is used.")
   IF (NOT EXISTS ${WORLD_BUILDER_SOURCE_DIR}/VERSION)
     MESSAGE(STATUS "World Builder not found. Using internal version.")
     SET(WORLD_BUILDER_SOURCE_DIR "${CMAKE_SOURCE_DIR}/contrib/world_builder/" CACHE PATH "" FORCE)
@@ -467,6 +466,13 @@ ENDIF()
 
 ADD_EXECUTABLE(${TARGET} ${TARGET_SRC})
 DEAL_II_SETUP_TARGET(${TARGET})
+
+# deal.II does not define NDEBUG, but the world builder relies on it to disable
+# its asserts in release mode. Set it manually for anything but debug mode.
+# Note: If deal.II decides in the future to define this, this can be removed.
+IF (NOT CMAKE_BUILD_TYPE MATCHES Debug)
+    ADD_DEFINITIONS("-DNDEBUG")
+ENDIF()
 
 FIND_PACKAGE(PerpleX QUIET
   HINTS ./contrib/perplex/install/ ../ ../../ ${PERPLEX_DIR} $ENV{PERPLEX_DIR})

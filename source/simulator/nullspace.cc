@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2020 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2021 by the authors of the ASPECT code.
 
   This file is part of ASPECT.
 
@@ -199,10 +199,12 @@ namespace aspect
           Assert(global_idx < dof_handler.n_dofs(),
                  ExcMessage("Error, couldn't find a velocity DoF to constrain."));
 
-          // Finally set this DoF to zero (if we care about it):
+          // Finally set this DoF to zero (if the current MPI process
+          // cares about it):
           if (constraints.can_store_line(global_idx))
             {
-              Assert(!constraints.is_constrained((global_idx)), ExcInternalError());
+              Assert(!constraints.is_constrained((global_idx)),
+                     ExcInternalError());
               constraints.add_line(global_idx);
             }
         }

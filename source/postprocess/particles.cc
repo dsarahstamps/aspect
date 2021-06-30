@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2011 - 2020 by the authors of the ASPECT code.
+  Copyright (C) 2011 - 2021 by the authors of the ASPECT code.
 
  This file is part of ASPECT.
 
@@ -51,59 +51,65 @@ namespace aspect
         // indicate into which output entry the property value should be written.
         std::vector<unsigned int> property_index_to_output_index(property_information.n_components(),0);
 
-        // Start the output index from 1, because 0 is occupied by the "id"
-        unsigned int output_index = 1;
-        for (unsigned int field_index = 0; field_index < property_information.n_fields(); ++field_index)
+        if (std::find(exclude_output_properties.begin(),
+                      exclude_output_properties.end(),
+                      "all")
+            == exclude_output_properties.end())
           {
-            // Determine some info about the field.
-            const unsigned n_components = property_information.get_components_by_field_index(field_index);
-            const std::string field_name = property_information.get_field_name_by_index(field_index);
-            const unsigned int field_position = property_information.n_fields() == 0
-                                                ?
-                                                0
-                                                :
-                                                property_information.get_position_by_field_index(field_index);
-
-            // HDF5 only supports 3D vector output, therefore only treat output fields as vector if we
-            // have a dimension of 3 and 3 components.
-            const bool field_is_vector = (!only_group_3d_vectors)
-                                         ?
-                                         n_components == dim
-                                         :
-                                         dim == 3 && n_components == 3;
-
-            // Determine if this field should be excluded, if so, skip it
-            bool found = false;
-            for (unsigned int i = 0; i < exclude_output_properties.size(); ++i)
-              if (exclude_output_properties[i] == "all" || field_name.find(exclude_output_properties[i]) != std::string::npos)
-                {
-                  found = true;
-                  break;
-                }
-
-            if (found == true)
-              continue;
-
-            // For each component record its name and position in output vector
-            for (unsigned int component_index=0; component_index<n_components; ++component_index)
+            // Start the output index from 1, because 0 is occupied by the "id"
+            unsigned int output_index = 1;
+            for (unsigned int field_index = 0; field_index < property_information.n_fields(); ++field_index)
               {
-                // If it is a 1D element, or a vector, print just the name, otherwise append the index after an underscore
-                if ((n_components == 1) || field_is_vector)
-                  dataset_names.push_back(field_name);
-                else
-                  dataset_names.push_back(field_name + "_" + Utilities::to_string(component_index));
+                // Determine some info about the field.
+                const unsigned n_components = property_information.get_components_by_field_index(field_index);
+                const std::string field_name = property_information.get_field_name_by_index(field_index);
+                const unsigned int field_position = property_information.n_fields() == 0
+                                                    ?
+                                                    0
+                                                    :
+                                                    property_information.get_position_by_field_index(field_index);
 
-                property_index_to_output_index[field_position + component_index] = output_index;
-                ++output_index;
-              }
+                // HDF5 only supports 3D vector output, therefore only treat output fields as vector if we
+                // have a dimension of 3 and 3 components.
+                const bool field_is_vector = (only_group_3d_vectors == false
+                                              ?
+                                              n_components == dim
+                                              :
+                                              dim == 3 && n_components == 3);
 
-            // If the property has dim components, we treat it as vector
-            if (n_components == dim)
-              {
-                vector_datasets.push_back(std::make_tuple(property_index_to_output_index[field_position],
-                                                          property_index_to_output_index[field_position]+n_components-1,
-                                                          field_name,
-                                                          DataComponentInterpretation::component_is_part_of_vector));
+                // Determine if this field should be excluded, if so, skip it
+                bool exclude_property = false;
+                for (unsigned int i = 0; i < exclude_output_properties.size(); ++i)
+                  if (field_name.find(exclude_output_properties[i]) != std::string::npos)
+                    {
+                      exclude_property = true;
+                      break;
+                    }
+
+                if (exclude_property == false)
+                  {
+                    // For each component record its name and position in output vector
+                    for (unsigned int component_index=0; component_index<n_components; ++component_index)
+                      {
+                        // If it is a 1D element, or a vector, print just the name, otherwise append the index after an underscore
+                        if ((n_components == 1) || field_is_vector)
+                          dataset_names.push_back(field_name);
+                        else
+                          dataset_names.push_back(field_name + "_" + Utilities::to_string(component_index));
+
+                        property_index_to_output_index[field_position + component_index] = output_index;
+                        ++output_index;
+                      }
+
+                    // If the property has dim components, we treat it as vector
+                    if (n_components == dim)
+                      {
+                        vector_datasets.push_back(std::make_tuple(property_index_to_output_index[field_position],
+                                                                  property_index_to_output_index[field_position]+n_components-1,
+                                                                  field_name,
+                                                                  DataComponentInterpretation::component_is_part_of_vector));
+                      }
+                  }
               }
           }
 
@@ -171,13 +177,18 @@ namespace aspect
       write_in_background_thread(false)
     {}
 
+
+
     template <int dim>
     Particles<dim>::~Particles ()
     {
       // make sure a thread that may still be running in the background,
       // writing data, finishes
-      background_thread.join ();
+      if (background_thread.joinable())
+        background_thread.join ();
     }
+
+
 
     template <int dim>
     // We need to pass the arguments by value, as this function can be called on a separate thread:
@@ -432,14 +443,16 @@ namespace aspect
                   if (write_in_background_thread)
                     {
                       // Wait for all previous write operations to finish, should
-                      // any be still active,
-                      background_thread.join ();
+                      // any be still active, ...
+                      if (background_thread.joinable())
+                        background_thread.join ();
 
-                      // then continue with writing our own data.
-                      background_thread = Threads::new_thread (&writer,
-                                                               filename,
-                                                               temporary_output_location,
-                                                               file_contents);
+                      // ...then continue with writing our own data.
+                      background_thread
+                        = std::thread([&]()
+                      {
+                        writer (filename, temporary_output_location, file_contents);
+                      });
                     }
                   else
                     writer(filename,temporary_output_location,file_contents);
@@ -623,9 +636,10 @@ namespace aspect
 
           prm.declare_entry ("Exclude output properties", "",
                              Patterns::Anything(),
-                             "A comma separated list of strings which exclude all particle"
-                             "property fields which contain these strings. If one of the "
-                             "entries is 'all', only a id will be provided for every point.");
+                             "A comma separated list of particle properties that should "
+                             "\\textit{not} be output. If this list contains the "
+                             "entry `all', only the id of particles will be provided in "
+                             "graphical output files.");
         }
         prm.leave_subsection ();
       }
